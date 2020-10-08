@@ -1,0 +1,17 @@
+{
+  "name": "proj",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "shadow-cljs watch app",
+    "repl": "shadow-cljs cljs-repl app",
+    "build": "shadow-cljs release app",
+    "test": "shadow-cljs watch test"
+  },
+  "devDependencies": {
+    "shadow-cljs": "2.11.5"
+  },
+  "dependencies": {
+    "playwright-chromium": "^1.4.2"
+  }
+}
