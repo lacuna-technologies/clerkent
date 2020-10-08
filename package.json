@@ -1,0 +1,19 @@
+{
+  "name": "clerkent",
+  "version": "1.0.0",
+  "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hueyy/clerkent.git"
+  },
+  "author": "Huey <hello@huey.xyz>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/hueyy/clerkent/issues"
+  },
+  "homepage": "https://github.com/hueyy/clerkent#readme"
+}
