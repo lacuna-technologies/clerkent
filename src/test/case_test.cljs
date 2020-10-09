@@ -1,10 +1,11 @@
 (ns test.case-test
   (:require [cljs.test :refer (deftest testing is run-tests)]
-            [clojure.test.check.generators :as gen]
             [clerkent.main]))
 
 (defn get-random-integer [start stop]
-  (-> (gen/choose start stop) (gen/generate)))
+  (if (>= start stop)
+    (+ start (rand-int (- stop start)))
+    (throw js/Error "stop must be larger or equal to start")))
 
 (defn generate-citation [journal-abbr]
   (str

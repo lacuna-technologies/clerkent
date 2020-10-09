@@ -4,8 +4,7 @@
 
  :dependencies
  [[cider/cider-nrepl "0.25.4"]
-  [binaryage/oops "0.7.0"]
-  [org.clojure/test.check "1.1.0"]]
+  [binaryage/oops "0.7.0"]]
 
  :builds
  {:app {:target :node-script

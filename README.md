@@ -9,3 +9,7 @@ an unassuming clerk with a superhuman ability to download PDFs of judgments and 
   node dist/main
 
 ```
+
+## WSL2
+
+To get `playwright-chromium` working in WSL2, add the Chrome directory to your PATH on the Windows side.
