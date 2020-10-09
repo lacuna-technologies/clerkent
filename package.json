@@ -9,6 +9,7 @@
     "test": "shadow-cljs watch test"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "shadow-cljs": "2.11.5"
   },
   "dependencies": {
