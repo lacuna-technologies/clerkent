@@ -18,8 +18,8 @@
 (def DATA_FILE "login.json")
 
 (defn write-cookies [cookies]
-  ())
-  ; (.writeFileSync fs DATA_FILE (.stringify js/JSON cookies)))
+  ; ())
+  (.writeFileSync fs DATA_FILE (.stringify js/JSON cookies)))
 
 (defn read-cookies []
   (if (.existsSync fs DATA_FILE)
@@ -33,6 +33,27 @@
       (str/replace (re-pattern "( ){2,}") " ")
       (str/trim)))
 
+(defn do-shibboleth-login [page context]
+  (go
+    (try
+          ; do Shibboleth login
+      (<p! (.goto page WESTLAW_URL))
+      (<p! (.fill page "css=#username" SHIBBOLETH_USERNAME))
+      (<p! (.fill page "css=#password" SHIBBOLETH_PASSWORD))
+      (<p! (.click page "css=button[name=_eventId_proceed]"))
+      (let [current-cookies (<p! (.cookies context))]
+        (write-cookies current-cookies))
+      (catch js/Error err (js/console.error err)))))
+
+(defn is-signed-in? [page]
+  (go
+    (try
+      (<p! (.waitForSelector page "#co_oneClickSignoutContainer"))
+      true
+      (catch js/Error err
+        (js/console.error err)
+        false))))
+
 (defn download-case [citation]
   (go
     (let [browser (<p! (.launch chromium #js{:headless false}))
@@ -40,18 +61,13 @@
           page (<p! (.newPage context))
           cookies (read-cookies)]
       (if (nil? cookies)
-        (try
-          ; do Shibboleth login
-          (<p! (.goto page WESTLAW_URL))
-          (<p! (.fill page "css=#username" SHIBBOLETH_USERNAME))
-          (<p! (.fill page "css=#password" SHIBBOLETH_PASSWORD))
-          (<p! (.click page "css=button[name=_eventId_proceed]"))
-          (let [current-cookies (<p! (.cookies context))]
-            (write-cookies current-cookies))
-          (catch js/Error err (js/console.error err)))
+        (<p! (do-shibboleth-login page context))
         (try
           (.addCookies context cookies)
           (<p! (.goto page WESTLAW_URL))
+          (if (is-signed-in? page)
+            ()
+            (do-shibboleth-login context cookies))
           ; TODO: check if cookies still valid, and do shibboleth login if not
           (catch js/Error err (js/console.error err))))
       (try
