@@ -169,50 +169,53 @@ module.exports = {
     new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{ from: 'source/assets', to: 'assets' }],
+      patterns: [{ from: 'src/assets', to: 'assets' }],
     }),
     // plugin to enable browser reloading in development mode
     extensionReloaderPlugin,
   ],
 
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        parallel: true,
-        terserOptions: {
-          format: {
-            comments: false,
+  ...(nodeEnv === `production` ? ({
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          parallel: true,
+          terserOptions: {
+            format: {
+              comments: false,
+            },
           },
-        },
-        extractComments: false,
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: ['default', { discardComments: { removeAll: true } }],
-        },
-      }),
-      new FilemanagerPlugin({
-        events: {
-          onEnd: {
-            archive: [
-              {
-                format: 'zip',
-                source: path.join(destPath, targetBrowser),
-                destination: `${path.join(destPath, targetBrowser)}.${getExtensionFileType(targetBrowser)}`,
-                options: { zlib: { level: 6 } },
-              },
-            ],
+          extractComments: false,
+        }),
+        new OptimizeCSSAssetsPlugin({
+          cssProcessorPluginOptions: {
+            preset: ['default', { discardComments: { removeAll: true } }],
           },
-        },
-      }),
-    ],
-  },
+        }),
+        new FilemanagerPlugin({
+          events: {
+            onEnd: {
+              archive: [
+                {
+                  format: 'zip',
+                  source: path.join(destPath, targetBrowser),
+                  destination: `${path.join(destPath, targetBrowser)}.${getExtensionFileType(targetBrowser)}`,
+                  options: { zlib: { level: 6 } },
+                },
+              ],
+            },
+          },
+        }),
+      ],
+    }
+  }) : {}),
 
   watchOptions: {
     ignored: [
       'node_modules/**',
       'extension/**'
     ],
+    poll: 1000
   }
 }
