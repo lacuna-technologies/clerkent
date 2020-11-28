@@ -1,0 +1,65 @@
+{
+  "manifest_version": 2,
+  "name": "Clerkent",
+  "version": "0.0.0",
+  "icons": {
+    "16": "assets/icons/favicon-16.png",
+    "32": "assets/icons/favicon-32.png",
+    "48": "assets/icons/favicon-48.png",
+    "128": "assets/icons/favicon-128.png"
+  },
+  "description": "Sample description",
+  "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
+  "short_name": "Sample Name",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "__chrome|firefox__author": "Huey",
+  "__chrome__minimum_chrome_version": "49",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icons/favicon-16.png",
+      "32": "assets/icons/favicon-32.png",
+      "48": "assets/icons/favicon-48.png",
+      "128": "assets/icons/favicon-128.png"
+    },
+    "default_title": "Clerkent",
+    "__chrome|opera__chrome_style": false,
+    "__firefox__browser_style": false
+  },
+  "__chrome|opera__options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true,
+    "__chrome__chrome_style": false
+  },
+  "background": {
+    "scripts": [
+      "js/background.bundle.js"
+    ],
+    "__chrome|opera__persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://uk.westlaw.com/*"
+      ],
+      "js": [
+        "js/contentScript.bundle.js"
+      ]
+    }
+  ],
+  "page_action": {
+    "browser_style": true,
+    "default_icon": {
+      "128": "assets/icons/favicon-128.png"
+    },
+    "default_title": "Clerkent",
+    "default_popup": "westlaw-popup.html"
+  }
+}
