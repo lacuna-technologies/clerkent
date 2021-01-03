@@ -1,6 +1,14 @@
 section#popup {
+  width: 20rem;
   background: white;
-  > button {
-    font-family: sans-serif;
+  
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  pre {
+    margin-top: 0.5rem;
   }
 }

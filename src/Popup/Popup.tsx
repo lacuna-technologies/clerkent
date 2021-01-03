@@ -1,24 +1,53 @@
-import React, { useCallback } from 'react'
-import {browser, Tabs} from 'webextension-polyfill-ts'
+import React from 'react'
+// import {browser, Tabs} from 'webextension-polyfill-ts'
+import Links from './LinkResults'
+import Parser from '../utils/Parser'
+import type { ParseResult } from '../utils/Parser'
+import { JURISDICTIONS } from '../utils/Constants'
 
 import './Popup.scss'
 
-const  openWebPage = (url: string): Promise<Tabs.Tab> =>  browser.tabs.create({url})
-
-const westlawURL = `https://signon.thomsonreuters.com/federation/UKF?entityID=https%3A%2F%2Fshib-idp.ucl.ac.uk%2Fshibboleth&returnto=https%3A%2F%2Fwestlawuk.thomsonreuters.co.uk%2FBrowse%2FHome%2FWestlawUK%3FskipAnonymous%3Dtrue`
-
 const Popup: React.FC = () => {
-  const openWestlaw = useCallback(() => openWebPage(westlawURL), [])
+  const [query, setQuery] = React.useState(``)
+  const [parseResult, setParseResult] = React.useState({} as ParseResult)
+
+  const onSearchQueryChange = React.useCallback(({ target: { value }}) => {
+    setQuery(value)
+    setParseResult(Parser.parseQuery(value))
+  }, [])
+  // const onKeyDown = React.useCallback((e) => {
+  //   if(e.key === `Enter`){
+  //     setResult(Parser.parseQuery(query))
+  //   }
+  // }, [query])
 
   return (
-    <section id="popup">
-      <button
-        type="button"
-        onClick={openWestlaw}
-      >
-        Open Westlaw
-      </button>
-    </section>
+      <section id="popup">
+          <input
+            type="search"
+            placeholder="case citation, case name, statute, section, etc."
+            // onKeyDown={onKeyDown}
+            onChange={onSearchQueryChange}
+            value={query}
+          />
+          <div id="query-result">
+            {
+              typeof parseResult.jurisdiction !== `undefined` ? (
+                <>
+                  {JURISDICTIONS[parseResult.jurisdiction].emoji}
+                  &nbsp;&nbsp;
+                  {parseResult.jurisdiction}
+                </>
+              ) : null
+            }
+          </div>
+          <pre>
+            {
+              JSON.stringify(parseResult, null, 2)
+            }
+          </pre>
+        <Links links={parseResult.links}/>
+      </section>
   )
 }
 

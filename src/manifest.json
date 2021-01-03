@@ -3,14 +3,15 @@
   "name": "Clerkent",
   "version": "0.0.0",
   "icons": {
-    "16": "assets/icons/favicon-16.png",
-    "32": "assets/icons/favicon-32.png",
-    "48": "assets/icons/favicon-48.png",
-    "128": "assets/icons/favicon-128.png"
+    "16": "assets/favicon-16.png",
+    "32": "assets/favicon-32.png",
+    "48": "assets/favicon-48.png",
+    "64": "assets/favicon-64/png",
+    "128": "assets/favicon-128.png"
   },
-  "description": "Sample description",
+  "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
   "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
-  "short_name": "Sample Name",
+  "short_name": "Clerkent",
   "permissions": [
     "tabs",
     "activeTab",
@@ -43,12 +44,12 @@
       ]
     }
   ],
-  "page_action": {
-    "browser_style": true,
+  "browser_action": {
     "default_icon": {
-      "128": "assets/icons/favicon-128.png"
+      "16": "assets/favicon-16.png",
+      "32": "assets/favicon-32.png"
     },
-    "default_title": "Clerkent",
-    "default_popup": "westlaw-popup.html"
+    "default_title": "Open the Clerkent menu",
+    "default_popup": "popup.html"
   }
 }
