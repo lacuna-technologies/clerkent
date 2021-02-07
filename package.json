@@ -1,25 +1,42 @@
 {
   "name": "clerkent",
   "version": "1.0.0",
-  "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
   "private": true,
+  "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
+  "license": "MIT",
   "author": {
     "name": "Huey",
     "email": "hello@huey.xyz"
   },
-  "license": "MIT",
   "scripts": {
-    "generate:icons": "babel-node scripts/generateIcons.ts --extensions \".ts\"",
-    "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch --progress",
-    "dev:firefox": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch --progress",
-    "dev:opera": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=opera webpack --watch --progress",
+    "build": "npm run build:chrome && npm run build:firefox && npm run build:opera",
     "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
     "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
-    "build": "npm run build:chrome && npm run build:firefox && npm run build:opera",
+    "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch --progress",
+    "dev:firefox": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch --progress",
+    "dev:opera": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=opera webpack --watch --progress",
+    "generate:icons": "babel-node scripts/generateIcons.ts --extensions \".ts\"",
     "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix"
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint:staged": "lint-staged"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,d.ts}": [
+      "tsc --allowSyntheticDefaultImports --jsx react-native --noEmit --esModuleInterop --moduleResolution node --skipLibCheck --resolveJsonModule"
+    ],
+    "*.{ts,tsx,js,jsx,json}": [
+      "eslint --fix --ignore-pattern"
+    ],
+    "package.json": [
+      "npx sort-package-json"
+    ]
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
@@ -45,6 +62,7 @@
     "@types/node": "^14.14.19",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
+    "@types/sharp": "^0.27.1",
     "@types/webpack": "^4.41.25",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
@@ -57,15 +75,25 @@
     "css-loader": "^5.0.1",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^6.15.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-disable": "^2.0.1",
+    "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-json-format": "^2.0.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-no-secrets": "^0.6.8",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.1",
+    "eslint-plugin-unicorn": "^27.0.0",
     "filemanager-webpack-plugin": "^3.0.0",
     "fork-ts-checker-webpack-plugin": "^6.0.8",
     "html-webpack-plugin": "^4.5.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.4",
     "mini-css-extract-plugin": "^1.3.3",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",

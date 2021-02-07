@@ -1,5 +1,7 @@
 const getSearchResults = (query) => ``
 
-export default {
-  getSearchResults
+const Lawnet = {
+  getSearchResults,
 }
+
+export default Lawnet

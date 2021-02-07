@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import './styles.scss';
+import './styles.scss'
 
 const Options: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ const Options: React.FC = () => {
         </p>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Options;
+export default Options

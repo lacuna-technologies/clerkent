@@ -13,8 +13,7 @@ const init = async () => {
       fs.mkdirSync(destination)
     }
 
-    for (let i = 0; i < iconSizes.length; i++) {
-      const iconSize = iconSizes[i]
+    for(const iconSize of iconSizes){
       console.log(`🔨  generating ${iconSize} favicon`)
       await sharp(iconFile)
         .resize(iconSize)

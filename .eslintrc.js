@@ -1,4 +1,7 @@
 module.exports = {
+  "env": {
+    "webextensions": true,
+  },
   extends: [
     `react-app`,
     `plugin:sonarjs/recommended`,
@@ -41,7 +44,7 @@ module.exports = {
       `error`,
       {
         ignoreContent: [
-
+          `^https?://`,
         ],
       },
     ],
@@ -66,7 +69,7 @@ module.exports = {
           pascalCase: true,
         },
         ignore: [
-
+          `[A-Z]{3,4}`,
         ],
       },
     ],
@@ -80,12 +83,9 @@ module.exports = {
       },
     ],
   },
-  "env": {
-    "webextensions": true
-  },
   "settings": {
     "node": {
-      "tryExtensions": [".tsx"] // append tsx to the list as well
-    }
-  }
+      "tryExtensions": [`.tsx`], // append tsx to the list as well
+    },
+  },
 }

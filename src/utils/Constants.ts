@@ -1,12 +1,12 @@
 export const JURISDICTIONS = {
-  SG: {
-    id: `SG`,
-    name: `Singapore`,
-    emoji: `🇸🇬`
-  },
   EW: {
+    emoji: `🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁷󠁬󠁳󠁿`,
     id: `EW`,
     name: `England & Wales`,
-    emoji: `🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁷󠁬󠁳󠁿`
-  }
+  },
+  SG: {
+    emoji: `🇸🇬`,
+    id: `SG`,
+    name: `Singapore`,
+  },
 }

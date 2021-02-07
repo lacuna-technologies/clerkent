@@ -14,7 +14,7 @@ const pageActionCheck = async (tabId, changeInfo, tab) => {
 
 const init = () => {
   browser.runtime.onInstalled.addListener((): void => {
-    console.log('⚖ clerkent installedzz')
+    console.log(`⚖ clerkent installedzz`)
   })
   browser.tabs.onUpdated.addListener(pageActionCheck)
 }

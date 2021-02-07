@@ -22,7 +22,7 @@ const parseQuery = (query: string): ParseResult => {
 const inSLW = (query: string) => {
   const eligibleCourt = Array.isArray(query.match(/SGCA|SGHC/))
 
-  const yearRegex = /^\[(2[0-9]{3})\]/
+  const yearRegex = /^\[(2\d{3})]/
   const yearMatch = query.match(yearRegex)
   const eligibleYear = Array.isArray(yearMatch) && Number.parseInt(yearMatch[1]) >= 2000
 
@@ -32,21 +32,23 @@ const inSLW = (query: string) => {
 const inSGSC = (query: string) => inSLW(query)
 
 const parseSGCase = (query: string): any | null => {
-  const regex = /^\[[1-2][0-9]{3}\] (SGCA|SGHC) [0-9]{1,3}$/
+  const regex = /^\[[12]\d{3}] (SGCA|SGHC) \d{1,3}$/
   const match = query.match(regex)
   if (Array.isArray(match)) {
     return {
-      jurisdiction: JURISDICTIONS.SG.id,
       citation: match[0],
+      jurisdiction: JURISDICTIONS.SG.id,
       links: {
+        SGsc: inSGSC ? SGSC.getSearchResults(query) : null,
         slw: inSLW ? SLW.getSearchResults(query) : null,
-        SGsc: inSGSC ? SGSC.getSearchResults(query) : null
-      }
+      },
     }
   }
   return null
 }
 
-export default {
-  parseQuery
+const Parser = {
+  parseQuery,
 }
+
+export default Parser
