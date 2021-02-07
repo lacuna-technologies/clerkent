@@ -1,5 +1,4 @@
 import React from 'react'
-// import {browser, Tabs} from 'webextension-polyfill-ts'
 import Links from './LinkResults'
 import Parser from '../utils/Parser'
 import type { ParseResult } from '../utils/Parser'
@@ -15,18 +14,12 @@ const Popup: React.FC = () => {
     setQuery(value)
     setParseResult(Parser.parseQuery(value))
   }, [])
-  // const onKeyDown = React.useCallback((e) => {
-  //   if(e.key === `Enter`){
-  //     setResult(Parser.parseQuery(query))
-  //   }
-  // }, [query])
 
   return (
       <section id="popup">
           <input
             type="search"
             placeholder="case citation, case name, statute, section, etc."
-            // onKeyDown={onKeyDown}
             onChange={onSearchQueryChange}
             value={query}
           />

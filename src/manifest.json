@@ -29,9 +29,7 @@
     "__chrome__chrome_style": false
   },
   "background": {
-    "scripts": [
-      "js/background.bundle.js"
-    ],
+    "page": "background.html",
     "__chrome|opera__persistent": false
   },
   "content_scripts": [

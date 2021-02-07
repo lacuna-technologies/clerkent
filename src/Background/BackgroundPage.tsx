@@ -1,6 +1,8 @@
-import { browser } from 'webextension-polyfill-ts'
+import React, { useEffect } from 'react'
 
-const pageActionCheck = async (tabId, changeInfo, tab) => {
+import { browser, Tabs } from 'webextension-polyfill-ts'
+
+const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
   console.log(tabId, changeInfo)
 
   const { url } = tab
@@ -19,4 +21,11 @@ const init = () => {
   browser.tabs.onUpdated.addListener(pageActionCheck)
 }
 
-init()
+const BackgroundPage = () => {
+  useEffect(() => init(), [])
+  return (
+    <h1>Background Page</h1>
+  )
+}
+
+export default BackgroundPage

@@ -24,7 +24,7 @@ const extensionReloaderPlugin =
         
         background: `background`,
         // TODO: reload manifest on update
-contentScript: `contentScript`,
+        contentScript: `contentScript`,
         extensionPage: [`popup`, `options`],
       },
       port: 9090,
@@ -50,7 +50,7 @@ module.exports = {
   devtool: false, 
 
   entry: {
-    background: path.join(sourcePath, `Background`, `index.ts`),
+    background: path.join(sourcePath, `Background`, `index.tsx`),
     contentScript: path.join(sourcePath, `ContentScript`, `index.ts`),
     manifest: path.join(sourcePath, `manifest.json`),
     options: path.join(sourcePath, `Options`, `index.tsx`),
@@ -58,16 +58,15 @@ module.exports = {
   },
 
   
-mode: nodeEnvironment,
+  mode: nodeEnvironment,
 
   
-module: {
+  module: {
     rules: [
       {
-        
-exclude: /node_modules/, 
+        exclude: /node_modules/, 
         // prevent webpack handling json with its own loaders,
-test: /manifest\.json$/,
+        test: /manifest\.json$/,
         type: `javascript/auto`,
         use: {
           loader: `wext-manifest-loader`,
@@ -116,13 +115,13 @@ test: /manifest\.json$/,
   },
 
   
-output: {
+  output: {
     filename: `js/[name].bundle.js`,
     path: path.join(destinationPath, targetBrowser),
   },
 
   
-plugins: [
+  plugins: [
     // Plugin to not generate js bundle for manifest entry
     new WextManifestWebpackPlugin(),
     // Generate sourcemaps
@@ -141,6 +140,13 @@ plugins: [
       ],
       cleanStaleWebpackAssets: false,
       verbose: true,
+    }),
+    new HtmlWebpackPlugin({
+      chunks: [`background`],
+      filename: `background.html`,
+      hash: true,
+      inject: `body`,
+      template: path.join(viewsPath, `background.html`),
     }),
     new HtmlWebpackPlugin({
       chunks: [`popup`],
@@ -167,7 +173,7 @@ plugins: [
   ],
 
   
-resolve: {
+  resolve: {
     alias: {
       'webextension-polyfill-ts': path.resolve(
         path.join(__dirname, `node_modules`, `webextension-polyfill-ts`),
@@ -177,7 +183,7 @@ resolve: {
   },
 
   // https://github.com/webpack/webpack/issues/1194#issuecomment-560382342
-stats: {
+  stats: {
     all: false,
     builtAt: true,
     errors: true,

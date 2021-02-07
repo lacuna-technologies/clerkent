@@ -28,5 +28,3 @@ jobs:
         run: npm run lint
       - name: generate icons
         run: npm run generate:icons
-      - name: build
-        run:  ls && npm run build

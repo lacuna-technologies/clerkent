@@ -73,11 +73,13 @@ module.exports = {
         ],
       },
     ],
+    "unicorn/no-array-reduce": `off`,
     "unicorn/no-null": 0,
     "unicorn/prevent-abbreviations": [
       `warn`,
       {
         whitelist: {
+          Props: true,
           props: true,
         },
       },

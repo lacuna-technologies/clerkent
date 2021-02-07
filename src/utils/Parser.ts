@@ -1,22 +1,24 @@
-import { JURISDICTIONS } from './Constants'
+import { JURISDICTIONS, DATABASE_URLS } from './Constants'
 import SLW from './SLW'
 import SGSC from './SGSC'
-
-export interface Links {
-  slw: string | null
-  lawnet: string | null
-  SGSC: string | null
-}
-
 export interface ParseResult {
   jurisdiction: keyof typeof JURISDICTIONS
   citation: string
-  links: Links
+  links: Record<string, string | null>
+}
+
+const emptyParseResult: ParseResult = {
+  citation: undefined,
+  jurisdiction: undefined,
+  links: {
+    SG_sc: DATABASE_URLS.SG_sc.url,
+    SG_slw: DATABASE_URLS.SG_slw.url,
+  },
 }
 
 const parseQuery = (query: string): ParseResult => {
   const cleanedQuery = query.trim()
-  return parseSGCase(cleanedQuery) || {}
+  return parseSGCase(cleanedQuery) || emptyParseResult
 }
 
 const inSLW = (query: string) => {
@@ -39,8 +41,8 @@ const parseSGCase = (query: string): any | null => {
       citation: match[0],
       jurisdiction: JURISDICTIONS.SG.id,
       links: {
-        SGsc: inSGSC ? SGSC.getSearchResults(query) : null,
-        slw: inSLW ? SLW.getSearchResults(query) : null,
+        SG_sc: inSGSC ? SGSC.getSearchResults(query) : null,
+        SG_slw: inSLW ? SLW.getSearchResults(query) : null,
       },
     }
   }
