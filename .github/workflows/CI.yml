@@ -1,0 +1,30 @@
+name: build & test
+on:
+  push:
+    paths-ignore:
+      - ".github/**"
+      - "README.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 12
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: install dependencies
+        run: npm ci
+      - name: lint
+        run: npm run lint
+      - name: build
+        run: npm run generate:icons && npm run build

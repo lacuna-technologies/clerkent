@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
   "private": true,
-  "repository": "https://github.com/hueyy/clerkent.git",
+  "repository": "https://github.com/lacuna-technologies/clerkent.git",
   "author": {
     "name": "Huey",
     "email": "hello@huey.xyz"
@@ -17,7 +17,7 @@
     "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
     "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
-    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera",
+    "build": "npm run build:chrome && npm run build:firefox && npm run build:opera",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix"
   },
