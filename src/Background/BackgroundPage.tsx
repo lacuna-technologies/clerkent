@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 
 import { browser, Tabs } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
+import Messenger from '../utils/Messenger'
+import type { Message } from '../utils/Messenger'
+import SGSC from '../utils/SGSC'
 
 const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
   console.log(tabId, changeInfo)
@@ -15,7 +18,16 @@ const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeIn
   }
 }
 
-const onReceiveMessage = (message: unknown) => {
+const handleAction = async ({ action }) => {
+  if (action === Messenger.ACTION_TYPES.test) {
+    console.log(await SGSC.getPDF(`[2016] SGHC 77`))
+  }
+}
+
+const onReceiveMessage = (message: Message) => {
+  if (typeof message.action === `string`) {
+    return handleAction(message)
+  }
   console.log(`background received`, message)
 }
 
