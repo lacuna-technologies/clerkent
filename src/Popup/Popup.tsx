@@ -1,19 +1,30 @@
-import React from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import Links from './LinkResults'
 import Parser from '../utils/Parser'
 import type { ParseResult } from '../utils/Parser'
 import { JURISDICTIONS } from '../utils/Constants'
+import { browser } from 'webextension-polyfill-ts'
 
 import './Popup.scss'
 
 const Popup: React.FC = () => {
-  const [query, setQuery] = React.useState(``)
-  const [parseResult, setParseResult] = React.useState({} as ParseResult)
+  const [query, setQuery] = useState(``)
+  const [parseResult, setParseResult] = useState({} as ParseResult)
 
-  const onSearchQueryChange = React.useCallback(({ target: { value }}) => {
+  const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
     setParseResult(Parser.parseQuery(value))
   }, [])
+
+  const onMessage = useCallback((message: unknown) => {
+    console.log(`popup received:`, message)
+  }, [])
+
+  useEffect(() => {
+    const port = browser.runtime.connect(``, { name: `popup-port` })
+    port.postMessage({ message: `popup says hi` })
+    port.onMessage.addListener(onMessage)
+  }, [onMessage])
 
   return (
       <section id="popup">

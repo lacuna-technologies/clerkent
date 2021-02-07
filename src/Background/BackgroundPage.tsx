@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { browser, Tabs } from 'webextension-polyfill-ts'
+import type { Runtime } from 'webextension-polyfill-ts'
 
 const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
   console.log(tabId, changeInfo)
@@ -14,10 +15,20 @@ const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeIn
   }
 }
 
+const onReceiveMessage = (message: unknown) => {
+  console.log(`background received`, message)
+}
+
+const onConnect = (port: Runtime.Port) => {
+  port.postMessage({ hello: `world` })
+  port.onMessage.addListener(onReceiveMessage)
+}
+
 const init = () => {
   browser.runtime.onInstalled.addListener((): void => {
     console.log(`⚖ clerkent installedzz`)
   })
+  browser.runtime.onConnect.addListener(onConnect)
   browser.tabs.onUpdated.addListener(pageActionCheck)
 }
 
