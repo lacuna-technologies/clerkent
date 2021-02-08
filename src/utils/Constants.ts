@@ -1,12 +1,14 @@
+import type Law from '../types/Law'
+
 export const JURISDICTIONS = {
   EW: {
     emoji: `🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁷󠁬󠁳󠁿`,
-    id: `EW`,
+    id: `EW` as Law.JursidictionCode,
     name: `England & Wales`,
   },
   SG: {
     emoji: `🇸🇬`,
-    id: `SG`,
+    id: `SG` as Law.JursidictionCode,
     name: `Singapore`,
   },
 }
@@ -23,7 +25,6 @@ interface Database {
 }
 
 type JurisdictionURLS = typeof SG_DATABASE_URLS
-type JursidictionCode = `SG` | `EW`
 
 const SG_DATABASE_URLS: Record<string, Database> = {
   lawnet: {
@@ -58,7 +59,7 @@ const SG_DATABASE_URLS: Record<string, Database> = {
   },
 }
 
-const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdictionCode: JursidictionCode) =>
+const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdictionCode: Law.JursidictionCode) =>
   Object.entries(jurisdictionURLs)
   .reduce((accumulator, [id, object]: [string, Database]) => ({
     ...accumulator,

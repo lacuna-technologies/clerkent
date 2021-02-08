@@ -4,7 +4,8 @@ import { browser, Tabs } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import type { Message } from '../utils/Messenger'
-import SGSC from '../utils/SGSC'
+import Scraper from '../utils/scraper'
+import Parser from '../utils/Parser'
 
 const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
   console.log(tabId, changeInfo)
@@ -18,9 +19,22 @@ const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeIn
   }
 }
 
-const handleAction = async ({ action }) => {
-  if (action === Messenger.ACTION_TYPES.test) {
-    console.log(await SGSC.getPDF(`[2016] SGHC 77`))
+const handleAction = async ({ action, ...otherProperties }) => {
+  if (action === Messenger.ACTION_TYPES.downloadSelection) {
+    const { selection } = otherProperties
+
+    const citations = Parser.parseSGCase(selection)
+
+    return null
+
+  } else if (action === Messenger.ACTION_TYPES.test) {
+    const result = await Scraper.SG.getPDF(`[2016] SGHC 77`)
+    console.log(result)
+    // await browser.downloads.download({
+    //   conflictAction: `prompt`,
+    //   filename: `${result.name} ${result.citation}.pdf`,
+    //   url: result.link,
+    // })
   }
 }
 

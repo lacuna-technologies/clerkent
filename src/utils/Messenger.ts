@@ -1,6 +1,10 @@
 const ACTION_TYPES = {
-  test: `test`,
-  test2: `test2`,
+  // download all citations given file
+  downloadFile: `downloadFile`,
+  // download all citations in selection
+  downloadSelection: `downloadSelection`,
+  test: `test`, 
+  test2: `test2`, 
 }
 
 type ValueOf<T> = T[keyof T]

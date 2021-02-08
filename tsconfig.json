@@ -5,7 +5,8 @@
 		"lib": [
 			"dom",
 			"dom.iterable",
-			"esnext"
+			"esnext",
+			"ES2020.String"
 		],
 		"declaration": false,
 		"isolatedModules": true,
@@ -14,7 +15,8 @@
 		"skipLibCheck": true,
 		"moduleResolution": "node",
 		"jsx": "react",
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"downlevelIteration": true
 	},
 	"include": [
 		"src",

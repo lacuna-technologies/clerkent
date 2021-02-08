@@ -1,8 +1,3 @@
-const init = () => {
-  console.log(`helloworld from content script`)
+import ContentScript from './ContentScript'
 
-}
-
-init()
-
-export { }
+export default ContentScript

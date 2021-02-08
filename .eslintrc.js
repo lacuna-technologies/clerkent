@@ -69,7 +69,7 @@ module.exports = {
           pascalCase: true,
         },
         ignore: [
-          `[A-Z]{3,4}`,
+          `[A-Z]{2,4}`,
         ],
       },
     ],

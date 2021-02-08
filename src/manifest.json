@@ -16,6 +16,7 @@
     "tabs",
     "activeTab",
     "storage",
+    "downloads",
     "http://*/*",
     "https://*/*"
   ],
@@ -35,7 +36,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://uk.westlaw.com/*"
+        "http://*/*",
+        "https://*/*"
       ],
       "js": [
         "js/contentScript.bundle.js"

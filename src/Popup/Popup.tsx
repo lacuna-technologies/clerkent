@@ -1,22 +1,23 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react'
-import Links from './LinkResults'
-import Parser from '../utils/Parser'
+import React, { useEffect, useCallback, useRef } from 'react'
 import Messenger from '../utils/Messenger'
-import type { ParseResult } from '../utils/Parser'
-import { JURISDICTIONS } from '../utils/Constants'
+// import { JURISDICTIONS } from '../utils/Constants'
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 
 import './Popup.scss'
 
 const Popup: React.FC = () => {
-  const [query, setQuery] = useState(``)
   const port = useRef({} as Runtime.Port)
-  const [parseResult, setParseResult] = useState({} as ParseResult)
+  // const [parseResult, setParseResult] = useState({} as ParseResult)
 
-  const onSearchQueryChange = useCallback(({ target: { value }}) => {
-    setQuery(value)
-    setParseResult(Parser.parseQuery(value))
+  // const onSearchQueryChange = useCallback(({ target: { value }}) => {
+  //   setQuery(value)
+  //   setParseResult(Parser.parseQuery(value))
+  // }, [])
+
+  const downloadSelectedCitations = useCallback(() => {
+    const selection = window.getSelection().toString()
+    console.log(selection)
   }, [])
 
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
@@ -33,13 +34,13 @@ const Popup: React.FC = () => {
 
   return (
       <section id="popup">
-          <input
+          {/* <input
             type="search"
             placeholder="case citation, case name, statute, section, etc."
             onChange={onSearchQueryChange}
             value={query}
-          />
-          <div id="query-result">
+          /> */}
+          {/* <div id="query-result">
             {
               typeof parseResult.jurisdiction !== `undefined` ? (
                 <>
@@ -54,8 +55,9 @@ const Popup: React.FC = () => {
             {
               JSON.stringify(parseResult, null, 2)
             }
-          </pre>
-      <Links links={parseResult.links} />
+          </pre> */}
+      {/* <Links links={parseResult.links} /> */}
+      <button onClick={() => downloadSelectedCitations()}>GET SELECTION</button>
       <button onClick={() => sendMessage(Messenger.makeActionMessage(Messenger.ACTION_TYPES.test))}>BOOM</button>
       </section>
   )
