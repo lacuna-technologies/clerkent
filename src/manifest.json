@@ -36,8 +36,7 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://www.lexology.com/*"
       ],
       "js": [
         "js/contentScript.bundle.js"

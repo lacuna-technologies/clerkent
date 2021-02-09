@@ -12,10 +12,9 @@ const getPDF = async (citation: string): Promise<Law.Case | false> => {
       }
     } catch (error) {
       console.error(error)
-    } finally {
-      continue
     }
   }
+  console.log(`why are you here`)
   return false
 }
 

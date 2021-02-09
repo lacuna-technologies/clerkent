@@ -1,4 +1,4 @@
-import axios from 'axios'
+import Request from '../../Request'
 import cheerio from 'cheerio'
 import type Law from '../../../types/Law'
 
@@ -6,7 +6,7 @@ const DOMAIN = `https://www.supremecourt.gov.sg`
 const getSearchResults = (citation: string) => `${DOMAIN}/search-judgment?q=${citation}&y=All`
 
 const getPDF = async (citation: string): Promise<Law.Case | false> => {
-  const { data } = await axios.get(getSearchResults(citation))
+  const { data } = await Request.get(getSearchResults(citation))
   const $ = cheerio.load(data)
 
   const matches: Law.Case[] = $(`.judgmentpage`).map((_, element) => {

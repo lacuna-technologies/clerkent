@@ -18,4 +18,13 @@
   position: fixed;
   background: black;
   color: white;
+  padding: 0.2rem 0.5rem;
+
+  a {
+    color: lightgray;
+  }
+
+  a:hover {
+    color: white;
+  }
 }

@@ -1,53 +1,57 @@
 import React, { useEffect } from 'react'
 
-import { browser, Tabs } from 'webextension-polyfill-ts'
+import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
-import Finder from '../utils/Finder'
 
-const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
-  console.log(tabId, changeInfo)
+const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
+  if (action === Messenger.ACTION_TYPES.viewCitation) {
+    console.log(`background handling viewCitation`)
+    const { citation } = otherProperties
+    const result = await Scraper.SG.getPDF(citation)
 
-  const { url } = tab
+    console.log(`sending viewCitation`, {
+      action: Messenger.ACTION_TYPES.viewCitation,
+      data: result,
+      target: Messenger.TARGETS.contentScript,
+    })
 
-  if (/uk\.westlaw\.com/.test(url)) {
-    browser.pageAction.show(tabId)
-  } else {
-    browser.pageAction.hide(tabId)
+    port.postMessage({
+      action: Messenger.ACTION_TYPES.viewCitation,
+      data: result,
+      target: Messenger.TARGETS.contentScript,
+    })
+  } else if (action === Messenger.ACTION_TYPES.downloadFile){
+    const { filename, url } = otherProperties
+    await browser.downloads.download({
+      conflictAction: `overwrite`,
+      filename,
+      url,
+    })
   }
 }
 
-const handleAction = async ({ action, ...otherProperties }) => {
-  if (action === Messenger.ACTION_TYPES.downloadSelection) {
-    const { selection } = otherProperties
-
-    const citations = Finder.findSGCase(selection)
-
-    return null
-
-  } else if (action === Messenger.ACTION_TYPES.test) {
-    const result = await Scraper.SG.getPDF(`[2016] SGHC 77`)
-    console.log(result)
-    // await browser.downloads.download({
-    //   conflictAction: `prompt`,
-    //   filename: `${result.name} ${result.citation}.pdf`,
-    //   url: result.link,
-    // })
-  } else if (action === Messenger.ACTION_TYPES.viewCitation) {}
-}
-
-const onReceiveMessage = (message: Message) => {
-  if (message.target === Messenger.TARGETS.popup) {} else if (typeof message.action === `string`) {
-    return handleAction(message)
-  }
+const onReceiveMessage = (port: Runtime.Port) => (message: Message) => {
   console.log(`background received`, message)
+  if (message.target === Messenger.TARGETS.popup) {
+    return
+  } else if (message.target === Messenger.TARGETS.background){
+    if (typeof message.action === `string`) {
+      console.log(`background handling action`, message.action)
+      return handleAction(port)(message)
+    } else {
+      console.log(`unknown action`, message.action)
+      return
+    }
+  }
 }
 
 const onConnect = (port: Runtime.Port) => {
+  console.log(`new port`, port)
   port.postMessage({ hello: `world` })
-  port.onMessage.addListener(onReceiveMessage)
+  port.onMessage.addListener(onReceiveMessage(port))
 }
 
 const init = () => {
@@ -55,7 +59,6 @@ const init = () => {
     console.log(`⚖ clerkent installedzz`)
   })
   browser.runtime.onConnect.addListener(onConnect)
-  browser.tabs.onUpdated.addListener(pageActionCheck)
 }
 
 const BackgroundPage = () => {

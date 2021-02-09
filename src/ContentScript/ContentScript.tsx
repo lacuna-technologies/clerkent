@@ -2,7 +2,10 @@ import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import Finder from '../utils/Finder'
 import Messenger from '../utils/Messenger'
+import type { Message } from '../utils/Messenger'
+import Tooltip from './Tooltip'
 import './ContentScript.scss'
+import Law from '../types/Law'
 
 let port: Runtime.Port
 
@@ -11,43 +14,68 @@ const NODE_TYPES = {
   TEXT_NODE: 3,
 }
 
-// const onClickCase = (event: Event) => {
-//   const citation = (event.target as HTMLElement).textContent
-//   browser.browserAction.openPopup()
-//   port.postMessage({
-//     action: Messenger.ACTION_TYPES.viewCitation,
-//     citation,
-//     target: Messenger.TARGETS.popup,
-//   })
-// }
+const downloadFile = ({ name, link, citation }) => async (event: Event) => {
+  event.preventDefault()
+  port.postMessage({
+    action: Messenger.ACTION_TYPES.downloadFile,
+    filename: `${name} ${citation}.pdf`,
+    target: Messenger.TARGETS.background,
+    url: link,
+  })
+}
+
+const handleViewCitation = (message: Message) => {
+  const { data } = message
+  const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
+  if(data === false){
+    tooltip.textContent = `Could not find case`
+  } else {
+    const { name, link } = data as Law.Case
+
+    tooltip.innerHTML = ``
+
+    const caseName = document.createElement(`strong`)
+    caseName.textContent = name
+
+    const pdfLinkDiv = document.createElement(`div`)
+    const pdfLink = document.createElement(`a`)
+    pdfLink.href = link
+    pdfLink.addEventListener(`click`, downloadFile(data as Law.Case))
+    pdfLink.textContent = `Download PDF`
+    pdfLinkDiv.append(pdfLink)
+
+    tooltip.append(caseName)
+    tooltip.append(pdfLinkDiv)
+  }
+}
 
 const mouseOverCitation = (event: MouseEvent) => {
   const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
   tooltip.style.display = `block`
   const { target } = event
   const citation = (target as HTMLElement).textContent
-  tooltip.textContent = citation
+  tooltip.textContent = `Loading...`
+  port.postMessage({
+    action: Messenger.ACTION_TYPES.viewCitation,
+    citation,
+    target: Messenger.TARGETS.background,
+  })
 
   const boundingRect =  (target as HTMLElement).getBoundingClientRect()
-  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-    scrollTop = window.pageYOffset || document.documentElement.scrollTop
   const tooltipRect = tooltip.getBoundingClientRect()
-  const top = boundingRect.top + scrollTop - tooltipRect.height
-  const left = boundingRect.left + scrollLeft + boundingRect.width / 2 - tooltipRect.width / 2
+  const top = (boundingRect.top - tooltipRect.height) <= tooltipRect.height
+    ? (boundingRect.bottom)
+    : (boundingRect.top - tooltipRect.height) 
+  const left = boundingRect.left + boundingRect.width / 2 - tooltipRect.width / 2
   tooltip.style.top = `${top}px`
   tooltip.style.left = `${left}px`
 
-  
-
-  console.log(event, boundingRect)
+  Tooltip.stopTimer()
 }
 
-const mouseOutCitation = (event: Event) => {
-  const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
-  tooltip.style.display = `none`
-}
+const mouseOutCitation = () => Tooltip.startTimer()
 
-const highlightNode = (node: Text, { jurisdiction, citation, index }) => {
+const highlightNode = (node: Text, { citation, index }) => {
   const mark = document.createElement(`span`)
   mark.className = `clerkent case`
   mark.addEventListener(`mouseover`, mouseOverCitation)
@@ -122,18 +150,22 @@ const scanForCitations = () => {
   }
 
   if (hasHits) {
-    const tooltip = document.createElement(`div`)
-    tooltip.id = `clerkent-tooltip`
-    tooltip.className = `clerkent`
-    document.body.append(tooltip)
+    Tooltip.init()
   }
 }
 
 const init = (() => {
   port = browser.runtime.connect(``, { name: `contentscript-port` })
 
-  const onMessage = (message: unknown) => {
+  const onMessage = (message: Message) => {
     console.log(`content script received:`, message)
+    if(message.target !== Messenger.TARGETS.contentScript){
+      return null // ignore
+    }
+    if(message.action === Messenger.ACTION_TYPES.viewCitation){
+      handleViewCitation(message)
+    }
+    
   }
   port.onMessage.addListener(onMessage)
 

@@ -1,17 +1,12 @@
 const ACTION_TYPES = {
-  // download all citations given file
   downloadFile: `downloadFile`,
-  
-  // download all citations in selection
-  downloadSelection: `downloadSelection`,
-  
   test: `test`,
   test2: `test2`, 
-  viewCitation: `viewCitation`, 
+  viewCitation: `viewCitation`,
 }
 
 const TARGETS = {
-  background: `backgroun`,
+  background: `background`,
   contentScript: `contentScript`,
   popup: `popup`,
 }
@@ -21,6 +16,7 @@ type ValueOf<T> = T[keyof T]
 export interface Message {
   action: ValueOf<typeof ACTION_TYPES>
   target: ValueOf<typeof TARGETS>
+  data?: unknown
 }
 
 const Messenger = {
