@@ -57,8 +57,8 @@ const Popup: React.FC = () => {
             }
           </pre> */}
       {/* <Links links={parseResult.links} /> */}
-      <button onClick={() => downloadSelectedCitations()}>GET SELECTION</button>
-      <button onClick={() => sendMessage(Messenger.makeActionMessage(Messenger.ACTION_TYPES.test))}>BOOM</button>
+      {/* <button onClick={() => downloadSelectedCitations()}>GET SELECTION</button>
+      <button onClick={() => sendMessage(Messenger.makeActionMessage(Messenger.ACTION_TYPES.test))}>BOOM</button> */}
       </section>
   )
 }

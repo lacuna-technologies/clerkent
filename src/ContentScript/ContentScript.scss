@@ -1,0 +1,21 @@
+.clerkent {
+  &.case {
+    text-decoration: underline dotted;
+    cursor: pointer;
+
+    > .clerkent-tooltip {
+      display: none;
+    }
+
+    &:hover > .clerkent-tooltip {
+      display: block;
+    }
+  }
+}
+
+#clerkent-tooltip {
+  display: none;
+  position: fixed;
+  background: black;
+  color: white;
+}

@@ -41,7 +41,11 @@
       ],
       "js": [
         "js/contentScript.bundle.js"
-      ]
+      ],
+      "css": [
+        "css/contentScript.css"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "browser_action": {

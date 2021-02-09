@@ -5,7 +5,7 @@ import type { Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
-import Parser from '../utils/Parser'
+import Finder from '../utils/Finder'
 
 const pageActionCheck = async (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
   console.log(tabId, changeInfo)
@@ -23,7 +23,7 @@ const handleAction = async ({ action, ...otherProperties }) => {
   if (action === Messenger.ACTION_TYPES.downloadSelection) {
     const { selection } = otherProperties
 
-    const citations = Parser.parseSGCase(selection)
+    const citations = Finder.findSGCase(selection)
 
     return null
 
@@ -35,11 +35,11 @@ const handleAction = async ({ action, ...otherProperties }) => {
     //   filename: `${result.name} ${result.citation}.pdf`,
     //   url: result.link,
     // })
-  }
+  } else if (action === Messenger.ACTION_TYPES.viewCitation) {}
 }
 
 const onReceiveMessage = (message: Message) => {
-  if (typeof message.action === `string`) {
+  if (message.target === Messenger.TARGETS.popup) {} else if (typeof message.action === `string`) {
     return handleAction(message)
   }
   console.log(`background received`, message)
