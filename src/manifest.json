@@ -36,6 +36,7 @@
   "content_scripts": [
     {
       "matches": [
+        "https://ukconstitutionallaw.org/*",
         "https://www.lexology.com/*"
       ],
       "js": [

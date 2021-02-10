@@ -30,6 +30,10 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       filename,
       url,
     })
+  } else if (action === Messenger.ACTION_TYPES.test){
+    console.log(`test action received by bg`)
+    const result = await Scraper.EW.getPDF(`[2020] UKSC 1`)
+    console.log(result)
   }
 }
 

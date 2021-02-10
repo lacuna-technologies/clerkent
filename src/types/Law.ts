@@ -3,6 +3,8 @@ declare namespace Law {
     name: string,
     citation: string,
     link: string
+    pdf?: string
+    jurisdiction?: JursidictionCode
   }
 
   type JursidictionCode = `SG` | `EW`

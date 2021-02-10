@@ -1,9 +1,8 @@
-import SGSC from './SGSC'
-import SLW from './SLW'
 import type Law from '../../../types/Law'
+import BAILII from './BAILII'
 
 const getPDF = async (citation: string): Promise<Law.Case | false> => {
-  const options = [SLW, SGSC]
+  const options = [BAILII]
   for (const option of options) {
     try {
       const result = await option.getPDF(citation)
@@ -17,10 +16,8 @@ const getPDF = async (citation: string): Promise<Law.Case | false> => {
   return false
 }
 
-const SG = {
-  SGSC,
-  SLW,
+const EW = {
   getPDF,
 }
 
-export default SG
+export default EW

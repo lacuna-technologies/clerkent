@@ -47,8 +47,22 @@ const findSGCase = (query: string): FinderResult[] => {
   return []
 }
 
+const findEWCase = (query:string): FinderResult[] => {
+  const regex = /\[[12]\d{3}]( \d{1,2})? (A\.?C\.?) \d{1,3}/g
+  const matches = [...query.matchAll(regex)]
+  if (matches.length > 0) {
+    return matches.map((match) => ({
+      citation: match[0],
+      index: match.index,
+      jurisdiction: JURISDICTIONS.EW.id,
+    }))
+  }
+  return []
+}
+
 const Finder = {
   findCase,
+  findEWCase,
   findSGCase,
 }
 
