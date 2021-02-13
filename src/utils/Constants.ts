@@ -84,5 +84,3 @@ export const DATABASES: Record<string, Law.Database> = {
   ...dedupeJurisdictionURLs(SG_DATABASES, `SG`),
   ...dedupeJurisdictionURLs(EW_DATABASES, `EW`),
 }
-
-console.log(DATABASES)

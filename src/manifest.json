@@ -38,7 +38,11 @@
       "matches": [
         "https://ukconstitutionallaw.org/*",
         "https://www.lexology.com/*",
-        "https://beta.constructionlaw.sg/*"
+        "https://beta.constructionlaw.sg/*",
+        "https://www.bailii.org/*",
+        "https://www.lawnet.sg/*",
+        "https://www.singaporelawwatch.sg/*",
+        "https://lawgazette.com.sg/*"
       ],
       "js": [
         "js/contentScript.bundle.js"

@@ -51,12 +51,13 @@ const findSGCase = (query: string): FinderResult[] => {
 const findEWCase = (query:string): FinderResult[] => {
   const abbrs = [
     `EWCA`,
-    `EWHC`,
+    `EWHC( Patents)?`,
     `UKSC`,
     `UKHL`,
     `AC`,
     `Ch( D)?`,
     `QB`,
+    `KB`,
     `WLR( \\(D\\))?`,
     `All ER( \\(D\\))?`,
     `BCLC`,
@@ -64,6 +65,10 @@ const findEWCase = (query:string): FinderResult[] => {
     `HL Cas`,
     `App Cas`,
     `Ld Raym`,
+    `FSR`,
+    `ECC`,
+    `ITCLR`,
+    `RPC`,
   ].map(abbr => abbr.split(``).map(letter => letter+`\\.?`).join(``)).join(`|`)
   const regex = new RegExp(`((\\[|\\()[12]\\d{3}(\\]|\\)))( \\d{1,2})? (${abbrs}) \\d{1,3}`, `g`)
   
