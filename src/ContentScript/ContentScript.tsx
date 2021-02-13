@@ -30,22 +30,35 @@ const handleViewCitation = (message: Message) => {
   if(data === false){
     tooltip.textContent = `Could not find case`
   } else {
-    const { name, link } = data as Law.Case
+    const { name, link, pdf } = data as Law.Case
 
     tooltip.innerHTML = ``
 
     const caseName = document.createElement(`strong`)
-    caseName.textContent = name
+    if(link){
+      const caseLink = document.createElement(`a`)
+      caseLink.textContent = name
+      caseLink.href = link
+      caseLink.setAttribute(`target`, `_blank`)
+      caseLink.setAttribute(`rel`, `noopener noreferrer`)
+      caseName.append(caseLink)
+    } else {
+      caseName.textContent = name
+    }
 
-    const pdfLinkDiv = document.createElement(`div`)
-    const pdfLink = document.createElement(`a`)
-    pdfLink.href = link
-    pdfLink.addEventListener(`click`, downloadFile(data as Law.Case))
-    pdfLink.textContent = `Download PDF`
-    pdfLinkDiv.append(pdfLink)
+    const linksDiv = document.createElement(`div`)
+    if(pdf){
+      const pdfLink = document.createElement(`a`)
+      pdfLink.href = pdf
+      pdfLink.addEventListener(`click`, downloadFile(data as Law.Case))
+      pdfLink.textContent = `PDF`
+      pdfLink.setAttribute(`target`, `_blank`)
+      pdfLink.setAttribute(`rel`, `noopener noreferrer`)
+      linksDiv.append(pdfLink)
+    }
 
     tooltip.append(caseName)
-    tooltip.append(pdfLinkDiv)
+    tooltip.append(linksDiv)
   }
 }
 

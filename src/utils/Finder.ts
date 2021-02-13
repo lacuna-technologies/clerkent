@@ -2,7 +2,7 @@ import { JURISDICTIONS } from './Constants'
 import type Law from '../types/Law'
 export interface FinderResult {
   jurisdiction: Law.JursidictionCode
-  citation: String,
+  citation: string,
   index: number
 }
 
@@ -31,6 +31,7 @@ export interface FinderResult {
 const findCase = (query: string): FinderResult[] => {
   return [
     ...findSGCase(query),
+    ...findEWCase(query),
   ]
 }
 

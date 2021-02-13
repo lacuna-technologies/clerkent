@@ -1,9 +1,2 @@
-import SG from './SG'
-import EW from './EW'
-
-const scraper = {
-  EW,
-  SG,
-}
-
-export default scraper
+import Scraper from './Scraper'
+export default Scraper

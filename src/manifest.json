@@ -37,7 +37,8 @@
     {
       "matches": [
         "https://ukconstitutionallaw.org/*",
-        "https://www.lexology.com/*"
+        "https://www.lexology.com/*",
+        "https://beta.constructionlaw.sg/*"
       ],
       "js": [
         "js/contentScript.bundle.js"

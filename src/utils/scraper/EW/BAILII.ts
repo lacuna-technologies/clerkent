@@ -6,13 +6,10 @@ import type Law from '../../../types/Law'
 const DOMAIN = `https://www.bailii.org`
 
 const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
-  const { data, request } = await Request.post(
+  const { data, request, headers } = await Request.post(
     `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
     qs.stringify({ citation }, { format : `RFC1738` }),
     {
-      cache: {
-        maxAge: 0,
-      },
       validateStatus: status => (status >= 200 && status < 300) || status === 302,
     },
   )
@@ -31,7 +28,7 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
   return [result]
 }
 
-const getPDF = async (citation: string): Promise<Law.Case | false> => {
+const getCase = async (citation: string): Promise<Law.Case | false> => {
   const results = await getSearchResults(citation)
 
   if(results.length !== 1){
@@ -42,7 +39,7 @@ const getPDF = async (citation: string): Promise<Law.Case | false> => {
 }
 
 const BAILII = {
-  getPDF,
+  getCase,
   getSearchResults,
 }
 

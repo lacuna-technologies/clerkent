@@ -3,14 +3,15 @@ import React, { useEffect } from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
+import Finder from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   if (action === Messenger.ACTION_TYPES.viewCitation) {
-    console.log(`background handling viewCitation`)
     const { citation } = otherProperties
-    const result = await Scraper.SG.getPDF(citation)
+    const [targetCase] = Finder.findCase(citation)
+    const result = await Scraper.getCase(targetCase)
 
     console.log(`sending viewCitation`, {
       action: Messenger.ACTION_TYPES.viewCitation,
@@ -32,7 +33,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     })
   } else if (action === Messenger.ACTION_TYPES.test){
     console.log(`test action received by bg`)
-    const result = await Scraper.EW.getPDF(`[2020] UKSC 1`)
+    const result = await Scraper.EW.getCase(`[2020] UKSC 1`)
     console.log(result)
   }
 }
