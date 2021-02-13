@@ -1,6 +1,7 @@
 import cheerio from 'cheerio'
 import Request from '../../Request'
 import type Law from '../../../types/Law'
+import { DATABASES, JURISDICTIONS } from '../../Constants' 
 
 const DOMAIN = `https://www.supremecourt.gov.sg`
 const getSearchResults = (citation: string) => `${DOMAIN}/search-judgment?q=${citation}&y=All`
@@ -19,6 +20,8 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
       name,
       pdf,
       ...(link ? { link: `${DOMAIN}${link}`} : {}),
+      database: DATABASES.SG_sc,
+      jurisdiction: JURISDICTIONS.SG.id,
     }
   }).get().filter((match: Law.Case)=> match.citation === citation)
 

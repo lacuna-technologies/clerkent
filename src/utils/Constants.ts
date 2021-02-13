@@ -12,21 +12,11 @@ export const JURISDICTIONS = {
     name: `Singapore`,
   },
 }
-// const EW_DATABASE_URLS = {
-//   legislation: `https://www.legislation.gov.uk/`,
-//   lexis: `http://www.lexisnexis.com/uk/legal`,
-//   westlaw: `https://signon.thomsonreuters.com/federation/UKF?entityID=https%3A%2F%2Fshib-idp.ucl.ac.uk%2Fshibboleth&returnto=https%3A%2F%2Fwestlawuk.thomsonreuters.co.uk%2FBrowse%2FHome%2FWestlawUK%3FskipAnonymous%3Dtrue`,
-// }
 
-interface Database {
-  icon: string,
-  name: string, 
-  url: string
-}
 
-type JurisdictionURLS = typeof SG_DATABASE_URLS
+type JurisdictionURLS = typeof SG_DATABASES | typeof EW_DATABASES
 
-const SG_DATABASE_URLS: Record<string, Database> = {
+const SG_DATABASES: Record<string, Law.Database> = {
   lawnet: {
     icon: ``,
     name: `Lawnet`,
@@ -39,7 +29,7 @@ const SG_DATABASE_URLS: Record<string, Database> = {
   },
   sc: {
     icon: ``,
-    name: `Supreme Court (Singapore)`,
+    name: `Supreme Court`,
     url: `https://www.supremecourt.gov.sg/news/supreme-court-judgments`,
   },
   slw: {
@@ -59,15 +49,40 @@ const SG_DATABASE_URLS: Record<string, Database> = {
   },
 }
 
+const EW_DATABASES = {
+  bailii: {
+    icon: ``,
+    name: `BAILII`,
+    url: `https://bailii.org/`,
+  },
+  legislation: {
+    icon: ``,
+    name: `legislation.gov.uk`,
+    url: `https://www.legislation.gov.uk/`,
+  },
+  lexis: {
+    icon: ``,
+    name: `LexisNexis`,
+    url: `http://www.lexisnexis.com/uk/legal`,
+  },
+  westlaw: {
+    icon: ``,
+    name: `Westlaw`,
+    url: `https://uk.westlaw.com/Browse/Home/WestlawUK`,
+  },
+}
+
 const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdictionCode: Law.JursidictionCode) =>
   Object.entries(jurisdictionURLs)
-  .reduce((accumulator, [id, object]: [string, Database]) => ({
+  .reduce((accumulator, [id, object]: [string, Law.Database]) => ({
     ...accumulator,
     [`${jurisdictionCode}_${id}`]: object,
   }), {})
 
 
-export const DATABASE_URLS: Record<string, Database> = {
-  // ...dedupeJurisdictionURLs(EW_DATABASE_URLS, `EW`),
-  ...dedupeJurisdictionURLs(SG_DATABASE_URLS, `SG`),
+export const DATABASES: Record<string, Law.Database> = {
+  ...dedupeJurisdictionURLs(SG_DATABASES, `SG`),
+  ...dedupeJurisdictionURLs(EW_DATABASES, `EW`),
 }
+
+console.log(DATABASES)

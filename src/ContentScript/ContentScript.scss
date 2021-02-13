@@ -19,6 +19,20 @@
   background: black;
   color: white;
   padding: 0.2rem 0.5rem;
+  max-width: 15rem;
+
+  > .clerkent-meta {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    > span {
+      margin-right: 0.5rem;
+    }
+    > small {
+
+    }
+  }
 
   a {
     color: lightgray;

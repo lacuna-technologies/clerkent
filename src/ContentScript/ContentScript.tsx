@@ -6,6 +6,7 @@ import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import './ContentScript.scss'
 import Law from '../types/Law'
+import { JURISDICTIONS } from '../utils/Constants'
 
 let port: Runtime.Port
 
@@ -30,21 +31,34 @@ const handleViewCitation = (message: Message) => {
   if(data === false){
     tooltip.textContent = `Could not find case`
   } else {
-    const { name, link, pdf } = data as Law.Case
+    const { name, link, pdf, jurisdiction, database } = data as Law.Case
 
     tooltip.innerHTML = ``
 
     const caseName = document.createElement(`strong`)
+    caseName.textContent = name
+
+    // meta
+    const metaDiv = document.createElement(`div`)
+    metaDiv.classList.add(`clerkent-meta`)
+    const jurisSpan = document.createElement(`span`)
+    jurisSpan.textContent = JURISDICTIONS[jurisdiction].emoji
+    metaDiv.append(jurisSpan)
+    
     if(link){
-      const caseLink = document.createElement(`a`)
-      caseLink.textContent = name
-      caseLink.href = link
-      caseLink.setAttribute(`target`, `_blank`)
-      caseLink.setAttribute(`rel`, `noopener noreferrer`)
-      caseName.append(caseLink)
+      const databaseLink = document.createElement(`a`)
+      databaseLink.href = link
+      databaseLink.setAttribute(`target`, `_blank`)
+      databaseLink.setAttribute(`rel`, `noopener noreferrer`)
+      databaseLink.textContent = database.name
+      metaDiv.append(databaseLink)
     } else {
-      caseName.textContent = name
+      const databaseSpan = document.createElement(`span`)
+      databaseSpan.textContent = database.name
+      metaDiv.append(databaseSpan)
     }
+    
+    tooltip.append(metaDiv)
 
     const linksDiv = document.createElement(`div`)
     if(pdf){

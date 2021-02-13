@@ -2,11 +2,12 @@ import qs from 'qs'
 import cheerio from 'cheerio'
 import Request from '../../Request'
 import type Law from '../../../types/Law'
+import { DATABASES, JURISDICTIONS } from '../../Constants' 
 
 const DOMAIN = `https://www.bailii.org`
 
 const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
-  const { data, request, headers } = await Request.post(
+  const { data, request } = await Request.post(
     `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
     qs.stringify({ citation }, { format : `RFC1738` }),
     {
@@ -23,6 +24,8 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
     link: request.responseURL,
     name: $(`title`).text(),
     ...(pdfPath ? {pdf: `${DOMAIN}${pdfPath}`} : {}),
+    database: DATABASES.EW_bailii,
+    jurisdiction: JURISDICTIONS.EW.id,
   }
 
   return [result]
