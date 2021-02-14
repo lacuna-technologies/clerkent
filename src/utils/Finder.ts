@@ -53,6 +53,7 @@ const findEWCase = (query:string): FinderResult[] => {
     `EWCA`,
     `EWHC( Patents)?`,
     `UKSC`,
+    `UKPC`,
     `UKHL`,
     `AC`,
     `Ch( D)?`,

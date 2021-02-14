@@ -9,6 +9,22 @@ Quickly open or download judgments in a single click
 
 ![demo](./demo.gif)
 
+## Features
+
+- [x] Preview and download judgments with a single click
+- [ ] Preview and download judgments for all cases mentioned in copy-and-pasted text or an uploaded word document / PDF
+
+### Supported Jurisdictions
+
+- [x] England & Wales (neutral citations, and most common law reports)
+- [x] Singapore (neutral citations)
+  - [ ] SGDC / SGMC
+  - [ ] SLR
+- [ ] Europe (CJEU + ECtHR)
+- [ ] Australia
+- [ ] New Zealand
+- [ ] Hong Kong
+
 ## Development
 
 Run in development mode for your preferred browser:
