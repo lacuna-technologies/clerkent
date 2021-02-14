@@ -1,24 +1,19 @@
 {
   "manifest_version": 2,
   "name": "Clerkent",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "icons": {
     "16": "assets/favicon-16.png",
     "32": "assets/favicon-32.png",
     "48": "assets/favicon-48.png",
-    "64": "assets/favicon-64/png",
+    "64": "assets/favicon-64.png",
     "128": "assets/favicon-128.png"
   },
   "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
   "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
   "short_name": "Clerkent",
   "permissions": [
-    "tabs",
-    "activeTab",
-    "storage",
-    "downloads",
-    "http://*/*",
-    "https://*/*"
+    "downloads"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "__chrome|firefox__author": "Huey",
