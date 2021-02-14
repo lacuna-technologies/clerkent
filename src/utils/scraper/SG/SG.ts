@@ -1,9 +1,10 @@
 import SGSC from './SGSC'
 import SLW from './SLW'
+import Common from '../common'
 import type Law from '../../../types/Law'
 
 const getCase = async (citation: string): Promise<Law.Case | false> => {
-  const options = [SGSC, SLW]
+  const options = [Common.CommonLII, SGSC, SLW]
   for (const option of options) {
     try {
       const result = await option.getCase(citation)

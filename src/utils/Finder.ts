@@ -36,7 +36,7 @@ const findCase = (query: string): FinderResult[] => {
 }
 
 const findSGCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}] (SGCA|SGHC) \d{1,3}/g
+  const regex = /\[[12]\d{3}] (SGCA|SGHC|SGDC|SGMC) \d{1,3}/g
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({

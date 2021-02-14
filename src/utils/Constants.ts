@@ -72,6 +72,14 @@ const EW_DATABASES = {
   },
 }
 
+const MISC_DATABASES = {
+  commonlii: {
+    icon: ``,
+    name: `CommonLII`,
+    url: `http://www.commonlii.org`,
+  },
+}
+
 const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdictionCode: Law.JursidictionCode) =>
   Object.entries(jurisdictionURLs)
   .reduce((accumulator, [id, object]: [string, Law.Database]) => ({
@@ -83,4 +91,5 @@ const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdiction
 export const DATABASES: Record<string, Law.Database> = {
   ...dedupeJurisdictionURLs(SG_DATABASES, `SG`),
   ...dedupeJurisdictionURLs(EW_DATABASES, `EW`),
+  ...MISC_DATABASES,
 }

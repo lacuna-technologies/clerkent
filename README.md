@@ -18,7 +18,6 @@ Quickly open or download judgments in a single click
 
 - [x] England & Wales (neutral citations, and most common law reports)
 - [x] Singapore (neutral citations)
-  - [ ] SGDC / SGMC
   - [ ] SLR
 - [ ] Europe (CJEU + ECtHR)
 - [ ] Australia

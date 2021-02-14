@@ -22,7 +22,7 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
   const result = {
     citation,
     link: request.responseURL,
-    name: $(`title`).text(),
+    name: $(`title`).text().trim(),
     ...(pdfPath ? {pdf: `${DOMAIN}${pdfPath}`} : {}),
     database: DATABASES.EW_bailii,
     jurisdiction: JURISDICTIONS.EW.id,

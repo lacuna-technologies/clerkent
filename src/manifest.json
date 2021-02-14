@@ -13,7 +13,12 @@
   "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
   "short_name": "Clerkent",
   "permissions": [
-    "downloads"
+    "downloads",
+    "https://www.bailii.org/*",
+    "http://www.commonlii.org/*",
+    "https://www.lawnet.sg/*",
+    "https://www.singaporelawwatch.sg/*",
+    "https://www.supremecourt.gov.sg/*"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "__chrome|firefox__author": "Huey",
@@ -37,7 +42,12 @@
         "https://www.bailii.org/*",
         "https://www.lawnet.sg/*",
         "https://www.singaporelawwatch.sg/*",
-        "https://lawgazette.com.sg/*"
+        "https://www.supremecourt.gov.sg/*",
+        "https://lawgazette.com.sg/*",
+        "https://sites.google.com/view/clerkent-test/*",
+        "http://www.commonlii.org/*",
+        "https://publiclawforeveryone.com/*",
+        "https://singaporelawblog.sg/*"
       ],
       "js": [
         "js/contentScript.bundle.js"

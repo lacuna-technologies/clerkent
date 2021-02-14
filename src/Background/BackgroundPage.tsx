@@ -54,14 +54,13 @@ const onReceiveMessage = (port: Runtime.Port) => (message: Message) => {
 }
 
 const onConnect = (port: Runtime.Port) => {
-  console.log(`new port`, port)
   port.postMessage({ hello: `world` })
   port.onMessage.addListener(onReceiveMessage(port))
 }
 
 const init = () => {
   browser.runtime.onInstalled.addListener((): void => {
-    console.log(`⚖ clerkent installedzz`)
+    console.log(`⚖ clerkent installed`)
   })
   browser.runtime.onConnect.addListener(onConnect)
 }

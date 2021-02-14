@@ -27,7 +27,13 @@ const downloadFile = ({ name, link, citation }) => async (event: Event) => {
 
 const handleViewCitation = (message: Message) => {
   const { data } = message
-  const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
+  let tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
+
+  if(tooltip === null){
+    Tooltip.init()
+    tooltip = document.querySelector(`#clerkent-tooltip`)
+  }
+
   if(data === false){
     tooltip.textContent = `Could not find case`
   } else {
