@@ -7,7 +7,7 @@
 
 Quickly locate, open, or download judgments
 
-## Installl
+## Install
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox.svg" width="64" />](https://addons.mozilla.org/en-GB/firefox/addon/clerkent/)
 
