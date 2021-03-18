@@ -1,4 +1,4 @@
-import { JURISDICTIONS } from './Constants'
+import { Constants } from '../utils'
 import type Law from '../types/Law'
 export interface FinderResult {
   jurisdiction: Law.JursidictionCode
@@ -31,7 +31,7 @@ export interface FinderResult {
 const findCase = (query: string): FinderResult[] => {
   return [
     ...findSGCase(query),
-    ...findEWCase(query),
+    ...findUKCase(query),
   ]
 }
 
@@ -42,13 +42,13 @@ const findSGCase = (query: string): FinderResult[] => {
     return matches.map((match) => ({
       citation: match[0],
       index: match.index,
-      jurisdiction: JURISDICTIONS.SG.id,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
     }))
   }
   return []
 }
 
-const findEWCase = (query:string): FinderResult[] => {
+const findUKCase = (query:string): FinderResult[] => {
   const abbrs = [
     `EWCA`,
     `EWHC( Patents)?`,
@@ -78,7 +78,7 @@ const findEWCase = (query:string): FinderResult[] => {
     return matches.map((match) => ({
       citation: match[0],
       index: match.index,
-      jurisdiction: JURISDICTIONS.EW.id,
+      jurisdiction: Constants.JURISDICTIONS.UK.id,
     }))
   }
   return []
@@ -86,8 +86,8 @@ const findEWCase = (query:string): FinderResult[] => {
 
 const Finder = {
   findCase,
-  findEWCase,
   findSGCase,
+  findUKCase,
 }
 
 export default Finder

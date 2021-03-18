@@ -1,18 +1,18 @@
 import Memoize from 'memoizee'
 import SG from './SG'
-import EW from './EW'
+import UK from './UK'
 import type Law from '../../types/Law'
-import { JURISDICTIONS } from '../Constants'
+import Constants from '../Constants'
 import type { FinderResult } from '../Finder'
 
 const getCase = Memoize((targetCase: FinderResult): Promise<Law.Case | false> => {
   const { jurisdiction, citation } = targetCase
 
-  let targetJurisdiction: typeof SG | typeof EW
-  if(jurisdiction === JURISDICTIONS.SG.id){
+  let targetJurisdiction: typeof SG | typeof UK
+  if(jurisdiction === Constants.JURISDICTIONS.SG.id){
     targetJurisdiction = SG
-  } else if (jurisdiction === JURISDICTIONS.EW.id){
-    targetJurisdiction = EW
+  } else if (jurisdiction === Constants.JURISDICTIONS.UK.id){
+    targetJurisdiction = UK
   } else {
     return Promise.resolve(false)
   }
@@ -23,8 +23,8 @@ const getCase = Memoize((targetCase: FinderResult): Promise<Law.Case | false> =>
 })
 
 const scraper = {
-  EW,
   SG,
+  UK,
   getCase,
 }
 

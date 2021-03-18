@@ -1,7 +1,7 @@
 import cheerio from 'cheerio'
 import Request from '../../Request'
 import type Law from '../../../types/Law'
-import { DATABASES, JURISDICTIONS } from '../../Constants'
+import Constants from '../../Constants'
 
 // Available judgments
 //  Singapore
@@ -13,8 +13,8 @@ import { DATABASES, JURISDICTIONS } from '../../Constants'
 const DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 const JurisdictionsList = {
-  Singapore: JURISDICTIONS.SG.id,
-  'United Kingdom': JURISDICTIONS.EW.id,
+  Singapore: Constants.JURISDICTIONS.SG.id,
+  'United Kingdom': Constants.JURISDICTIONS.UK.id,
 }
 
 const getCase = async (citation: string): Promise<Law.Case | false> => {
@@ -39,7 +39,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   
   return {
     citation,
-    database: DATABASES.commonlii,
+    database: Constants.DATABASES.commonlii,
     jurisdiction,
     link,
     name,

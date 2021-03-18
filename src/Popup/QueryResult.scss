@@ -1,0 +1,22 @@
+#result {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.25rem;
+
+  > .jurisdiction {
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  > .links {
+    margin-top: 0.3rem;
+
+    > span + a {
+      margin-left: 0.5rem;
+    }
+  }
+
+  > p {
+    margin: 0;
+  }
+}

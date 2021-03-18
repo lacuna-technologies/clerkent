@@ -1,6 +1,6 @@
 import Request from '../../Request'
 import type Law from '../../../types/Law'
-import { DATABASES, JURISDICTIONS } from '../../Constants' 
+import Constants from '../../Constants' 
 
 const DOMAIN = `https://www.singaporelawwatch.sg`
 
@@ -13,8 +13,8 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   const matches: Law.Case[] = data
     .map(([name, link]) => ({
       citation: name.slice(-citation.length),
-      database: DATABASES.SG_slw,
-      jurisdiction: JURISDICTIONS.SG.id,
+      database: Constants.DATABASES.SG_slw,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
       name: name.slice(0, -citation.length).trim(),
       pdf: link,
     }))

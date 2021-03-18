@@ -1,20 +1,20 @@
 import type Law from '../types/Law'
 
-export const JURISDICTIONS = {
-  EW: {
-    emoji: `🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁷󠁬󠁳󠁿`,
-    id: `EW` as Law.JursidictionCode,
-    name: `England & Wales`,
-  },
+const JURISDICTIONS = {
   SG: {
-    emoji: `🇸🇬`,
+    emoji: `��`,
     id: `SG` as Law.JursidictionCode,
     name: `Singapore`,
+  },
+  UK: {
+    emoji: `🇬🇧`,
+    id: `UK` as Law.JursidictionCode,
+    name: `United Kingdom`,
   },
 }
 
 
-type JurisdictionURLS = typeof SG_DATABASES | typeof EW_DATABASES
+type JurisdictionURLS = typeof SG_DATABASES | typeof UK_DATABASES
 
 const SG_DATABASES: Record<string, Law.Database> = {
   lawnet: {
@@ -49,7 +49,7 @@ const SG_DATABASES: Record<string, Law.Database> = {
   },
 }
 
-const EW_DATABASES = {
+const UK_DATABASES = {
   bailii: {
     icon: ``,
     name: `BAILII`,
@@ -87,9 +87,15 @@ const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdiction
     [`${jurisdictionCode}_${id}`]: object,
   }), {})
 
-
-export const DATABASES: Record<string, Law.Database> = {
+const DATABASES: Record<string, Law.Database> = {
   ...dedupeJurisdictionURLs(SG_DATABASES, `SG`),
-  ...dedupeJurisdictionURLs(EW_DATABASES, `EW`),
+  ...dedupeJurisdictionURLs(UK_DATABASES, `UK`),
   ...MISC_DATABASES,
 }
+
+const Constants = {
+  DATABASES,
+  JURISDICTIONS,
+}
+
+export default Constants

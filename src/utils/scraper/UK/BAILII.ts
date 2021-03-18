@@ -2,7 +2,7 @@ import qs from 'qs'
 import cheerio from 'cheerio'
 import Request from '../../Request'
 import type Law from '../../../types/Law'
-import { DATABASES, JURISDICTIONS } from '../../Constants' 
+import Constants from '../../Constants' 
 
 const DOMAIN = `https://www.bailii.org`
 
@@ -24,8 +24,8 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
     link: request.responseURL,
     name: $(`title`).text().trim(),
     ...(pdfPath ? {pdf: `${DOMAIN}${pdfPath}`} : {}),
-    database: DATABASES.EW_bailii,
-    jurisdiction: JURISDICTIONS.EW.id,
+    database: Constants.DATABASES.UK_bailii,
+    jurisdiction: Constants.JURISDICTIONS.UK.id,
   }
 
   return [result]

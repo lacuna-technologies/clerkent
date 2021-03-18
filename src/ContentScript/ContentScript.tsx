@@ -1,12 +1,10 @@
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import Finder from '../utils/Finder'
-import Messenger from '../utils/Messenger'
+import { Constants, Messenger, Finder } from '../utils'
 import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import './ContentScript.scss'
 import Law from '../types/Law'
-import { JURISDICTIONS } from '../utils/Constants'
 
 let port: Runtime.Port
 
@@ -20,6 +18,7 @@ const downloadFile = ({ name, link, citation }) => async (event: Event) => {
   port.postMessage({
     action: Messenger.ACTION_TYPES.downloadFile,
     filename: `${name} ${citation}.pdf`,
+    source: Messenger.TARGETS.contentScript,
     target: Messenger.TARGETS.background,
     url: link,
   })
@@ -48,7 +47,7 @@ const handleViewCitation = (message: Message) => {
     const metaDiv = document.createElement(`div`)
     metaDiv.classList.add(`clerkent-meta`)
     const jurisSpan = document.createElement(`span`)
-    jurisSpan.textContent = JURISDICTIONS[jurisdiction].emoji
+    jurisSpan.textContent = Constants.JURISDICTIONS[jurisdiction].emoji
     metaDiv.append(jurisSpan)
     
     if(link){
@@ -91,6 +90,7 @@ const mouseOverCitation = (event: MouseEvent) => {
   port.postMessage({
     action: Messenger.ACTION_TYPES.viewCitation,
     citation,
+    source: Messenger.TARGETS.contentScript,
     target: Messenger.TARGETS.background,
   })
 

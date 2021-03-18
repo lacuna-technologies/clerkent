@@ -16,8 +16,8 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   return false
 }
 
-const EW = {
+const UK = {
   getCase,
 }
 
-export default EW
+export default UK

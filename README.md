@@ -13,6 +13,7 @@ Quickly open or download judgments in a single click
 
 - [x] Preview and download judgments with a single click
 - [ ] Preview and download judgments for all cases mentioned in copy-and-pasted text or an uploaded word document / PDF
+- [x] Universal judgment search box
 
 ### Supported Jurisdictions
 

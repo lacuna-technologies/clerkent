@@ -15,6 +15,7 @@ type ValueOf<T> = T[keyof T]
 
 export interface Message {
   action: ValueOf<typeof ACTION_TYPES>
+  source: ValueOf<typeof TARGETS>
   target: ValueOf<typeof TARGETS>
   data?: unknown
 }

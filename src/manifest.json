@@ -13,6 +13,7 @@
   "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
   "short_name": "Clerkent",
   "permissions": [
+    "storage",
     "downloads",
     "https://www.bailii.org/*",
     "http://www.commonlii.org/*",
