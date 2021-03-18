@@ -1,6 +1,6 @@
 {
   "name": "clerkent",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",

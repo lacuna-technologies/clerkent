@@ -13,7 +13,7 @@ declare namespace Law {
     database: Database
   }
 
-  type JursidictionCode = `SG` | `UK`
+  type JursidictionCode = `SG` | `UK` | `EU` | `HK`
 }
 
 export default Law

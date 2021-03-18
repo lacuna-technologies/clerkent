@@ -67,8 +67,6 @@ const Popup: React.FC = () => {
     })()
   }, [onSearchQueryChange])
 
-  console.log(searchResult)
-
   return (
     <section id="popup">
       <input

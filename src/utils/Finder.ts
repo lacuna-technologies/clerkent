@@ -32,6 +32,8 @@ const findCase = (query: string): FinderResult[] => {
   return [
     ...findSGCase(query),
     ...findUKCase(query),
+    ...findEUCase(query),
+    ...findHKCase(query),
   ]
 }
 
@@ -84,8 +86,37 @@ const findUKCase = (query:string): FinderResult[] => {
   return []
 }
 
+const findEUCase = (query: string): FinderResult[] => {
+  const regex = /C-\d{1,3}\/\d{1,2}/g
+
+  const matches = [...query.matchAll(regex)]
+  if(matches.length > 0){
+    return matches.map((match) => ({
+      citation: match[0],
+      index: match.index,
+      jurisdiction: Constants.JURISDICTIONS.EU.id,
+    }))
+  }
+  return []
+}
+
+const findHKCase = (query: string): FinderResult[] => {
+  const regex = /\[[12]\d{3}] (HKCA|HKCFA|HKCFI) \d{1,3}/g
+  const matches = [...query.matchAll(regex)]
+  if (matches.length > 0) {
+    return matches.map((match) => ({
+      citation: match[0],
+      index: match.index,
+      jurisdiction: Constants.JURISDICTIONS.HK.id,
+    }))
+  }
+  return []
+}
+
 const Finder = {
   findCase,
+  findEUCase,
+  findHKCase,
   findSGCase,
   findUKCase,
 }

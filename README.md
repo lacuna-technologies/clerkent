@@ -20,10 +20,11 @@ Quickly open or download judgments in a single click
 - [x] England & Wales (neutral citations, and most common law reports)
 - [x] Singapore (neutral citations)
   - [ ] SLR
-- [ ] Europe (CJEU + ECtHR)
+- [ ] Europe
+  - [x] CJEU
 - [ ] Australia
 - [ ] New Zealand
-- [ ] Hong Kong
+- [x] Hong Kong
 
 ## Development
 

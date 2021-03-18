@@ -1,8 +1,18 @@
 import type Law from '../types/Law'
 
 const JURISDICTIONS = {
+  EU: {
+    emoji: `🇪🇺`,
+    id: `EU` as Law.JursidictionCode,
+    name: `European Union`,
+  },
+  HK: {
+    emoji: `🇭🇰`,
+    id: `HK` as Law.JursidictionCode,
+    name: `Hong Kong`,
+  },
   SG: {
-    emoji: `��`,
+    emoji: `🇸🇬`,
     id: `SG` as Law.JursidictionCode,
     name: `Singapore`,
   },
@@ -72,6 +82,22 @@ const UK_DATABASES = {
   },
 }
 
+const EU_DATABASES = {
+  curia: {
+    icon: ``,
+    name: `CURIA`,
+    url: `https://curia.europa.eu/juris/recherche.jsf?language=en`,
+  },
+}
+
+const HK_DATABASES = {
+  hklii: {
+    icon: ``,
+    name: `HKLII`,
+    url: `https://www.hklii.hk/`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -90,6 +116,8 @@ const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdiction
 const DATABASES: Record<string, Law.Database> = {
   ...dedupeJurisdictionURLs(SG_DATABASES, `SG`),
   ...dedupeJurisdictionURLs(UK_DATABASES, `UK`),
+  ...dedupeJurisdictionURLs(EU_DATABASES, `EU`),
+  ...dedupeJurisdictionURLs(HK_DATABASES, `HK`),
   ...MISC_DATABASES,
 }
 
