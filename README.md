@@ -5,7 +5,13 @@
   Clerkent
 </h1>
 
-Quickly open or download judgments in a single click
+Quickly locate, open, or download judgments
+
+## Installl
+
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox.svg" width="64" />](https://addons.mozilla.org/en-GB/firefox/addon/clerkent/)
+
+## Screenshots
 
 ![demo](./demo.gif)
 
