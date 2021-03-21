@@ -13,7 +13,8 @@ Quickly locate, open, or download judgments
 
 ## Screenshots
 
-![demo](./demo.gif)
+![demo](./demo/demo.gif)
+![search](./demo/search.png)
 
 ## Features
 
@@ -28,9 +29,10 @@ Quickly locate, open, or download judgments
   - [ ] SLR
 - [ ] Europe
   - [x] CJEU
+  - [ ] ECtHR
 - [ ] Australia
 - [ ] New Zealand
-- [x] Hong Kong
+- [x] Hong Kong (neutral citations)
 
 ## Development
 

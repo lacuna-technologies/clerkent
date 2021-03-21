@@ -9,8 +9,8 @@
     "64": "assets/favicon-64.png",
     "128": "assets/favicon-128.png"
   },
-  "description": "an unassuming clerk with a superhuman ability to download PDFs of judgments and academic articles",
-  "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
+  "description": "supercharge your legal reading on the web",
+  "homepage_url": "https://github.com/lacuna-technologies/clerkent",
   "short_name": "Clerkent",
   "permissions": [
     "storage",
@@ -66,7 +66,7 @@
       "16": "assets/favicon-16.png",
       "32": "assets/favicon-32.png"
     },
-    "default_title": "Open the Clerkent menu",
+    "default_title": "Clerkent",
     "default_popup": "popup.html"
   }
 }
