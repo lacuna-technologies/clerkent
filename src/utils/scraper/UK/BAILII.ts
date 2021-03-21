@@ -15,6 +15,10 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
     },
   )
 
+  if(request.responseURL === `${DOMAIN}/cgi-bin/find_by_citation.cgi`) {
+    return []
+  }
+
   const $ = cheerio.load(data)
 
   const pdfPath = $(`a[href$=".pdf"]`).eq(0).attr(`href`)
@@ -32,7 +36,7 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
 }
 
 const getCase = async (citation: string): Promise<Law.Case | false> => {
-  const results = await getSearchResults(citation)
+  const results = (await getSearchResults(citation))
 
   if(results.length !== 1){
     return false

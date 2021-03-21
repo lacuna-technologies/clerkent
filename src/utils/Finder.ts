@@ -53,6 +53,7 @@ const findSGCase = (query: string): FinderResult[] => {
 const findUKCase = (query:string): FinderResult[] => {
   const abbrs = [
     `EWCA`,
+    `EWHC`,
     `EWHC( Patents)?`,
     `UKSC`,
     `UKPC`,
