@@ -1,0 +1,45 @@
+name: build & deploy
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check package version
+        uses: technote-space/package-version-check-action@v1
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: update manifest.json version
+        run: echo "`jq '.version="${{ steps.package-version.outputs.current-version}}"' src/manifest.json`" > manifest.json
+      - name: Use Node.JS
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 12
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: install dependencies
+        run: npm ci
+      - name: lint
+        run: npm run lint
+      - name: generate icons
+        run: npm run generate:icons
+      - name: build
+        run: npm run build
+      - uses: trmcnvn/firefox-addon@v1
+        with:
+          uuid: '{68470d9e-14a9-4697-a19b-413d6773c788}'
+          xpi: extension/firefox.xpi
+          manifest: src/manifest.json
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
