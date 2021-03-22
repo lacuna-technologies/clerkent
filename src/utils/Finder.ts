@@ -38,7 +38,7 @@ const findCase = (query: string): FinderResult[] => {
 }
 
 const findSGCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}] (SGCA|SGHC|SGDC|SGMC) \d{1,3}/g
+  const regex = /\[[12]\d{3}]( \d{1,2})? (SGCA|SGHC|SGDC|SGMC|SLR(\(R\))?) \d{1,3}/g
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({
@@ -60,7 +60,7 @@ const findUKCase = (query:string): FinderResult[] => {
     `UKHL`,
     `AC`,
     `Ch( D)?`,
-    `QB`,
+    `QB(D)?`,
     `KB`,
     `WLR( \\(D\\))?`,
     `All ER( \\(D\\))?`,
@@ -74,7 +74,11 @@ const findUKCase = (query:string): FinderResult[] => {
     `ITCLR`,
     `RPC`,
   ].map(abbr => abbr.split(``).map(letter => letter+`\\.?`).join(``)).join(`|`)
-  const regex = new RegExp(`((\\[|\\()[12]\\d{3}(\\]|\\)))( \\d{1,2})? (${abbrs}) \\d{1,3}`, `g`)
+  // eslint-disable-next-line unicorn/better-regex
+  const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
+  const volumeRegex = new RegExp(/( \d{1,2})?/)
+  const pageRegex = new RegExp(/\d{1,3}/)
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `g`)
   
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
