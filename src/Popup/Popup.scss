@@ -9,7 +9,22 @@ section#popup {
     margin-bottom: 0.5rem;
   }
 
-  pre {
-    margin-top: 0.5rem;
+  .buttons {
+    margin-top: 2rem;
+    border-top: 1px solid #aaa;
+    padding-top: 1rem;
+
+    #mass-citations, #mass-citations:active {
+      border: none;
+      background: none;
+      outline: none;
+      padding: 0;
+      text-decoration: underline dotted;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 }

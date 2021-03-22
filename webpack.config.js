@@ -25,7 +25,7 @@ const extensionReloaderPlugin =
         background: `background`,
         // TODO: reload manifest on update
         contentScript: `contentScript`,
-        extensionPage: [`popup`, `options`],
+        extensionPage: [`popup`, `options`, `massCitations`],
       },
       port: 9090,
       reloadPage: true,
@@ -53,6 +53,7 @@ module.exports = {
     background: path.join(sourcePath, `Background`, `index.tsx`),
     contentScript: path.join(sourcePath, `ContentScript`, `index.tsx`),
     manifest: path.join(sourcePath, `manifest.json`),
+    massCitations: path.join(sourcePath, `pages`, `MassCitations`, `index.tsx`),
     options: path.join(sourcePath, `Options`, `index.tsx`),
     popup: path.join(sourcePath, `Popup`, `index.tsx`),
   },
@@ -161,6 +162,13 @@ module.exports = {
       hash: true,
       inject: `body`,
       template: path.join(viewsPath, `options.html`),
+    }),
+    new HtmlWebpackPlugin({
+      chunks: [`massCitations`],
+      filename: `mass-citations.html`,
+      hash: true,
+      inject: `body`,
+      template: path.join(viewsPath, `mass-citations.html`),
     }),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: `css/[name].css` }),

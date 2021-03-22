@@ -73,6 +73,7 @@ const findUKCase = (query:string): FinderResult[] => {
     `ECC`,
     `ITCLR`,
     `RPC`,
+    `Ex Rep`,
   ].map(abbr => abbr.split(``).map(letter => letter+`\\.?`).join(``)).join(`|`)
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
