@@ -33,6 +33,7 @@ Quickly locate, open, or download judgments
 - [ ] Australia
 - [ ] New Zealand
 - [x] Hong Kong (neutral citations)
+- [ ] Canada
 
 ## Development
 
