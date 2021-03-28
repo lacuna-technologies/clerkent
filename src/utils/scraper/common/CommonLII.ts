@@ -12,10 +12,6 @@ import Constants from '../../Constants'
 
 const DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
-const JurisdictionsList = {
-  Singapore: Constants.JURISDICTIONS.SG.id,
-  'United Kingdom': Constants.JURISDICTIONS.UK.id,
-}
 
 const getCase = async (citation: string): Promise<Law.Case | false> => {
   const { data } = await Request.get(`${DOMAIN}/cgi-bin/LawCite`, {
@@ -35,12 +31,18 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   const name = $(`h1.name`).text().trim()
   // const date = $(`div.date`)?.text()?.trim()
   const link = $(`div.citation > a.free-external`)?.attr(`href`)
-  const jurisdiction = JurisdictionsList[$(`.jurisdiction`).eq(0).text().trim()]
+  let jurisdiction = $(`.jurisdiction`).eq(0).text().trim()
+
+  if([`United Kingdom - England and Wales`, `United Kingdom`].some(s => s === jurisdiction)){
+    jurisdiction = Constants.JURISDICTIONS.UK.id
+  } else if (jurisdiction === `Singapore`) {
+    jurisdiction = Constants.JURISDICTIONS.SG.id
+  }
   
   return {
     citation,
     database: Constants.DATABASES.commonlii,
-    jurisdiction,
+    jurisdiction: jurisdiction as Law.JursidictionCode,
     link,
     name,
   }

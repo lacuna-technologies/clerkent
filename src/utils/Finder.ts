@@ -38,7 +38,7 @@ const findCase = (query: string): FinderResult[] => {
 }
 
 const findSGCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}]( \d{1,2})? (SGCA|SGHC|SGDC|SGMC|SLR(\(R\))?) \d{1,4}/g
+  const regex = /\[[12]\d{3}]( \d{1,2})? (sgca|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({
@@ -52,34 +52,96 @@ const findSGCase = (query: string): FinderResult[] => {
 
 const findUKCase = (query:string): FinderResult[] => {
   const abbrs = [
-    `EWCA( Civ)?`,
-    `EWHC( Patents)?`,
-    `UKSC`,
-    `UKPC`,
-    `UKHL`,
-    `AC`,
-    `Ch( D)?`,
-    `QB(D)?`,
-    `KB`,
-    `WLR( \\(D\\))?`,
-    `All ER( \\(D\\))?`,
-    `BCLC`,
-    `BCC`,
-    `HL Cas`,
-    `App Cas`,
-    `Ld Raym`,
-    `FSR`,
-    `ECC`,
-    `ITCLR`,
-    `RPC`,
-    `Ex Rep`,
-  ].map(abbr => abbr.split(``).map(letter => letter+`\\.?`).join(``)).join(`|`)
+    {
+      abbr: `EWCA`,
+      appendum: `( Civ)?`,
+    },
+    {
+      abbr: `EWHC`,
+      appendum: `( Patents)?`,
+    },
+    {
+      abbr: `UKSC`,
+    },
+    {
+      abbr: `UKPC`,
+    },
+    {
+      abbr: `UKHL`,
+    },
+    {
+      abbr: `AC`,
+    },
+    {
+      abbr: `UKHL`,
+    },
+    {
+      abbr: `Ch`,
+      appendum: `( D)?`,
+    },
+    {
+      abbr: `QB`,
+      appendum: `(D)?`,
+    },
+    {
+      abbr: `KB`,
+    },
+    {
+      abbr: `WLR`,
+      appendum: `( \\(D\\))?`,
+    },
+    {
+      abbr: `All ER`,
+      appendum: `( \\(D\\))?`,
+    },
+    {
+      abbr: `BCLC`,
+    },
+    {
+      abbr: `BCC`,
+    },
+    {
+      abbr: `HL Cas`,
+    },
+    {
+      abbr: `App Cas`,
+    },
+    {
+      abbr: `Ld Raym`,
+    },
+    {
+      abbr: `FSR`,
+    },
+    {
+      abbr: `ECC`,
+    },
+    {
+      abbr: `ITCLR`,
+    },
+    {
+      abbr: `RPC`,
+    },
+    {
+      abbr: `Ex Rep`,
+    },
+    {
+      abbr: `ER`,
+    },
+  ].map(({ abbr, appendum }) => `${abbr
+    .split(``)
+    .map(letter =>
+      /[a-z]/i.test(letter)
+        ? letter+`\\.?`
+        : letter,
+    ).join(``)
+    }${appendum ? appendum : ``}`,
+  ).join(`|`)
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
-  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `g`)
-  
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({

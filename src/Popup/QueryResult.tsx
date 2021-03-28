@@ -6,6 +6,7 @@ const QueryResult = ({ parseResult, searchResult }) => {
   if(parseResult.length === 1){
     if(searchResult && typeof searchResult.citation !== `undefined`){
       const { name, link, pdf, jurisdiction, database } = searchResult
+
       return (
         <div id="result">
           <p className="jurisdiction">

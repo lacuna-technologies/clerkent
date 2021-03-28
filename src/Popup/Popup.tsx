@@ -48,9 +48,12 @@ const Popup: React.FC = () => {
     }
     if(message.action === Messenger.ACTION_TYPES.viewCitation){
       const { data } = message
-      setSearchResult(data as Law.Case)
+      setSearchResult({
+        ...parseResult,
+        ...data as Law.Case,
+      })
     }
-  }, [])
+  }, [parseResult])
 
   useEffect(() => {
     port.current = browser.runtime.connect(``, { name: `popup-port` })
@@ -62,7 +65,7 @@ const Popup: React.FC = () => {
     (async () => {
       const storedQuery = await Storage.get(keys.POPUP_QUERY)
       if(storedQuery !== null && storedQuery.length > 0){
-        onSearchQueryChange({target: { value: storedQuery}})
+        onSearchQueryChange({target: { value: storedQuery }})
       }
     })()
   }, [onSearchQueryChange])
