@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { browser } from 'webextension-polyfill-ts'
 import { Constants } from '../utils'
 import './QueryResult.scss'
 
 const QueryResult = ({ parseResult, searchResult }) => {
+
+  const openTab = useCallback((link) => () => {
+    browser.tabs.create({ active: true, url: link })
+  }, [])
+
   if(parseResult.length === 1){
     if(searchResult && typeof searchResult.citation !== `undefined`){
       const { name, link, pdf, jurisdiction, database } = searchResult
@@ -13,13 +19,13 @@ const QueryResult = ({ parseResult, searchResult }) => {
             {Constants.JURISDICTIONS[jurisdiction].name}
           </p>
           <p>
-            <a href={link}>{name}</a>
+            <button className="link" onClick={openTab(link)}>{name}</button>
           </p>
           <p className="links">
             <span className="database">{database.name}</span>
             {
               pdf ? (
-                <a className="pdf" href={pdf}>PDF</a>
+                <button className="pdf button" onClick={openTab(pdf)}>PDF</button>
               ) : null
             }
           </p>

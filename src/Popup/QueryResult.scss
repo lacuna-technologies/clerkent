@@ -3,6 +3,20 @@
   flex-direction: column;
   margin-top: 0.25rem;
 
+  .link {
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0;
+    text-decoration: underline;
+    cursor: pointer;
+    color: blue;
+
+    &:hover {
+      color: darken(blue, 10%);
+    }
+  }
+
   > .jurisdiction {
     text-transform: uppercase;
     margin-bottom: 0.3rem;
