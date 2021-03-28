@@ -34,12 +34,12 @@ jobs:
         run: npm run lint
       - name: generate icons
         run: npm run generate:icons
-      - name: build
-        run: npm run build
-      - uses: trmcnvn/firefox-addon@v1
-        with:
-          uuid: '{68470d9e-14a9-4697-a19b-413d6773c788}'
-          xpi: extension/firefox.xpi
-          manifest: src/manifest.json
-          api-key: ${{ secrets.FIREFOX_API_KEY }}
-          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+      # - name: build
+      #   run: npm run build
+      # - uses: trmcnvn/firefox-addon@v1
+      #   with:
+      #     uuid: '{68470d9e-14a9-4697-a19b-413d6773c788}'
+      #     xpi: extension/firefox.xpi
+      #     manifest: src/manifest.json
+      #     api-key: ${{ secrets.FIREFOX_API_KEY }}
+      #     api-secret: ${{ secrets.FIREFOX_API_SECRET }}
