@@ -10,6 +10,7 @@ Quickly locate, open, or download judgments
 ## Install
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox.svg" width="64" />](https://addons.mozilla.org/en-GB/firefox/addon/clerkent/)
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome.svg" width="64" />](https://chrome.google.com/webstore/detail/clerkent/ogjefnociaddjemkkajgmfpmhmpokmhj)
 
 ## Screenshots
 
@@ -24,9 +25,9 @@ Quickly locate, open, or download judgments
 
 ### Supported Jurisdictions
 
-- [x] England & Wales (neutral citations, and most common law reports)
+- [x] England & Wales (neutral citations, and most common law reports available on open databases)
 - [x] Singapore (neutral citations)
-  - [ ] SLR
+  - [x] SLR (some)
 - [ ] Europe
   - [x] CJEU
   - [ ] ECtHR
