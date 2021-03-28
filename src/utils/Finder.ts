@@ -38,7 +38,7 @@ const findCase = (query: string): FinderResult[] => {
 }
 
 const findSGCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}]( \d{1,2})? (SGCA|SGHC|SGDC|SGMC|SLR(\(R\))?) \d{1,3}/g
+  const regex = /\[[12]\d{3}]( \d{1,2})? (SGCA|SGHC|SGDC|SGMC|SLR(\(R\))?) \d{1,4}/g
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({
@@ -52,8 +52,7 @@ const findSGCase = (query: string): FinderResult[] => {
 
 const findUKCase = (query:string): FinderResult[] => {
   const abbrs = [
-    `EWCA`,
-    `EWHC`,
+    `EWCA( Civ)?`,
     `EWHC( Patents)?`,
     `UKSC`,
     `UKPC`,
@@ -78,7 +77,7 @@ const findUKCase = (query:string): FinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
-  const pageRegex = new RegExp(/\d{1,3}/)
+  const pageRegex = new RegExp(/\d{1,4}/)
   const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `g`)
   
   const matches = [...query.matchAll(regex)]
@@ -107,7 +106,7 @@ const findEUCase = (query: string): FinderResult[] => {
 }
 
 const findHKCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}] (HKCA|HKCFA|HKCFI) \d{1,3}/g
+  const regex = /\[[12]\d{3}] (HKCA|HKCFA|HKCFI) \d{1,4}/g
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({
