@@ -35,7 +35,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
 
   if([`United Kingdom - England and Wales`, `United Kingdom`].some(s => s === jurisdiction)){
     jurisdiction = Constants.JURISDICTIONS.UK.id
-  } else if (jurisdiction === `Singapore`) {
+  } else if (jurisdiction === `Singapore` || jurisdiction === `Singapore - Singapore`) {
     jurisdiction = Constants.JURISDICTIONS.SG.id
   }
   
