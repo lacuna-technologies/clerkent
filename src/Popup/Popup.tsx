@@ -70,11 +70,11 @@ const Popup: React.FC = () => {
     })()
   }, [onSearchQueryChange])
 
-  const onMassCitations = useCallback(() => {
-    browser.tabs.create({
-      url: `mass-citations.html`,
-    })
-  }, [])
+  // const onMassCitations = useCallback(() => {
+  //   browser.tabs.create({
+  //     url: `mass-citations.html`,
+  //   })
+  // }, [])
 
   return (
     <section id="popup">
@@ -90,9 +90,9 @@ const Popup: React.FC = () => {
           searchResult={searchResult}
         />
       }
-      <div className="buttons">
+      {/* <div className="buttons">
         <button id="mass-citations" onClick={onMassCitations}>Want to paste in a large amount of text?</button>
-      </div>
+      </div> */}
     </section>
   )
 }
