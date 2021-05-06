@@ -35,7 +35,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     })
   } else if (action === Messenger.ACTION_TYPES.test){
     console.log(`test action received by bg`)
-    const result = await Scraper.UK.getCase(`[2020] UKSC 1`)
+    const result = await Scraper.UK.getCase(`[2020] UKSC 1`, ``)
     console.log(result)
   }
 }

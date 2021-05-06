@@ -3,7 +3,8 @@ import type Law from '../types/Law'
 export interface FinderResult {
   jurisdiction: Law.JursidictionCode
   citation: string,
-  index: number
+  index: number,
+  court? : string
 }
 
 // const emptyParseResult: ParseResult = {
@@ -153,13 +154,19 @@ const findUKCase = (query:string): FinderResult[] => {
   return []
 }
 
-const findEUCase = (query: string): FinderResult[] => {
-  const regex = /C-\d{1,3}\/\d{1,2}/g
+export const epoRegex = new RegExp(/T ?\d{1,4}\/\d{1,2}/)
+export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
 
-  const matches = [...query.matchAll(regex)]
+const findEUCase = (query: string): FinderResult[] => {
+  const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
+  const cleanedQuery = query.replaceAll(`‑`, `-`)
+
+  const matches = [...cleanedQuery.matchAll(regex)]
   if(matches.length > 0){
+    console.log(matches)
     return matches.map((match) => ({
       citation: match[0],
+      court: match[1] ? Constants.COURTS.EU_epo.id : Constants.COURTS.EU_cjeu.id,
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.EU.id,
     }))

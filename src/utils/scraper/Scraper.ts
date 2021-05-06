@@ -8,7 +8,7 @@ import Constants from '../Constants'
 import type { FinderResult } from '../Finder'
 
 const getCase = Memoize((targetCase: FinderResult): Promise<Law.Case | false> => {
-  const { jurisdiction, citation } = targetCase
+  const { jurisdiction, citation, court } = targetCase
 
   let targetJurisdiction: typeof SG | typeof UK
   if(jurisdiction === Constants.JURISDICTIONS.SG.id){
@@ -23,7 +23,7 @@ const getCase = Memoize((targetCase: FinderResult): Promise<Law.Case | false> =>
     return Promise.resolve(false)
   }
 
-  return targetJurisdiction.getCase(citation)
+  return targetJurisdiction.getCase(citation, court)
 }, {
   normalizer: ([targetCase]) => targetCase.citation,
 })

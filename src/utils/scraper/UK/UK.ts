@@ -3,7 +3,7 @@ import BAILII from './BAILII'
 import Common from '../common'
 
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
   const options = [BAILII, Common.CommonLII]
   for (const option of options) {
     try {

@@ -1,7 +1,7 @@
 import HKLII from './HKLII'
 import type Law from '../../../types/Law'
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
   const options = [HKLII]
   for (const option of options){
     try {

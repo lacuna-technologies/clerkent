@@ -39,18 +39,25 @@
   "content_scripts": [
     {
       "matches": [
+        "http://ukscblog.com/*",
+        "http://www.commonlii.org/*",
+        "https://constructionlaw.sg/*",
+        "https://eulawanalysis.blogspot.com/*",
+        "https://ipkitten.blogspot.com/*",
+        "https://lawgazette.com.sg/*",
+        "https://publiclawforeveryone.com/*",
+        "https://publiclawforeveryone.com/*",
+        "https://singaporelawblog.sg/*",
+        "https://sites.google.com/view/clerkent-test/*",
+        "https://student-journals.ucl.ac.uk/laj/*",
         "https://ukconstitutionallaw.org/*",
-        "https://www.lexology.com/*",
-        "https://beta.constructionlaw.sg/*",
         "https://www.bailii.org/*",
         "https://www.lawnet.sg/*",
+        "https://www.lexology.com/*",
         "https://www.singaporelawwatch.sg/*",
         "https://www.supremecourt.gov.sg/*",
-        "https://lawgazette.com.sg/*",
-        "https://sites.google.com/view/clerkent-test/*",
-        "http://www.commonlii.org/*",
-        "https://publiclawforeveryone.com/*",
-        "https://singaporelawblog.sg/*"
+        "https://curia.europa.eu/juris/*",
+        "https://www.epo.org/law-practice/case-law-appeals/*"
       ],
       "js": [
         "js/contentScript.bundle.js"

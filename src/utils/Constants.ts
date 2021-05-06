@@ -24,9 +24,7 @@ const JURISDICTIONS = {
 }
 
 
-type JurisdictionURLS = typeof SG_DATABASES | typeof UK_DATABASES
-
-const SG_DATABASES: Record<string, Law.Database> = {
+const SG_DATABASES = {
   lawnet: {
     icon: ``,
     name: `Lawnet`,
@@ -88,6 +86,11 @@ const EU_DATABASES = {
     name: `CURIA`,
     url: `https://curia.europa.eu/juris/recherche.jsf?language=en`,
   },
+  epo: {
+    icon: ``,
+    name: `EPO`,
+    url: `https://www.epo.org/law-practice/case-law-appeals`,
+  },
 }
 
 const HK_DATABASES = {
@@ -106,22 +109,50 @@ const MISC_DATABASES = {
   },
 }
 
-const dedupeJurisdictionURLs = (jurisdictionURLs: JurisdictionURLS, jurisdictionCode: Law.JursidictionCode) =>
-  Object.entries(jurisdictionURLs)
-  .reduce((accumulator, [id, object]: [string, Law.Database]) => ({
+const dedupeObjects = (inputObject: Record<string, Record<string, string>>, jurisdictionCode: Law.JursidictionCode) =>
+  Object.entries(inputObject)
+  .reduce((accumulator, [id, object]: [string, Record<string, string>]) => ({
     ...accumulator,
     [`${jurisdictionCode}_${id}`]: object,
   }), {})
 
 const DATABASES: Record<string, Law.Database> = {
-  ...dedupeJurisdictionURLs(SG_DATABASES, `SG`),
-  ...dedupeJurisdictionURLs(UK_DATABASES, `UK`),
-  ...dedupeJurisdictionURLs(EU_DATABASES, `EU`),
-  ...dedupeJurisdictionURLs(HK_DATABASES, `HK`),
+  ...dedupeObjects(SG_DATABASES, `SG`),
+  ...dedupeObjects(UK_DATABASES, `UK`),
+  ...dedupeObjects(EU_DATABASES, `EU`),
+  ...dedupeObjects(HK_DATABASES, `HK`),
   ...MISC_DATABASES,
 }
 
+const SG_COURTS = {
+  sgca: {
+    id: `SGCA`,
+    name: `Court of Appeal`,
+  },
+  sghc: {
+    id: `SGHC`,
+    name: `High Court`,
+  },
+}
+
+const EU_COURTS = {
+  cjeu: {
+    id: `CJEU`,
+    name: `Court of Justice of the European Union`,
+  },
+  epo: {
+    id: `EPO`,
+    name: `European Patent Office`,
+  },
+}
+
+const COURTS: Record<string, Record<string, string>> = {
+  ...dedupeObjects(SG_COURTS, `SG`),
+  ...dedupeObjects(EU_COURTS, `EU`),
+}
+
 const Constants = {
+  COURTS,
   DATABASES,
   JURISDICTIONS,
 }
