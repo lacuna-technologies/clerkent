@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   margin-top: 0.25rem;
+  align-items: flex-start;
+  align-content: flex-start;
 
   .link {
     border: none;
@@ -17,17 +19,17 @@
     }
   }
 
-  > .jurisdiction {
+  > .details {
     text-transform: uppercase;
     margin-bottom: 0.3rem;
   }
 
+  > .case-name {
+    text-align: left;
+  }
+
   > .links {
     margin-top: 0.3rem;
-
-    > span + a {
-      margin-left: 0.5rem;
-    }
   }
 
   > p {

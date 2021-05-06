@@ -94,12 +94,20 @@ const mouseOverCitation = (event: MouseEvent) => {
     target: Messenger.TARGETS.background,
   })
 
+  const maxWidth = 300
+  const bodyWidth = document.body.getBoundingClientRect().width
   const boundingRect =  (target as HTMLElement).getBoundingClientRect()
   const tooltipRect = tooltip.getBoundingClientRect()
   const top = (boundingRect.top - tooltipRect.height) <= tooltipRect.height
     ? (boundingRect.bottom)
     : (boundingRect.top - tooltipRect.height) 
-  const left = boundingRect.left + boundingRect.width / 2 - tooltipRect.width / 2
+  let left = boundingRect.left + boundingRect.width / 2 - tooltipRect.width / 2
+  if((left + maxWidth) > bodyWidth) { // citation is so far right to be almost off-screen
+    left = bodyWidth-maxWidth+tooltipRect.width / 2
+  }
+  if(boundingRect.width > maxWidth){
+    left = boundingRect.left
+  }
   tooltip.style.top = `${top}px`
   tooltip.style.left = `${left}px`
 

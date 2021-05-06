@@ -15,20 +15,17 @@ const QueryResult = ({ parseResult, searchResult }) => {
 
       return (
         <div id="result">
-          <p className="jurisdiction">
-            {Constants.JURISDICTIONS[jurisdiction].name}
+          <p className="details">
+            {Constants.JURISDICTIONS[jurisdiction].emoji} <span className="database">{database.name}</span>
           </p>
-          <p>
-            <button className="link" onClick={openTab(link)}>{name}</button>
-          </p>
-          <p className="links">
-            <span className="database">{database.name}</span>
-            {
-              pdf ? (
+          <button className="case-name link" onClick={openTab(link)}>{name}</button>
+          {
+            pdf ? (
+              <p className="links">
                 <button className="pdf button" onClick={openTab(pdf)}>PDF</button>
-              ) : null
-            }
-          </p>
+              </p>
+            ) : null
+          }
         </div>
       )
     } else if (searchResult !== false){

@@ -18,7 +18,7 @@
   position: fixed;
   background: black;
   color: white;
-  padding: 0.2rem 0.5rem;
+  padding: 0.5rem 0.8rem;
   max-width: 15rem;
   z-index: 999;
 
@@ -27,6 +27,7 @@
     flex-direction: row;
     align-content: center;
     align-items: center;
+    margin-bottom: 0.4rem;
     > span {
       margin-right: 0.5rem;
     }

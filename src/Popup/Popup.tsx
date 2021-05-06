@@ -80,7 +80,7 @@ const Popup: React.FC = () => {
     <section id="popup">
       <input
         type="search"
-        placeholder="case citation, case name, statute, section, etc."
+        placeholder="case citation (e.g. [2020] EWHC 2472)"
         onChange={onSearchQueryChange}
         value={query}
       />
