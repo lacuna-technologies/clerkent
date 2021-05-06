@@ -163,7 +163,6 @@ const findEUCase = (query: string): FinderResult[] => {
 
   const matches = [...cleanedQuery.matchAll(regex)]
   if(matches.length > 0){
-    console.log(matches)
     return matches.map((match) => ({
       citation: match[0],
       court: match[1] ? Constants.COURTS.EU_epo.id : Constants.COURTS.EU_cjeu.id,

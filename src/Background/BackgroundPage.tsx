@@ -6,6 +6,7 @@ import Messenger from '../utils/Messenger'
 import Finder from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
+import Logger from '../utils/Logger'
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   if (action === Messenger.ACTION_TYPES.viewCitation) {
@@ -13,7 +14,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     const [targetCase] = Finder.findCase(citation)
     const result = await Scraper.getCase(targetCase)
 
-    console.log(`sending viewCitation`, {
+    Logger.log(`sending viewCitation`, {
       action: Messenger.ACTION_TYPES.viewCitation,
       data: result,
       source: Messenger.TARGETS.background,
@@ -34,22 +35,22 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       url,
     })
   } else if (action === Messenger.ACTION_TYPES.test){
-    console.log(`test action received by bg`)
+    Logger.log(`test action received by bg`)
     const result = await Scraper.UK.getCase(`[2020] UKSC 1`, ``)
-    console.log(result)
+    Logger.log(result)
   }
 }
 
 const onReceiveMessage = (port: Runtime.Port) => (message: Message) => {
-  console.log(`background received`, message)
+  Logger.log(`background received`, message)
   if (message.target === Messenger.TARGETS.popup) {
     return
   } else if (message.target === Messenger.TARGETS.background){
     if (typeof message.action === `string`) {
-      console.log(`background handling action`, message.action)
+      Logger.log(`background handling action`, message.action)
       return handleAction(port)(message)
     } else {
-      console.log(`unknown action`, message.action)
+      Logger.log(`unknown action`, message.action)
       return
     }
   }
@@ -62,7 +63,7 @@ const onConnect = (port: Runtime.Port) => {
 
 const init = () => {
   browser.runtime.onInstalled.addListener((): void => {
-    console.log(`⚖ clerkent installed`)
+    Logger.log(`⚖ clerkent installed`)
   })
   browser.runtime.onConnect.addListener(onConnect)
 }

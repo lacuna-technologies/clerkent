@@ -1,3 +1,5 @@
+import { Logger } from '../utils'
+
 let tooltipTimeout: NodeJS.Timeout
 const timeoutDuration = 50
 
@@ -12,12 +14,13 @@ const startTimer = () => {
 const stopTimer = () => clearTimeout(tooltipTimeout)
 
 const init = () => {
+  Logger.log(`tooltip init`)
   const tooltip = document.createElement(`div`)
   tooltip.id = `clerkent-tooltip`
   tooltip.className = `clerkent`
   tooltip.addEventListener(`mouseover`, stopTimer)
   tooltip.addEventListener(`mouseout`, startTimer)
-  document.body.append(tooltip)
+  document.body.prepend(tooltip)
 }
 
 const Tooltip = {

@@ -3,7 +3,6 @@ import EPO from './EPO'
 import type Law from '../../../types/Law'
 
 const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
-  console.log(`getCase`, citation, court)
   const options = court === `EPO` ? [EPO] : [CURIA]
   for (const option of options){
     try {

@@ -5,7 +5,7 @@ import type { FinderResult } from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
-import { Messenger, Finder, Storage } from '../utils'
+import { Messenger, Finder, Storage, Logger } from '../utils'
 
 import './Popup.scss'
 
@@ -38,11 +38,11 @@ const Popup: React.FC = () => {
 
   // const downloadSelectedCitations = useCallback(() => {
   //   const selection = window.getSelection().toString()
-  //   console.log(selection)
+  //   Logger.log(selection)
   // }, [])
 
   const onMessage = useCallback((message: Message) => {
-    console.log(`popup received:`, message)
+    Logger.log(`popup received:`, message)
     if(message.target !== Messenger.TARGETS.popup){
       return null // ignore
     }

@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import { Constants, Messenger, Finder } from '../utils'
+import { Constants, Messenger, Finder, Logger } from '../utils'
 import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import './ContentScript.scss'
@@ -26,12 +26,12 @@ const downloadFile = ({ name, link, citation }) => async (event: Event) => {
 
 const handleViewCitation = (message: Message) => {
   const { data } = message
-  let tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
+  const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
 
-  if(tooltip === null){
-    Tooltip.init()
-    tooltip = document.querySelector(`#clerkent-tooltip`)
-  }
+  // if(tooltip === null){
+  //   Tooltip.init()
+  //   tooltip = document.querySelector(`#clerkent-tooltip`)
+  // }
 
   if(data === false){
     tooltip.textContent = `Could not find case`
@@ -129,7 +129,7 @@ const handleNode = (node: Node) => {
     const matches = Finder.findCase(textContent)
 
     for (const match of matches) {
-      console.log(`highlighting`, node)
+      Logger.log(`highlighting`, node)
       highlightNode(node as Text, match)
     }
   }
@@ -165,7 +165,7 @@ const nodeFilter = (node: Node) => {
 }
 
 const scanForCitations = () => {
-  console.log(`scanning for citations`)
+  Logger.log(`scanning for citations`)
   const treeWalker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
@@ -182,27 +182,38 @@ const scanForCitations = () => {
     handleNode(currentNode)
   }
 
-  if (hasHits) {
+  return hasHits
+}
+
+const onMessage = (message: Message) => {
+  Logger.log(`content script received:`, message)
+
+  if(document.querySelector(`#clerkent-tooltip`) === null){
+    Tooltip.init()
+  }
+  
+  if(message.target !== Messenger.TARGETS.contentScript){
+    return null // ignore
+  }
+  if(message.action === Messenger.ACTION_TYPES.viewCitation){
+    handleViewCitation(message)
+  }
+  
+}
+
+const init = () => {
+  port = browser.runtime.connect(``, { name: `contentscript-port` })
+  port.onMessage.addListener(onMessage)
+
+  const hasHits = scanForCitations()
+
+  if(hasHits){
     Tooltip.init()
   }
 }
 
-const init = (() => {
-  port = browser.runtime.connect(``, { name: `contentscript-port` })
-
-  const onMessage = (message: Message) => {
-    console.log(`content script received:`, message)
-    if(message.target !== Messenger.TARGETS.contentScript){
-      return null // ignore
-    }
-    if(message.action === Messenger.ACTION_TYPES.viewCitation){
-      handleViewCitation(message)
-    }
-    
-  }
-  port.onMessage.addListener(onMessage)
-
-  scanForCitations()
-})()
-
-export default init
+if(document.readyState === `complete`){
+  init()
+} else {
+  document.addEventListener(`readystatechange`, init)
+}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { Constants, Finder, Storage } from '../../utils'
+import { Constants, Finder, Storage, Logger } from '../../utils'
 import type { FinderResult } from '../../utils/Finder'
 import './MassCitations.scss'
 
@@ -26,7 +26,7 @@ const MassCitations = () => {
   useEffect(() => {
     (async () => {
       const storedInput = await Storage.get(keys.MASS_CITATION_INPUT)
-      console.log(storedInput)
+      Logger.log(storedInput)
       if(storedInput !== null && storedInput.length > 0){
         onInputChange({ target: { value: storedInput }})
       }
