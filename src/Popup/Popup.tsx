@@ -41,6 +41,16 @@ const Popup: React.FC = () => {
   //   Logger.log(selection)
   // }, [])
 
+  const downloadPDF = useCallback(({ name, citation, pdf }) => () => {
+    sendMessage({
+      action: Messenger.ACTION_TYPES.downloadFile,
+      filename: `${name} ${citation}.pdf`,
+      source: Messenger.TARGETS.popup,
+      target: Messenger.TARGETS.background,
+      url: pdf,
+    })
+  }, [sendMessage])
+
   const onMessage = useCallback((message: Message) => {
     Logger.log(`popup received:`, message)
     if(message.target !== Messenger.TARGETS.popup){
@@ -88,6 +98,7 @@ const Popup: React.FC = () => {
         <QueryResult
           parseResult={parseResult}
           searchResult={searchResult}
+          downloadPDF={downloadPDF}
         />
       }
       {/* <div className="buttons">

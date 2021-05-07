@@ -76,7 +76,8 @@
         "https://www.sciencedirect.com/*",
         "https://www.singaporelawreview.com/*",
         "https://www.singaporelawwatch.sg/*",
-        "https://www.supremecourt.gov.sg/*"
+        "https://www.supremecourt.gov.sg/*",
+        "file://*/*.pdf"
       ],
       "js": [
         "js/contentScript.bundle.js"

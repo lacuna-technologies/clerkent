@@ -21,7 +21,11 @@
 
   > .details {
     text-transform: uppercase;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+
+    > .database {
+      margin-left: 0.4rem;
+    }
   }
 
   > .case-name {
@@ -29,7 +33,7 @@
   }
 
   > .links {
-    margin-top: 0.3rem;
+    margin-top: 1rem;
   }
 
   > p {

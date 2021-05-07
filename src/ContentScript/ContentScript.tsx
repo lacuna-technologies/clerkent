@@ -13,14 +13,14 @@ const NODE_TYPES = {
   TEXT_NODE: 3,
 }
 
-const downloadFile = ({ name, link, citation }) => async (event: Event) => {
+const downloadFile = ({ name, citation, pdf }) => async (event: Event) => {
   event.preventDefault()
   port.postMessage({
     action: Messenger.ACTION_TYPES.downloadFile,
     filename: `${name} ${citation}.pdf`,
     source: Messenger.TARGETS.contentScript,
     target: Messenger.TARGETS.background,
-    url: link,
+    url: pdf,
   })
 }
 
@@ -28,15 +28,10 @@ const handleViewCitation = (message: Message) => {
   const { data } = message
   const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
 
-  // if(tooltip === null){
-  //   Tooltip.init()
-  //   tooltip = document.querySelector(`#clerkent-tooltip`)
-  // }
-
   if(data === false){
     tooltip.textContent = `Could not find case`
   } else {
-    const { name, link, pdf, jurisdiction, database } = data as Law.Case
+    const { name, citation, link, pdf, jurisdiction, database } = data as Law.Case
 
     tooltip.innerHTML = ``
 
@@ -69,7 +64,7 @@ const handleViewCitation = (message: Message) => {
     if(pdf){
       const pdfLink = document.createElement(`a`)
       pdfLink.href = pdf
-      pdfLink.addEventListener(`click`, downloadFile(data as Law.Case))
+      pdfLink.addEventListener(`click`, downloadFile({ citation, name, pdf }))
       pdfLink.textContent = `PDF`
       pdfLink.setAttribute(`target`, `_blank`)
       pdfLink.setAttribute(`rel`, `noopener noreferrer`)
