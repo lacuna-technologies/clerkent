@@ -4,7 +4,8 @@ import Common from '../common'
 import type Law from '../../../types/Law'
 
 const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
-  const options = [`SGCA`, `SGSC`].includes(court) ? [SGSC, SLW, Common.CommonLII ] : [Common.CommonLII, SGSC, SLW]
+  const options = [Common.CommonLII]
+  // const options = [`SGCA`, `SGHC`].includes(court) ? [SGSC, SLW, Common.CommonLII] : [Common.CommonLII, SGSC, SLW]
   for (const option of options) {
     try {
       const result = await option.getCase(citation)

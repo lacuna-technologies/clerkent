@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import { Constants, Messenger, Finder, Logger } from '../utils'
+import { Constants, Messenger, Finder, Logger, Helpers } from '../utils'
 import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import './ContentScript.scss'
@@ -17,7 +17,7 @@ const downloadFile = ({ name, citation, pdf }) => async (event: Event) => {
   event.preventDefault()
   port.postMessage({
     action: Messenger.ACTION_TYPES.downloadFile,
-    filename: `${name} ${citation}.pdf`,
+    filename: `${Helpers.sanitiseFilename(name)} ${citation}.pdf`,
     source: Messenger.TARGETS.contentScript,
     target: Messenger.TARGETS.background,
     url: pdf,

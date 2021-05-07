@@ -28,7 +28,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
     return false
   }
 
-  const name = $(`h1.name`).text().trim()
+  const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
   // const date = $(`div.date`)?.text()?.trim()
   const link = $(`div.citation > a.free-external`)?.attr(`href`)
   let jurisdiction = $(`.jurisdiction`).eq(0).text().trim()
@@ -38,6 +38,12 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   } else if (jurisdiction === `Singapore` || jurisdiction === `Singapore - Singapore`) {
     jurisdiction = Constants.JURISDICTIONS.SG.id
   }
+
+  const { data: pdfData } = await Request.get(link)
+  const $$ = cheerio.load(pdfData)
+
+  const pdfHref = $$(`b.make-database > a.make-database`).filter((_, element) => $$(element).text().includes(`PDF version`))?.attr(`href`)
+  const pdf = pdfHref ? `${link.split(`/`).slice(0, -1).join(`/`)}/${pdfHref}` : undefined
   
   return {
     citation,
@@ -45,6 +51,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
     jurisdiction: jurisdiction as Law.JursidictionCode,
     link,
     name,
+    ...(pdf ? { pdf } : {}),
   }
 }
 

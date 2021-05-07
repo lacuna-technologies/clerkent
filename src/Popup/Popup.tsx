@@ -5,7 +5,7 @@ import type { FinderResult } from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
-import { Messenger, Finder, Storage, Logger } from '../utils'
+import { Messenger, Finder, Storage, Logger, Helpers } from '../utils'
 
 import './Popup.scss'
 
@@ -41,15 +41,13 @@ const Popup: React.FC = () => {
   //   Logger.log(selection)
   // }, [])
 
-  const downloadPDF = useCallback(({ name, citation, pdf }) => () => {
-    sendMessage({
-      action: Messenger.ACTION_TYPES.downloadFile,
-      filename: `${name} ${citation}.pdf`,
-      source: Messenger.TARGETS.popup,
-      target: Messenger.TARGETS.background,
-      url: pdf,
-    })
-  }, [sendMessage])
+  const downloadPDF = useCallback(({ name, citation, pdf }) => () => sendMessage({
+    action: Messenger.ACTION_TYPES.downloadFile,
+    filename: `${Helpers.sanitiseFilename(name)} ${citation}.pdf`,
+    source: Messenger.TARGETS.popup,
+    target: Messenger.TARGETS.background,
+    url: pdf,
+  }), [sendMessage])
 
   const onMessage = useCallback((message: Message) => {
     Logger.log(`popup received:`, message)
