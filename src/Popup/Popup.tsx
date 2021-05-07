@@ -20,6 +20,13 @@ const Popup: React.FC = () => {
   const [searchResult, setSearchResult] = useState({} as Law.Case)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
+  const viewCitation = useCallback((citation) => sendMessage({
+    action: Messenger.ACTION_TYPES.viewCitation,
+    citation: citation,
+    source: Messenger.TARGETS.popup,
+    target: Messenger.TARGETS.background,
+  }), [sendMessage])
+
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
     const result = Finder.findCase(value)
@@ -27,14 +34,9 @@ const Popup: React.FC = () => {
     Storage.set(keys.POPUP_QUERY, value)
 
     if(result.length === 1){
-      sendMessage({
-        action: Messenger.ACTION_TYPES.viewCitation,
-        citation: value,
-        source: Messenger.TARGETS.popup,
-        target: Messenger.TARGETS.background,
-      })
+      Helpers.debounce(viewCitation)(value)
     }
-  }, [sendMessage])
+  }, [viewCitation])
 
   // const downloadSelectedCitations = useCallback(() => {
   //   const selection = window.getSelection().toString()
