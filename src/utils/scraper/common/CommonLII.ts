@@ -14,20 +14,24 @@ import Logger from '../../Logger'
 const DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const parseCase = async (citation: string, result): Promise<Law.Case | false> => {
   try {
-    const { data } = await Request.get(`${DOMAIN}/cgi-bin/LawCite`, {
-      params: {
-        cit: citation,
-      },
-    })
-    
+
+    const { data } = result
+
     const $ = cheerio.load(data)
 
     const message = $(`.message-level-1`)?.eq(0)?.text()?.trim()
 
     if(message === NotFoundMessage){
       return false
+    }
+
+    const multipleCases = $(`a.cases > h1.search-results`)?.eq(0)?.text()?.trim()
+    if(multipleCases && multipleCases.includes(`Matching Cases`)){
+      const firstCaseURL = $(`table.search-results > tbody > tr:first-of-type > td > a`).eq(0).attr(`href`)
+      const subResult = await Request.get(`${DOMAIN}${firstCaseURL}`)
+      return parseCase(citation, subResult)
     }
 
     const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
@@ -46,7 +50,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
       const { data: pdfData } = await Request.get(link)
       const $$ = cheerio.load(pdfData)
 
-      const pdfHref = $$(`b.make-database > a.make-database`).filter((_, element) => $$(element).text().includes(`PDF version`))?.attr(`href`)
+      const pdfHref = $$(`b > a`).filter((_, element) => $$(element).text().includes(`PDF version`))?.attr(`href`)
       pdf = pdfHref ? `${link.split(`/`).slice(0, -1).join(`/`)}/${pdfHref}` : undefined
     }
     
@@ -59,6 +63,24 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
       name,
       ...(pdf ? { pdf } : {}),
     }
+
+  } catch (error){
+    Logger.error(error)
+    return false
+  }
+}
+
+const getCase = async (citation: string): Promise<Law.Case | false> => {
+  try {
+    const result = await Request.get(`${DOMAIN}/cgi-bin/LawCite`, {
+      params: {
+        cit: citation,
+        filter: `on`,
+      },
+    })
+    
+    return parseCase(citation, result)
+    
   } catch (error){
     Logger.error(error)
     return false

@@ -39,7 +39,7 @@ const findCase = (query: string): FinderResult[] => {
 }
 
 const findSGCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}]( \d{1,2})? (sgca|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
+  const regex = /\[[12]\d{3}]( \d{1,2})? (sgca(\(i\))?|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({
@@ -136,6 +136,9 @@ const findUKCase = (query:string): FinderResult[] => {
     },
     {
       abbr: `FLR`,
+    },
+    {
+      abbr: `Hare`,
     },
   ].map(({ abbr, appendum }) => `${abbr
     .split(``)
