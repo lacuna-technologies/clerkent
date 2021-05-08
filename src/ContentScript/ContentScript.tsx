@@ -36,7 +36,7 @@ const handleViewCitation = (message: Message) => {
     tooltip.innerHTML = ``
 
     const caseName = document.createElement(`strong`)
-    caseName.textContent = name
+    caseName.textContent = `${name} ${citation}`
 
     // meta
     const metaDiv = document.createElement(`div`)
@@ -111,25 +111,27 @@ const mouseOverCitation = (event: MouseEvent) => {
 
 const mouseOutCitation = () => Tooltip.startTimer()
 
-const highlightNode = (node: Text, { citation, index }) => {
+const highlightNode = async (node: Text, { citation, index }) => {
   const mark = document.createElement(`span`)
   mark.className = `clerkent case`
   mark.addEventListener(`mouseover`, mouseOverCitation)
   mark.addEventListener(`mouseout`, mouseOutCitation)
 
-  const highlighted = node.splitText(index)
-  highlighted.splitText(citation.length)
-
-  const highlightedClone = highlighted.cloneNode(true)
-  mark.append(highlightedClone)
-  highlighted.parentNode.replaceChild(mark, highlighted)
+  if(node.length >= index){
+    const highlighted = node.splitText(index)
+    highlighted.splitText(citation.length)
+  
+    const highlightedClone = highlighted.cloneNode(true)
+    mark.append(highlightedClone)
+    highlighted.parentNode.replaceChild(mark, highlighted)
+  }
 }
 
 
 const handleNode = (node: Node) => {
-  if (node.nodeType === NODE_TYPES.TEXT_NODE) {
-    const { textContent } = node
-    const matches = Finder.findCase(textContent)
+  const { nodeType, nodeValue } = node
+  if (nodeType === NODE_TYPES.TEXT_NODE) {
+    const matches = Finder.findCase(nodeValue)
 
     for (const match of matches) {
       Logger.log(`highlighting`, node)

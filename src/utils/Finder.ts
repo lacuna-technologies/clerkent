@@ -55,7 +55,7 @@ const findUKCase = (query:string): FinderResult[] => {
   const abbrs = [
     {
       abbr: `EWCA`,
-      appendum: `( Civ)?`,
+      appendum: `( Civ| Crim)?`,
     },
     {
       abbr: `EWHC`,
@@ -89,7 +89,7 @@ const findUKCase = (query:string): FinderResult[] => {
     },
     {
       abbr: `WLR`,
-      appendum: `( \\(D\\))?`,
+      appendum: `( ?\\(D\\))?`,
     },
     {
       abbr: `All ER`,

@@ -26,7 +26,7 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
   const result = {
     citation,
     link: request.responseURL,
-    name: $(`title`).text().trim(),
+    name: $(`title`).text().trim().split(`[`)[0],
     ...(pdfPath ? {pdf: `${DOMAIN}${pdfPath}`} : {}),
     database: Constants.DATABASES.UK_bailii,
     jurisdiction: Constants.JURISDICTIONS.UK.id,

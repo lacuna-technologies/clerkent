@@ -18,6 +18,7 @@ const Popup: React.FC = () => {
   const [query, setQuery] = useState(``)
   const [parseResult, setParseResult] = useState([] as FinderResult[])
   const [searchResult, setSearchResult] = useState({} as Law.Case)
+  const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
   const viewCitation = useCallback((citation) => sendMessage({
@@ -58,6 +59,9 @@ const Popup: React.FC = () => {
     }
     if(message.action === Messenger.ACTION_TYPES.viewCitation){
       const { data } = message
+      if(data === false){
+        setNotFound(true)
+      }
       setSearchResult({
         ...parseResult,
         ...data as Law.Case,
@@ -99,6 +103,7 @@ const Popup: React.FC = () => {
           parseResult={parseResult}
           searchResult={searchResult}
           downloadPDF={downloadPDF}
+          notFound={notFound}
         />
       }
       {/* <div className="buttons">

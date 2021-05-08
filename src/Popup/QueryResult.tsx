@@ -3,7 +3,7 @@ import { browser } from 'webextension-polyfill-ts'
 import { Constants } from '../utils'
 import './QueryResult.scss'
 
-const QueryResult = ({ parseResult, searchResult, downloadPDF }) => {
+const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
 
   const openTab = useCallback((link) => () => {
     browser.tabs.create({ active: true, url: link })
@@ -29,7 +29,7 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF }) => {
           }
         </div>
       )
-    } else if (searchResult !== false){
+    } else if (searchResult !== false && !notFound){
       return <span>Loading...</span>
     }
   }

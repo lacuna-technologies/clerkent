@@ -112,6 +112,19 @@ module.exports = {
           `sass-loader`, // Takes the Sass/SCSS file and compiles to the CSS
         ],
       },
+      {
+        test: /\.ttf$/,
+        use: [
+          {
+            loader: `file-loader`,
+            options: {
+              esModule: false,
+              name: `[name].[ext]`,
+              outputPath: `fonts/`,
+            },
+          },
+        ],
+      },
     ],
   },
 
