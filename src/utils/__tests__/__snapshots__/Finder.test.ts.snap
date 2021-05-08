@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Finder 🇸🇬 citations 1`] = `
+Array [
+  Object {
+    "citation": "[2021] SGCA 1",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 2`] = `
+Array [
+  Object {
+    "citation": "[2020] SGHC 2",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;

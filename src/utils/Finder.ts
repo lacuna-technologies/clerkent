@@ -1,4 +1,4 @@
-import { Constants } from '../utils'
+import Constants from './Constants'
 import type Law from '../types/Law'
 export interface FinderResult {
   jurisdiction: Law.JursidictionCode

@@ -1,7 +1,6 @@
 {
   "manifest_version": 2,
   "name": "Clerkent",
-  "version": "1.0.9",
   "icons": {
     "16": "assets/favicon-16.png",
     "32": "assets/favicon-32.png",

@@ -16,10 +16,12 @@
 		"moduleResolution": "node",
 		"jsx": "react",
 		"allowSyntheticDefaultImports": true,
-		"downlevelIteration": true
+		"downlevelIteration": true,
+		"esModuleInterop": true
 	},
 	"include": [
 		"src",
-		"webpack.config.js"
+		"webpack.config.js",
+		"jest.config.js"
 	]
 }
