@@ -128,6 +128,15 @@ const findUKCase = (query:string): FinderResult[] => {
     {
       abbr: `ER`,
     },
+    {
+      abbr: `Cr App R`,
+    },
+    {
+      abbr: `ALR`,
+    },
+    {
+      abbr: `FLR`,
+    },
   ].map(({ abbr, appendum }) => `${abbr
     .split(``)
     .map(letter =>

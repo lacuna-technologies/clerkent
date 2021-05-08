@@ -1,9 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Finder 🇬🇧 citations 1`] = `
+Array [
+  Object {
+    "citation": "[1948] 1 KB 223",
+    "index": 0,
+    "jurisdiction": "UK",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 2`] = `
+Array [
+  Object {
+    "citation": "[1965] 1 QB 456",
+    "index": 0,
+    "jurisdiction": "UK",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 3`] = `
+Array [
+  Object {
+    "citation": "(1951) 35 Cr App R 164",
+    "index": 0,
+    "jurisdiction": "UK",
+  },
+]
+`;
+
 exports[`Finder 🇸🇬 citations 1`] = `
 Array [
   Object {
-    "citation": "[2021] SGCA 1",
+    "citation": "[2021] SGCA 34",
     "index": 0,
     "jurisdiction": "SG",
   },
@@ -13,7 +43,77 @@ Array [
 exports[`Finder 🇸🇬 citations 2`] = `
 Array [
   Object {
-    "citation": "[2020] SGHC 2",
+    "citation": "[2020] SGHC 228",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 3`] = `
+Array [
+  Object {
+    "citation": "[2020] SGHC 100",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 4`] = `
+Array [
+  Object {
+    "citation": "[2011] 2 SLR 47",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 5`] = `
+Array [
+  Object {
+    "citation": "[2020] SGDC 95",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 6`] = `
+Array [
+  Object {
+    "citation": "[1994] SGCA 128",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 7`] = `
+Array [
+  Object {
+    "citation": "[1988] SGCA 16",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 8`] = `
+Array [
+  Object {
+    "citation": "[2001] 2 SLR 253",
+    "index": 0,
+    "jurisdiction": "SG",
+  },
+]
+`;
+
+exports[`Finder 🇸🇬 citations 9`] = `
+Array [
+  Object {
+    "citation": "[2001] 2 SLR 253",
     "index": 0,
     "jurisdiction": "SG",
   },
