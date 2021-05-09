@@ -11,13 +11,14 @@ import Logger from '../../Logger'
 //    SGCA - http://www.commonlii.org/sg/cases/SGCA/
 //    SGHC - http://www.commonlii.org/sg/cases/SGHC/
 
-const DOMAIN = `http://www.commonlii.org`
+const LAWCITE_DOMAIN = `http://lawcite.org`
+const COMMONLII_DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
 const parseCase = async (citation: string, result): Promise<Law.Case | false> => {
   try {
 
-    const { data } = result
+    const { data, request } = result
 
     const $ = cheerio.load(data)
 
@@ -30,7 +31,7 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
     const multipleCases = $(`a.cases > h1.search-results`)?.eq(0)?.text()?.trim()
     if(multipleCases && multipleCases.includes(`Matching Cases`)){
       const firstCaseURL = $(`table.search-results > tbody > tr:first-of-type > td > a`).eq(0).attr(`href`)
-      const subResult = await Request.get(`${DOMAIN}${firstCaseURL}`)
+      const subResult = await Request.get(`${COMMONLII_DOMAIN}${firstCaseURL}`)
       return parseCase(citation, subResult)
     }
 
@@ -43,6 +44,8 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
       jurisdiction = Constants.JURISDICTIONS.UK.id
     } else if (jurisdiction === `Singapore` || jurisdiction === `Singapore - Singapore`) {
       jurisdiction = Constants.JURISDICTIONS.SG.id
+    } else {
+      jurisdiction = null
     }
 
     let pdf: string | undefined
@@ -58,8 +61,8 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
     return {
       citation,
       database: Constants.DATABASES.commonlii,
-      jurisdiction: jurisdiction as Law.JursidictionCode,
-      link,
+      ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
+      link: link || request.responseURL,
       name,
       ...(pdf ? { pdf } : {}),
     }
@@ -72,7 +75,7 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
 
 const getCase = async (citation: string): Promise<Law.Case | false> => {
   try {
-    const result = await Request.get(`${DOMAIN}/cgi-bin/LawCite`, {
+    const result = await Request.get(`${LAWCITE_DOMAIN}/cgi-bin/LawCite`, {
       params: {
         cit: citation,
         filter: `on`,

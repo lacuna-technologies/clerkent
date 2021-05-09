@@ -21,7 +21,8 @@
     "https://www.supremecourt.gov.sg/*",
     "https://curia.europa.eu/juris/*",
     "https://www.hklii.hk/*",
-    "http://www.worldlii.org/*"
+    "http://www.worldlii.org/*",
+    "http://lawcite.org/*"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "__chrome|firefox__author": "Huey",

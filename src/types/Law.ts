@@ -9,7 +9,7 @@ declare namespace Law {
     citation: string,
     link: string
     pdf?: string
-    jurisdiction: JursidictionCode
+    jurisdiction?: JursidictionCode
     database: Database
   }
 

@@ -13,6 +13,8 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
     if(searchResult && typeof searchResult.citation !== `undefined`){
       const { citation, name, link, pdf, jurisdiction, database } = searchResult
 
+      console.log(searchResult)
+
       return (
         <div id="result">
           <p className="details">

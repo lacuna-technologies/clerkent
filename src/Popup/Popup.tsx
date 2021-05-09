@@ -30,6 +30,8 @@ const Popup: React.FC = () => {
 
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
+    setSearchResult({} as Law.Case)
+
     const result = Finder.findCase(value)
     setParseResult(result)
     Storage.set(keys.POPUP_QUERY, value)
@@ -63,7 +65,7 @@ const Popup: React.FC = () => {
         setNotFound(true)
       }
       setSearchResult({
-        ...parseResult,
+        ...parseResult[0],
         ...data as Law.Case,
       })
     }

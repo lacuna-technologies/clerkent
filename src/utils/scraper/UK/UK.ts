@@ -2,9 +2,12 @@ import type Law from '../../../types/Law'
 import BAILII from './BAILII'
 import Common from '../common'
 
+const bailiiPriority = [`UKSC`, `EWCA`, `EWHC`, `UKPC`, `UKHL`, ` KB `, ` QB `, ` Ch `, `EMLR`, ` All ER`, ` WLR `, ` Fam `]
 
 const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
-  const options = [BAILII, Common.CommonLII]
+  const options = bailiiPriority.some(cit => citation.includes(cit))
+    ? [BAILII, Common.CommonLII]
+    : [Common.CommonLII, BAILII]
   for (const option of options) {
     try {
       const result = await option.getCase(citation)

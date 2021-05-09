@@ -53,93 +53,39 @@ const findSGCase = (query: string): FinderResult[] => {
 
 const findUKCase = (query:string): FinderResult[] => {
   const abbrs = [
-    {
-      abbr: `EWCA`,
-      appendum: `( Civ| Crim)?`,
-    },
-    {
-      abbr: `EWHC`,
-      appendum: `( Patents)?`,
-    },
-    {
-      abbr: `UKSC`,
-    },
-    {
-      abbr: `UKPC`,
-    },
-    {
-      abbr: `UKHL`,
-    },
-    {
-      abbr: `AC`,
-    },
-    {
-      abbr: `UKHL`,
-    },
-    {
-      abbr: `Ch`,
-      appendum: `( D)?`,
-    },
-    {
-      abbr: `QB`,
-      appendum: `(D)?`,
-    },
-    {
-      abbr: `KB`,
-    },
-    {
-      abbr: `WLR`,
-      appendum: `( ?\\(D\\))?`,
-    },
-    {
-      abbr: `All ER`,
-      appendum: `( \\(D\\))?`,
-    },
-    {
-      abbr: `BCLC`,
-    },
-    {
-      abbr: `BCC`,
-    },
-    {
-      abbr: `HL Cas`,
-    },
-    {
-      abbr: `App Cas`,
-    },
-    {
-      abbr: `Ld Raym`,
-    },
-    {
-      abbr: `FSR`,
-    },
-    {
-      abbr: `ECC`,
-    },
-    {
-      abbr: `ITCLR`,
-    },
-    {
-      abbr: `RPC`,
-    },
-    {
-      abbr: `Ex Rep`,
-    },
-    {
-      abbr: `ER`,
-    },
-    {
-      abbr: `Cr App R`,
-    },
-    {
-      abbr: `ALR`,
-    },
-    {
-      abbr: `FLR`,
-    },
-    {
-      abbr: `Hare`,
-    },
+    { abbr: `EWCA`, appendum: `( Civ| Crim)?` },
+    { abbr: `EWHC`, appendum: `( Patents)?` },
+    { abbr: `UKSC` },
+    { abbr: `UKPC` },
+    { abbr: `UKHL` },
+    { abbr: `AC` },
+    { abbr: `Ch`, appendum: `( D)?` },
+    { abbr: `QB`, appendum: `(D)?` },
+    { abbr: `KB` },
+    { abbr: `WLR`, appendum: `( ?\\(D\\))?` },
+    { abbr: `All ER`, appendum: `( \\(D\\))?` },
+    { abbr: `BCLC` },
+    { abbr: `BCC` },
+    { abbr: `HL Cas` },
+    { abbr: `App Cas` },
+    { abbr: `Ld Raym` },
+    { abbr: `FSR` },
+    { abbr: `ECC` },
+    { abbr: `ITCLR` },
+    { abbr: `RPC` },
+    { abbr: `Ex Rep` },
+    { abbr: `ER` },
+    { abbr: `Cr App R` },
+    { abbr: `ALR` },
+    { abbr: `FLR` },
+    { abbr: `Hare` },
+    { abbr: `H & Tw` },
+    { abbr: `EMLR` },
+    { abbr: `Fam` },
+    { abbr: `Macq` },
+    { abbr: `TLR` },
+    { abbr: `Ves & B` },
+    { abbr: `EngR` },
   ].map(({ abbr, appendum }) => `${abbr
     .split(``)
     .map(letter =>
@@ -166,7 +112,7 @@ const findUKCase = (query:string): FinderResult[] => {
   return []
 }
 
-export const epoRegex = new RegExp(/T ?\d{1,4}\/\d{1,2}/)
+export const epoRegex = new RegExp(/[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
 
 const findEUCase = (query: string): FinderResult[] => {

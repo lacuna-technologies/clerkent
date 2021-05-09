@@ -4,8 +4,12 @@ import Constants from '../../Constants'
 
 const DOMAIN = `https://www.epo.org`
 
+const zeroPad = (number, length = 4) => number.length < length ? zeroPad(`0${number}`, length) : number
+
 const getCase = async (citation: string): Promise<Law.Case | false> => {
-  const [prepend, number] = [citation.slice(0,1), citation.slice(1)].map(a => a.trim())
+  const [prepend, number] = [citation.slice(0,1), citation.slice(1)].map(a => a.replace(/_/g, ``).trim())
+  const [caseNumber, year] = number.split(`/`)
+  const append = `${zeroPad(caseNumber)}/${year}`
   const { data } = await Request.post(
     `${DOMAIN}/search/api/v2/search`, 
     {
@@ -62,12 +66,12 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
                           },
                       },
                       {
-                          "description": number,
-                          "id":number,
+                          "description": append,
+                          "id":append,
                           "label":`dg3CSNCase`,
-                          "regex":`\\Q${number}\\E`,
+                          "regex":`\\Q${append}\\E`,
                           "value":{
-                              "str": number,
+                              "str": append,
                           },
                       },
                     ],
