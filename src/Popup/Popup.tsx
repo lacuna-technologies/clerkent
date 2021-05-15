@@ -63,11 +63,12 @@ const Popup: React.FC = () => {
       const { data } = message
       if(data === false){
         setNotFound(true)
+      } else {
+        setSearchResult({
+          ...parseResult[0],
+          ...data as Law.Case,
+        })
       }
-      setSearchResult({
-        ...parseResult[0],
-        ...data as Law.Case,
-      })
     }
   }, [parseResult])
 
