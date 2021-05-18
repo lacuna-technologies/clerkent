@@ -5,9 +5,9 @@ import EU from './EU'
 import HK from './HK'
 import type Law from '../../types/Law'
 import Constants from '../Constants'
-import type { FinderResult } from '../Finder'
+import type { CaseFinderResult } from '../Finder/CaseFinder'
 
-const getCase = Memoize((targetCase: FinderResult): Promise<Law.Case | false> => {
+const getCase = Memoize((targetCase: CaseFinderResult): Promise<Law.Case | false> => {
   const { jurisdiction, citation, court } = targetCase
 
   let targetJurisdiction: typeof SG | typeof UK

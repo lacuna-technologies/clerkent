@@ -7,27 +7,55 @@ import Finder from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
+import type { CaseFinderResult } from '../utils/Finder/CaseFinder'
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
   case Messenger.ACTION_TYPES.viewCitation: {
     const { citation, source } = otherProperties
-    const [targetCase] = Finder.findCase(citation)
-    const result = await Scraper.getCase(targetCase)
+    const targets = Finder.find(citation)
+    if(targets.length === 0){
+      port.postMessage({
+        action: Messenger.ACTION_TYPES.viewCitation,
+        data: false,
+        source: Messenger.TARGETS.background,
+        target: source,
+      })
+    }
+    const { type } = targets[0]
 
-    Logger.log(`sending viewCitation`, {
-      action: Messenger.ACTION_TYPES.viewCitation,
-      data: result,
-      source: Messenger.TARGETS.background,
-      target: source,
-    })
+    if(type === `legislation`){
 
-    port.postMessage({
-      action: Messenger.ACTION_TYPES.viewCitation,
-      data: result,
-      source: Messenger.TARGETS.background,
-      target: source,
-    })
+      Logger.log(`legislation`, targets)
+      port.postMessage({
+        action: Messenger.ACTION_TYPES.viewCitation,
+        data: false,
+        source: Messenger.TARGETS.background,
+        target: source,
+      })
+
+    } else if (type === `case`){
+
+      const result = await Scraper.getCase(targets[0] as CaseFinderResult)
+
+      Logger.log(`sending viewCitation`, {
+        action: Messenger.ACTION_TYPES.viewCitation,
+        data: result,
+        source: Messenger.TARGETS.background,
+        target: source,
+      })
+
+      port.postMessage({
+        action: Messenger.ACTION_TYPES.viewCitation,
+        data: result,
+        source: Messenger.TARGETS.background,
+        target: source,
+      })
+
+    } else {
+      Logger.error(`Something has gone terribly wrong in BackgroundPage's viewCitation`)
+    }
+    
   
   break
   }

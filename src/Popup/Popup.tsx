@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import type { FinderResult } from '../utils/Finder'
+import type { CaseFinderResult } from '../utils/Finder/CaseFinder'
 import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
@@ -16,7 +16,7 @@ const keys = {
 const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
-  const [parseResult, setParseResult] = useState([] as FinderResult[])
+  const [parseResult, setParseResult] = useState([] as CaseFinderResult[])
   const [searchResult, setSearchResult] = useState({} as Law.Case)
   const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])

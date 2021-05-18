@@ -1,10 +1,11 @@
-import Constants from './Constants'
-import type Law from '../types/Law'
-export interface FinderResult {
+import Constants from '../Constants'
+import type Law from '../../types/Law'
+export interface CaseFinderResult {
   jurisdiction: Law.JursidictionCode
   citation: string,
   index: number,
-  court? : string
+  court? : string,
+  type: `case`
 }
 
 // const emptyParseResult: ParseResult = {
@@ -29,7 +30,7 @@ export interface FinderResult {
 
 // const inSGSC = (query: string) => inSLW(query)
 
-const findCase = (query: string): FinderResult[] => {
+const findCase = (query: string): CaseFinderResult[] => {
   return [
     ...findSGCase(query),
     ...findUKCase(query),
@@ -48,7 +49,7 @@ const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => `${abbr
     }${appendum ? appendum : ``}`,
   ).join(`|`)
 
-const findSGCase = (query: string): FinderResult[] => {
+const findSGCase = (query: string): CaseFinderResult[] => {
   const regex = /\[[12]\d{3}]( \d{1,2})? (sgca(\(i\))?|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
@@ -56,12 +57,12 @@ const findSGCase = (query: string): FinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
-    }))
+    })).map(c => ({ ...c, type: `case` }))
   }
   return []
 }
 
-const findUKCase = (query:string): FinderResult[] => {
+const findUKCase = (query:string): CaseFinderResult[] => {
   const abbrs = formatAbbrs([
     { abbr: `EWCA`, appendum: `( Civ| Crim)?` },
     { abbr: `EWHC`, appendum: `( Patents)?` },
@@ -109,7 +110,7 @@ const findUKCase = (query:string): FinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
-    }))
+    })).map(c => ({ ...c, type: `case` }))
   }
   return []
 }
@@ -117,7 +118,7 @@ const findUKCase = (query:string): FinderResult[] => {
 export const epoRegex = new RegExp(/[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
 
-const findEUCase = (query: string): FinderResult[] => {
+const findEUCase = (query: string): CaseFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
   const cleanedQuery = query.replace(/‑/g, `-`)
 
@@ -128,12 +129,12 @@ const findEUCase = (query: string): FinderResult[] => {
       court: match[1] ? Constants.COURTS.EU_epo.id : Constants.COURTS.EU_cjeu.id,
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.EU.id,
-    }))
+    })).map(c => ({ ...c, type: `case` }))
   }
   return []
 }
 
-const findHKCase = (query: string): FinderResult[] => {
+const findHKCase = (query: string): CaseFinderResult[] => {
   const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?(\)]))/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
@@ -161,12 +162,12 @@ const findHKCase = (query: string): FinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.HK.id,
-    }))
+    })).map(c => ({ ...c, type: `case` }))
   }
   return []
 }
 
-const Finder = {
+const CaseFinder = {
   findCase,
   findEUCase,
   findHKCase,
@@ -174,4 +175,4 @@ const Finder = {
   findUKCase,
 }
 
-export default Finder
+export default CaseFinder
