@@ -12,9 +12,16 @@ const error = (...arguments_: unknown[]) => {
   }
 }
 
+const warn = (...arguments_: unknown[]) => {
+  if(DEBUG_MODE){
+    console.warn(`Clerkent:`, ...arguments_)
+  }
+}
+
 const Logger = {
   error,
   log,
+  warn,
 }
 
 export default Logger

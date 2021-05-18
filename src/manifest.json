@@ -21,6 +21,7 @@
     "https://www.supremecourt.gov.sg/*",
     "https://curia.europa.eu/juris/*",
     "https://www.hklii.hk/*",
+    "https://www.hklii.org/*",
     "http://www.worldlii.org/*",
     "http://lawcite.org/*"
   ],
@@ -118,6 +119,7 @@
         "https://www.epo.org/law-practice/case-law-appeals/*",
         "https://www.euppublishing.com/*",
         "https://www.hklii.hk/*",
+        "https://www.hklii.org/*",
         "https://www.ianbrown.tech/*",
         "https://www.innertemplelibrary.com/*",
         "https://www.irelandip.com/*",

@@ -38,6 +38,16 @@ const findCase = (query: string): FinderResult[] => {
   ]
 }
 
+const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => `${abbr
+    .split(``)
+    .map(letter =>
+      /[a-z]/i.test(letter)
+        ? letter+`\\.?`
+        : letter,
+    ).join(``)
+    }${appendum ? appendum : ``}`,
+  ).join(`|`)
+
 const findSGCase = (query: string): FinderResult[] => {
   const regex = /\[[12]\d{3}]( \d{1,2})? (sgca(\(i\))?|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
   const matches = [...query.matchAll(regex)]
@@ -52,7 +62,7 @@ const findSGCase = (query: string): FinderResult[] => {
 }
 
 const findUKCase = (query:string): FinderResult[] => {
-  const abbrs = [
+  const abbrs = formatAbbrs([
     { abbr: `EWCA`, appendum: `( Civ| Crim)?` },
     { abbr: `EWHC`, appendum: `( Patents)?` },
     { abbr: `UKSC` },
@@ -86,15 +96,7 @@ const findUKCase = (query:string): FinderResult[] => {
     { abbr: `TLR` },
     { abbr: `Ves & B` },
     { abbr: `EngR` },
-  ].map(({ abbr, appendum }) => `${abbr
-    .split(``)
-    .map(letter =>
-      /[a-z]/i.test(letter)
-        ? letter+`\\.?`
-        : letter,
-    ).join(``)
-    }${appendum ? appendum : ``}`,
-  ).join(`|`)
+  ])
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
@@ -117,7 +119,7 @@ export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
 
 const findEUCase = (query: string): FinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
-  const cleanedQuery = query.replaceAll(`‑`, `-`)
+  const cleanedQuery = query.replace(/‑/g, `-`)
 
   const matches = [...cleanedQuery.matchAll(regex)]
   if(matches.length > 0){
@@ -132,7 +134,27 @@ const findEUCase = (query: string): FinderResult[] => {
 }
 
 const findHKCase = (query: string): FinderResult[] => {
-  const regex = /\[[12]\d{3}] (HKCA|HKCFA|HKCFI) \d{1,4}/g
+  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?(\)]))/)
+  const volumeRegex = new RegExp(/( \d{1,2})?/)
+  const pageRegex = new RegExp(/\d{1,4}/)
+  const abbrs = formatAbbrs([
+    { abbr: `HKCA` },
+    { abbr: `HKCFA` },
+    { abbr: `HKCFI` },
+    { abbr: `HKLRD` },
+    { abbr: `HKCFAR` },
+    { abbr: `HKC` },
+    { abbr: `HKDC` },
+    { abbr: `HKFC` },
+    { abbr: `HKLdT` },
+    { abbr: `HKCT` },
+    { abbr: `HKCrC` },
+    { abbr: `HKOAT` },
+    { abbr: `HKLaT` },
+    { abbr: `HKMagC` },
+  ])
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
     return matches.map((match) => ({

@@ -94,10 +94,15 @@ const EU_DATABASES = {
 }
 
 const HK_DATABASES = {
-  hklii: {
+  hkliihk: {
     icon: ``,
-    name: `HKLII`,
+    name: `HKLII.hk`,
     url: `https://www.hklii.hk/`,
+  },
+  hkliiorg: {
+    icon: ``,
+    name: `HKLII.org`,
+    url: `https://www.hklii.org/eng/`,
   },
 }
 
