@@ -32,12 +32,23 @@ const Popup: React.FC = () => {
     setQuery(value)
     setSearchResult({} as Law.Case)
 
-    const result = Finder.findCase(value)
-    setParseResult(result)
-    Storage.set(keys.POPUP_QUERY, value)
+    const results = Finder.find(value)
+    if(results.length === 0){
+      return null
+    }
 
-    if(result.length === 1){
-      Helpers.debounce(viewCitation)(value)
+    const result = results[0]
+
+    if(result.type === `case`){
+      const caseResults = results as CaseFinderResult[] 
+      setParseResult(caseResults)
+      Storage.set(keys.POPUP_QUERY, value)
+
+      if(caseResults.length === 1){
+        Helpers.debounce(viewCitation)(value)
+      }
+    } else if (result.type === `legislation`){
+      Logger.log(`legislation`, results)
     }
   }, [viewCitation])
 
