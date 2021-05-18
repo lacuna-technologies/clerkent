@@ -84,6 +84,8 @@ module.exports = {
         },
       },
     ],
+    "unicorn/prefer-node-protocol": "off",
+    "unicorn/prefer-module": "off",
   },
   "settings": {
     "node": {

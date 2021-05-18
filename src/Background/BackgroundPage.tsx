@@ -9,7 +9,8 @@ import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
-  if (action === Messenger.ACTION_TYPES.viewCitation) {
+  switch (action) {
+  case Messenger.ACTION_TYPES.viewCitation: {
     const { citation, source } = otherProperties
     const [targetCase] = Finder.findCase(citation)
     const result = await Scraper.getCase(targetCase)
@@ -27,17 +28,27 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       source: Messenger.TARGETS.background,
       target: source,
     })
-  } else if (action === Messenger.ACTION_TYPES.downloadFile){
+  
+  break
+  }
+  case Messenger.ACTION_TYPES.downloadFile: {
     const { filename, url } = otherProperties
     await browser.downloads.download({
       conflictAction: `overwrite`,
       filename,
       url,
     })
-  } else if (action === Messenger.ACTION_TYPES.test){
+  
+  break
+  }
+  case Messenger.ACTION_TYPES.test: {
     Logger.log(`test action received by bg`)
     const result = await Scraper.UK.getCase(`[2020] UKSC 1`, ``)
     Logger.log(result)
+  
+  break
+  }
+  // No default
   }
 }
 

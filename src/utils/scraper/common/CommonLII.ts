@@ -40,7 +40,7 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
     const link = $(`div.citation > a.free-external`)?.attr(`href`)
     let jurisdiction = $(`.jurisdiction`).eq(0).text().trim()
 
-    if([`United Kingdom - England and Wales`, `United Kingdom`].some(s => s === jurisdiction)){
+    if([`United Kingdom - England and Wales`, `United Kingdom`].includes(jurisdiction)){
       jurisdiction = Constants.JURISDICTIONS.UK.id
     } else if (jurisdiction === `Singapore` || jurisdiction === `Singapore - Singapore`) {
       jurisdiction = Constants.JURISDICTIONS.SG.id

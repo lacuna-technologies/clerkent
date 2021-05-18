@@ -11,16 +11,30 @@ const getCase = Memoize((targetCase: FinderResult): Promise<Law.Case | false> =>
   const { jurisdiction, citation, court } = targetCase
 
   let targetJurisdiction: typeof SG | typeof UK
-  if(jurisdiction === Constants.JURISDICTIONS.SG.id){
+  switch (jurisdiction) {
+  case Constants.JURISDICTIONS.SG.id: {
     targetJurisdiction = SG
-  } else if (jurisdiction === Constants.JURISDICTIONS.UK.id){
+  
+  break
+  }
+  case Constants.JURISDICTIONS.UK.id: {
     targetJurisdiction = UK
-  } else if (jurisdiction === Constants.JURISDICTIONS.EU.id){
+  
+  break
+  }
+  case Constants.JURISDICTIONS.EU.id: {
     targetJurisdiction = EU
-  } else if (jurisdiction === Constants.JURISDICTIONS.HK.id) {
+  
+  break
+  }
+  case Constants.JURISDICTIONS.HK.id: {
     targetJurisdiction = HK
-  } else {
+  
+  break
+  }
+  default: {
     return Promise.resolve(false)
+  }
   }
 
   return targetJurisdiction.getCase(citation, court)
