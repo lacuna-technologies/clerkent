@@ -13,7 +13,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
   switch (action) {
   case Messenger.ACTION_TYPES.viewCitation: {
     const { citation, source } = otherProperties
-    const targets = Finder.find(citation)
+    const targets = Finder.find(`${citation}`)
     if(targets.length === 0){
       port.postMessage({
         action: Messenger.ACTION_TYPES.viewCitation,

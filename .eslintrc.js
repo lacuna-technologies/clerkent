@@ -34,6 +34,10 @@ module.exports = {
   ],
   processor: `disable/disable`,
   rules: {
+    "@typescript-eslint/no-unused-vars": [
+      `warn`,
+      { "ignoreRestSiblings": true },
+    ],
     "comma-dangle": [
       `warn`,
       `always-multiline`,
@@ -75,6 +79,8 @@ module.exports = {
     ],
     "unicorn/no-array-reduce": `off`,
     "unicorn/no-null": 0,
+    "unicorn/prefer-module": `off`,
+    "unicorn/prefer-node-protocol": `off`,
     "unicorn/prevent-abbreviations": [
       `warn`,
       {
@@ -84,8 +90,6 @@ module.exports = {
         },
       },
     ],
-    "unicorn/prefer-node-protocol": "off",
-    "unicorn/prefer-module": "off",
   },
   "settings": {
     "node": {
