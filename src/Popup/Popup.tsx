@@ -30,6 +30,8 @@ const Popup: React.FC = () => {
     target: Messenger.TARGETS.background,
   }), [sendMessage])
 
+  const debouncedViewCitation = useCallback(Helpers.debounce(viewCitation, 500), [viewCitation])
+
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
     setSearchResult({} as SearchResult)
@@ -43,9 +45,9 @@ const Popup: React.FC = () => {
     Storage.set(keys.POPUP_QUERY, value)
 
     if(results.length === 1){
-      Helpers.debounce(viewCitation)(value)
+      debouncedViewCitation(value)
     }
-  }, [viewCitation])
+  }, [debouncedViewCitation])
 
   // const downloadSelectedCitations = useCallback(() => {
   //   const selection = window.getSelection().toString()
@@ -72,7 +74,7 @@ const Popup: React.FC = () => {
       } else {
         setSearchResult({
           ...parseResult[0],
-          ...data as Law.Case,
+          ...(Array.isArray(data) ? data[0] : data),
         })
       }
     }

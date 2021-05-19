@@ -18,11 +18,10 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
     return <span>Loading...</span>
   }
 
-  const resultType = parseResult[0].type
+  const resultType = parseResult[0]?.type || searchResult[0]?.type
   if(resultType === `case`){
     const { citation, name, link, pdf, jurisdiction, database } = searchResult
     
-
     return (
       <div id="results">
         <div className="result">
@@ -42,26 +41,32 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
       </div>
     )
   } else if (resultType === `legislation`){
-  
+    const {
+      jurisdiction,
+      provisionNumber,
+      provisionType,
+      statute,
+      link,
+    } = searchResult
     return (
       <div id="results">
         {
-          parseResult.map(({ provisionType, provisionNumber, statute, jurisdiction, link }) => (
-            <div className="result" key={`${provisionType}-${provisionNumber}-${statute}`}>
+          <div className="result">
+            <p className="details">
               { jurisdiction &&
                 <span className="jurisdiction">
                   {Constants.JURISDICTIONS[jurisdiction].emoji}
                 </span>
               }
-              <button className="legislation-name link" onClick={openTab(link)}>
-                {provisionNumber
-                  ? `${provisionType} ${provisionNumber}, `
-                  : null
-                }
-                {statute}
-              </button>
-            </div>
-          ))
+            </p>
+            <button className="legislation-name link" onClick={openTab(link)}>
+              {provisionNumber
+                ? `${provisionType} ${provisionNumber}, `
+                : null
+              }
+              {statute}
+            </button>
+          </div>
         }
       </div>
     )

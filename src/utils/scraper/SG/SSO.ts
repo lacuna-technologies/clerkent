@@ -3,6 +3,7 @@ import cheerio from 'cheerio'
 import type { LegislationFinderResult } from '../../Finder'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
+import Constants from '../../Constants'
 
 const DOMAIN = `https://sso.agc.gov.sg`
 
@@ -58,6 +59,7 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
   if(!provisionNumber){ // getting the statute is enough
     return {
       ...legislation,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
       link: statuteResult.link,
       statute: statuteResult.name,
     }
@@ -75,6 +77,7 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
     return {
       ...legislation,
       content: legisContent,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
       link: request.responseURL,
       statute: statuteResult.name,
     }

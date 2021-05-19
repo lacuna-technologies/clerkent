@@ -16,6 +16,26 @@ const unabbreviateStatute = (abbrStatute: string) => {
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       name: `Protection from Online Falsehoods and Manipulation Act 2019`,
     },
+    {
+      abbrs: [`cntma`, `c19tma`],
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
+      name: `COVID-19 (Temporary Measures) Act 2020`,
+    },
+    {
+      abbrs: [`ta`, `telecoms act`],
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
+      name: `Telecommunications Act`,
+    },
+    {
+      abbrs: [`bcisopa`, `sop`],
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
+      name: `Building and Construction Industry Security of Payment Act`,
+    },
+    {
+      abbrs: [`bcisopr`, `sop`],
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
+      name: `Building and Construction Industry Security of Payment Regulations`,
+    },
   ]
   const isMatch = abbrs.filter(abbr => abbr.abbrs.includes(abbrStatute.trim().toLowerCase()))
 
