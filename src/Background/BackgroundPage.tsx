@@ -7,7 +7,7 @@ import Finder from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
-import type { CaseFinderResult } from '../utils/Finder/CaseFinder'
+import type { CaseFinderResult, LegislationFinderResult } from '../utils/Finder'
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
@@ -23,40 +23,28 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       })
     }
     const { type } = targets[0]
+    const result = (
+      type === `legislation`
+        ? await Scraper.getLegislation(targets[0] as LegislationFinderResult)
+      : (type === `case`
+        ? await Scraper.getCase(targets[0] as CaseFinderResult)
+      : null)
+    )
 
-    if(type === `legislation`){
-
-      Logger.log(`legislation`, targets)
-      port.postMessage({
-        action: Messenger.ACTION_TYPES.viewCitation,
-        data: false,
-        source: Messenger.TARGETS.background,
-        target: source,
-      })
-
-    } else if (type === `case`){
-
-      const result = await Scraper.getCase(targets[0] as CaseFinderResult)
-
-      Logger.log(`sending viewCitation`, {
+    Logger.log(`sending viewCitation`, {
         action: Messenger.ACTION_TYPES.viewCitation,
         data: result,
         source: Messenger.TARGETS.background,
         target: source,
       })
 
-      port.postMessage({
-        action: Messenger.ACTION_TYPES.viewCitation,
-        data: result,
-        source: Messenger.TARGETS.background,
-        target: source,
-      })
+    port.postMessage({
+      action: Messenger.ACTION_TYPES.viewCitation,
+      data: result,
+      source: Messenger.TARGETS.background,
+      target: source,
+    })
 
-    } else {
-      Logger.error(`Something has gone terribly wrong in BackgroundPage's viewCitation`)
-    }
-    
-  
   break
   }
   case Messenger.ACTION_TYPES.downloadFile: {

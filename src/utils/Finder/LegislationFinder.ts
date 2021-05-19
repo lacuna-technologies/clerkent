@@ -2,7 +2,8 @@ import Law from "../../types/Law"
 import Constants from "../Constants"
 
 export interface LegislationFinderResult {
-  provision: string,
+  provisionType: string,
+  provisionNumber: string,
   statute: string,
   type: `legislation`,
   jurisdiction: Law.JursidictionCode
@@ -40,13 +41,12 @@ const provisionAbbreviations = [
 ]
 const provisionRegex = provisionAbbreviations.map((a) => a.abbrs.join(`|`)).join(`|`)
 
-const unabbreviateProvision = (abbrProv: string) => {
-  const [_, provisionName, provisionNumber] = abbrProv.match(/([a-z]) ?(\d+[a-z]*)/i)
-  const isMatch = provisionAbbreviations.filter(({ abbrs }) => abbrs.includes(provisionName.trim().toLowerCase()))
+const unabbreviateProvision = (provisionType) => {
+  const isMatch = provisionAbbreviations.filter(({ abbrs }) => abbrs.includes(provisionType.trim().toLowerCase()))
   if(isMatch.length === 1){
-    return `${isMatch[0].name} ${provisionNumber}`
+    return isMatch[0].name
   }
-  return `${provisionName} ${provisionNumber}`
+  return provisionType
 }
 
 const findLegislation = (citation: string): LegislationFinderResult[] => {
@@ -54,11 +54,23 @@ const findLegislation = (citation: string): LegislationFinderResult[] => {
   const regex = new RegExp(`((?<provision>(${provisionRegex}) ?\\d{1,4})[ ,]*)?(?<statute>[A-Z]{2,}[ ,A-Z]*( ?[12]\\d{3})?)`, `gi`)
   const cleanedCitation = citation.trim()
   const matches = [...cleanedCitation.matchAll(regex)]
-    .map(([_1, _2, provision, _3, statute]) => ({
-      provision: unabbreviateProvision(provision),
-      statute,
-      type: `legislation`,
-    }))
+    .map(([_1, _2, provision, _3, statute]) => {
+      if(!provision){
+        return {
+          provisionNumber: false,
+          provisionType: false,
+          statute,
+          type: `legislation`,
+        }
+      }
+      const [_, provisionType, provisionNumber] = provision.match(/([a-z]+) ?(\d+[a-z]*)/i)
+      return {
+        provisionNumber,
+        provisionType: unabbreviateProvision(provisionType),
+        statute,
+        type: `legislation`,
+      }
+    })
   return matches.reduce((current, { statute, ...attributes }) => {
     return [
       ...current,

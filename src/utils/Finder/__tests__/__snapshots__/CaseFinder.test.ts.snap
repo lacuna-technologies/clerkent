@@ -6,6 +6,7 @@ Array [
     "citation": "[1948] 1 KB 223",
     "index": 0,
     "jurisdiction": "UK",
+    "type": "case",
   },
 ]
 `;
@@ -16,6 +17,7 @@ Array [
     "citation": "[1965] 1 QB 456",
     "index": 0,
     "jurisdiction": "UK",
+    "type": "case",
   },
 ]
 `;
@@ -26,6 +28,7 @@ Array [
     "citation": "(1951) 35 Cr App R 164",
     "index": 0,
     "jurisdiction": "UK",
+    "type": "case",
   },
 ]
 `;
@@ -36,6 +39,7 @@ Array [
     "citation": "[2021] SGCA 34",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -46,6 +50,7 @@ Array [
     "citation": "[2020] SGHC 228",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -56,6 +61,7 @@ Array [
     "citation": "[2020] SGHC 100",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -66,6 +72,7 @@ Array [
     "citation": "[2011] 2 SLR 47",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -76,6 +83,7 @@ Array [
     "citation": "[2020] SGDC 95",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -86,6 +94,7 @@ Array [
     "citation": "[1994] SGCA 128",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -96,6 +105,7 @@ Array [
     "citation": "[1988] SGCA 16",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -106,6 +116,7 @@ Array [
     "citation": "[2001] 2 SLR 253",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;
@@ -116,6 +127,7 @@ Array [
     "citation": "[2001] 2 SLR 253",
     "index": 0,
     "jurisdiction": "SG",
+    "type": "case",
   },
 ]
 `;

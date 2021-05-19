@@ -39,16 +39,11 @@ const Popup: React.FC = () => {
       return null
     }
 
-    const result = results[0]
     setParseResult(results)
     Storage.set(keys.POPUP_QUERY, value)
 
-    if(result.type === `case`){
-      if(results.length === 1){
-        Helpers.debounce(viewCitation)(value)
-      }
-    } else if (result.type === `legislation`){
-      Logger.log(`legislation`, results)
+    if(results.length === 1){
+      Helpers.debounce(viewCitation)(value)
     }
   }, [viewCitation])
 

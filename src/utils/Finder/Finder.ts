@@ -2,6 +2,8 @@ import CaseFinder from './CaseFinder'
 import LegislationFinder from './LegislationFinder'
 import type { CaseFinderResult } from './CaseFinder'
 import type { LegislationFinderResult } from './LegislationFinder'
+export type { CaseFinderResult } from './CaseFinder'
+export type { LegislationFinderResult } from './LegislationFinder'
  
 export type FinderResult = CaseFinderResult | LegislationFinderResult
 

@@ -13,11 +13,13 @@ declare namespace Law {
     database: Database
   }
   interface Legislation {
-    provision: string,
+    provisionType: string,
+    provisionNumber: string,
     statute: string,
     link: string,
     pdf?: string,
-    jurisdiction?: JursidictionCode
+    jurisdiction?: JursidictionCode,
+    content?: string,
   }
 
   type JursidictionCode = `SG` | `UK` | `EU` | `HK`
