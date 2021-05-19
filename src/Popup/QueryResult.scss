@@ -1,42 +1,48 @@
-#result {
+#results {
   display: flex;
   flex-direction: column;
   margin-top: 0.25rem;
   align-items: flex-start;
   align-content: flex-start;
 
-  .link {
-    border: none;
-    background: none;
-    outline: none;
-    padding: 0;
-    text-decoration: underline;
-    cursor: pointer;
-    color: blue;
+  .result {
 
-    &:hover {
-      color: darken(blue, 10%);
+    .link {
+      border: none;
+      background: none;
+      outline: none;
+      padding: 0;
+      text-decoration: underline;
+      cursor: pointer;
+      color: blue;
+
+      &:hover {
+        color: darken(blue, 10%);
+      }
+    }
+
+    > .details {
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+
+      > .database {
+        margin-left: 0.4rem;
+      }
+    }
+
+    > .case-name,
+    > .legislation-name {
+      text-align: left;
+    }
+
+    > .links {
+      margin-top: 1rem;
+    }
+
+    > p {
+      margin: 0;
     }
   }
 
-  > .details {
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-
-    > .database {
-      margin-left: 0.4rem;
-    }
-  }
-
-  > .case-name {
-    text-align: left;
-  }
-
-  > .links {
-    margin-top: 1rem;
-  }
-
-  > p {
-    margin: 0;
-  }
+  
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import type { CaseFinderResult } from '../utils/Finder/CaseFinder'
+import type { FinderResult } from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
@@ -13,11 +13,13 @@ const keys = {
   POPUP_QUERY: `POPUP_QUERY`,
 }
 
+type SearchResult = Law.Case | Law.Legislation
+
 const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
-  const [parseResult, setParseResult] = useState([] as CaseFinderResult[])
-  const [searchResult, setSearchResult] = useState({} as Law.Case)
+  const [parseResult, setParseResult] = useState([] as FinderResult[])
+  const [searchResult, setSearchResult] = useState({} as SearchResult)
   const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
@@ -30,21 +32,19 @@ const Popup: React.FC = () => {
 
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
-    setSearchResult({} as Law.Case)
+    setSearchResult({} as SearchResult)
 
-    const results = Finder.find(value)
+    const results = Finder.find(`${value}`)
     if(results.length === 0){
       return null
     }
 
     const result = results[0]
+    setParseResult(results)
+    Storage.set(keys.POPUP_QUERY, value)
 
     if(result.type === `case`){
-      const caseResults = results as CaseFinderResult[] 
-      setParseResult(caseResults)
-      Storage.set(keys.POPUP_QUERY, value)
-
-      if(caseResults.length === 1){
+      if(results.length === 1){
         Helpers.debounce(viewCitation)(value)
       }
     } else if (result.type === `legislation`){

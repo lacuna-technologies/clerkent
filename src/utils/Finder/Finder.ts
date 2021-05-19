@@ -1,7 +1,11 @@
 import CaseFinder from './CaseFinder'
 import LegislationFinder from './LegislationFinder'
+import type { CaseFinderResult } from './CaseFinder'
+import type { LegislationFinderResult } from './LegislationFinder'
+ 
+export type FinderResult = CaseFinderResult | LegislationFinderResult
 
-const find = (citation: string) => {
+const find = (citation: string): FinderResult[] => {
   const legislation = [...LegislationFinder.findLegislation(citation)]
   if(legislation.length > 0){
     return legislation
