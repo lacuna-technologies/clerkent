@@ -30,6 +30,7 @@ const Popup: React.FC = () => {
     target: Messenger.TARGETS.background,
   }), [sendMessage])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedViewCitation = useCallback(Helpers.debounce(viewCitation, 500), [viewCitation])
 
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
@@ -69,7 +70,7 @@ const Popup: React.FC = () => {
     }
     if(message.action === Messenger.ACTION_TYPES.viewCitation){
       const { data } = message
-      if(data === false){
+      if(data === false || (Array.isArray(data) && data.length === 0)){
         setNotFound(true)
       } else {
         setSearchResult({
