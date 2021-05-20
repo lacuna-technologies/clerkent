@@ -32,7 +32,8 @@ const provisionAbbreviations = [
     name: `Article`,
   },
 ]
-const provisionRegex = provisionAbbreviations.map((a) => a.abbrs.join(`|`)).join(`|`)
+const provisionTypeRegex = provisionAbbreviations.map((a) => a.abbrs.join(`|`)).join(`|`)
+const provisionSubsectionRegex = new RegExp(`\\(\\d{1,2}[A-Z]{0,2}\\)`)
 
 const unabbreviateProvision = (provisionType) => {
   const isMatch = provisionAbbreviations.filter(({ abbrs }) => abbrs.includes(provisionType.trim().toLowerCase()))
@@ -44,10 +45,10 @@ const unabbreviateProvision = (provisionType) => {
 
 const findLegislation = (citation: string): LegislationFinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
-  const regex = new RegExp(`((?<provision>(${provisionRegex}) ?\\d{1,4})[ ,]*)?(?<statute>[A-Z]{2,}[ ,A-Z]*( ?[12]\\d{3})?)`, `gi`)
+  const regex = new RegExp(`((?<provision>(${provisionTypeRegex}) ?\\d{1,4}(${provisionSubsectionRegex.source})*)[ ,]*)?(?<statute>[A-Z]{2,}[ ,A-Z]*( ?[12]\\d{3})?)`, `gi`)
   const cleanedCitation = citation.trim()
   const matches = [...cleanedCitation.matchAll(regex)]
-    .map(([_1, _2, provision, _3, statute]) => {
+    .map(([_1, _2, provision, _3, _4, statute]) => {
       if(!provision){
         return {
           provisionNumber: false,
