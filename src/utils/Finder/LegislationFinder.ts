@@ -1,5 +1,5 @@
 import Law from "../../types/Law"
-import Constants from "../Constants"
+import StatuteAbbrs from './StatuteAbbrs'
 
 export interface LegislationFinderResult {
   provisionType: string,
@@ -10,34 +10,7 @@ export interface LegislationFinderResult {
 }
 
 const unabbreviateStatute = (abbrStatute: string) => {
-  const abbrs = [
-    {
-      abbrs: [`pofma`, `pofma 2019`, `pofma 19`, `fake news law`],
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-      name: `Protection from Online Falsehoods and Manipulation Act 2019`,
-    },
-    {
-      abbrs: [`cntma`, `c19tma`],
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-      name: `COVID-19 (Temporary Measures) Act 2020`,
-    },
-    {
-      abbrs: [`ta`, `telecoms act`],
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-      name: `Telecommunications Act`,
-    },
-    {
-      abbrs: [`bcisopa`, `sop`],
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-      name: `Building and Construction Industry Security of Payment Act`,
-    },
-    {
-      abbrs: [`bcisopr`, `sop`],
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-      name: `Building and Construction Industry Security of Payment Regulations`,
-    },
-  ]
-  const isMatch = abbrs.filter(abbr => abbr.abbrs.includes(abbrStatute.trim().toLowerCase()))
+  const isMatch = StatuteAbbrs.filter(abbr => abbr.abbrs.includes(abbrStatute.trim().toLowerCase()))
 
   if(isMatch.length === 0){
     return [{ name: abbrStatute }]

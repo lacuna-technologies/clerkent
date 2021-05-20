@@ -9,10 +9,13 @@ import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
 import type { CaseFinderResult, LegislationFinderResult } from '../utils/Finder'
 
+let currentCitation = null
+
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
   case Messenger.ACTION_TYPES.viewCitation: {
     const { citation, source } = otherProperties
+    currentCitation = citation
     const targets = Finder.find(`${citation}`)
     if(targets.length === 0){
       port.postMessage({
@@ -31,20 +34,21 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       : null)
     )
 
-    Logger.log(`sending viewCitation`, {
+    if(citation === currentCitation){ // ignore outdated results
+      Logger.log(`sending viewCitation`, {
         action: Messenger.ACTION_TYPES.viewCitation,
         data: result,
         source: Messenger.TARGETS.background,
         target: source,
       })
 
-    port.postMessage({
-      action: Messenger.ACTION_TYPES.viewCitation,
-      data: result,
-      source: Messenger.TARGETS.background,
-      target: source,
-    })
-
+      port.postMessage({
+        action: Messenger.ACTION_TYPES.viewCitation,
+        data: result,
+        source: Messenger.TARGETS.background,
+        target: source,
+      })
+    }
   break
   }
   case Messenger.ACTION_TYPES.downloadFile: {

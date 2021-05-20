@@ -76,7 +76,7 @@ const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult
     return targetJurisdiction.getLegislation(targetLegislation)
   }
 
-  const results = (await Promise.all([SG].map(juris => juris.getLegislation(targetLegislation)))).filter(result => result !== false)
+  const results = (await Promise.all([SG, UK].map(juris => juris.getLegislation(targetLegislation)))).filter(result => result !== false)
   return results as Law.Legislation[]
 }, {
   normalizer: ([{provisionType, provisionNumber, statute}]) => `${provisionType}-${provisionNumber}-${statute}`,
