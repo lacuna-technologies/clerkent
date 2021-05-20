@@ -19,7 +19,7 @@ const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
   const [parseResult, setParseResult] = useState([] as FinderResult[])
-  const [searchResult, setSearchResult] = useState({} as SearchResult)
+  const [searchResult, setSearchResult] = useState([] as SearchResult[])
   const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
@@ -35,7 +35,8 @@ const Popup: React.FC = () => {
 
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
-    setSearchResult({} as SearchResult)
+    setSearchResult([] as SearchResult[])
+    setNotFound(false)
 
     const results = Finder.find(`${value}`)
     if(results.length === 0){
@@ -73,10 +74,12 @@ const Popup: React.FC = () => {
       if(data === false || (Array.isArray(data) && data.length === 0)){
         setNotFound(true)
       } else {
-        setSearchResult({
-          ...parseResult[0],
-          ...(Array.isArray(data) ? data[0] : data),
-        })
+        setSearchResult([
+          {
+            ...parseResult[0],
+            ...(Array.isArray(data) ? data[0] : data),
+          },
+        ])
       }
     }
   }, [parseResult])

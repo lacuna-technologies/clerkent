@@ -9,11 +9,11 @@ export type { LegislationFinderResult } from './LegislationFinder'
 export type FinderResult = CaseFinderResult | LegislationFinderResult
 
 const find = Memoize((citation: string): FinderResult[] => {
-  const legislation = [...LegislationFinder.findLegislation(citation)]
-  if(legislation.length > 0){
-    return legislation
+  const caseCitations = [...CaseFinder.findCase(citation)]
+  if(caseCitations.length > 0){
+    return caseCitations
   }
-  return [...CaseFinder.findCase(citation)]
+  return [...LegislationFinder.findLegislation(citation)]
 })
 
 const Finder = {
