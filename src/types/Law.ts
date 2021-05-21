@@ -22,7 +22,7 @@ declare namespace Law {
     content?: string,
   }
 
-  type JursidictionCode = `SG` | `UK` | `EU` | `HK`
+  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY`
 }
 
 export default Law

@@ -3,35 +3,38 @@ import SG from './SG'
 import UK from './UK'
 import EU from './EU'
 import HK from './HK'
+import CA from './CA'
 import type Law from '../../types/Law'
 import Constants from '../Constants'
 import type { CaseFinderResult } from '../Finder/CaseFinder'
 import type { LegislationFinderResult } from '../Finder/LegislationFinder'
 
+type JurisdictionType = typeof SG | typeof UK | typeof EU | typeof HK | typeof CA
+
 const getCase = Memoize((targetCase: CaseFinderResult): Promise<Law.Case | false> => {
   const { jurisdiction, citation, court } = targetCase
 
-  let targetJurisdiction
+  let targetJurisdiction: JurisdictionType
   switch (jurisdiction) {
     case Constants.JURISDICTIONS.SG.id: {
       targetJurisdiction = SG
-    
-    break
+      break
     }
     case Constants.JURISDICTIONS.UK.id: {
       targetJurisdiction = UK
-    
-    break
+      break
     }
     case Constants.JURISDICTIONS.EU.id: {
       targetJurisdiction = EU
-    
-    break
+      break
     }
     case Constants.JURISDICTIONS.HK.id: {
       targetJurisdiction = HK
-    
-    break
+      break
+    }
+    case Constants.JURISDICTIONS.CA.id: {
+      targetJurisdiction = CA
+      break
     }
     default: {
       return Promise.resolve(false)

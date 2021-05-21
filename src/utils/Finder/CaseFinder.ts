@@ -30,15 +30,6 @@ export interface CaseFinderResult {
 
 // const inSGSC = (query: string) => inSLW(query)
 
-const findCase = (query: string): CaseFinderResult[] => {
-  return [
-    ...findSGCase(query),
-    ...findUKCase(query),
-    ...findEUCase(query),
-    ...findHKCase(query),
-  ]
-}
-
 const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => `${abbr
     .split(``)
     .map(letter =>
@@ -74,7 +65,7 @@ const findUKCase = (query:string): CaseFinderResult[] => {
     { abbr: `QB`, appendum: `(D)?` },
     { abbr: `KB` },
     { abbr: `WLR`, appendum: `( ?\\(D\\))?` },
-    { abbr: `All ER`, appendum: `( \\(D\\))?` },
+    { abbr: `All ER`, appendum: `( \\((D|Comm.?)\\))?` },
     { abbr: `BCLC` },
     { abbr: `BCC` },
     { abbr: `HL Cas` },
@@ -97,6 +88,9 @@ const findUKCase = (query:string): CaseFinderResult[] => {
     { abbr: `TLR` },
     { abbr: `Ves & B` },
     { abbr: `EngR` },
+    { abbr: `Lloyd's Rep` },
+    { abbr: `BLR` },
+    { abbr: `CLC` },
   ])
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
@@ -135,7 +129,8 @@ const findEUCase = (query: string): CaseFinderResult[] => {
 }
 
 const findHKCase = (query: string): CaseFinderResult[] => {
-  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?(\)]))/)
+  // eslint-disable-next-line unicorn/better-regex
+  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
   const abbrs = formatAbbrs([
@@ -167,7 +162,43 @@ const findHKCase = (query: string): CaseFinderResult[] => {
   return []
 }
 
+const findCACase = (query: string): CaseFinderResult[] => {
+  // eslint-disable-next-line unicorn/better-regex
+  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
+  const volumeRegex = new RegExp(/( \d{1,2})?/)
+  const pageRegex = new RegExp(/\d{1,4}/)
+  const abbrs = formatAbbrs([
+    { abbr: `SCR` },
+    { abbr: `WWR` },
+    { abbr: `EXP` },
+    { abbr: `CarswellAlta` },
+    { abbr: `SCJ No` },
+  ])
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+
+  const matches = [...query.matchAll(regex)]
+  if (matches.length > 0) {
+    return matches.map((match) => ({
+      citation: match[0],
+      index: match.index,
+      jurisdiction: Constants.JURISDICTIONS.CA.id,
+    })).map(c => ({ ...c, type: `case` }))
+  }
+  return []
+}
+
+const findCase = (query: string): CaseFinderResult[] => {
+  return [
+    ...findSGCase(query),
+    ...findUKCase(query),
+    ...findEUCase(query),
+    ...findHKCase(query),
+    ...findCACase(query),
+  ]
+}
+
 const CaseFinder = {
+  findCACase,
   findCase,
   findEUCase,
   findHKCase,

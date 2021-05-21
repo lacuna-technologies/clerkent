@@ -1,6 +1,16 @@
 import type Law from '../types/Law'
 
 const JURISDICTIONS = {
+  AU: {
+    emoji: `🇦🇺`,
+    id: `AU` as Law.JursidictionCode,
+    name: `Australia`,
+  },
+  CA: {
+    emoji: `🇨🇦`,
+    id: `CA` as Law.JursidictionCode,
+    name: `Canada`,
+  },
   EU: {
     emoji: `🇪🇺`,
     id: `EU` as Law.JursidictionCode,
@@ -10,6 +20,16 @@ const JURISDICTIONS = {
     emoji: `🇭🇰`,
     id: `HK` as Law.JursidictionCode,
     name: `Hong Kong`,
+  },
+  MY: {
+    emoji: `🇲🇾`,
+    id: `MY` as Law.JursidictionCode,
+    name: `Malaysia`,
+  },
+  NZ: {
+    emoji: `🇳🇿`,
+    id: `NZ` as Law.JursidictionCode,
+    name: `New Zealand`,
   },
   SG: {
     emoji: `🇸🇬`,
@@ -106,6 +126,14 @@ const HK_DATABASES = {
   },
 }
 
+const CA_DATABASES = {
+  canlii: {
+    icon: ``,
+    name: `CanLII`,
+    url: `https://www.canlii.org/en`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -126,6 +154,7 @@ const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(UK_DATABASES, `UK`),
   ...dedupeObjects(EU_DATABASES, `EU`),
   ...dedupeObjects(HK_DATABASES, `HK`),
+  ...dedupeObjects(CA_DATABASES, `CA`),
   ...MISC_DATABASES,
 }
 
