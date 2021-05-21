@@ -5,6 +5,7 @@ import EU from './EU'
 import HK from './HK'
 import CA from './CA'
 import AU from './AU'
+import NZ from './NZ'
 import type Law from '../../types/Law'
 import Constants from '../Constants'
 import type { CaseFinderResult } from '../Finder/CaseFinder'
@@ -39,6 +40,10 @@ const getCase = Memoize((targetCase: CaseFinderResult): Promise<Law.Case | false
     }
     case Constants.JURISDICTIONS.AU.id: {
       targetJurisdiction = AU
+      break
+    }
+    case Constants.JURISDICTIONS.NZ.id: {
+      targetJurisdiction = NZ
       break
     }
     default: {

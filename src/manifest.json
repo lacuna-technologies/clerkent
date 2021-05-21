@@ -17,6 +17,7 @@
     "http://lawcite.org/*",
     "*://www.austlii.edu.au/*",
     "*://www8.austlii.edu.au/*",
+    "*://www.nzlii.org/*",
     "https://www.canlii.org/*",
     "http://www.commonlii.org/*",
     "http://www.worldlii.org/*",
@@ -48,6 +49,7 @@
       "matches": [
         "*://www.austlii.edu.au/*",
         "*://www8.austlii.edu.au/*",
+        "*://www.nzlii.org/*",
         "http://cilj.co.uk/*",
         "http://copyrightblog.kluweriplaw.com/*",
         "http://ejlt.org/*",

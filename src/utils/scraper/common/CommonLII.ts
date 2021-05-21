@@ -16,16 +16,18 @@ const COMMONLII_DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
 const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => {
-  if(/united kingdom/gi.test(jurisdictionString)){
+  if(/united kingdom/gi.test(jurisdictionString)) {
     return Constants.JURISDICTIONS.UK.id
   } else if (/singapore/gi.test(jurisdictionString)) {
     return Constants.JURISDICTIONS.SG.id
   } else if (/hong kong/gi.test(jurisdictionString)) {
     return Constants.JURISDICTIONS.HK.id
-  } else if (/canada/gi.test(jurisdictionString)){
+  } else if (/canada/gi.test(jurisdictionString)) {
     return Constants.JURISDICTIONS.CA.id
-  } else if (/australia/gi.test(jurisdictionString)){
+  } else if (/australia/gi.test(jurisdictionString)) {
     return Constants.JURISDICTIONS.AU.id
+  } else if (/new zealand/gi.test(jurisdictionString)) {
+    return Constants.JURISDICTIONS.NZ.id
   }
   return null
 }

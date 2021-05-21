@@ -297,6 +297,33 @@ const findAUCase = (query: string): CaseFinderResult[] => {
   return []
 }
 
+const findNZCase = (query: string): CaseFinderResult[] => {
+  // eslint-disable-next-line unicorn/better-regex
+  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
+  const volumeRegex = new RegExp(/( \d{1,2})?/)
+  const pageRegex = new RegExp(/\d{1,4}/)
+  const abbrs = formatAbbrs([
+    { abbr: `NZCA` },
+    { abbr: `NZSC` },
+    { abbr: `NZHC` },
+    { abbr: `NZLR` },
+    { abbr: `NZAR` },
+    { abbr: `NZFC` },
+    { abbr: `NZPC` },
+    { abbr: `NZDC` },
+  ])
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+
+  const matches = [...query.matchAll(regex)]
+  if (matches.length > 0) {
+    return matches.map((match) => ({
+      citation: match[0],
+      index: match.index,
+      jurisdiction: Constants.JURISDICTIONS.NZ.id,
+    })).map(c => ({ ...c, type: `case` }))
+  }
+  return []
+}
 const findCase = (query: string): CaseFinderResult[] => {
   return [
     ...findSGCase(query),
@@ -305,6 +332,7 @@ const findCase = (query: string): CaseFinderResult[] => {
     ...findHKCase(query),
     ...findCACase(query),
     ...findAUCase(query),
+    ...findNZCase(query),
   ]
 }
 

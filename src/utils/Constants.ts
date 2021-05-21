@@ -142,6 +142,14 @@ const AU_DATABASES = {
   },
 }
 
+const NZ_DATABASES = {
+  nzlii: {
+    icon: ``,
+    name: `NZLII`,
+    url: `https://www.nzlii.org`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -164,6 +172,7 @@ const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(HK_DATABASES, `HK`),
   ...dedupeObjects(CA_DATABASES, `CA`),
   ...dedupeObjects(AU_DATABASES, `AU`),
+  ...dedupeObjects(NZ_DATABASES, `NZ`),
   ...MISC_DATABASES,
 }
 
