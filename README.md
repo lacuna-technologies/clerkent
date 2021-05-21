@@ -32,10 +32,10 @@ Quickly locate, open, or download judgments
   - [x] CJEU
   - [ ] ECtHR
   - [x] EPO TBA
-- [ ] Australia
-- [ ] New Zealand
+- [x] Australia
+- [x] New Zealand
 - [x] Hong Kong (neutral citations)
-- [ ] Canada
+- [x] Canada
 
 ## Development
 
