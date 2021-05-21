@@ -134,6 +134,14 @@ const CA_DATABASES = {
   },
 }
 
+const AU_DATABASES = {
+  austlii: {
+    icon: ``,
+    name: `AustLII`,
+    url: `https://www8.austlii.edu.au`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -155,6 +163,7 @@ const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(EU_DATABASES, `EU`),
   ...dedupeObjects(HK_DATABASES, `HK`),
   ...dedupeObjects(CA_DATABASES, `CA`),
+  ...dedupeObjects(AU_DATABASES, `AU`),
   ...MISC_DATABASES,
 }
 

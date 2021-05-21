@@ -15,6 +15,8 @@
     "storage",
     "downloads",
     "http://lawcite.org/*",
+    "*://www.austlii.edu.au/*",
+    "*://www8.austlii.edu.au/*",
     "https://www.canlii.org/*",
     "http://www.commonlii.org/*",
     "http://www.worldlii.org/*",
@@ -44,6 +46,8 @@
   "content_scripts": [
     {
       "matches": [
+        "*://www.austlii.edu.au/*",
+        "*://www8.austlii.edu.au/*",
         "http://cilj.co.uk/*",
         "http://copyrightblog.kluweriplaw.com/*",
         "http://ejlt.org/*",
@@ -52,7 +56,6 @@
         "http://singaporelawblog.sg/*",
         "http://trademarkblog.kluweriplaw.com/*",
         "http://ukscblog.com/*",
-        "https://www.canlii.org/*",
         "http://www.commonlii.org/*",
         "http://www.iconnectblog.com/*",
         "http://www.practiceforte.sg/*",
@@ -117,6 +120,7 @@
         "https://ukpubliclawblog.com/*",
         "https://www.bailii.org/*",
         "https://www.cambridge.org/core/journals/*",
+        "https://www.canlii.org/*",
         "https://www.counselmagazine.co.uk/*",
         "https://www.create.ac.uk/*",
         "https://www.cyberleagle.com/*",

@@ -15,6 +15,21 @@ const LAWCITE_DOMAIN = `http://lawcite.org`
 const COMMONLII_DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
+const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => {
+  if(/united kingdom/gi.test(jurisdictionString)){
+    return Constants.JURISDICTIONS.UK.id
+  } else if (/singapore/gi.test(jurisdictionString)) {
+    return Constants.JURISDICTIONS.SG.id
+  } else if (/hong kong/gi.test(jurisdictionString)) {
+    return Constants.JURISDICTIONS.HK.id
+  } else if (/canada/gi.test(jurisdictionString)){
+    return Constants.JURISDICTIONS.CA.id
+  } else if (/australia/gi.test(jurisdictionString)){
+    return Constants.JURISDICTIONS.AU.id
+  }
+  return null
+}
+
 const parseCase = async (citation: string, result): Promise<Law.Case | false> => {
   try {
 
@@ -38,15 +53,7 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
     const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
     // const date = $(`div.date`)?.text()?.trim()
     const link = $(`div.citation > a.free-external`)?.attr(`href`)
-    let jurisdiction = $(`.jurisdiction`).eq(0).text().trim()
-
-    if([`United Kingdom - England and Wales`, `United Kingdom`].includes(jurisdiction)){
-      jurisdiction = Constants.JURISDICTIONS.UK.id
-    } else if (jurisdiction === `Singapore` || jurisdiction === `Singapore - Singapore`) {
-      jurisdiction = Constants.JURISDICTIONS.SG.id
-    } else {
-      jurisdiction = null
-    }
+    const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
 
     let pdf: string | undefined
     if(link){

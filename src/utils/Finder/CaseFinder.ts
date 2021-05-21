@@ -32,7 +32,7 @@ export interface CaseFinderResult {
 
 const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => `${abbr
     .split(``)
-    .map(letter =>
+    .map((letter: string) =>
       /[a-z]/i.test(letter)
         ? letter+`\\.?`
         : letter,
@@ -187,6 +187,116 @@ const findCACase = (query: string): CaseFinderResult[] => {
   return []
 }
 
+const findAUCase = (query: string): CaseFinderResult[] => {
+  // eslint-disable-next-line unicorn/better-regex
+  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
+  const volumeRegex = new RegExp(/( \d{1,2})?/)
+  const pageRegex = new RegExp(/\d{1,4}/)
+  const abbrs = formatAbbrs([
+    { abbr: `HCA` },
+    { abbr: `UKPCHCA` },
+    { abbr: `FamCA` },
+    { abbr: `HCASum` },
+    { abbr: `NSWSC` },
+    { abbr: `NSWCA` },
+    { abbr: `NSWCCA` },
+    { abbr: `NSWCIMC` },
+    { abbr: `NSWCC` },
+    { abbr: `NSWDC` },
+    { abbr: `NSWDRGC` },
+    { abbr: `NSWIC` },
+    { abbr: `NSWKnoxRp` },
+    { abbr: `NSWLR` },
+    { abbr: `NSWR` },
+    { abbr: `SR \\(NSW\\)`},
+    { abbr: `CLR` },
+    { abbr: `FCA` },
+    { abbr: `FCAFC` },
+    { abbr: `FCCA` },
+    { abbr: `FMCA` },
+    { abbr: `FMCAfam` },
+    { abbr: `IRCA` },
+    { abbr: `FCR` },
+    { abbr: `ALR` },
+    { abbr: `QCA` },
+    { abbr: `QSC` },
+    { abbr: `QDC` },
+    { abbr: `QChC` },
+    { abbr: `QChCM` },
+    { abbr: `ICQ` },
+    { abbr: `QIC` },
+    { abbr: `QLC` },
+    { abbr: `VSC` },
+    { abbr: `VicSC` },
+    { abbr: `VSCA` },
+    { abbr: `VicCorC` },
+    { abbr: `VCC` },
+    { abbr: `VMC` },
+    { abbr: `VicRp` },
+    { abbr: `VicLawRp` },
+    { abbr: `WASC` },
+    { abbr: `WASCA` },
+    { abbr: `WALawRp` },
+    { abbr: `WADC` },
+    { abbr: `FWCA` },
+    { abbr: `FCWAM` },
+    { abbr: `WACIC` },
+    { abbr: `WAGAB` },
+    { abbr: `WASupC` },
+    { abbr: `WAR` },
+    { abbr: `TASSC` },
+    { abbr: `TASFC` },
+    { abbr: `TASCCA` },
+    { abbr: `TASMC` },
+    { abbr: `TASSupC` },
+    { abbr: `TASLawRp` },
+    { abbr: `TASStRp` },
+    { abbr: `TASRp` },
+    { abbr: `TASADT` },
+    { abbr: `TASFPT` },
+    { abbr: `SASC` },
+    { abbr: `SASCA` },
+    { abbr: `SASCFC` },
+    { abbr: `SADC` },
+    { abbr: `SAERDC` },
+    { abbr: `SALC` },
+    { abbr: `SAPelhamRp` },
+    { abbr: `SAIRC` },
+    { abbr: `SAIndRp` },
+    { abbr: `SALawRp` },
+    { abbr: `SAStRp` },
+    { abbr: `SAWC` },
+    { abbr: `SACAT` },
+    { abbr: `NTSC` },
+    { abbr: `NTCA` },
+    { abbr: `NTCCA` },
+    { abbr: `NTMC` },
+    { abbr: `NTJud` },
+    { abbr: `NTLC` },
+    { abbr: `ACTCA` },
+    { abbr: `ACTSCFC` },
+    { abbr: `ACTSC` },
+    { abbr: `ACTCD` },
+    { abbr: `ACTIC` },
+    { abbr: `ACTMC` },
+    { abbr: `ACAT` },
+    { abbr: `ADO` },
+    { abbr: `AUDND` },
+    { abbr: `NFSC` },
+  ])
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+
+  const matches = [...query.matchAll(regex)]
+  if (matches.length > 0) {
+    return matches.map((match) => ({
+      citation: match[0],
+      index: match.index,
+      jurisdiction: Constants.JURISDICTIONS.AU.id,
+    })).map(c => ({ ...c, type: `case` }))
+  }
+  return []
+}
+
 const findCase = (query: string): CaseFinderResult[] => {
   return [
     ...findSGCase(query),
@@ -194,6 +304,7 @@ const findCase = (query: string): CaseFinderResult[] => {
     ...findEUCase(query),
     ...findHKCase(query),
     ...findCACase(query),
+    ...findAUCase(query),
   ]
 }
 
