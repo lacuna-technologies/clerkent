@@ -39,12 +39,14 @@ const Popup: React.FC = () => {
     setNotFound(false)
 
     const results = Finder.find(`${value}`)
+    Storage.set(keys.POPUP_QUERY, value)
+
     if(results.length === 0){
+      setNotFound(true)
       return null
     }
 
     setParseResult(results)
-    Storage.set(keys.POPUP_QUERY, value)
 
     if(results.length === 1){
       debouncedViewCitation(value)
@@ -55,6 +57,12 @@ const Popup: React.FC = () => {
   //   const selection = window.getSelection().toString()
   //   Logger.log(selection)
   // }, [])
+
+  const openTab = useCallback((link: string) => () => {
+    browser.tabs.create({ active: true, url: link })
+  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const openHelp = useCallback(openTab(`https://clerkent.huey.xyz/help`), [openTab])
 
   const downloadPDF = useCallback(({ name, citation, pdf }) => () => sendMessage({
     action: Messenger.ACTION_TYPES.downloadFile,
@@ -109,7 +117,7 @@ const Popup: React.FC = () => {
     <section id="popup">
       <input
         type="search"
-        placeholder="case citation (e.g. [2020] EWHC 2472)"
+        placeholder="case citation or legislation"
         onChange={onSearchQueryChange}
         value={query}
       />
@@ -121,6 +129,14 @@ const Popup: React.FC = () => {
           notFound={notFound}
         />
       }
+      <div id="help">
+        {/*
+          <button className="link">
+            Options
+          </button>
+        */}
+        <button className="link" onClick={openHelp}>Help</button>
+      </div>
       {/* <div className="buttons">
         <button id="mass-citations" onClick={onMassCitations}>Want to paste in a large amount of text?</button>
       </div> */}

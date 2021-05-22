@@ -12,13 +12,13 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
 
   const matches: Law.Case[] = data
     .map(([name, link]) => ({
-      citation: name.slice(-citation.length),
+      citation: name.slice(-citation.length).trim(),
       database: Constants.DATABASES.SG_slw,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       name: name.slice(0, -citation.length).trim(),
       pdf: link,
     }))
-    .filter((match: Law.Case) => match.citation === citation)
+    .filter((match: Law.Case) => match.citation.toLowerCase() === citation.toLowerCase())
   
   if(matches.length !== 1){
     return false

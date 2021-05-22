@@ -14,7 +14,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
     const name = $(`.text`, element).contents().get(2).data.trim()
     const link = $(`.doc-download`, element).attr(`href`)
     const pdf = `${DOMAIN}${$(`.pdf-download`, element).attr(`href`)}`
-    const citation = $(`.text ul.decision li`).eq(0).text()
+    const citation = $(`.text ul.decision li`, element).eq(0).text().trim()
     return {
       citation,
       name,
@@ -23,7 +23,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
       database: Constants.DATABASES.SG_sc,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
     }
-  }).get().filter((match: Law.Case)=> match.citation === citation)
+  }).get().filter((match: Law.Case)=> match.citation.toLowerCase() === citation.toLowerCase())
 
   if (matches.length !== 1) {
     return false

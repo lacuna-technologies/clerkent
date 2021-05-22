@@ -33,7 +33,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
       name,
     }
   }).get()
-  .filter(({ name }) => name.includes(citation))
+  .filter(({ name }) => name.toLowerCase().includes(citation.toLowerCase()))
   .map(({ name, ...attributes }) => ({ ...attributes, name: name.split(`[`)[0] }))
 
   if(matches.length === 0){

@@ -7,7 +7,7 @@ import type Law from '../../../types/Law'
 const getLegislation = SSO.getLegislation
 
 const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
-  const options = [`SGCA`, `SGHC`].some(cit => citation.includes(cit)) ? [SGSC, SLW, Common.CommonLII] : [Common.CommonLII, SGSC, SLW]
+  const options = [`sgca`, `sghc`].some(cit => citation.includes(cit.toLowerCase())) ? [SGSC, SLW, Common.CommonLII] : [Common.CommonLII, SGSC, SLW]
   for (const option of options) {
     try {
       const result = await option.getCase(citation)

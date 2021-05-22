@@ -10,14 +10,16 @@ export type { LegislationFinderResult } from './LegislationFinder'
 export type FinderResult = CaseFinderResult | LegislationFinderResult
 
 const find = Memoize((citation: string): FinderResult[] => {
-  const caseCitations = [...CaseFinder.findCase(citation)]
-  if(caseCitations.length > 0){
+  const isCaseCitation = citation.match(/^\s*[()[]/gi) !== null
+  if(isCaseCitation){
+    const caseCitations = [...CaseFinder.findCase(citation)]
     Logger.log(`Found cases: `, caseCitations)
     return caseCitations
-  }
-  const legislation = [...LegislationFinder.findLegislation(citation)]
-  Logger.log(`Found legislation: `, caseCitations)
-  return legislation
+  } else {
+    const legislation = [...LegislationFinder.findLegislation(citation)]
+    Logger.log(`Found legislation: `, legislation)
+    return legislation
+  }  
 })
 
 const Finder = {

@@ -1,3 +1,5 @@
+@import "../styles/core.scss";
+
 #results {
   display: flex;
   flex-direction: column;
@@ -8,17 +10,7 @@
   .result {
 
     .link {
-      border: none;
-      background: none;
-      outline: none;
-      padding: 0;
-      text-decoration: underline;
-      cursor: pointer;
-      color: blue;
-
-      &:hover {
-        color: darken(blue, 10%);
-      }
+      @include link;
     }
 
     > .details {

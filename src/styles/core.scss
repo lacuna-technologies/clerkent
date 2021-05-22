@@ -1,1 +1,15 @@
 $font: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI", "Calibri", Helvetica, sans-serif;
+
+@mixin link {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+
+  &:hover {
+    color: darken(blue, 10%);
+  }
+}
