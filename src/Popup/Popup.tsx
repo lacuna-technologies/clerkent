@@ -53,6 +53,12 @@ const Popup: React.FC = () => {
     }
   }, [debouncedViewCitation])
 
+  const onEnter = useCallback((event) => {
+    if(event.key === `Enter`){
+      onSearchQueryChange({ target: { value: query }})
+    }
+  }, [onSearchQueryChange, query])
+
   // const downloadSelectedCitations = useCallback(() => {
   //   const selection = window.getSelection().toString()
   //   Logger.log(selection)
@@ -119,6 +125,7 @@ const Popup: React.FC = () => {
         type="search"
         placeholder="case citation or legislation"
         onChange={onSearchQueryChange}
+        onKeyDown={onEnter}
         value={query}
       />
       {query.length > 0 &&
