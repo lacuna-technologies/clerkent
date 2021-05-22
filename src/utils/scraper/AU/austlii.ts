@@ -7,12 +7,12 @@ import Logger from '../../Logger'
 const DOMAIN = `https://www8.austlii.edu.au`
 
 const getCase = async (citation: string): Promise<Law.Case | false> => {
+  const queryString = `mask_path=au/journals&mask_path=au/cases&mask_path=au/cases/cth`
   const { data } = await Request.get(
-    `${DOMAIN}/cgi-bin/sinosrch.cgi`,
+    `${DOMAIN}/cgi-bin/sinosrch.cgi?${queryString}`,
     {
       params: {
-        mask_path: `au/cases,au/journals,au/cases/cth`,
-        method: `phrase`,
+        method: `auto`,
         query: citation,
       },
     },
