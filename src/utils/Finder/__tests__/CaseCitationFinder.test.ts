@@ -1,4 +1,4 @@
-import CaseFinder from '../CaseFinder'
+import CaseCitationFinder from '../CaseCitationFinder'
 
 describe(`Finder`, () => {
   it(`🇸🇬 citations`, () => {
@@ -15,7 +15,7 @@ describe(`Finder`, () => {
     ]
 
     for(const citation of citations){
-      const parsedCitation = CaseFinder.findCase(citation)
+      const parsedCitation = CaseCitationFinder.findCaseCitation(citation)
       expect(parsedCitation.length).toEqual(1)
       expect(parsedCitation[0].jurisdiction).toEqual(`SG`)
       expect(parsedCitation).toMatchSnapshot()
@@ -30,7 +30,7 @@ describe(`Finder`, () => {
     ]
 
     for (const citation of citations) {
-      const parsedCitation = CaseFinder.findCase(citation)
+      const parsedCitation = CaseCitationFinder.findCaseCitation(citation)
       expect(parsedCitation.length).toEqual(1)
       expect(parsedCitation[0].jurisdiction).toEqual(`UK`)
       expect(parsedCitation).toMatchSnapshot()

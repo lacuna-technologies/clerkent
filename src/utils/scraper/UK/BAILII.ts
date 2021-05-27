@@ -3,10 +3,11 @@ import cheerio from 'cheerio'
 import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants' 
+import Logger from '../../Logger'
 
 const DOMAIN = `https://www.bailii.org`
 
-const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
+const getSearchResultsByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data, request } = await Request.post(
     `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
     qs.stringify({ citation }, { format : `RFC1738` }),
@@ -35,8 +36,8 @@ const getSearchResults = async (citation: string): Promise<Law.Case[]> => {
   return [result]
 }
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
-  const results = (await getSearchResults(citation))
+const getCaseByCitation = async (citation: string): Promise<Law.Case | false> => {
+  const results = (await getSearchResultsByCitation(citation))
 
   if(results.length !== 1){
     return false
@@ -45,9 +46,43 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   return results[0]
 }
 
+const getCaseByName = async (caseName: string): Promise<Law.Case | false> => {
+  try {
+    const { data } = await Request.get(
+      `${DOMAIN}/cgi-bin/lucy_search_1.cgi`,
+      {
+        params: {
+          mask_path: `uk/cases scot/cases ew/cases ie/cases nie/cases eu/cases`,
+          querytitle: caseName,
+        },
+      },
+    )
+
+    const $ = cheerio.load(data)
+
+    const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element) => {
+      const name = $(`a`, element).eq(0).text().trim().split(`[`)[0]
+      const citation = $(`small`, element).text().trim()
+      const link = `${DOMAIN}${$(`a`, element).eq(0).attr(`href`)}`
+      return {
+        citation,
+        database: Constants.DATABASES.UK_bailii,
+        jurisdiction: Constants.JURISDICTIONS.UK.id,
+        link,
+        name,
+      }
+    }).get()
+
+    return matches[0]
+  } catch (error){
+    Logger.error(error)
+  }
+}
+
 const BAILII = {
-  getCase,
-  getSearchResults,
+  getCase: getCaseByCitation,
+  getCaseByName,
+  getSearchResults: getSearchResultsByCitation,
 }
 
 export default BAILII

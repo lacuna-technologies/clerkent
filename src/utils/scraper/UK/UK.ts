@@ -4,6 +4,7 @@ import Common from '../common'
 import LegislationGovUk from './LegislationGovUk'
 
 const getLegislation = LegislationGovUk.getLegislation
+const getCaseByName = BAILII.getCaseByName
 
 const bailiiPriority = [`UKSC`, `EWCA`, `EWHC`, `UKPC`, `UKHL`, ` KB `, ` QB `, ` Ch `, `EMLR`, ` All ER`, ` WLR `, ` Fam `]
 
@@ -26,6 +27,7 @@ const getCase = async (citation: string, court: string): Promise<Law.Case | fals
 
 const UK = {
   getCase,
+  getCaseByName,
   getLegislation,
 }
 

@@ -7,9 +7,32 @@ import Finder from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
-import type { CaseFinderResult, LegislationFinderResult } from '../utils/Finder'
+import type {
+  CaseCitationFinderResult,
+  CaseNameFinderResult,
+  LegislationFinderResult,
+  FinderResult,
+} from '../utils/Finder'
 
 let currentCitation = null
+
+const getScraperResult = (targets: FinderResult[]) => {
+  const { type } = targets[0]
+  switch (type) {
+    case `legislation`: {
+      return Scraper.getLegislation(targets[0] as LegislationFinderResult)
+    }
+    case `case-citation`: {
+      return Scraper.getCase(targets[0] as CaseCitationFinderResult)
+    }
+    case `case-name`: {
+      return Scraper.getCaseByName(targets[0] as CaseNameFinderResult)
+    }
+    default: {
+      return null
+    }
+  }
+}
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
@@ -25,14 +48,8 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
         target: source,
       })
     }
-    const { type } = targets[0]
-    const result = (
-      type === `legislation`
-        ? await Scraper.getLegislation(targets[0] as LegislationFinderResult)
-      : (type === `case`
-        ? await Scraper.getCase(targets[0] as CaseFinderResult)
-      : null)
-    )
+    
+    const result = await getScraperResult(targets)
 
     if(citation === currentCitation){ // ignore outdated results
       Logger.log(`sending viewCitation`, {

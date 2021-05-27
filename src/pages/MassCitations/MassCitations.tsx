@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Constants, Finder, Storage, Logger } from '../../utils'
-import type { CaseFinderResult } from '../../utils/Finder/CaseFinder'
+import type { CaseCitationFinderResult } from '../../utils/Finder/CaseCitationFinder'
 import './MassCitations.scss'
 
 const keys = {
@@ -9,7 +9,7 @@ const keys = {
 
 const MassCitations = () => {
   const [inputText, setInputText] = useState(``)
-  const [parseResult, setParseResult] = useState([] as CaseFinderResult[])
+  const [parseResult, setParseResult] = useState([] as CaseCitationFinderResult[])
   const [pressedDone, setPressedDone] = useState(false)
   const onInputChange = useCallback(({ target: { value }}) => {
     setInputText(value)

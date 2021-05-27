@@ -1,11 +1,12 @@
 import Constants from '../Constants'
 import type Law from '../../types/Law'
-export interface CaseFinderResult {
+
+export interface CaseCitationFinderResult {
   jurisdiction: Law.JursidictionCode
   citation: string,
   index: number,
   court? : string,
-  type: `case`
+  type: `case-citation`
 }
 
 // const emptyParseResult: ParseResult = {
@@ -40,7 +41,7 @@ const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => `${abbr
     }${appendum ? appendum : ``}`,
   ).join(`|`)
 
-const findSGCase = (query: string): CaseFinderResult[] => {
+const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const regex = /\[[12]\d{3}]( \d{1,2})? (sgca(\(i\))?|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
   const matches = [...query.matchAll(regex)]
   if (matches.length > 0) {
@@ -48,12 +49,12 @@ const findSGCase = (query: string): CaseFinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
 
-const findUKCase = (query:string): CaseFinderResult[] => {
+const findUKCaseCitation = (query:string): CaseCitationFinderResult[] => {
   const abbrs = formatAbbrs([
     { abbr: `EWCA`, appendum: `( Civ| Crim)?` },
     { abbr: `EWHC`, appendum: `( Patents)?` },
@@ -104,7 +105,7 @@ const findUKCase = (query:string): CaseFinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
@@ -112,7 +113,7 @@ const findUKCase = (query:string): CaseFinderResult[] => {
 export const epoRegex = new RegExp(/[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
 
-const findEUCase = (query: string): CaseFinderResult[] => {
+const findEUCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
   const cleanedQuery = query.replace(/‑/g, `-`)
 
@@ -123,12 +124,12 @@ const findEUCase = (query: string): CaseFinderResult[] => {
       court: match[1] ? Constants.COURTS.EU_epo.id : Constants.COURTS.EU_cjeu.id,
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.EU.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
 
-const findHKCase = (query: string): CaseFinderResult[] => {
+const findHKCaseCitation = (query: string): CaseCitationFinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
@@ -157,12 +158,12 @@ const findHKCase = (query: string): CaseFinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.HK.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
 
-const findCACase = (query: string): CaseFinderResult[] => {
+const findCACaseCitation = (query: string): CaseCitationFinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
@@ -182,12 +183,12 @@ const findCACase = (query: string): CaseFinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.CA.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
 
-const findAUCase = (query: string): CaseFinderResult[] => {
+const findAUCaseCitation = (query: string): CaseCitationFinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
@@ -292,12 +293,12 @@ const findAUCase = (query: string): CaseFinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.AU.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
 
-const findNZCase = (query: string): CaseFinderResult[] => {
+const findNZCaseCitation = (query: string): CaseCitationFinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
@@ -320,29 +321,30 @@ const findNZCase = (query: string): CaseFinderResult[] => {
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.NZ.id,
-    })).map(c => ({ ...c, type: `case` }))
+    })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
 }
-const findCase = (query: string): CaseFinderResult[] => {
+const findCaseCitation = (query: string): CaseCitationFinderResult[] => {
   return [
-    ...findSGCase(query),
-    ...findUKCase(query),
-    ...findEUCase(query),
-    ...findHKCase(query),
-    ...findCACase(query),
-    ...findAUCase(query),
-    ...findNZCase(query),
+    ...findSGCaseCitation(query),
+    ...findUKCaseCitation(query),
+    ...findEUCaseCitation(query),
+    ...findHKCaseCitation(query),
+    ...findCACaseCitation(query),
+    ...findAUCaseCitation(query),
+    ...findNZCaseCitation(query),
   ]
 }
 
 const CaseFinder = {
-  findCACase,
-  findCase,
-  findEUCase,
-  findHKCase,
-  findSGCase,
-  findUKCase,
+  findAUCaseCitation,
+  findCACaseCitation,
+  findCaseCitation,
+  findEUCaseCitation,
+  findHKCaseCitation,
+  findSGCaseCitation,
+  findUKCaseCitation,
 }
 
 export default CaseFinder

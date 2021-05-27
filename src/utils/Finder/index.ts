@@ -2,5 +2,6 @@ export { default } from './Finder'
 export type {
   FinderResult,
   LegislationFinderResult,
-  CaseFinderResult,
+  CaseCitationFinderResult,
+  CaseNameFinderResult,
 } from './Finder'

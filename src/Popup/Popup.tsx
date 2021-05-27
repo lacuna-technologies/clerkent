@@ -15,6 +15,7 @@ const keys = {
 
 type SearchResult = Law.Case | Law.Legislation
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
@@ -37,9 +38,12 @@ const Popup: React.FC = () => {
     setQuery(value)
     setSearchResult([] as SearchResult[])
     setNotFound(false)
+  }, [])
 
-    const results = Finder.find(`${value}`)
-    Storage.set(keys.POPUP_QUERY, value)
+  const doSearch = useCallback((query) => {
+    setNotFound(false)
+    const results = Finder.find(`${query}`)
+    Storage.set(keys.POPUP_QUERY, query)
 
     if(results.length === 0){
       setNotFound(true)
@@ -49,15 +53,15 @@ const Popup: React.FC = () => {
     setParseResult(results)
 
     if(results.length === 1){
-      debouncedViewCitation(value)
+      debouncedViewCitation(query)
     }
-  }, [debouncedViewCitation])
+  },  [debouncedViewCitation])
 
   const onEnter = useCallback((event) => {
     if(event.key === `Enter`){
-      onSearchQueryChange({ target: { value: query }})
+      doSearch(query)
     }
-  }, [onSearchQueryChange, query])
+  }, [doSearch, query])
 
   // const downloadSelectedCitations = useCallback(() => {
   //   const selection = window.getSelection().toString()
@@ -109,9 +113,10 @@ const Popup: React.FC = () => {
       const storedQuery = await Storage.get(keys.POPUP_QUERY)
       if(storedQuery !== null && storedQuery.length > 0){
         onSearchQueryChange({target: { value: storedQuery }})
+        doSearch(storedQuery)
       }
     })()
-  }, [onSearchQueryChange])
+  }, [onSearchQueryChange, doSearch])
 
   // const onMassCitations = useCallback(() => {
   //   browser.tabs.create({
@@ -128,13 +133,15 @@ const Popup: React.FC = () => {
         onKeyDown={onEnter}
         value={query}
       />
-      {query.length > 0 &&
+      {query.length > 0 ?
         <QueryResult
           parseResult={parseResult}
           searchResult={searchResult}
           downloadPDF={downloadPDF}
           notFound={notFound}
-        />
+        /> : (
+          <p>Press enter to search</p>
+        )
       }
       <div id="help">
         {/*

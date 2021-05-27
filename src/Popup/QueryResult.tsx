@@ -19,7 +19,7 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
   }
 
   const resultType = parseResult[0]?.type || searchResult[0]?.type
-  if(resultType === `case`){
+  if(resultType === `case-citation` || resultType === `case-name`){
     return (
       <div id="results">
         {

@@ -8,12 +8,15 @@ import AU from './AU'
 import NZ from './NZ'
 import type Law from '../../types/Law'
 import Constants from '../Constants'
-import type { CaseFinderResult } from '../Finder/CaseFinder'
-import type { LegislationFinderResult } from '../Finder/LegislationFinder'
+import type {
+  CaseCitationFinderResult,
+  CaseNameFinderResult,
+  LegislationFinderResult,
+} from '../Finder'
 
 type JurisdictionType = typeof SG | typeof UK | typeof EU | typeof HK | typeof CA
 
-const getCase = Memoize((targetCase: CaseFinderResult): Promise<Law.Case | false> => {
+const getCase = Memoize((targetCase: CaseCitationFinderResult): Promise<Law.Case | false> => {
   const { jurisdiction, citation, court } = targetCase
 
   let targetJurisdiction: JurisdictionType
@@ -56,6 +59,20 @@ const getCase = Memoize((targetCase: CaseFinderResult): Promise<Law.Case | false
   normalizer: ([targetCase]) => targetCase.citation,
 })
 
+const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult) : Promise<Law.Case | false> => {
+  const { name } = targetCaseName
+
+  const jurisdictionList = [
+    UK,
+  ]
+
+  for (const juris of jurisdictionList) {
+    return juris.getCaseByName(name)
+  }
+}, {
+  normalizer: ([targetCaseName]) => targetCaseName.name.toLowerCase(),
+})
+
 const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult): Promise<Law.Legislation[] | false> => {
   const { jurisdiction } = targetLegislation
 
@@ -96,10 +113,15 @@ const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult
 })
 
 const scraper = {
+  AU,
+  CA,
   EU,
+  HK,
+  NZ,
   SG,
   UK,
   getCase,
+  getCaseByName,
   getLegislation,
 }
 
