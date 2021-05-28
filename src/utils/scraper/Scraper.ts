@@ -59,16 +59,10 @@ const getCase = Memoize((targetCase: CaseCitationFinderResult): Promise<Law.Case
   normalizer: ([targetCase]) => targetCase.citation,
 })
 
-const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult) : Promise<Law.Case | false> => {
+const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult) : Promise<Law.Case[] | false> => {
   const { name } = targetCaseName
 
-  const jurisdictionList = [
-    UK,
-  ]
-
-  for (const juris of jurisdictionList) {
-    return juris.getCaseByName(name)
-  }
+  return UK.getCaseByName(name)
 }, {
   normalizer: ([targetCaseName]) => targetCaseName.name.toLowerCase(),
 })

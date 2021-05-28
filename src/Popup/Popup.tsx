@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import type { FinderResult } from '../utils/Finder'
 import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
-import { Messenger, Finder, Storage, Logger, Helpers } from '../utils'
+import { Messenger, Storage, Logger, Helpers } from '../utils'
+import Toggle from './Toggle'
 
 import './Popup.scss'
 
@@ -19,14 +19,15 @@ type SearchResult = Law.Case | Law.Legislation
 const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
-  const [parseResult, setParseResult] = useState([] as FinderResult[])
+  const [mode, setMode] = useState(false)
   const [searchResult, setSearchResult] = useState([] as SearchResult[])
   const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
-  const viewCitation = useCallback((citation) => sendMessage({
+  const viewCitation = useCallback((citation, inputMode) => sendMessage({
     action: Messenger.ACTION_TYPES.viewCitation,
     citation: citation,
+    mode: inputMode,
     source: Messenger.TARGETS.popup,
     target: Messenger.TARGETS.background,
   }), [sendMessage])
@@ -38,30 +39,19 @@ const Popup: React.FC = () => {
     setQuery(value)
     setSearchResult([] as SearchResult[])
     setNotFound(false)
+    Storage.set(keys.POPUP_QUERY, value)
   }, [])
 
-  const doSearch = useCallback((query) => {
+  const doSearch = useCallback((inputQuery = query, inputMode = mode) => {
     setNotFound(false)
-    const results = Finder.find(`${query}`)
-    Storage.set(keys.POPUP_QUERY, query)
-
-    if(results.length === 0){
-      setNotFound(true)
-      return null
-    }
-
-    setParseResult(results)
-
-    if(results.length === 1){
-      debouncedViewCitation(query)
-    }
-  },  [debouncedViewCitation])
+    debouncedViewCitation(inputQuery, inputMode)
+  },  [debouncedViewCitation, query, mode])
 
   const onEnter = useCallback((event) => {
     if(event.key === `Enter`){
-      doSearch(query)
+      doSearch()
     }
-  }, [doSearch, query])
+  }, [doSearch])
 
   // const downloadSelectedCitations = useCallback(() => {
   //   const selection = window.getSelection().toString()
@@ -92,15 +82,16 @@ const Popup: React.FC = () => {
       if(data === false || (Array.isArray(data) && data.length === 0)){
         setNotFound(true)
       } else {
-        setSearchResult([
-          {
-            ...parseResult[0],
-            ...(Array.isArray(data) ? data[0] : data),
-          },
-        ])
+        setSearchResult(Array.isArray(data) ? data : [data])
       }
     }
-  }, [parseResult])
+  }, [])
+
+  const onModeChange = useCallback(newMode => {
+    // false = case; true = legislation
+    setMode(newMode)
+    doSearch()
+  }, [doSearch])
 
   useEffect(() => {
     port.current = browser.runtime.connect(``, { name: `popup-port` })
@@ -126,6 +117,12 @@ const Popup: React.FC = () => {
 
   return (
     <section id="popup">
+      <Toggle
+        leftText="Cases"
+        rightText="Legislation"
+        onChange={onModeChange}
+        value={mode}
+      />
       <input
         type="search"
         placeholder="case citation or legislation"
@@ -135,7 +132,6 @@ const Popup: React.FC = () => {
       />
       {query.length > 0 ?
         <QueryResult
-          parseResult={parseResult}
           searchResult={searchResult}
           downloadPDF={downloadPDF}
           notFound={notFound}

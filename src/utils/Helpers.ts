@@ -7,7 +7,10 @@ const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) =
   }
 }
 
+const classnames = (...arguments_: string[]) => [...new Set([...arguments_])].join(` `)
+
 const Helpers = {
+  classnames,
   debounce,
   sanitiseFilename,
 }

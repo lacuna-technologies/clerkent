@@ -13,58 +13,66 @@ import type {
   LegislationFinderResult,
   FinderResult,
 } from '../utils/Finder'
+import type Law from '../types/Law'
 
 let currentCitation = null
 
-const getScraperResult = (targets: FinderResult[]) => {
-  const { type } = targets[0]
-  switch (type) {
-    case `legislation`: {
-      return Scraper.getLegislation(targets[0] as LegislationFinderResult)
-    }
-    case `case-citation`: {
-      return Scraper.getCase(targets[0] as CaseCitationFinderResult)
-    }
-    case `case-name`: {
-      return Scraper.getCaseByName(targets[0] as CaseNameFinderResult)
-    }
-    default: {
-      return null
+const getScraperResult = (targets: FinderResult[], mode: boolean) => {
+  if(mode === true){
+    return Scraper.getLegislation(targets[0] as LegislationFinderResult)
+  }
+  if(mode === false){
+    const { type } = targets[0]
+    switch (type) {
+      case `case-citation`: {
+        return Scraper.getCase(targets[0] as CaseCitationFinderResult)
+      }
+      case `case-name`: {
+        return Scraper.getCaseByName(targets[0] as CaseNameFinderResult)
+      }
     }
   }
+  return Promise.resolve(false)
 }
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
   case Messenger.ACTION_TYPES.viewCitation: {
-    const { citation, source } = otherProperties
+    const { citation, source, mode } = otherProperties
     currentCitation = citation
-    const targets = Finder.find(`${citation}`)
+
+    const targets = mode === true ? Finder.findLegislation(citation) : Finder.findCase(citation)
+
+    const noResultMessage = {
+      action: Messenger.ACTION_TYPES.viewCitation,
+      data: false,
+      source: Messenger.TARGETS.background,
+      target: source,
+    }
     if(targets.length === 0){
-      port.postMessage({
-        action: Messenger.ACTION_TYPES.viewCitation,
-        data: false,
-        source: Messenger.TARGETS.background,
-        target: source,
-      })
+      return port.postMessage(noResultMessage)
     }
     
-    const result = await getScraperResult(targets)
+    const result = await getScraperResult(targets, mode)
+    Logger.log(`BackgroundPage scraper result`, result)
+
+    if(result === false){
+      return port.postMessage(noResultMessage)
+    }
 
     if(citation === currentCitation){ // ignore outdated results
-      Logger.log(`sending viewCitation`, {
-        action: Messenger.ACTION_TYPES.viewCitation,
-        data: result,
-        source: Messenger.TARGETS.background,
-        target: source,
-      })
+      const data = Array.isArray(result)
+        ? result.map(r => ({...targets[0], ...r}))
+        : [{...targets[0], ...(result as  Law.Case | Law.Case[] | Law.Legislation[])}]
 
-      port.postMessage({
+      const message = {
         action: Messenger.ACTION_TYPES.viewCitation,
-        data: result,
+        data,
         source: Messenger.TARGETS.background,
         target: source,
-      })
+      }
+      Logger.log(`sending viewCitation`, message)
+      port.postMessage(message)
     }
   break
   }

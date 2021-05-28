@@ -3,13 +3,13 @@ import { browser } from 'webextension-polyfill-ts'
 import { Constants } from '../utils'
 import './QueryResult.scss'
 
-const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
+const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
 
   const openTab = useCallback((link) => () => {
     browser.tabs.create({ active: true, url: link })
   }, [])
 
-  if(!Array.isArray(parseResult) || parseResult.length === 0 || notFound){
+  if(notFound){
     return <span>No results found</span>
   }
 
@@ -18,7 +18,7 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
     return <span>Loading...</span>
   }
 
-  const resultType = parseResult[0]?.type || searchResult[0]?.type
+  const resultType = searchResult[0]?.type
   if(resultType === `case-citation` || resultType === `case-name`){
     return (
       <div id="results">
@@ -29,7 +29,7 @@ const QueryResult = ({ parseResult, searchResult, downloadPDF, notFound }) => {
                 <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction].emoji}</span>
                 <span className="database">{database.name}</span>
               </p>
-              <button className="case-name link" onClick={openTab(link)}>{name}</button>
+              <button className="case-name link" onClick={openTab(link)}>{name} {citation}</button>
               {
                 pdf ? (
                   <p className="links">

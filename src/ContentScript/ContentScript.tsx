@@ -131,7 +131,7 @@ const highlightNode = async (node: Text, { citation, index }) => {
 const handleNode = (node: Node) => {
   const { nodeType, nodeValue } = node
   if (nodeType === NODE_TYPES.TEXT_NODE) {
-    const matches = Finder.findCase(nodeValue)
+    const matches = Finder.findCaseCitation(nodeValue)
 
     for (const match of matches) {
       Logger.log(`highlighting`, node)

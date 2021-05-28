@@ -14,26 +14,24 @@ export interface CaseNameFinderResult {
  
 export type FinderResult = CaseCitationFinderResult | LegislationFinderResult | CaseNameFinderResult
 
-const find = Memoize((citation: string): FinderResult[] => {
+const findCase = Memoize((citation: string): FinderResult[] => {
   const isCaseCitation = citation.match(/^\s*[()[]/gi) !== null
-  const caseNames = citation.match(/\w+ v\.? \w+/gi)
+  
   if(isCaseCitation){
     const caseCitations = [...CaseCitationFinder.findCaseCitation(citation)]
     Logger.log(`Found case citations: `, caseCitations)
     return caseCitations
-  } else if(caseNames !== null){
-    Logger.log(`Found case names: `, caseNames)
-    return [...caseNames].map(caseName => ({ name: caseName, type: `case-name` }))
-  } else {
-    const legislation = [...LegislationFinder.findLegislation(citation)]
-    Logger.log(`Found legislation: `, legislation)
-    return legislation
-  }  
+  }
+
+  if(citation.trim().length > 0){
+    return [{ name: citation, type: `case-name` }]
+  }
+  return []
 })
 
 const Finder = {
-  find,
-  findCase: CaseCitationFinder.findCaseCitation,
+  findCase,
+  findCaseCitation: CaseCitationFinder.findCaseCitation,
   findLegislation: LegislationFinder.findLegislation,
 }
 

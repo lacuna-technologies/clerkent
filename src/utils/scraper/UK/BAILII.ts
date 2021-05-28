@@ -4,6 +4,7 @@ import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants' 
 import Logger from '../../Logger'
+import CaseCitationFinder from '../../Finder/CaseCitationFinder'
 
 const DOMAIN = `https://www.bailii.org`
 
@@ -46,7 +47,15 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case | false> =>
   return results[0]
 }
 
-const getCaseByName = async (caseName: string): Promise<Law.Case | false> => {
+const findCitation = (inputText) => {
+  const results = CaseCitationFinder.findUKCaseCitation(inputText)
+  if(results.length > 0){
+    return results[0].citation
+  }
+  return ``
+}
+
+const getCaseByName = async (caseName: string): Promise<Law.Case[] | false> => {
   try {
     const { data } = await Request.get(
       `${DOMAIN}/cgi-bin/lucy_search_1.cgi`,
@@ -62,7 +71,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case | false> => {
 
     const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element) => {
       const name = $(`a`, element).eq(0).text().trim().split(`[`)[0]
-      const citation = $(`small`, element).text().trim()
+      const citation = findCitation($(`small`, element).text().trim())
       const link = `${DOMAIN}${$(`a`, element).eq(0).attr(`href`)}`
       return {
         citation,
@@ -73,7 +82,13 @@ const getCaseByName = async (caseName: string): Promise<Law.Case | false> => {
       }
     }).get()
 
-    return matches[0]
+    Logger.log(`BAILII result`, matches)
+
+    if(matches.length === 0){
+      return false
+    }
+
+    return matches
   } catch (error){
     Logger.error(error)
   }

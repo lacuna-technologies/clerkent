@@ -1,0 +1,18 @@
+.toggle-input {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0.1rem;
+  border: 1px solid darkslategray;
+  width: fit-content;
+
+  > div {
+    padding: 0.1rem 0.4rem;
+    cursor: pointer;
+  }
+
+  > .active {
+    background-color: darkslategray;
+    color: white;
+  }
+}
