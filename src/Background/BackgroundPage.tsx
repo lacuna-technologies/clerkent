@@ -118,6 +118,7 @@ const onConnect = (port: Runtime.Port) => {
 }
 
 const init = () => {
+  browser.tabs.create({url: `popup.html`})
   browser.runtime.onInstalled.addListener((): void => {
     Logger.log(`⚖ clerkent installed`)
   })

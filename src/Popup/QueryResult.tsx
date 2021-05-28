@@ -24,7 +24,7 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
       <div id="results">
         {
           searchResult.map(({ citation, name, link, pdf, jurisdiction, database }) => (
-            <div className="result" key={`${name}-${link}`}>
+            <div className="result" key={`${name}-${citation}`}>
               <p className="details">
                 <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction].emoji}</span>
                 <span className="database">{database.name}</span>

@@ -7,7 +7,8 @@
   align-items: flex-start;
   align-content: flex-start;
 
-  .result {
+  > .result {
+    padding-bottom: 1rem;
 
     .link {
       @include link;
@@ -34,7 +35,10 @@
     > p {
       margin: 0;
     }
-  }
 
-  
+    & + .result {
+      padding-top: 1rem;
+      border-top: 1px solid black;
+    }
+  }
 }
