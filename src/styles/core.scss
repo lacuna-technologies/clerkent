@@ -8,6 +8,7 @@ $font: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Noto Color Emoji
   text-decoration: underline;
   cursor: pointer;
   color: blue;
+  user-select: text;
 
   &:hover {
     color: darken(blue, 10%);
