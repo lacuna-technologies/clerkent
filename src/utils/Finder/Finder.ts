@@ -4,8 +4,6 @@ import LegislationFinder from './LegislationFinder'
 import type { CaseCitationFinderResult } from './CaseCitationFinder'
 import type { LegislationFinderResult } from './LegislationFinder'
 import Logger from '../Logger'
-export type { CaseCitationFinderResult } from './CaseCitationFinder'
-export type { LegislationFinderResult } from './LegislationFinder'
 
 export interface CaseNameFinderResult {
   name: string,
@@ -36,3 +34,5 @@ const Finder = {
 }
 
 export default Finder
+export type { CaseCitationFinderResult } from './CaseCitationFinder'
+export type { LegislationFinderResult } from './LegislationFinder'

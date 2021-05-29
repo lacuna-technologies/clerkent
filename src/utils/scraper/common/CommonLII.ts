@@ -48,9 +48,10 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
       return []
     }
 
-    const multipleCases = $(`a.cases > h1.search-results`)?.eq(0)?.text()?.trim()
+    const multipleCases = $(`a[name="cases"] > h1.search-results`)?.eq(0)?.text()?.trim()
+    console.log(multipleCases)
     if(multipleCases && multipleCases.includes(`Matching Cases`)){
-      return $(`table.search-results > tbody > tr:first-of-type`).map((_, element) => {
+      return $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
         const name = $(`td.case-cited > a`, element).text().trim()
         const lawCiteLink = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
         const link = $(`td.service > a`, element).attr(`href`)
@@ -115,7 +116,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   }
 }
 
-const getCaseByCaseName = async (citation: string): Promise<Law.Case[]> => {
+const getCaseByName = async (citation: string): Promise<Law.Case[]> => {
   try {
     const result = await Request.get(`${LAWCITE_DOMAIN}/cgi-bin/LawCite`, {
       params: {
@@ -132,8 +133,8 @@ const getCaseByCaseName = async (citation: string): Promise<Law.Case[]> => {
 }
 
 const CommonLII = {
-  getCaseByCaseName,
   getCaseByCitation,
+  getCaseByName,
 }
 
 export default CommonLII

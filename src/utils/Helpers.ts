@@ -19,11 +19,16 @@ const findCitation = (function_ = Finder.findCaseCitation, inputText: string) =>
   return ``
 }
 
+const uniqueBy = (array: any[], attribute: string) =>  [
+  ...new Set(array.map(r => r[attribute])),
+].map(((attribute_) => array.find((c) => c[attribute] === attribute_)))
+
 const Helpers = {
   classnames,
   debounce,
   findCitation,
   sanitiseFilename,
+  uniqueBy,
 }
 
 export default Helpers

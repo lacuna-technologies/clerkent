@@ -1,13 +1,7 @@
-import Constants from '../Constants'
-import type Law from '../../types/Law'
-
-export interface CaseCitationFinderResult {
-  jurisdiction: Law.JursidictionCode
-  citation: string,
-  index: number,
-  court? : string,
-  type: `case-citation`
-}
+import Constants from '../../Constants'
+import { formatAbbrs } from './utils'
+import type { CaseCitationFinderResult } from './types'
+import { findUKCaseCitation, sortUKCitations } from './UK'
 
 // const emptyParseResult: ParseResult = {
 //   citation: undefined,
@@ -31,15 +25,6 @@ export interface CaseCitationFinderResult {
 
 // const inSGSC = (query: string) => inSLW(query)
 
-const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => `${abbr
-    .split(``)
-    .map((letter: string) =>
-      /[a-z]/i.test(letter)
-        ? letter+`\\.?`
-        : letter,
-    ).join(``)
-    }${appendum ? appendum : ``}`,
-  ).join(`|`)
 
 const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const regex = /\[[12]\d{3}]( \d{1,2})? (sgca(\(i\))?|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
@@ -54,61 +39,6 @@ const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
   return []
 }
 
-const findUKCaseCitation = (query:string): CaseCitationFinderResult[] => {
-  const abbrs = formatAbbrs([
-    { abbr: `EWCA`, appendum: `( Civ| Crim)?` },
-    { abbr: `EWHC`, appendum: `( Patents)?` },
-    { abbr: `UKSC` },
-    { abbr: `UKPC` },
-    { abbr: `UKHL` },
-    { abbr: `AC` },
-    { abbr: `Ch`, appendum: `( D)?` },
-    { abbr: `QB`, appendum: `(D)?` },
-    { abbr: `KB` },
-    { abbr: `WLR`, appendum: `( ?\\(D\\))?` },
-    { abbr: `All ER`, appendum: `( \\((D|Comm.?)\\))?` },
-    { abbr: `BCLC` },
-    { abbr: `BCC` },
-    { abbr: `HL Cas` },
-    { abbr: `App Cas` },
-    { abbr: `Ld Raym` },
-    { abbr: `FSR` },
-    { abbr: `ECC` },
-    { abbr: `ITCLR` },
-    { abbr: `RPC` },
-    { abbr: `Ex Rep` },
-    { abbr: `ER` },
-    { abbr: `Cr App R` },
-    { abbr: `ALR` },
-    { abbr: `FLR` },
-    { abbr: `Hare` },
-    { abbr: `H & Tw` },
-    { abbr: `EMLR` },
-    { abbr: `Fam` },
-    { abbr: `Macq` },
-    { abbr: `TLR` },
-    { abbr: `Ves & B` },
-    { abbr: `EngR` },
-    { abbr: `Lloyd's Rep` },
-    { abbr: `BLR` },
-    { abbr: `CLC` },
-  ])
-  // eslint-disable-next-line unicorn/better-regex
-  const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
-  const volumeRegex = new RegExp(/( \d{1,2})?/)
-  const pageRegex = new RegExp(/\d{1,4}/)
-  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
-
-  const matches = [...query.matchAll(regex)]
-  if (matches.length > 0) {
-    return matches.map((match) => ({
-      citation: match[0],
-      index: match.index,
-      jurisdiction: Constants.JURISDICTIONS.UK.id,
-    })).map(c => ({ ...c, type: `case-citation` }))
-  }
-  return []
-}
 
 export const epoRegex = new RegExp(/[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
@@ -345,6 +275,7 @@ const CaseFinder = {
   findHKCaseCitation,
   findSGCaseCitation,
   findUKCaseCitation,
+  sortUKCitations,
 }
 
 export default CaseFinder

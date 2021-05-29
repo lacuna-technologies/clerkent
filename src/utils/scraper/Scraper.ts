@@ -45,8 +45,6 @@ const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult, inputJurisd
   const { name } = targetCaseName
   const targetJurisdiction = jurisdictionMap[inputJurisdiction]
 
-  Logger.log(`sdjkfhsdkjh`, inputJurisdiction, targetJurisdiction)
-
   if(!targetJurisdiction || !targetJurisdiction?.getCaseByName){
     return Promise.resolve([])
   }
