@@ -6,34 +6,41 @@ import Constants from '../../Constants'
 const DOMAIN = `https://www.supremecourt.gov.sg`
 const getSearchResults = (citation: string) => `${DOMAIN}/search-judgment?q=${citation}&y=All`
 
+const parseCase = ($, cheerioElement) => {
+  const name = $(`.text`, cheerioElement).contents().get(2).data.trim()
+  const link = $(`.doc-download`, cheerioElement).attr(`href`)
+  const pdf = `${DOMAIN}${$(`.pdf-download`, cheerioElement).attr(`href`)}`
+  const citation = $(`.text ul.decision li`, cheerioElement).eq(0).text().trim()
+  return {
+    citation,
+    name,
+    pdf,
+    ...(link ? { link: `${DOMAIN}${link}`} : {}),
+    database: Constants.DATABASES.SG_sc,
+    jurisdiction: Constants.JURISDICTIONS.SG.id,
+  }
+}
+
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(citation))
   const $ = cheerio.load(data)
 
-  const matches: Law.Case[] = $(`.judgmentpage`).map((_, element) => {
-    const name = $(`.text`, element).contents().get(2).data.trim()
-    const link = $(`.doc-download`, element).attr(`href`)
-    const pdf = `${DOMAIN}${$(`.pdf-download`, element).attr(`href`)}`
-    const citation = $(`.text ul.decision li`, element).eq(0).text().trim()
-    return {
-      citation,
-      name,
-      pdf,
-      ...(link ? { link: `${DOMAIN}${link}`} : {}),
-      database: Constants.DATABASES.SG_sc,
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-    }
-  }).get().filter((match: Law.Case)=> match.citation.toLowerCase() === citation.toLowerCase())
+  return $(`.judgmentpage`)
+    .map((_, element) => parseCase($, element))
+    .get()
+    .filter((match: Law.Case)=> match.citation.toLowerCase() === citation.toLowerCase())
+}
 
-  if (matches.length !== 1) {
-    return []
-  }
+const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
+  const { data } = await Request.get(getSearchResults(caseName))
+  const $ = cheerio.load(data)
 
-  return matches
+  return $(`.judgmentpage`).map((_, element) => parseCase($, element)).get()
 }
 
 const SGSC = {
   getCaseByCitation,
+  getCaseByName,
   getSearchResults,
 }
 

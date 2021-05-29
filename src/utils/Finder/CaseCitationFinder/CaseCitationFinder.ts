@@ -2,6 +2,7 @@ import Constants from '../../Constants'
 import { formatAbbrs } from './utils'
 import type { CaseCitationFinderResult } from './types'
 import { findUKCaseCitation, sortUKCitations } from './UK'
+import { findSGCaseCitation , sortSGCitations} from './SG'
 
 // const emptyParseResult: ParseResult = {
 //   citation: undefined,
@@ -24,20 +25,6 @@ import { findUKCaseCitation, sortUKCitations } from './UK'
 // }
 
 // const inSGSC = (query: string) => inSLW(query)
-
-
-const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
-  const regex = /\[[12]\d{3}]( \d{1,2})? (sgca(\(i\))?|sghc|sgdc|sgmc|slr(\(r\))?) \d{1,4}/gi
-  const matches = [...query.matchAll(regex)]
-  if (matches.length > 0) {
-    return matches.map((match) => ({
-      citation: match[0],
-      index: match.index,
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-    })).map(c => ({ ...c, type: `case-citation` }))
-  }
-  return []
-}
 
 
 export const epoRegex = new RegExp(/[GJT][ _]?\d{1,4}\/\d{1,2}/)
@@ -275,6 +262,7 @@ const CaseFinder = {
   findHKCaseCitation,
   findSGCaseCitation,
   findUKCaseCitation,
+  sortSGCitations,
   sortUKCitations,
 }
 

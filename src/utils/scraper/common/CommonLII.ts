@@ -49,7 +49,6 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
     }
 
     const multipleCases = $(`a[name="cases"] > h1.search-results`)?.eq(0)?.text()?.trim()
-    console.log(multipleCases)
     if(multipleCases && multipleCases.includes(`Matching Cases`)){
       return $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
         const name = $(`td.case-cited > a`, element).text().trim()
@@ -116,11 +115,12 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   }
 }
 
-const getCaseByName = async (citation: string): Promise<Law.Case[]> => {
+const getCaseByName = async (citation: string, jurisdiction: string = null): Promise<Law.Case[]> => {
   try {
     const result = await Request.get(`${LAWCITE_DOMAIN}/cgi-bin/LawCite`, {
       params: {
         filter: `on`,
+        ...(jurisdiction ? { juris: jurisdiction } : {}),
         party1: citation,
       },
     })

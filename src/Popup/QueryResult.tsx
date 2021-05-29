@@ -26,7 +26,7 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
           searchResult.map(({ citation, name, link, pdf, jurisdiction, database }) => (
             <div className="result" key={`${name}-${citation}`}>
               <p className="details">
-                <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction].emoji}</span>
+                <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction]?.emoji}</span>
                 { database && <span className="database">{database.name}</span> }
               </p>
               <button className="case-name link" onClick={openTab(link)}>{name} {citation}</button>

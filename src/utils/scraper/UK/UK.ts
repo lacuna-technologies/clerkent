@@ -5,14 +5,17 @@ import LegislationGovUk from './LegislationGovUk'
 import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import { sortUKCitations, findUKCaseCitationMatches } from '../../Finder/CaseCitationFinder/UK'
+import Constants from '../../Constants'
 
 const getLegislation = LegislationGovUk.getLegislation
 const getCaseByName = async (caseName): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.all([
       BAILII.getCaseByName(caseName),
-      Common.CommonLII.getCaseByName(caseName),
-    ])).flat()
+      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.UK.name),
+    ]))
+    .flat()
+    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.UK.id)
 
     return sortUKCitations(
       Helpers.uniqueBy(results, `citation`)

@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbr, formatAbbrs, cleanVolume } from './utils'
+import { formatAbbr, formatAbbrs } from './utils'
 import type { CaseCitationFinderResult } from './types'
 
 const UKAbbrs = [
