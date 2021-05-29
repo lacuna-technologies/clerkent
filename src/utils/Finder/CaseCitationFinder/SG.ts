@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbr, formatAbbrs } from './utils'
+import { formatAbbrs, sortCitationsByVolume } from './utils'
 import type { CaseCitationFinderResult } from './types'
 
 export const SGAbbrs = [
@@ -10,16 +10,7 @@ export const SGAbbrs = [
   { abbr: `SGMC` },
 ]
 
-export const sortSGCitations = (citationsArray: any[], attribute = null) => {
-  if(attribute === null){
-    return citationsArray.sort((a, b) => {
-      const indexA = SGAbbrs.findIndex(currentAbbr => new RegExp(formatAbbr(currentAbbr), `i`).test(a))
-      const indexB = SGAbbrs.findIndex(currentAbbr =>  new RegExp(formatAbbr(currentAbbr), `i`).test(b))
-      return indexA - indexB
-    })
-  }
-  return sortSGCitations(citationsArray.map(c => c[attribute])).map(c => citationsArray.find(v => v[attribute] === c))
-}
+export const sortSGCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(SGAbbrs, citationsArray, attribute)
 
 export const findSGCaseCitationMatches = (query: string) => {
   const regex = new RegExp(`\\[[12]\\d{3}]( \\d{1,2})? (${

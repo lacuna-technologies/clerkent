@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbr, formatAbbrs } from './utils'
+import { formatAbbrs, sortCitationsByVolume } from './utils'
 import type { CaseCitationFinderResult } from './types'
 
 const UKAbbrs = [
@@ -43,16 +43,7 @@ const UKAbbrs = [
     { abbr: `CLC` },
   ]
 
-export const sortUKCitations = (citationsArray: any[], attribute = null) => {
-  if(attribute === null){
-    return citationsArray.sort((a, b) => {
-      const indexA = UKAbbrs.findIndex(currentAbbr => new RegExp(formatAbbr(currentAbbr), `i`).test(a))
-      const indexB = UKAbbrs.findIndex(currentAbbr =>  new RegExp(formatAbbr(currentAbbr), `i`).test(b))
-      return indexA - indexB
-    })
-  }
-  return sortUKCitations(citationsArray.map(c => c[attribute])).map(c => citationsArray.find(v => v[attribute] === c))
-}
+export const sortUKCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(UKAbbrs, citationsArray, attribute)
 
 export const findUKCaseCitationMatches = (query: string) => {
   const abbrs = formatAbbrs(UKAbbrs)
