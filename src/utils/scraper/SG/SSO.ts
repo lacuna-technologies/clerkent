@@ -54,6 +54,7 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
   if(!provisionNumber){ // getting the statute is enough
     return [{
       ...legislation,
+      database: Constants.DATABASES.SG_sso,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       link: statuteResult.link,
       statute: statuteResult.name,
@@ -72,6 +73,7 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
     return [{
       ...legislation,
       content: legisContent,
+      database: Constants.DATABASES.SG_sso,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       link: request.responseURL,
       statute: statuteResult.name,

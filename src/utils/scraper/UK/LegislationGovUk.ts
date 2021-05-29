@@ -57,6 +57,7 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
   if(!provisionNumber){
     return [{
       ...legislation,
+      database: Constants.DATABASES.UK_legislation,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
       link: statuteResult.link,
       statute: statuteResult.name,
@@ -77,6 +78,7 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
     return [{
       ...legislation,
       content: legisContent,
+      database: Constants.DATABASES.UK_legislation,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
       link: request.responseURL,
       statute: statuteResult.name,

@@ -6,6 +6,8 @@ import type Law from '../../../types/Law'
 
 const getLegislation = SSO.getLegislation
 
+const getCaseByName = () => Promise.resolve([])
+
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = [`sgca`, `sghc`].some(cit => citation.includes(cit.toLowerCase())) ? [SGSC, SLW, Common.CommonLII] : [Common.CommonLII, SGSC, SLW]
   for (const option of options) {
@@ -22,6 +24,7 @@ const SG = {
   SGSC,
   SLW,
   getCaseByCitation,
+  getCaseByName,
   getLegislation,
 }
 

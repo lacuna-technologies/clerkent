@@ -20,9 +20,12 @@ declare namespace Law {
     pdf?: string,
     jurisdiction?: JursidictionCode,
     content?: string,
+    database: Database
   }
 
   type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY`
+
+  type SearchMode = `case` | `legislation`
 }
 
 export default Law

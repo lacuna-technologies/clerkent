@@ -17,18 +17,22 @@ import Law from '../types/Law'
 
 let currentCitation = null
 
-const getScraperResult = (targets: FinderResult[], mode: boolean): Promise<Law.Legislation[] | Law.Case[]> => {
-  if(mode === true){
+const getScraperResult = (
+  targets: FinderResult[],
+  mode: Law.SearchMode,
+  jurisdiction: Law.JursidictionCode,
+): Promise<Law.Legislation[] | Law.Case[]> => {
+  if(mode === `legislation`){
     return Scraper.getLegislation(targets[0] as LegislationFinderResult)
   }
-  if(mode === false){
+  if(mode === `case`){
     const { type } = targets[0]
     switch (type) {
       case `case-citation`: {
-        return Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult)
+        return Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult, jurisdiction)
       }
       case `case-name`: {
-        return Scraper.getCaseByName(targets[0] as CaseNameFinderResult)
+        return Scraper.getCaseByName(targets[0] as CaseNameFinderResult, jurisdiction)
       }
     }
   }
@@ -38,10 +42,10 @@ const getScraperResult = (targets: FinderResult[], mode: boolean): Promise<Law.L
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
   case Messenger.ACTION_TYPES.viewCitation: {
-    const { citation, source, mode } = otherProperties
+    const { citation, source, mode, jurisdiction } = otherProperties
     currentCitation = citation
 
-    const targets = mode === true ? Finder.findLegislation(citation) : Finder.findCase(citation)
+    const targets = mode === `legislation` ? Finder.findLegislation(citation) : Finder.findCase(citation)
 
     const noResultMessage = {
       action: Messenger.ACTION_TYPES.viewCitation,
@@ -53,8 +57,8 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       return port.postMessage(noResultMessage)
     }
     
-    const result = await getScraperResult(targets, mode)
-    Logger.log(`BackgroundPage scraper result`, result)
+    const result = await getScraperResult(targets, mode, jurisdiction)
+    Logger.log(`BackgroundPage scraper result`, targets, result)
 
     if(result.length === 0){
       return port.postMessage(noResultMessage)

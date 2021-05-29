@@ -5,12 +5,15 @@ import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
 import { Messenger, Storage, Logger, Helpers } from '../utils'
-import Toggle from './Toggle'
+import Toggle from '../components/Toggle'
+import SelectInput from '../components/SelectInput'
+import Constants from '../utils/Constants'
 
 import './Popup.scss'
 
 const keys = {
   POPUP_QUERY: `POPUP_QUERY`,
+  POPUP_SELECTED_JURISDICTION: `POPUP_SELECTED_JURISDICTION`,
 }
 
 type SearchResult = Law.Case | Law.Legislation
@@ -19,14 +22,16 @@ type SearchResult = Law.Case | Law.Legislation
 const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
-  const [mode, setMode] = useState(false)
+  const [mode, setMode] = useState(`case` as Law.SearchMode)
+  const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
   const [searchResult, setSearchResult] = useState([] as SearchResult[])
   const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
-  const viewCitation = useCallback((citation, inputMode) => sendMessage({
+  const viewCitation = useCallback((citation, inputMode, inputJurisdiction) => sendMessage({
     action: Messenger.ACTION_TYPES.viewCitation,
     citation: citation,
+    jurisdiction: inputJurisdiction,
     mode: inputMode,
     source: Messenger.TARGETS.popup,
     target: Messenger.TARGETS.background,
@@ -42,10 +47,11 @@ const Popup: React.FC = () => {
     Storage.set(keys.POPUP_QUERY, value)
   }, [])
 
-  const doSearch = useCallback((inputQuery = query, inputMode = mode) => {
+  const doSearch = useCallback(({inputQuery = query, inputMode = mode, inputJurisdiction = selectedJurisdiction} = {}) => {
+    Logger.log(`Doing search`, inputQuery, inputMode)
     setNotFound(false)
-    debouncedViewCitation(inputQuery, inputMode)
-  },  [debouncedViewCitation, query, mode])
+    debouncedViewCitation(inputQuery, inputMode, inputJurisdiction)
+  },  [debouncedViewCitation, query, mode, selectedJurisdiction])
 
   const onEnter = useCallback((event) => {
     if(event.key === `Enter`){
@@ -87,27 +93,47 @@ const Popup: React.FC = () => {
     }
   }, [])
 
-  const onModeChange = useCallback(newMode => {
-    // false = case; true = legislation
-    setMode(newMode)
-    doSearch()
+  const onModeChange = useCallback((newMode: boolean) => {
+    const parsedMode = newMode ? `legislation` : `case`
+    setMode(parsedMode)
+    doSearch({ inputMode: parsedMode })
+  }, [doSearch])
+
+  const onChangeJurisdiction = useCallback(({ target: { value } }): void => {
+    setSelectedJurisdiction(value)
+    Storage.set(keys.POPUP_SELECTED_JURISDICTION, value)
+    doSearch({ inputJurisdiction: value})
   }, [doSearch])
 
   useEffect(() => {
     port.current = browser.runtime.connect(``, { name: `popup-port` })
     sendMessage({ message: `popup says hi` })
     port.current.onMessage.addListener(onMessage)
-  }, [onMessage, sendMessage ])
+  }, [onMessage, sendMessage])
 
   useEffect(() => {
     (async () => {
+      let shouldDoSearch = false
+  
       const storedQuery = await Storage.get(keys.POPUP_QUERY)
       if(storedQuery !== null && storedQuery.length > 0){
         onSearchQueryChange({target: { value: storedQuery }})
-        doSearch(storedQuery)
+        shouldDoSearch = true
+      }
+      const storedJurisdiction = await Storage.get(keys.POPUP_SELECTED_JURISDICTION)
+      if(storedJurisdiction !== null && storedJurisdiction.length > 0){
+        onChangeJurisdiction({ target: { value: storedJurisdiction } })
+        shouldDoSearch = true
+      }
+
+      if(shouldDoSearch){
+        doSearch({
+          ...(storedQuery?.length > 0 ? { inputQuery: storedQuery }: {}),
+          ...(storedJurisdiction?.length > 0 ? { inputJurisdiction: storedJurisdiction } : {}),
+        })
       }
     })()
-  }, [onSearchQueryChange, doSearch])
+  }, [onSearchQueryChange, doSearch, onChangeJurisdiction])
 
   // const onMassCitations = useCallback(() => {
   //   browser.tabs.create({
@@ -117,12 +143,22 @@ const Popup: React.FC = () => {
 
   return (
     <section id="popup">
-      <Toggle
-        leftText="Cases"
-        rightText="Legislation"
-        onChange={onModeChange}
-        value={mode}
-      />
+      <div className="options">
+        <Toggle
+          leftText="Cases"
+          rightText="Legislation"
+          onChange={onModeChange}
+          value={mode === `legislation`}
+        />
+        <SelectInput
+          options={Object.values(Constants.JURISDICTIONS).map(({ id, emoji, name }) => ({
+            content: `${emoji} ${name}`,
+            value: id,
+          }))}
+          value={selectedJurisdiction}
+          onChange={onChangeJurisdiction}
+        />
+      </div>
       <input
         type="search"
         placeholder="case citation or legislation"

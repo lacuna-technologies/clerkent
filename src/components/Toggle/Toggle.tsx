@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import Helpers from '../utils/Helpers'
+import Helpers from '../../utils/Helpers'
 import './Toggle.scss'
 
 const { classnames } = Helpers

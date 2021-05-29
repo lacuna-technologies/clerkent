@@ -3,6 +3,8 @@ import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 
+const getCaseByName = () => Promise.resolve([])
+
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = [canlii, Common.CommonLII]
   for (const option of options){
@@ -17,6 +19,7 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
 
 const CA = {
   getCaseByCitation,
+  getCaseByName,
 }
 
 export default CA
