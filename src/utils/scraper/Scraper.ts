@@ -16,7 +16,7 @@ import type {
 
 type JurisdictionType = typeof SG | typeof UK | typeof EU | typeof HK | typeof CA
 
-const getCase = Memoize((targetCase: CaseCitationFinderResult): Promise<Law.Case | false> => {
+const getCaseByCitation = Memoize((targetCase: CaseCitationFinderResult): Promise<Law.Case[]> => {
   const { jurisdiction, citation, court } = targetCase
 
   let targetJurisdiction: JurisdictionType
@@ -50,16 +50,16 @@ const getCase = Memoize((targetCase: CaseCitationFinderResult): Promise<Law.Case
       break
     }
     default: {
-      return Promise.resolve(false)
+      return Promise.resolve([])
     }
   }
 
-  return targetJurisdiction.getCase(citation, court)
+  return targetJurisdiction.getCaseByCitation(citation, court)
 }, {
   normalizer: ([targetCase]) => targetCase.citation,
 })
 
-const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult) : Promise<Law.Case[] | false> => {
+const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult) : Promise<Law.Case[]> => {
   const { name } = targetCaseName
 
   return UK.getCaseByName(name)
@@ -67,7 +67,7 @@ const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult) : Promise<L
   normalizer: ([targetCaseName]) => targetCaseName.name.toLowerCase(),
 })
 
-const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult): Promise<Law.Legislation[] | false> => {
+const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult): Promise<Law.Legislation[]> => {
   const { jurisdiction } = targetLegislation
 
   if(jurisdiction){
@@ -94,14 +94,13 @@ const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult
       break
       }
       default: {
-        return Promise.resolve(false)
+        return Promise.resolve([])
       }
     }
     return targetJurisdiction.getLegislation(targetLegislation)
   }
 
-  const results = (await Promise.all([SG, UK].map(juris => juris.getLegislation(targetLegislation)))).filter(result => result !== false)
-  return results as Law.Legislation[]
+  return (await Promise.all([SG, UK].map(juris => juris.getLegislation(targetLegislation)))).filter(result => result.length > 0).flat()
 }, {
   normalizer: ([{provisionType, provisionNumber, statute}]) => `${provisionType}-${provisionNumber}-${statute}`,
 })
@@ -114,7 +113,7 @@ const scraper = {
   NZ,
   SG,
   UK,
-  getCase,
+  getCaseByCitation,
   getCaseByName,
   getLegislation,
 }

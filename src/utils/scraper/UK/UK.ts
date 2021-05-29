@@ -8,25 +8,22 @@ const getCaseByName = BAILII.getCaseByName
 
 const bailiiPriority = [`UKSC`, `EWCA`, `EWHC`, `UKPC`, `UKHL`, ` KB `, ` QB `, ` Ch `, `EMLR`, ` All ER`, ` WLR `, ` Fam `]
 
-const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = bailiiPriority.some(cit => citation.includes(cit))
     ? [BAILII, Common.CommonLII]
     : [Common.CommonLII, BAILII]
   for (const option of options) {
     try {
-      const result = await option.getCase(citation)
-      if (result !== false) {
-        return result
-      }
+      return await option.getCaseByCitation(citation)
     } catch (error) {
       console.error(error)
     }
   }
-  return false
+  return []
 }
 
 const UK = {
-  getCase,
+  getCaseByCitation,
   getCaseByName,
   getLegislation,
 }

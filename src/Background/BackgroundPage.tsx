@@ -13,11 +13,11 @@ import type {
   LegislationFinderResult,
   FinderResult,
 } from '../utils/Finder'
-import type Law from '../types/Law'
+import Law from '../types/Law'
 
 let currentCitation = null
 
-const getScraperResult = (targets: FinderResult[], mode: boolean) => {
+const getScraperResult = (targets: FinderResult[], mode: boolean): Promise<Law.Legislation[] | Law.Case[]> => {
   if(mode === true){
     return Scraper.getLegislation(targets[0] as LegislationFinderResult)
   }
@@ -25,14 +25,14 @@ const getScraperResult = (targets: FinderResult[], mode: boolean) => {
     const { type } = targets[0]
     switch (type) {
       case `case-citation`: {
-        return Scraper.getCase(targets[0] as CaseCitationFinderResult)
+        return Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult)
       }
       case `case-name`: {
         return Scraper.getCaseByName(targets[0] as CaseNameFinderResult)
       }
     }
   }
-  return Promise.resolve(false)
+  return Promise.resolve([])
 }
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
@@ -56,14 +56,12 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     const result = await getScraperResult(targets, mode)
     Logger.log(`BackgroundPage scraper result`, result)
 
-    if(result === false){
+    if(result.length === 0){
       return port.postMessage(noResultMessage)
     }
 
     if(citation === currentCitation){ // ignore outdated results
-      const data = Array.isArray(result)
-        ? result.map(r => ({...targets[0], ...r}))
-        : [{...targets[0], ...(result as  Law.Case | Law.Case[] | Law.Legislation[])}]
+      const data = result.map(r => ({...targets[0], ...r}))
 
       const message = {
         action: Messenger.ACTION_TYPES.viewCitation,
@@ -83,13 +81,6 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       filename,
       url,
     })
-  
-  break
-  }
-  case Messenger.ACTION_TYPES.test: {
-    Logger.log(`test action received by bg`)
-    const result = await Scraper.UK.getCase(`[2020] UKSC 1`, ``)
-    Logger.log(result)
   
   break
   }

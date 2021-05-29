@@ -5,7 +5,7 @@ import Constants from '../../Constants'
 
 const DOMAIN = `https://curia.europa.eu`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data, request } = await Request.get(
     `${DOMAIN}/juris/liste.jsf`, 
     {
@@ -18,18 +18,18 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
 
   const name = $(`.affaire .affaire_header .affaire_title`).text().trim()
   
-  return {
+  return [{
     citation,
     database: Constants.DATABASES.EU_curia,
     jurisdiction: Constants.JURISDICTIONS.EU.id,
     link: request.responseURL,
     name,
-  }
+  }]
 
 }
 
 const CURIA = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default CURIA

@@ -2,23 +2,20 @@ import CURIA from './CURIA'
 import EPO from './EPO'
 import type Law from '../../../types/Law'
 
-const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = court === `EPO` ? [EPO] : [CURIA]
   for (const option of options){
     try {
-      const result = await option.getCase(citation)
-      if(result !== false){
-        return result
-      }
+      return await option.getCaseByCitation(citation)
     } catch (error) {
       console.error(error)
     }
   }
-  return false
+  return []
 }
 
 const EU = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default EU

@@ -6,7 +6,7 @@ import Logger from '../../Logger'
 
 const DOMAIN = `https://www8.austlii.edu.au`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const queryString = `mask_path=au/journals&mask_path=au/cases&mask_path=au/cases/cth`
   const { data } = await Request.get(
     `${DOMAIN}/cgi-bin/sinosrch.cgi?${queryString}`,
@@ -34,16 +34,16 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   .map(({ name, ...attributes }) => ({ ...attributes, name: name.split(`[`)[0] }))
   
   if(matches.length === 0){
-    return false
+    return []
   } else if (matches.length > 1){
     Logger.warn(`AUSTLII`, `multiple matches`, matches)
   }
   
-  return matches[0]
+  return matches
 }
 
 const AU = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default AU

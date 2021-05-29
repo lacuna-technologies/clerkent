@@ -3,6 +3,9 @@ import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
+import CaseCitationFinder from '../../Finder/CaseCitationFinder'
+import Helpers from '../../Helpers'
+import type { AxiosResponse } from 'axios'
 
 // Available judgments
 //  Singapore
@@ -32,7 +35,7 @@ const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => 
   return null
 }
 
-const parseCase = async (citation: string, result): Promise<Law.Case | false> => {
+const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.Case[] > => {
   try {
 
     const { data, request } = result
@@ -42,14 +45,27 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
     const message = $(`.message-level-1`)?.eq(0)?.text()?.trim()
 
     if(message === NotFoundMessage){
-      return false
+      return []
     }
 
     const multipleCases = $(`a.cases > h1.search-results`)?.eq(0)?.text()?.trim()
     if(multipleCases && multipleCases.includes(`Matching Cases`)){
-      const firstCaseURL = $(`table.search-results > tbody > tr:first-of-type > td > a`).eq(0).attr(`href`)
-      const subResult = await Request.get(`${COMMONLII_DOMAIN}${firstCaseURL}`)
-      return parseCase(citation, subResult)
+      return $(`table.search-results > tbody > tr:first-of-type`).map((_, element) => {
+        const name = $(`td.case-cited > a`, element).text().trim()
+        const lawCiteLink = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
+        const link = $(`td.service > a`, element).attr(`href`)
+        const jurisdiction = matchJurisdiction($(`td.jurisdiction`, element).text().trim())
+        const citation = Helpers.findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
+        return {
+          citation,
+          database: Constants.DATABASES.commonlii,
+          ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
+          link: lawCiteLink || link,
+          name,
+        }
+      }).get()
+      // const subResult = await Request.get(`${COMMONLII_DOMAIN}${firstCaseURL}`)
+      // return parseCase(citation, subResult)
     }
 
     const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
@@ -67,22 +83,22 @@ const parseCase = async (citation: string, result): Promise<Law.Case | false> =>
     }
     
     
-    return {
+    return [{
       citation,
       database: Constants.DATABASES.commonlii,
       ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
       link: link || request.responseURL,
       name,
       ...(pdf ? { pdf } : {}),
-    }
+    }]
 
   } catch (error){
     Logger.error(error)
-    return false
+    return []
   }
 }
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   try {
     const result = await Request.get(`${LAWCITE_DOMAIN}/cgi-bin/LawCite`, {
       params: {
@@ -95,13 +111,29 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
     
   } catch (error){
     Logger.error(error)
-    return false
+    return []
   }
-  
+}
+
+const getCaseByCaseName = async (citation: string): Promise<Law.Case[]> => {
+  try {
+    const result = await Request.get(`${LAWCITE_DOMAIN}/cgi-bin/LawCite`, {
+      params: {
+        filter: `on`,
+        party1: citation,
+      },
+    })
+
+    return parseCase(citation, result)
+  } catch (error){
+    Logger.error(error)
+    return []
+  }
 }
 
 const CommonLII = {
-  getCase,
+  getCaseByCaseName,
+  getCaseByCitation,
 }
 
 export default CommonLII

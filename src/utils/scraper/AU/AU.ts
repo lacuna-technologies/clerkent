@@ -3,23 +3,20 @@ import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 
-const getCase = async (citation: string, court: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = [austlii, Common.CommonLII]
   for (const option of options){
     try {
-      const result = await option.getCase(citation)
-      if(result !== false){
-        return result
-      }
+      return await option.getCaseByCitation(citation)
     } catch (error){
       Logger.error(error)
     }
   }
-  return false
+  return []
 }
 
 const AU = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default AU

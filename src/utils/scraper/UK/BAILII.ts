@@ -5,10 +5,11 @@ import type Law from '../../../types/Law'
 import Constants from '../../Constants' 
 import Logger from '../../Logger'
 import CaseCitationFinder from '../../Finder/CaseCitationFinder'
+import Helpers from '../../Helpers'
 
 const DOMAIN = `https://www.bailii.org`
 
-const getSearchResultsByCitation = async (citation: string): Promise<Law.Case[]> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data, request } = await Request.post(
     `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
     qs.stringify({ citation }, { format : `RFC1738` }),
@@ -37,25 +38,7 @@ const getSearchResultsByCitation = async (citation: string): Promise<Law.Case[]>
   return [result]
 }
 
-const getCaseByCitation = async (citation: string): Promise<Law.Case | false> => {
-  const results = (await getSearchResultsByCitation(citation))
-
-  if(results.length !== 1){
-    return false
-  }
-
-  return results[0]
-}
-
-const findCitation = (inputText) => {
-  const results = CaseCitationFinder.findUKCaseCitation(inputText)
-  if(results.length > 0){
-    return results[0].citation
-  }
-  return ``
-}
-
-const getCaseByName = async (caseName: string): Promise<Law.Case[] | false> => {
+const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const { data } = await Request.get(
       `${DOMAIN}/cgi-bin/lucy_search_1.cgi`,
@@ -71,7 +54,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[] | false> => {
 
     const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element) => {
       const name = $(`a`, element).eq(0).text().trim().split(`[`)[0]
-      const citation = findCitation($(`small`, element).text().trim())
+      const citation = Helpers.findCitation(CaseCitationFinder.findUKCaseCitation, $(`small`, element).text().trim())
       const link = `${DOMAIN}${$(`a`, element).eq(0).attr(`href`)}`
       return {
         citation,
@@ -84,10 +67,6 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[] | false> => {
 
     Logger.log(`BAILII result`, matches)
 
-    if(matches.length === 0){
-      return false
-    }
-
     return matches
   } catch (error){
     Logger.error(error)
@@ -95,9 +74,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[] | false> => {
 }
 
 const BAILII = {
-  getCase: getCaseByCitation,
+  getCaseByCitation,
   getCaseByName,
-  getSearchResults: getSearchResultsByCitation,
 }
 
 export default BAILII

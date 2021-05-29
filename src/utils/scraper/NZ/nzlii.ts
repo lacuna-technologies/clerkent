@@ -6,7 +6,7 @@ import Logger from '../../Logger'
 
 const DOMAIN = `http://www.nzlii.org`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(
     `${DOMAIN}/cgi-bin/sinosrch.cgi`,
     {
@@ -37,16 +37,16 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   .map(({ name, ...attributes }) => ({ ...attributes, name: name.split(`[`)[0] }))
 
   if(matches.length === 0){
-    return false
+    return []
   } else if (matches.length > 1){
     Logger.warn(`NZLII`, `multiple matches`, matches)
   }
 
-  return matches[0]
+  return matches
 }
 
 const NZ = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default NZ

@@ -4,7 +4,7 @@ import Constants from '../../Constants'
 
 const DOMAIN = `https://www.hklii.hk`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data: searchData } = await Request.post(
     `${DOMAIN}/searchapi/nonlegis/_search/template?filter_path=hits.hits._source`,
     {
@@ -16,7 +16,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   )
 
   if(!searchData?.hits?.hits || !Array.isArray(searchData.hits.hits) || searchData.hits.hits.length !== 1){
-    return false
+    return []
   }
 
   const path = searchData.hits.hits[0]._source.path
@@ -33,7 +33,7 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   )
 
   if(!data?.hits?.hits || !Array.isArray(data.hits.hits) || data.hits.hits.length !== 1){
-    return false
+    return []
   }
 
   const {
@@ -50,18 +50,18 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
     },
   } = data
 
-  return {
+  return [{
     citation: neutral,
     database: Constants.DATABASES.HK_hklii,
     jurisdiction: Constants.JURISDICTIONS.HK.id,
     link: `${DOMAIN}${casePath}`,
     name,
-  }
+  }]
 
 }
 
 const HKLII = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default HKLII

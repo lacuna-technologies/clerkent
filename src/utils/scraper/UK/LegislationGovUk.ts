@@ -12,7 +12,7 @@ interface StatuteResult {
   link: string
 }
 
-const getStatute = async (statuteName: string): Promise<StatuteResult | false> => {
+const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
   const { data } = await Request.get(`${DOMAIN}/primary+secondary`, {
     params: { title: statuteName },
   })
@@ -28,12 +28,12 @@ const getStatute = async (statuteName: string): Promise<StatuteResult | false> =
   }).get()
 
   if(results.length === 0){
-    return false
+    return []
   }
-  return results[0]
+  return results
 }
 
-const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation | false> => {
+const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation[]> => {
   const {
     provisionType,
     provisionNumber,
@@ -44,23 +44,23 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
 
   try {
     const result = await getStatute(statute)
-    if(result === false){
-      return false
+    if(result.length === 0){
+      return []
     }
-    const { link, name  } = result
+    const { link, name  } = result[0]
     statuteResult = { link, name }
   } catch (error){
     Logger.error(error)
-    return false
+    return []
   }
 
   if(!provisionNumber){
-    return {
+    return [{
       ...legislation,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
       link: statuteResult.link,
       statute: statuteResult.name,
-    }
+    }]
   }
 
   const provisionLink = [
@@ -74,16 +74,16 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
      const $ = cheerio.load(data)
      const legisContent = $(`#viewLegSnippet`).html()
 
-    return {
+    return [{
       ...legislation,
       content: legisContent,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
       link: request.responseURL,
       statute: statuteResult.name,
-    }
+    }]
   } catch (error) {
     Logger.error(error)
-    return false
+    return []
   }
 }
 

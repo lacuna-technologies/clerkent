@@ -6,7 +6,7 @@ import Logger from '../../Logger'
 
 const DOMAIN = `https://www.hklii.org`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(
     `${DOMAIN}/cgi-bin/sinosrchadvanced.cgi`,
     {
@@ -35,16 +35,16 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   }).get()
 
   if(matches.length === 0){
-    return false
+    return []
   } else if (matches.length > 1){
     Logger.warn(`HKLII`, `multiple matches`, matches)
   }
   
-  return matches[0]
+  return matches
 }
 
 const HKLII = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default HKLII

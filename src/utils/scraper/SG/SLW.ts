@@ -7,7 +7,7 @@ const DOMAIN = `https://www.singaporelawwatch.sg`
 // eslint-disable-next-line no-secrets/no-secrets
 const getSearchResults = (citation: string) => `${DOMAIN}/DesktopModules/EasyDNNNewsSearch/SearchAutoComplete.ashx?nsw=a&mid=479&TabId=21&portal_id=0&acat=1&ModToOpenResults=426&TabToOpenResults=48&evl=0&q=${citation}`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(citation))
 
   const matches: Law.Case[] = data
@@ -21,14 +21,14 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
     .filter((match: Law.Case) => match.citation.toLowerCase() === citation.toLowerCase())
   
   if(matches.length !== 1){
-    return false
+    return []
   }
   
-  return matches[0]
+  return matches
 }
 
 const SLW = {
-  getCase,
+  getCaseByCitation,
   getSearchResults,
 }
 

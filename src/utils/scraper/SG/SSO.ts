@@ -12,7 +12,7 @@ interface StatuteResult {
   link: string
 }
 
-const getStatute = async (statuteName: string): Promise<StatuteResult | false> => {
+const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
   const { data } = await Request.get(`${DOMAIN}/Search/Content`, {
     params: {
       In: `InForce_Act_SL`,
@@ -22,7 +22,7 @@ const getStatute = async (statuteName: string): Promise<StatuteResult | false> =
     },
   })
   const $ = cheerio.load(data)
-  const results = $(`#searchTable > tbody > tr`).map((_, row) => {
+  return $(`#searchTable > tbody > tr`).map((_, row) => {
     const name = $(`a.title`, row).text().trim()
     const link = $(`a.title`, row).attr(`href`)
     return {
@@ -30,14 +30,9 @@ const getStatute = async (statuteName: string): Promise<StatuteResult | false> =
       name,
     }
   }).get()
-
-  if(results.length === 0){
-    return false
-  }
-  return results[0]
 }
 
-const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation | false> => {
+const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation[]> => {
   const {
     provisionNumber,
     statute,
@@ -46,23 +41,23 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
   let statuteResult = {} as StatuteResult
   try {
     const result = await getStatute(statute)
-    if(result === false){
-      return false
+    if(result.length === 0){
+      return []
     }
-    const { name, link } = result
+    const { name, link } = result[0]
     statuteResult = { link, name }
   } catch (error) {
     Logger.error(error)
-    return false
+    return []
   }
 
   if(!provisionNumber){ // getting the statute is enough
-    return {
+    return [{
       ...legislation,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       link: statuteResult.link,
       statute: statuteResult.name,
-    }
+    }]
   }
   
   try { 
@@ -74,17 +69,17 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
 
     const $ = cheerio.load(data)
     const legisContent = $(`#legisContent`).html()
-    return {
+    return [{
       ...legislation,
       content: legisContent,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       link: request.responseURL,
       statute: statuteResult.name,
-    }
+    }]
 
   } catch (error) {
     Logger.error(error)
-    return false
+    return []
   }
 }
 

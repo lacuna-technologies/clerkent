@@ -6,7 +6,7 @@ import Constants from '../../Constants'
 const DOMAIN = `https://www.canlii.org`
 
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(
     `${DOMAIN}/en/search/ajaxSearch.do?${qs.stringify({ id: citation, page: 1})}`,
     {
@@ -32,14 +32,14 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   })
 
   if(cases.length === 0){
-    return false
+    return []
   }
 
-  return cases[0]
+  return cases
 }
 
 const CA = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default CA

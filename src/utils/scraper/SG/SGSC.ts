@@ -6,7 +6,7 @@ import Constants from '../../Constants'
 const DOMAIN = `https://www.supremecourt.gov.sg`
 const getSearchResults = (citation: string) => `${DOMAIN}/search-judgment?q=${citation}&y=All`
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(citation))
   const $ = cheerio.load(data)
 
@@ -26,14 +26,14 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   }).get().filter((match: Law.Case)=> match.citation.toLowerCase() === citation.toLowerCase())
 
   if (matches.length !== 1) {
-    return false
+    return []
   }
 
-  return matches[0]
+  return matches
 }
 
 const SGSC = {
-  getCase,
+  getCaseByCitation,
   getSearchResults,
 }
 

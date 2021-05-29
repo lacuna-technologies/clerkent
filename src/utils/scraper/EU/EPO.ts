@@ -6,7 +6,7 @@ const DOMAIN = `https://www.epo.org`
 
 const zeroPad = (number, length = 4) => number.length < length ? zeroPad(`0${number}`, length) : number
 
-const getCase = async (citation: string): Promise<Law.Case | false> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const [prepend, number] = [citation.slice(0,1), citation.slice(1)].map(a => a.replace(/_/g, ``).trim())
   const [caseNumber, year] = number.split(`/`)
   const append = `${zeroPad(caseNumber)}/${year}`
@@ -109,18 +109,18 @@ const getCase = async (citation: string): Promise<Law.Case | false> => {
   const url = result.properties.find(({ id }) => id === `url`).data[0].value.str
   
   
-  return {
+  return [{
     citation,
     database: Constants.DATABASES.EU_epo,
     jurisdiction: Constants.JURISDICTIONS.EU.id,
     link: url,
     name: title,
-  }
+  }]
 
 }
 
 const CURIA = {
-  getCase,
+  getCaseByCitation,
 }
 
 export default CURIA
