@@ -3,13 +3,16 @@ import { formatAbbrs, sortCitationsByVolume } from './utils'
 import type { CaseCitationFinderResult } from './types'
 
 export const NZAbbrs = [
-  { abbr: `NZCA` },
   { abbr: `NZSC` },
-  { abbr: `NZHC` },
-  { abbr: `NZLR` },
-  { abbr: `NZAR` },
-  { abbr: `NZFC` },
   { abbr: `NZPC` },
+  { abbr: `NZCA` },
+  { abbr: `NZAR` },
+  { abbr: `NZLR` }, 
+  { abbr: `NZHC` },
+  { abbr: `ACJ` },
+  { abbr: `NZILR` },
+  { abbr: `NZGazLawRp` },
+  { abbr: `NZFC` },
   { abbr: `NZDC` },
 ]
 

@@ -57,7 +57,6 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     link: `${DOMAIN}${casePath}`,
     name,
   }]
-
 }
 
 const HKLII = {

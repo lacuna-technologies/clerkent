@@ -32,7 +32,7 @@ const getCaseByCitation = Memoize((targetCase: CaseCitationFinderResult, inputJu
 
   const targetJurisdiction = inputJurisdiction === null
     ? jurisdictionMap[jurisdiction]
-    : inputJurisdiction
+    : jurisdictionMap[inputJurisdiction]
 
   Logger.log(`Scraper: getByCaseCitation`, citation, targetJurisdiction)
 

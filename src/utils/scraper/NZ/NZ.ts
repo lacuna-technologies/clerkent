@@ -2,8 +2,32 @@ import nzlii from './nzlii'
 import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
+import Helpers from '../../Helpers'
+import Constants from '../../Constants'
+import { sortNZCitations, findNZCaseCitationMatches } from '../../Finder/CaseCitationFinder/NZ'
 
-const getCaseByName = () => Promise.resolve([])
+const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
+  try {
+    const results = (await Promise.all([
+      nzlii.getCaseByName(caseName),
+      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.NZ.name),
+    ]))
+    .flat()
+    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.NZ.id)
+
+    return sortNZCitations(
+      Helpers.uniqueBy(results, `citation`)
+      .map((c: Law.Case) => ({
+          ...c,
+          journal: findNZCaseCitationMatches(c.citation)[0],
+      })),
+      `journal`,
+    )
+  } catch (error) {
+    Logger.error(error)
+  }
+  return []
+}
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = [`NZLR`].some(cit => citation.includes(cit)) ? [Common.CommonLII, nzlii] : [nzlii, Common.CommonLII]

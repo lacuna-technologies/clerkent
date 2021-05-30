@@ -2,8 +2,32 @@ import canlii from './canlii'
 import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
+import Constants from '../../Constants'
+import { findCACaseCitationMatches, sortCACitations } from '../../Finder/CaseCitationFinder/CA'
+import Helpers from '../../Helpers'
 
-const getCaseByName = () => Promise.resolve([])
+const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
+  try {
+    const results = (await Promise.all([
+      canlii.getCaseByName(caseName),
+      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name),
+    ]))
+    .flat()
+    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.CA.id)
+
+    return sortCACitations(
+      Helpers.uniqueBy(results, `citation`)
+      .map((c: Law.Case) => ({
+          ...c,
+          journal: findCACaseCitationMatches(c.citation)[0],
+      })),
+      `journal`,
+    )
+  } catch (error) {
+    Logger.error(error)
+  }
+  return []
+}
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   const options = [canlii, Common.CommonLII]

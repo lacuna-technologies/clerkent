@@ -2,6 +2,7 @@ import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants' 
 import { findSGCaseCitation } from '../../Finder/CaseCitationFinder/SG'
+import Helpers from '../../Helpers'
 
 const DOMAIN = `https://www.singaporelawwatch.sg`
 
@@ -22,7 +23,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
 
   return data
     .map(([name, link]) => parseCase(name, link))
-    .filter(({citation}) => typeof citation === `string`)
+    .filter(({ citation}) => Helpers.isCitationValid(citation))
 }
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
@@ -30,7 +31,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 
   return data
     .map(([name, link]) => parseCase(name, link))
-    .filter(({citation}) => typeof citation === `string`)
+    .filter(({ citation}) => Helpers.isCitationValid(citation))
 }
 
 const SLW = {

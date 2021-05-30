@@ -16,8 +16,12 @@ const findCitation = (function_ = Finder.findCaseCitation, inputText: string) =>
   if(results.length > 0){
     return results[0].citation
   }
-  return ``
+  return null
 }
+
+const isCitationValid = (citation: string) => (
+  typeof citation === `string` && citation.length > 0
+)
 
 const uniqueBy = (array: any[], attribute: string) =>  [
   ...new Set(array.map(r => r[attribute])),
@@ -27,6 +31,7 @@ const Helpers = {
   classnames,
   debounce,
   findCitation,
+  isCitationValid,
   sanitiseFilename,
   uniqueBy,
 }

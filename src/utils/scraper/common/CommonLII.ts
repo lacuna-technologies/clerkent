@@ -64,6 +64,7 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
           name,
         }
       }).get()
+      .filter(({ citation }) => typeof citation === `string`)
       // const subResult = await Request.get(`${COMMONLII_DOMAIN}${firstCaseURL}`)
       // return parseCase(citation, subResult)
     }

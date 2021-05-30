@@ -25,6 +25,7 @@ const CaseFinder = {
   findCaseCitation,
   findEUCaseCitation,
   findHKCaseCitation,
+  findNZCaseCitation,
   findSGCaseCitation,
   findUKCaseCitation,
   sortAUCitations,

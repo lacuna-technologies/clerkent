@@ -2,13 +2,18 @@ import axios from 'axios'
 // import { setupCache } from 'axios-cache-adapter'
 
 // const cache = setupCache({
-//   exclude: { query: false },
-//   maxAge: 15 * 60 * 1000,
+//   debug: true,
+//   exclude: {
+//     methods: [],
+//     query: false,
+//   }, 
+//   // a week
+//   maxAge: 7 * 24 * 60 * 60 * 1000,
 // })
 
 const request = axios.create({
   // adapter: cache.adapter,
-  timeout: 5000,
+  timeout: 10_000,
 })
 
 export default request
