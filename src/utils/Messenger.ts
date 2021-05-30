@@ -1,7 +1,8 @@
 const ACTION_TYPES = {
   downloadFile: `downloadFile`,
-  test: `test`,
-  test2: `test2`, 
+  lawnetSearch: `lawnetSearch`,
+  test: `test`, 
+  test2: `test2`,
   viewCitation: `viewCitation`,
 }
 

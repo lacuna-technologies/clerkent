@@ -39,6 +39,16 @@ const ExternalLinks: React.FC<Props> = ({
           </>
         ) : null
       }
+      {
+        jurisdiction === Constants.JURISDICTIONS.SG.id ? (
+          <>
+            <button
+              className="link"
+              onClick={openTab(`https://www.lawnet.sg/?clerkent-query=${query}`)}
+            >LawNet</button>
+          </>
+        ) : null
+      }
     </div>
   )
 }

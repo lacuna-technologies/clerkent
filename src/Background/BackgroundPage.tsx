@@ -65,7 +65,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     }
 
     if(citation === currentCitation){ // ignore outdated results
-      const data = result.map(r => ({...targets[0], ...r}))
+      const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
 
       const message = {
         action: Messenger.ACTION_TYPES.viewCitation,
@@ -112,12 +112,17 @@ const onConnect = (port: Runtime.Port) => {
   port.onMessage.addListener(onReceiveMessage(port))
 }
 
+const DEBUG_MODE = process?.env?.NODE_ENV === `development`
+
 const init = () => {
-  browser.tabs.create({url: `popup.html`})
   browser.runtime.onInstalled.addListener((): void => {
     Logger.log(`⚖ clerkent installed`)
   })
   browser.runtime.onConnect.addListener(onConnect)
+
+  if(DEBUG_MODE){
+    browser.tabs.create({ url: `popup.html` })
+  }
 }
 
 const BackgroundPage = () => {

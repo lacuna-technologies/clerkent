@@ -140,6 +140,8 @@
         "https://www.law.ox.ac.uk/*",
         "https://www.lawfareblog.com/*",
         "https://www.lawnet.sg/*",
+        "https://www-lawnet-sg.lawproxy1.nus.edu.sg/*",
+        "https://www-lawnet-sg.libproxy.smu.edu.sg/*",
         "https://www.lawsociety.org.uk/*",
         "https://www.legalcheek.com/*",
         "https://www.legislation.gov.uk/*",

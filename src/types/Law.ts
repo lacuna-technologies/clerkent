@@ -11,6 +11,7 @@ declare namespace Law {
     pdf?: string
     jurisdiction?: JursidictionCode
     database: Database
+    type?: Type
   }
   interface Legislation {
     provisionType: string,
@@ -21,6 +22,7 @@ declare namespace Law {
     jurisdiction?: JursidictionCode,
     content?: string,
     database: Database
+    type?: Type
   }
 
   type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY`

@@ -8,6 +8,7 @@ import { Messenger, Storage, Logger, Helpers } from '../utils'
 import Toggle from '../components/Toggle'
 import SelectInput from '../components/SelectInput'
 import Constants from '../utils/Constants'
+import ExternalLinks from './ExternalLinks'
 
 import './Popup.scss'
 
@@ -142,6 +143,7 @@ const Popup: React.FC = () => {
   // }, [])
 
   return (
+    
     <section id="popup">
       <div className="options">
         <Toggle
@@ -171,10 +173,18 @@ const Popup: React.FC = () => {
           searchResult={searchResult}
           downloadPDF={downloadPDF}
           notFound={notFound}
-          query={query}
         /> : (
           <p>Press enter to search</p>
         )
+      }
+      {
+        (query.length > 0 && searchResult.length > 0) ? (
+          <ExternalLinks
+            jurisdiction={searchResult[0]?.jurisdiction}
+            type={searchResult[0]?.type}
+            query={query}
+          />
+        ) : null
       }
       <div id="help">
         {/*
