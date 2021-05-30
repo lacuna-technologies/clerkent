@@ -63,7 +63,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         link,
         name,
       }
-    }).get()
+    }).get().filter(({ citation }) => Helpers.isCitationValid(citation))
 
     Logger.log(`BAILII result`, matches)
 

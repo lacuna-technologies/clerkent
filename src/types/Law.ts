@@ -26,6 +26,7 @@ declare namespace Law {
   type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY`
 
   type SearchMode = `case` | `legislation`
+  type Type = `case-citation` | `case-name` | `legislation`
 }
 
 export default Law

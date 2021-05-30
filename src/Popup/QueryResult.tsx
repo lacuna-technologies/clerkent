@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import { Constants } from '../utils'
+import ExternalLinks from './ExternalLinks'
+import type Law from '../types/Law'
 import './QueryResult.scss'
 
-const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
+const QueryResult = ({ searchResult, downloadPDF, notFound, query }) => {
 
   const openTab = useCallback((link) => () => {
     browser.tabs.create({ active: true, url: link })
@@ -18,29 +20,34 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
     return <span>Loading...</span>
   }
 
-  const resultType = searchResult[0]?.type
+  const resultType: Law.Type = searchResult[0]?.type
+  const jurisdiction = searchResult[0]?.jurisdiction
+
   if(resultType === `case-citation` || resultType === `case-name`){
     return (
-      <div id="results">
-        {
-          searchResult.map(({ citation, name, link, pdf, jurisdiction, database }) => (
-            <div className="result" key={`${name}-${citation}`}>
-              <p className="details">
-                <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction]?.emoji}</span>
-                { database && <span className="database">{database.name}</span> }
-              </p>
-              <button className="case-name link" onClick={openTab(link)}>{name} {citation}</button>
-              {
-                pdf ? (
-                  <p className="links">
-                    <button className="pdf button" onClick={downloadPDF({ citation, name, pdf })}>PDF</button>
-                  </p>
-                ) : null
-              }
-            </div>
-          ))
-        }
-      </div>
+      <>
+        <div id="results">
+          {
+            searchResult.map(({ citation, name, link, pdf, jurisdiction, database }) => (
+              <div className="result" key={`${name}-${citation}`}>
+                <p className="details">
+                  <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction]?.emoji}</span>
+                  { database && <span className="database">{database.name}</span> }
+                </p>
+                <button className="case-name link" onClick={openTab(link)}>{name} {citation}</button>
+                {
+                  pdf ? (
+                    <p className="links">
+                      <button className="pdf button" onClick={downloadPDF({ citation, name, pdf })}>PDF</button>
+                    </p>
+                  ) : null
+                }
+              </div>
+            ))
+          }
+        </div>
+        <ExternalLinks jurisdiction={jurisdiction} type={resultType} query={query} />
+      </>
     )
   } else if (resultType === `legislation`){
     return (

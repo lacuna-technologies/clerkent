@@ -161,7 +161,7 @@ const Popup: React.FC = () => {
       </div>
       <input
         type="search"
-        placeholder="case citation or legislation"
+        placeholder="case citation, party name, or legislation"
         onChange={onSearchQueryChange}
         onKeyDown={onEnter}
         value={query}
@@ -171,6 +171,7 @@ const Popup: React.FC = () => {
           searchResult={searchResult}
           downloadPDF={downloadPDF}
           notFound={notFound}
+          query={query}
         /> : (
           <p>Press enter to search</p>
         )
