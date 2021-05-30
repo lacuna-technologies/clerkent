@@ -13,10 +13,8 @@ export interface CaseNameFinderResult {
 export type FinderResult = CaseCitationFinderResult | LegislationFinderResult | CaseNameFinderResult
 
 const findCase = Memoize((citation: string): FinderResult[] => {
-  const isCaseCitation = citation.match(/^\s*[()[]/gi) !== null
-  
-  if(isCaseCitation){
-    const caseCitations = [...CaseCitationFinder.findCaseCitation(citation)]
+  const caseCitations = [...CaseCitationFinder.findCaseCitation(citation)]
+  if(caseCitations.length > 0){
     Logger.log(`Found case citations: `, caseCitations)
     return caseCitations
   }
@@ -24,6 +22,7 @@ const findCase = Memoize((citation: string): FinderResult[] => {
   if(citation.trim().length > 0){
     return [{ name: citation, type: `case-name` }]
   }
+
   return []
 })
 

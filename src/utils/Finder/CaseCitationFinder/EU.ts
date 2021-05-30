@@ -9,16 +9,16 @@ export const sortEUCitations = (citationsArray: any[], attribute = null) => cita
 
 export const findEUCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
-  const cleanedQuery = query.replace(/‑/g, `-`)
+  const cleanedQuery = query
+    .replace(/‑/g, `-`)
+    .replace(/case /gi, `C-`)
 
   const matches = [...cleanedQuery.matchAll(regex)]
-  if(matches.length > 0){
-    return matches.map((match) => ({
-      citation: match[0],
-      court: match[1] ? Constants.COURTS.EU_epo.id : Constants.COURTS.EU_cjeu.id,
-      index: match.index,
-      jurisdiction: Constants.JURISDICTIONS.EU.id,
-    })).map(c => ({ ...c, type: `case-citation` }))
-  }
-  return []
+
+  return matches.map((match) => ({
+    citation: match[0],
+    court: match[1] ? Constants.COURTS.EU_epo.id : Constants.COURTS.EU_cjeu.id,
+    index: match.index,
+    jurisdiction: Constants.JURISDICTIONS.EU.id,
+  })).map(c => ({ ...c, type: `case-citation` }))
 }

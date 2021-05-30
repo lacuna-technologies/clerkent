@@ -3,7 +3,7 @@ import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
-import { findAUCaseCitation, sortAUCitations } from '../../Finder/CaseCitationFinder/AU'
+import { findAUCaseCitationMatches, sortAUCitations } from '../../Finder/CaseCitationFinder/AU'
 import Helpers from '../../Helpers'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
@@ -19,7 +19,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       Helpers.uniqueBy(results, `citation`)
       .map((c: Law.Case) => ({
           ...c,
-          journal: findAUCaseCitation(c.citation)[0],
+          journal: findAUCaseCitationMatches(c.citation)[0],
       })),
       `journal`,
     )
