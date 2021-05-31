@@ -1,13 +1,15 @@
+@import "../../styles/core.scss";
+
 .toggle-input {
   display: inline-flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 0.1rem;
-  border: 1px solid darkslategray;
+  border: 1px solid $border-color;
   width: fit-content;
+  border-radius: 0.2rem;
 
   > div {
-    padding: 0.1rem 0.4rem;
+    padding: 0.2rem 0.4rem;
     cursor: pointer;
   }
 

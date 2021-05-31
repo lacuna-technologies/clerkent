@@ -6,21 +6,27 @@
   margin-top: 0.25rem;
   align-items: flex-start;
   align-content: flex-start;
+  box-sizing: border-box;
 
   > .result {
     padding-bottom: 1rem;
     width: 100%;
 
-    .link {
-      @include link;
-    }
-
     > .details {
-      text-transform: uppercase;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 0.5rem;
 
-      > .database {
-        margin-left: 0.4rem;
+      > .left {
+        > .database {
+          margin-left: 0.4rem;
+        }
+      }
+
+      > .right {
+
       }
     }
 
@@ -29,17 +35,13 @@
       text-align: left;
     }
 
-    > .links {
-      margin-top: 1rem;
-    }
-
-    > p {
+    p {
       margin: 0;
     }
 
     & + .result {
       padding-top: 1rem;
-      border-top: 1px solid black;
+      border-top: 1px solid $border-color;
     }
   }
 }

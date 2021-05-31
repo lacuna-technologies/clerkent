@@ -1,0 +1,15 @@
+@import "../styles/core.scss";
+
+#show-more {
+  width: 100%; 
+  text-align: center; 
+  border-bottom: 1px solid $border-color; 
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+  cursor: pointer;
+
+  > span {
+    background: white;
+    padding: 0 10px;
+  }
+}

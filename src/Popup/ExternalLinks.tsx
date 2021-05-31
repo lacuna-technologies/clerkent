@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
-import { browser } from 'webextension-polyfill-ts'
+import React from 'react'
 import type Law from '../types/Law'
 import Constants from '../utils/Constants'
+import './ExternalLinks.scss'
 
 interface Props {
   jurisdiction: Law.JursidictionCode
@@ -13,42 +13,42 @@ const ExternalLinks: React.FC<Props> = ({
   jurisdiction,
   query,
 }) => {
-  const openTab = useCallback((link) => () => {
-    browser.tabs.create({ active: true, url: link })
-  }, [])
 
   return (
-    <div className="external-links">
-      {
-        jurisdiction === Constants.JURISDICTIONS.UK.id ? (
-          <>
-            <button
-              className="link"
-              onClick={openTab(`https://uk.westlaw.com/Browse/Home/WestlawUK/Cases`)}
-            >Westlaw UK</button>
+    <div id="external-links">
+      <small>Search on:</small>
+      <div className="links-container">
+        {
+          jurisdiction === Constants.JURISDICTIONS.UK.id ? (
+            <>
+              <a
+                href={`https://uk.westlaw.com/Browse/Home/WestlawUK/Cases`}
+                target="_blank" rel="noreferrer"
+              >Westlaw UK</a>
 
-            <button
-              className="link"
-              onClick={openTab(`https://lexisnexis.com/uk/`)}
-            >LexisNexis UK</button>
+              <a
+                href={`https://lexisnexis.com/uk/`}
+                target="_blank" rel="noreferrer"
+              >LexisNexis UK</a>
 
-            <button
-              className="link"
-              onClick={openTab(`https://app.justis.com/search/${query}/1/Relevance`)}
-            >Justis</button>
-          </>
-        ) : null
-      }
-      {
-        jurisdiction === Constants.JURISDICTIONS.SG.id ? (
-          <>
-            <button
-              className="link"
-              onClick={openTab(`https://www.lawnet.sg/?clerkent-query=${query}`)}
-            >LawNet</button>
-          </>
-        ) : null
-      }
+              <a
+                href={`https://app.justis.com/search/${query}/1/Relevance`}
+                target="_blank" rel="noreferrer"
+              >Justis</a>
+            </>
+          ) : null
+        }
+        {
+          jurisdiction === Constants.JURISDICTIONS.SG.id ? (
+            <>
+              <a
+                href={`https://www.lawnet.sg/?clerkent-query=${query}`}
+                target="_blank" rel="noreferrer"
+              >LawNet</a>
+            </>
+          ) : null
+        }
+      </div>
     </div>
   )
 }

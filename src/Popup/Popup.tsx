@@ -65,12 +65,6 @@ const Popup: React.FC = () => {
   //   Logger.log(selection)
   // }, [])
 
-  const openTab = useCallback((link: string) => () => {
-    browser.tabs.create({ active: true, url: link })
-  }, [])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const openHelp = useCallback(openTab(`https://clerkent.huey.xyz/help`), [openTab])
-
   const downloadPDF = useCallback(({ name, citation, pdf }) => () => sendMessage({
     action: Messenger.ACTION_TYPES.downloadFile,
     filename: `${Helpers.sanitiseFilename(name)} ${citation}.pdf`,
@@ -192,7 +186,9 @@ const Popup: React.FC = () => {
             Options
           </button>
         */}
-        <button className="link" onClick={openHelp}>Help</button>
+        <a className="link" href="https://clerkent.huey.xyz/help" target="_blank" rel="noreferrer">
+          Help
+        </a>
       </div>
       {/* <div className="buttons">
         <button id="mass-citations" onClick={onMassCitations}>Want to paste in a large amount of text?</button>

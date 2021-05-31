@@ -1,46 +1,41 @@
-import React, { useCallback } from 'react'
-import { browser } from 'webextension-polyfill-ts'
+import React, { useCallback, useState } from 'react'
 import { Constants } from '../utils'
 import type Law from '../types/Law'
+import CaseResult from './CaseResult'
+import ShowMore from './ShowMore'
 import './QueryResult.scss'
 
-const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
+const maxResults = 3
 
-  const openTab = useCallback((link) => () => {
-    browser.tabs.create({ active: true, url: link })
-  }, [])
+const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
+  const [morePressed, setMorePressed] = useState(false)
+  const onShowMore = useCallback(() => setMorePressed(true), [])
 
   if(notFound){
     return <span>No results found</span>
   }
-
   
   if (searchResult.length === 0){
     return <span>Loading...</span>
   }
+
+  const showMore = morePressed || searchResult.length <= maxResults
 
   const resultType: Law.Type = searchResult[0]?.type
   if(resultType === `case-citation` || resultType === `case-name`){
     return (
       <div id="results">
         {
-          searchResult.map(({ citation, name, link, pdf, jurisdiction, database }) => (
-            <div className="result" key={`${name}-${citation}`}>
-              <p className="details">
-                <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction]?.emoji}</span>
-                { database && <span className="database">{database.name}</span> }
-              </p>
-              <button className="case-name link" onClick={openTab(link)}>{name} {citation}</button>
-              {
-                pdf ? (
-                  <p className="links">
-                    <button className="pdf button" onClick={downloadPDF({ citation, name, pdf })}>PDF</button>
-                  </p>
-                ) : null
-              }
-            </div>
-          ))
+          searchResult
+            .slice(0, showMore ? undefined : maxResults)
+            .map(({ name, citation, link, pdf, jurisdiction, database }) => (
+              <CaseResult
+                {...{ citation, database, downloadPDF, jurisdiction, link, name, pdf }}
+                key={`${name}-${citation}`}
+              />
+            ))
         }
+        { showMore ? null : <ShowMore onClick={onShowMore} /> }
       </div>
     )
   } else if (resultType === `legislation`){
@@ -62,13 +57,13 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
                   </span>
                 }
               </p>
-              <button className="legislation-name link" onClick={openTab(link)}>
+              <a className="legislation-name link" href={link} target="_blank" rel="noreferrer">
                 {provisionNumber
                   ? `${provisionType} ${provisionNumber}, `
                   : null
                 }
                 {statute}
-              </button>
+              </a>
             </div>
           ))
         }

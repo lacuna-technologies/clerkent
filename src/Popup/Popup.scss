@@ -1,19 +1,20 @@
 @import "../styles/core.scss";
 
 section#popup {
-  width: 20rem;
+  width: 25rem;
   background: white;
   font-family: $font;
   min-height: 8rem;
   height: min-content;
   padding: 0.75rem;
+  box-sizing: border-box;
 
   > .options {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    align-items: center;
+    align-items: stretch;
   }
 
   input {
@@ -22,6 +23,9 @@ section#popup {
     box-sizing: border-box;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
+    outline: none;
+    border-radius: 0.25rem;
+    border: 1px solid $border-color;
   }
 
   .buttons {
@@ -44,13 +48,13 @@ section#popup {
 
   #help {
     margin-top: 1rem;
-    border-top: 1px solid grey;
+    border-top: 1px solid $border-color;
     padding-top: 0.75rem;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 
-    > button {
+    > a {
       @include link;
       color: darkslategray;
     }
