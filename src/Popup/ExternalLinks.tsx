@@ -12,6 +12,7 @@ interface Props {
 const ExternalLinks: React.FC<Props> = ({
   jurisdiction,
   query,
+  type,
 }) => {
 
   return (
@@ -22,7 +23,7 @@ const ExternalLinks: React.FC<Props> = ({
           jurisdiction === Constants.JURISDICTIONS.UK.id ? (
             <>
               <a
-                href={`https://uk.westlaw.com/Browse/Home/WestlawUK/Cases`}
+                href={`https://uk.westlaw.com/Browse/Home/WestlawUK/Cases?clerkent-query=${query}&clerkent-type=${type}`}
                 target="_blank" rel="noreferrer"
               >Westlaw UK</a>
 
