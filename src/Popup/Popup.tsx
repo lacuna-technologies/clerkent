@@ -29,8 +29,8 @@ const Popup: React.FC = () => {
   const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
-  const viewCitation = useCallback((citation, inputMode, inputJurisdiction) => sendMessage({
-    action: Messenger.ACTION_TYPES.viewCitation,
+  const search = useCallback((citation, inputMode, inputJurisdiction) => sendMessage({
+    action: Messenger.ACTION_TYPES.search,
     citation: citation,
     jurisdiction: inputJurisdiction,
     mode: inputMode,
@@ -39,7 +39,7 @@ const Popup: React.FC = () => {
   }), [sendMessage])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedViewCitation = useCallback(Helpers.debounce(viewCitation, 500), [viewCitation])
+  const debouncedViewCitation = useCallback(Helpers.debounce(search, 500), [search])
 
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
@@ -78,7 +78,7 @@ const Popup: React.FC = () => {
     if(message.target !== Messenger.TARGETS.popup){
       return null // ignore
     }
-    if(message.action === Messenger.ACTION_TYPES.viewCitation){
+    if(message.action === Messenger.ACTION_TYPES.search){
       const { data } = message
       if(data === false || (Array.isArray(data) && data.length === 0)){
         setNotFound(true)

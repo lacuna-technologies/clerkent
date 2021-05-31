@@ -23,13 +23,13 @@ const downloadFile = ({ name, citation, pdf }) => async (event: Event) => {
 }
 
 const handleViewCitation = (message: Message) => {
-  const { data } = message
+  const data = message.data as Law.Case[]
   const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
 
-  if(data === false){
+  if(data.length === 0){
     tooltip.textContent = `Could not find case`
   } else {
-    const { name, citation, link, pdf, jurisdiction, database } = data as Law.Case
+    const { name, citation, link, pdf, jurisdiction, database } = data[0] as Law.Case
 
     tooltip.innerHTML = ``
 
