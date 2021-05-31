@@ -2,9 +2,9 @@ const initCaseCitation = () => {}
 
 const initPartyName = () => {}
 
-const WestLawUK = {
+const WestlawUK = {
   initCaseCitation,
   initPartyName,
 }
 
-export default WestLawUK
+export default WestlawUK

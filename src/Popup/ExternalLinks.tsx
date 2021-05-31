@@ -27,7 +27,7 @@ const ExternalLinks: React.FC<Props> = ({
               >Westlaw UK</a>
 
               <a
-                href={`https://lexisnexis.com/uk/`}
+                href={`https://www.lexisnexis.com/uk/legal/home/home.do?clerkent-query=${query}`}
                 target="_blank" rel="noreferrer"
               >LexisNexis UK</a>
 
