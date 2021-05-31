@@ -1,6 +1,8 @@
 import { browser } from 'webextension-polyfill-ts'
+import Logger from './Logger'
 
 const set = (key: string, value: unknown, noJSON: boolean = false) => {
+  Logger.log(`Storage storing`, key, value)
   if(noJSON){
     return browser.storage.local.set({
       [key]: value,
@@ -15,6 +17,7 @@ const get = async (key: string, noJSON: boolean = false) => {
   if(result === null){
     return null
   }
+  Logger.log(`Storage retrieving`, result[key])
   if(noJSON){
     return result[key]
   }

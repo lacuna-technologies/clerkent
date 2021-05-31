@@ -2,7 +2,7 @@
   "name": "clerkent",
   "version": "1.3.2",
   "private": true,
-  "description": "quickly locate, view, and download judgments",
+  "description": "quick search for international caselaw and legislation",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
   "license": "MIT",
   "author": {

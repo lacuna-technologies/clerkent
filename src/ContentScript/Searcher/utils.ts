@@ -21,3 +21,12 @@ export const postFormData = (url: string, data: Record<string, string | number>[
   document.querySelectorAll(`body`)[0].append(form)
   form.submit()
 }
+
+export const waitTillReady = (conditionFunction: () => boolean): Promise<void> => new Promise((resolve) => {
+  const keepChecking = window.setInterval(() => {
+    if(conditionFunction()){
+      window.clearInterval(keepChecking)
+      resolve()
+    }
+  }, 100)
+})

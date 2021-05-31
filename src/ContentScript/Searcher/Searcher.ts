@@ -2,6 +2,8 @@ import LawNet from './LawNet'
 import LexisUK from './LexisUK'
 import WestlawUK from './WestlawUK'
 import type Law from '../../types/Law'
+import { Logger } from '../../utils'
+import SearcherStorage from './SearcherStorage'
 
 const getClerkentQuery = (): string | null => {
   const queryParameters = new URLSearchParams(window.location.search)
@@ -23,9 +25,17 @@ const getClerkentType = (): Law.Type | null => {
 
 const isQueryValid = (query: string) => (query && query.length > 0)
 
-const init = () => {
-  // TODO: handle situation when user is initially logged out
+// eslint-disable-next-line sonarjs/cognitive-complexity
+const init = async () => {
+  Logger.log(`Searcher debug data`, {
+    host: window.location.host,
+    path: window.location.pathname,
+    query: getClerkentQuery(),
+    type: getClerkentType(),
+  })
+
   switch(window.location.hostname){
+    // TODO: handle situation when user is initially logged out
     case `www.lawnet.sg`:
     case `www-lawnet-sg.lawproxy1.nus.edu.sg`:
     case `www-lawnet-sg.libproxy.smu.edu.sg`: {
@@ -37,6 +47,7 @@ const init = () => {
     }
 
     case `uk.westlaw.com`: {
+      // Westlaw UK passes query strings through login process 😀
       const query = getClerkentQuery()
       const clerkentType = getClerkentType()
       if(window.location.pathname === `/Browse/Home/WestlawUK/Cases` && isQueryValid(query) && clerkentType){
@@ -53,14 +64,33 @@ const init = () => {
 
     case `www-lexisnexis-com.libproxy.ucl.ac.uk`:
     case `www.lexisnexis.com`: {
-      const query = getClerkentQuery()
+      // annoyingly, lexis does not pass query strings through login
       const homePaths = [
         `/uk/legal/search/flap.do`,
         `/uk/legal/home/home.do`,
+        `/uk/legal/auth/checkbrowser.do`,
       ]
-      if(homePaths.includes(window.location.pathname)  && isQueryValid(query)){
-        LexisUK.init(query)
+
+      if(homePaths.includes(window.location.pathname)){
+        if(document.querySelector(`#signInSubmit`) !== null){
+          const query = getClerkentQuery()
+          await SearcherStorage.storeLexisUKQuery(query)
+          return
+        }
+
+        const query = getClerkentQuery() || (await SearcherStorage.getLexisUKQuery())
+        Logger.log(`Get query`, query)
+        return LexisUK.init(query)
       }
+
+      const queryDonePaths = [
+        `/uk/legal/search/homesubmitForm.do`,
+      ]
+
+      if(queryDonePaths.includes(window.location.pathname)){
+        SearcherStorage.removeLexisUKQuery()
+      }
+
       break
     }
   }

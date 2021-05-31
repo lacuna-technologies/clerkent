@@ -8,8 +8,8 @@
     "64": "assets/favicon-64.png",
     "128": "assets/favicon-128.png"
   },
-  "description": "quickly locate, view, and download judgments",
-  "homepage_url": "https://github.com/lacuna-technologies/clerkent",
+  "description": "quick search for international caselaw and legislation",
+  "homepage_url": "https://clerkent.huey.xyz",
   "short_name": "Clerkent",
   "permissions": [
     "storage",
@@ -67,6 +67,7 @@
         "http://www.unswlawjournal.unsw.edu.au/*",
         "http://www.worldlii.org/*",
         "https://academic.oup.com/*",
+        "https://app.justis.com/*",
         "https://blog-iacl-aidc.org/*",
         "https://blog.lselawreview.com/*",
         "https://blogs.unimelb.edu.au/*",
@@ -118,6 +119,7 @@
         "https://thepractice.law.harvard.edu/*",
         "https://thesecretbarrister.com/*",
         "https://twitter.com/*",
+        "https://uk.westlaw.com/*",
         "https://ukconstitutionallaw.org/*",
         "https://uklawweekly.substack.com/*",
         "https://ukpubliclawblog.com/*",
