@@ -6,11 +6,11 @@ import type Law from '../../../types/Law'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
-import { sortSGCitations, findSGCaseCitationMatches } from '../../Finder/CaseCitationFinder/SG'
+import { sortSGCitations } from '../../Finder/CaseCitationFinder/SG'
 
 const getLegislation = SSO.getLegislation
 
-const getCaseByName = async (caseName): Promise<Law.Case[]> => {
+const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.all([
       SGSC.getCaseByName(caseName),
@@ -21,12 +21,8 @@ const getCaseByName = async (caseName): Promise<Law.Case[]> => {
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
 
     return sortSGCitations(
-      Helpers.uniqueBy(results, `citation`)
-      .map(c => ({
-          ...c,
-          journal: findSGCaseCitationMatches(c.citation)[0],
-      })),
-      `journal`,
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
     )
   } catch (error) {
     Logger.error(error)

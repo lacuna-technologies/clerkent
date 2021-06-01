@@ -16,7 +16,11 @@ export const NZAbbrs = [
   { abbr: `NZDC` },
 ]
 
-export const sortNZCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(NZAbbrs, citationsArray, attribute)
+export const sortNZCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+  NZAbbrs,
+  citationsArray,
+  attribute,
+)
 
 export const findNZCaseCitationMatches = (query: string) => {
   // eslint-disable-next-line unicorn/better-regex

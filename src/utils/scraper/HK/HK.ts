@@ -4,7 +4,7 @@ import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
-import { findHKCaseCitationMatches, sortHKCitations } from '../../Finder/CaseCitationFinder/HK'
+import { sortHKCitations } from '../../Finder/CaseCitationFinder/HK'
 import Helpers from '../../Helpers'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
@@ -17,12 +17,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.HK.id)
 
     return sortHKCitations(
-      Helpers.uniqueBy(results, `citation`)
-      .map((c: Law.Case) => ({
-          ...c,
-          journal: findHKCaseCitationMatches(c.citation)[0],
-      })),
-      `journal`,
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
     )
   } catch (error) {
     Logger.error(error)

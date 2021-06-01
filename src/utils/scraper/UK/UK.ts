@@ -17,8 +17,6 @@ const getCaseByName = async (caseName): Promise<Law.Case[]> => {
     .flat()
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.UK.id)
 
-    Logger.log(`UK getCaseByName pre-sort results`, results)
-
     return sortUKCitations(
       Helpers.uniqueBy(results, `citation`),
       `citation`,

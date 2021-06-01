@@ -4,7 +4,7 @@ import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import Constants from '../../Constants'
-import { sortNZCitations, findNZCaseCitationMatches } from '../../Finder/CaseCitationFinder/NZ'
+import { sortNZCitations } from '../../Finder/CaseCitationFinder/NZ'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
@@ -16,12 +16,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.NZ.id)
 
     return sortNZCitations(
-      Helpers.uniqueBy(results, `citation`)
-      .map((c: Law.Case) => ({
-          ...c,
-          journal: findNZCaseCitationMatches(c.citation)[0],
-      })),
-      `journal`,
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
     )
   } catch (error) {
     Logger.error(error)
