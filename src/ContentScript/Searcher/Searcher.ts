@@ -35,13 +35,25 @@ const init = async () => {
   })
 
   switch(window.location.hostname){
-    // TODO: handle situation when user is initially logged out
     case `www.lawnet.sg`:
     case `www-lawnet-sg.lawproxy1.nus.edu.sg`:
     case `www-lawnet-sg.libproxy.smu.edu.sg`: {
-      const query = getClerkentQuery()
+      if(document.querySelector(`#_58_login`) !== null){
+        const query = getClerkentQuery()
+        await SearcherStorage.storeLawNetQuery(query)
+        return
+      }
+
+      const query = getClerkentQuery() || (await SearcherStorage.getLawNetQuery())
       if(isQueryValid(query)){
         LawNet.init(query)
+      }
+
+      const queryDonePaths = [
+        `/lawnet/group/lawnet/result-page`,
+      ]
+      if(queryDonePaths.includes(window.location.pathname)){
+        SearcherStorage.removeLawNetQuery()
       }
       break
     }
