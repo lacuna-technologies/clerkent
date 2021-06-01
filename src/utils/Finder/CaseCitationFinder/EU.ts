@@ -1,8 +1,8 @@
 import Constants from '../../Constants'
 import type { CaseCitationFinderResult } from './types'
 
-export const epoRegex = new RegExp(/[GJT][ _]?\d{1,4}\/\d{1,2}/)
-export const cjeuRegex = new RegExp(/[CT]-\d{1,3}\/\d{1,2}/)
+export const epoRegex = new RegExp(/\\b[GJT][ _]?\d{1,4}\/\d{1,2}/)
+export const cjeuRegex = new RegExp(/\\b[CT]-\d{1,3}\/\d{1,2}/)
 
 // TODO: sort by year
 export const sortEUCitations = (citationsArray: any[], attribute = null) => citationsArray

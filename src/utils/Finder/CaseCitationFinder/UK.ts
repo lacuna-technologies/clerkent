@@ -25,6 +25,8 @@ const UKAbbrs = [
     { abbr: `Ch`, appendum: `( D)?` },
     { abbr: `WLR`, appendum: `( ?\\(D\\))?` },
     { abbr: `All ER`, appendum: `( \\((D|Comm.?)\\))?` },
+    { abbr: `UKIPTrib` },
+    { abbr: `HRLR` },
     { abbr: `BCLC` },
     { abbr: `BCC` },
     { abbr: `Ld Raym` },
@@ -56,12 +58,11 @@ export const sortUKCitations = (citationsArray: any[], attribute = null) => sort
 )
 
 export const findUKCaseCitationMatches = (query: string) => {
-
   const abbrs = formatAbbrs(UKAbbrs)
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
-  const pageRegex = new RegExp(/\d{1,4}/)
+  const pageRegex = new RegExp(/(\d{2}_\d{2}-[A-Z]{1,2}|\d{1,4})/)
   const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs})[ _]${pageRegex.source}`, `gi`)
 
   return [...query.matchAll(regex)]
@@ -70,6 +71,7 @@ export const findUKCaseCitationMatches = (query: string) => {
 export const findUKCaseCitation = (query:string): CaseCitationFinderResult[] => {
   const matches = findUKCaseCitationMatches(query)
   if (matches.length > 0) {
+    console.log(`matches`, matches)
     return sortUKCitations(
       matches.map((match) => ({
         citation: match[0],
