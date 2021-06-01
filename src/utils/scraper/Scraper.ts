@@ -16,6 +16,7 @@ import type {
 import Logger from '../Logger'
 
 // type JurisdictionType = typeof SG | typeof UK | typeof EU | typeof HK | typeof CA | typeof AU | typeof NZ
+type JurisdictionWithLegislationSearch = typeof SG | typeof UK | typeof EU
 
 const jurisdictionMap = {
   [Constants.JURISDICTIONS.AU.id]: AU,
@@ -27,7 +28,10 @@ const jurisdictionMap = {
   [Constants.JURISDICTIONS.UK.id]: UK,
 }
 
-const getCaseByCitation = Memoize((targetCase: CaseCitationFinderResult, inputJurisdiction = null): Promise<Law.Case[]> => {
+const getCaseByCitation = Memoize((
+  targetCase: CaseCitationFinderResult,
+  inputJurisdiction: Law.JursidictionCode = null,
+): Promise<Law.Case[]> => {
   const { jurisdiction, citation, court } = targetCase
 
   const targetJurisdiction = inputJurisdiction === null
@@ -38,10 +42,16 @@ const getCaseByCitation = Memoize((targetCase: CaseCitationFinderResult, inputJu
 
   return targetJurisdiction.getCaseByCitation(citation, court)
 }, {
-  normalizer: ([targetCase, inputJurisdiction]) => `${targetCase.citation.toLowerCase()} - ${inputJurisdiction}`,
+  normalizer: ([
+    targetCase,
+    inputJurisdiction,
+  ]) => `${targetCase.citation.toLowerCase()} - ${inputJurisdiction}`,
 })
 
-const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult, inputJurisdiction) : Promise<Law.Case[]> => {
+const getCaseByName = Memoize((
+  targetCaseName: CaseNameFinderResult,
+  inputJurisdiction: Law.JursidictionCode,
+) : Promise<Law.Case[]> => {
   const { name } = targetCaseName
   const targetJurisdiction = jurisdictionMap[inputJurisdiction]
 
@@ -53,45 +63,30 @@ const getCaseByName = Memoize((targetCaseName: CaseNameFinderResult, inputJurisd
 
   return targetJurisdiction.getCaseByName(name)
 }, {
-  normalizer: ([targetCaseName, inputJurisdiction]) => `${targetCaseName.name.toLowerCase()}-${inputJurisdiction}`,
+  normalizer: ([
+    targetCaseName,
+    inputJurisdiction,
+  ]) => `${targetCaseName.name.toLowerCase()}-${inputJurisdiction}`,
 })
 
-const getLegislation = Memoize(async (targetLegislation: LegislationFinderResult): Promise<Law.Legislation[]> => {
-  const { jurisdiction } = targetLegislation
+const getLegislation = Memoize(async (
+  targetLegislation: LegislationFinderResult,
+  inputJurisdiction: Law.JursidictionCode,
+): Promise<Law.Legislation[]> => {
+  const targetJurisdiction = jurisdictionMap[inputJurisdiction]
 
-  if(jurisdiction){
-    let targetJurisdiction
-    switch (jurisdiction) {
-      case Constants.JURISDICTIONS.SG.id: {
-        targetJurisdiction = SG
-      
-      break
-      }
-      case Constants.JURISDICTIONS.UK.id: {
-        targetJurisdiction = UK
-      
-      break
-      }
-      case Constants.JURISDICTIONS.EU.id: {
-        targetJurisdiction = EU
-      
-      break
-      }
-      case Constants.JURISDICTIONS.HK.id: {
-        targetJurisdiction = HK
-      
-      break
-      }
-      default: {
-        return Promise.resolve([])
-      }
-    }
-    return targetJurisdiction.getLegislation(targetLegislation)
+  if(!targetJurisdiction || !(`getLegislation` in targetJurisdiction)){
+    return Promise.resolve([])
   }
-
-  return (await Promise.all([SG, UK].map(juris => juris.getLegislation(targetLegislation)))).filter(result => result.length > 0).flat()
+  return (
+    targetJurisdiction as JurisdictionWithLegislationSearch
+  ).getLegislation(targetLegislation)
 }, {
-  normalizer: ([{provisionType, provisionNumber, statute}]) => `${provisionType}-${provisionNumber}-${statute}`,
+  normalizer: ([{
+    provisionType,
+    provisionNumber,
+    statute,
+  }]) => `${provisionType}-${provisionNumber}-${statute}`,
 })
 
 const scraper = {

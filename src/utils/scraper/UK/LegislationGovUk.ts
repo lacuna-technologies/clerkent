@@ -17,7 +17,7 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
     params: { title: statuteName },
   })
   const $ = cheerio.load(data)
-  const results = $(`#content tbody > tr`).map((_, row) => {
+  return $(`#content tbody > tr`).map((_, row) => {
     const element = $(`td:first-of-type > a`, row)
     const name = element.text().trim()
     const link = `${DOMAIN}${element.attr(`href`)}`
@@ -26,11 +26,6 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
       name,
     }
   }).get()
-
-  if(results.length === 0){
-    return []
-  }
-  return results
 }
 
 const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation[]> => {

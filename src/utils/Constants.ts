@@ -111,6 +111,11 @@ const EU_DATABASES = {
     name: `EPO`,
     url: `https://www.epo.org/law-practice/case-law-appeals`,
   },
+  eurlex: {
+    icon: ``,
+    name: `EUR-Lex`,
+    url: `https://eur-lex.europa.eu/homepage.html`,
+  },
 }
 
 const HK_DATABASES = {

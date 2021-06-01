@@ -1,9 +1,12 @@
 import CURIA from './CURIA'
 import EPO from './EPO'
+import EURLex from './EURLex'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
+
+const getLegislation = EURLex.getLegislation
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
@@ -35,6 +38,7 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
 const EU = {
   getCaseByCitation,
   getCaseByName,
+  getLegislation,
 }
 
 export default EU

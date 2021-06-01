@@ -13,9 +13,13 @@ import ExternalLinks from './ExternalLinks'
 import './Popup.scss'
 
 const keys = {
-  POPUP_QUERY: `POPUP_QUERY`,
-  POPUP_SELECTED_JURISDICTION: `POPUP_SELECTED_JURISDICTION`,
+  QUERY: `POPUP_QUERY`,
+  SELECTED_JURISDICTION: `POPUP_SELECTED_JURISDICTION`,
+  SELECTED_MODE: `POPUP_SELECTED_MODE`,
 }
+
+const parseMode = (mode: boolean): Law.SearchMode => mode ? `legislation` : `case`
+const modeToBool = (mode: Law.SearchMode) => mode === `legislation`
 
 type SearchResult = Law.Case | Law.Legislation
 
@@ -37,18 +41,23 @@ const Popup: React.FC = () => {
     source: Messenger.TARGETS.popup,
     target: Messenger.TARGETS.background,
   }), [sendMessage])
-  const storeQuery = useCallback((value: string) => Storage.set(keys.POPUP_QUERY, value), [])
+  const storeQuery = useCallback((value: string) => Storage.set(keys.QUERY, value), [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedViewCitation = useCallback(Helpers.debounce(search, 500), [search])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedStoreQuery = useCallback(Helpers.debounce(storeQuery, 250), [storeQuery])
 
-  const onSearchQueryChange = useCallback(({ target: { value }}) => {
+  const onSearchQueryChange = useCallback((
+    { target: { value }},
+    doNotStore = false,
+  ) => {
     setQuery(value)
     setSearchResult([] as SearchResult[])
     setNotFound(false)
-    debouncedStoreQuery(value)
+    if(!doNotStore){
+      debouncedStoreQuery(value)
+    }
   }, [debouncedStoreQuery])
 
   const doSearch = useCallback((
@@ -101,14 +110,15 @@ const Popup: React.FC = () => {
   }, [])
 
   const onModeChange = useCallback((newMode: boolean) => {
-    const parsedMode = newMode ? `legislation` : `case`
+    const parsedMode = parseMode(newMode)
     setMode(parsedMode)
+    Storage.set(keys.SELECTED_MODE, parsedMode)
     doSearch({ inputMode: parsedMode })
   }, [doSearch])
 
   const onChangeJurisdiction = useCallback(({ target: { value } }): void => {
     setSelectedJurisdiction(value)
-    Storage.set(keys.POPUP_SELECTED_JURISDICTION, value)
+    Storage.set(keys.SELECTED_JURISDICTION, value)
     doSearch({ inputJurisdiction: value})
   }, [doSearch])
 
@@ -122,14 +132,19 @@ const Popup: React.FC = () => {
     (async () => {
       let shouldDoSearch = false
   
-      const storedQuery = await Storage.get(keys.POPUP_QUERY)
+      const storedQuery = await Storage.get(keys.QUERY)
       if(query.length === 0 && storedQuery !== null && storedQuery.length > 0){
-        onSearchQueryChange({target: { value: storedQuery }})
+        onSearchQueryChange({target: { value: storedQuery }}, true)
         shouldDoSearch = true
       }
-      const storedJurisdiction = await Storage.get(keys.POPUP_SELECTED_JURISDICTION)
+      const storedJurisdiction = await Storage.get(keys.SELECTED_JURISDICTION)
       if(storedJurisdiction !== null && storedJurisdiction.length > 0){
         onChangeJurisdiction({ target: { value: storedJurisdiction } })
+        shouldDoSearch = true
+      }
+      const storedMode = await Storage.get(keys.SELECTED_MODE)
+      if(storedMode !== null && storedMode.length > 0){
+        onModeChange(storedMode)
         shouldDoSearch = true
       }
 
@@ -137,10 +152,13 @@ const Popup: React.FC = () => {
         doSearch({
           ...(storedQuery?.length > 0 ? { inputQuery: storedQuery }: {}),
           ...(storedJurisdiction?.length > 0 ? { inputJurisdiction: storedJurisdiction } : {}),
+          ...(storedMode?.length > 0 ? { inputMode: storedMode } : {}),
         })
       }
     })()
-  }, [query, onSearchQueryChange, doSearch, onChangeJurisdiction])
+  // run only once
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // const onMassCitations = useCallback(() => {
   //   browser.tabs.create({
@@ -156,7 +174,7 @@ const Popup: React.FC = () => {
           leftText="Cases"
           rightText="Legislation"
           onChange={onModeChange}
-          value={mode === `legislation`}
+          value={modeToBool(mode)}
         />
         <SelectInput
           options={Object.values(Constants.JURISDICTIONS).map(({ id, emoji, name }) => ({

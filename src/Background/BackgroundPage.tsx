@@ -23,7 +23,7 @@ const getScraperResult = (
   jurisdiction: Law.JursidictionCode,
 ): Promise<Law.Legislation[] | Law.Case[]> => {
   if(mode === `legislation`){
-    return Scraper.getLegislation(targets[0] as LegislationFinderResult)
+    return Scraper.getLegislation(targets[0] as LegislationFinderResult, jurisdiction)
   }
   if(mode === `case`){
     const { type } = targets[0]

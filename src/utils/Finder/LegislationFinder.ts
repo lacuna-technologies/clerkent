@@ -31,6 +31,14 @@ const provisionAbbreviations = [
     abbrs: [`art`, `article`],
     name: `Article`,
   },
+  {
+    abbrs: [`o`, `order`],
+    name: `Order`,
+  },
+  {
+    abbrs: [`reg`, `regulation`],
+    name: `Regulation`,
+  },
 ]
 const provisionTypeRegex = provisionAbbreviations.map((a) => a.abbrs.join(`|`)).join(`|`)
 const provisionSubsectionRegex = new RegExp(`\\(\\d{1,2}[A-Z]{0,2}\\)`)

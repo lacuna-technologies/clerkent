@@ -43,6 +43,7 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
       <div id="results">
         {
           searchResult.map(({
+            database,
             jurisdiction,
             provisionNumber,
             provisionType,
@@ -51,11 +52,14 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
           }) => (
             <div className="result" key={`${provisionType}-${provisionNumber}-${statute}-${link}`}>
               <p className="details">
-                { jurisdiction &&
-                  <span className="jurisdiction">
-                    {Constants.JURISDICTIONS[jurisdiction].emoji}
-                  </span>
-                }
+                <div className="left">
+                  { jurisdiction &&
+                    <span className="jurisdiction">
+                      {Constants.JURISDICTIONS[jurisdiction].emoji}
+                    </span>
+                  }
+                  { database && <span className="database">{database.name}</span> }
+                </div>
               </p>
               <a className="legislation-name link" href={link} target="_blank" rel="noreferrer">
                 {provisionNumber
