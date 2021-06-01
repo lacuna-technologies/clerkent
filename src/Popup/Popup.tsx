@@ -37,26 +37,38 @@ const Popup: React.FC = () => {
     source: Messenger.TARGETS.popup,
     target: Messenger.TARGETS.background,
   }), [sendMessage])
+  const storeQuery = useCallback((value: string) => Storage.set(keys.POPUP_QUERY, value), [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedViewCitation = useCallback(Helpers.debounce(search, 500), [search])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedStoreQuery = useCallback(Helpers.debounce(storeQuery, 250), [storeQuery])
 
   const onSearchQueryChange = useCallback(({ target: { value }}) => {
     setQuery(value)
     setSearchResult([] as SearchResult[])
     setNotFound(false)
-    Storage.set(keys.POPUP_QUERY, value)
-  }, [])
+    debouncedStoreQuery(value)
+  }, [debouncedStoreQuery])
 
-  const doSearch = useCallback(({inputQuery = query, inputMode = mode, inputJurisdiction = selectedJurisdiction} = {}) => {
-    Logger.log(`Doing search`, inputQuery, inputMode)
-    setNotFound(false)
-    debouncedViewCitation(inputQuery, inputMode, inputJurisdiction)
+  const doSearch = useCallback((
+    {
+      inputQuery = query,
+      inputMode = mode,
+      inputJurisdiction = selectedJurisdiction,
+      forceSearch = false,
+    } = {},
+  ) => {
+    if(inputQuery.length >= 3 || forceSearch){ // ignore anything that's too short
+      Logger.log(`Doing search`, inputQuery, inputMode)
+      setNotFound(false)
+      debouncedViewCitation(inputQuery, inputMode, inputJurisdiction)
+    }
   },  [debouncedViewCitation, query, mode, selectedJurisdiction])
 
   const onEnter = useCallback((event) => {
     if(event.key === `Enter`){
-      doSearch()
+      doSearch({ forceSearch: true })
     }
   }, [doSearch])
 
@@ -111,7 +123,7 @@ const Popup: React.FC = () => {
       let shouldDoSearch = false
   
       const storedQuery = await Storage.get(keys.POPUP_QUERY)
-      if(storedQuery !== null && storedQuery.length > 0){
+      if(query.length === 0 && storedQuery !== null && storedQuery.length > 0){
         onSearchQueryChange({target: { value: storedQuery }})
         shouldDoSearch = true
       }
@@ -128,7 +140,7 @@ const Popup: React.FC = () => {
         })
       }
     })()
-  }, [onSearchQueryChange, doSearch, onChangeJurisdiction])
+  }, [query, onSearchQueryChange, doSearch, onChangeJurisdiction])
 
   // const onMassCitations = useCallback(() => {
   //   browser.tabs.create({

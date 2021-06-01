@@ -64,7 +64,7 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
           name,
         }
       }).get()
-      .filter(({ citation }) => typeof citation === `string`)
+      .filter(({ citation }) => Helpers.isCitationValid(citation))
       // const subResult = await Request.get(`${COMMONLII_DOMAIN}${firstCaseURL}`)
       // return parseCase(citation, subResult)
     }
@@ -73,6 +73,10 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
     // const date = $(`div.date`)?.text()?.trim()
     const link = $(`div.citation > a.free-external`)?.attr(`href`)
     const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
+    const citationText = Helpers.findCitation(
+      CaseCitationFinder.findCaseCitation,
+      $(`div.citation span.citation`).text().trim(),
+    )
 
     let pdf: string | undefined
     if(link){
@@ -85,7 +89,7 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
     
     
     return [{
-      citation,
+      citation: citationText,
       database: Constants.DATABASES.commonlii,
       ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
       link: link || request.responseURL,

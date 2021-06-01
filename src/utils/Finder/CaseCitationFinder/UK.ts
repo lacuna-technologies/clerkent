@@ -43,7 +43,11 @@ const UKAbbrs = [
     { abbr: `CLC` },
   ]
 
-export const sortUKCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(UKAbbrs, citationsArray, attribute)
+export const sortUKCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+  UKAbbrs,
+  citationsArray,
+  attribute,
+)
 
 export const findUKCaseCitationMatches = (query: string) => {
   const abbrs = formatAbbrs(UKAbbrs)
