@@ -75,7 +75,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
     const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
     const citationText = Helpers.findCitation(
       CaseCitationFinder.findCaseCitation,
-      $(`div.citation span.citation`).text().trim(),
+      $(`div.citation`).text().trim(),
     )
 
     let pdf: string | undefined
@@ -88,7 +88,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
     }
     
     
-    const res = [{
+    const results = [{
       citation: citationText,
       database: Constants.DATABASES.commonlii,
       ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
@@ -96,8 +96,8 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
       name,
       ...(pdf ? { pdf } : {}),
     }]
-    Logger.log(`CommonLII scraper result`, res)
-    return res
+    Logger.log(`CommonLII scraper result`, results)
+    return results
 
   } catch (error){
     Logger.error(error)

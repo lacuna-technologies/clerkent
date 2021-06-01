@@ -2,6 +2,7 @@ import cheerio from 'cheerio'
 import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants' 
+import Logger from '../../Logger'
 
 const DOMAIN = `https://www.supremecourt.gov.sg`
 const getSearchResults = (citation: string) => `${DOMAIN}/search-judgment?q=${citation}&y=All`
@@ -25,17 +26,21 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(citation))
   const $ = cheerio.load(data)
 
-  return $(`.judgmentpage`)
+  const results = $(`.judgmentpage`)
     .map((_, element) => parseCase($, element))
     .get()
     .filter((match: Law.Case)=> match.citation.toLowerCase() === citation.toLowerCase())
+  Logger.log(`SGSC scrape results`, results)
+  return results
 }
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(caseName))
   const $ = cheerio.load(data)
 
-  return $(`.judgmentpage`).map((_, element) => parseCase($, element)).get()
+  const results = $(`.judgmentpage`).map((_, element) => parseCase($, element)).get()
+  Logger.log(`SGSC scrape results`, results)
+  return results
 }
 
 const SGSC = {

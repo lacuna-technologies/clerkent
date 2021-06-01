@@ -32,13 +32,21 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 }
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  const options = [`sgca`, `sghc`].some(cit => citation.includes(cit.toLowerCase())) ? [SGSC, SLW, Common.CommonLII] : [Common.CommonLII, SGSC, SLW]
-  for (const option of options) {
-    try {
-      return await option.getCaseByCitation(citation)
-    } catch (error) {
-      console.error(error)
-    }
+  try {
+    const results = (await Promise.allSettled([
+      SGSC.getCaseByCitation(citation),
+      SLW.getCaseByCitation(citation),
+      Common.CommonLII.getCaseByCitation(citation),
+    ])).filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
+    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
+
+    return sortSGCitations(
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
+    )
+  } catch (error){
+    Logger.error(error)
   }
   return []
 }

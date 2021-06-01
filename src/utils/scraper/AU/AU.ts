@@ -27,13 +27,20 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 }
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  const options = [austlii, Common.CommonLII]
-  for (const option of options){
-    try {
-      return await option.getCaseByCitation(citation)
-    } catch (error){
-      Logger.error(error)
-    }
+  try {
+    const results = (await Promise.allSettled([
+      austlii.getCaseByCitation(citation),
+      Common.CommonLII.getCaseByCitation(citation),
+    ])).filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
+    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.AU.id)
+
+    return sortAUCitations(
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
+    )
+  } catch (error){
+    Logger.error(error)
   }
   return []
 }

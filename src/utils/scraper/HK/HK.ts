@@ -28,13 +28,21 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 }
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  const options = [HKLIIORG, HKLIIHK, Common.CommonLII]
-  for (const option of options){
-    try {
-      return await option.getCaseByCitation(citation)
-    } catch (error) {
-      Logger.error(error)
-    }
+  try {
+    const results = (await Promise.allSettled([
+      HKLIIORG.getCaseByCitation(citation),
+      HKLIIHK.getCaseByCitation(citation),
+      Common.CommonLII.getCaseByCitation(citation),
+    ])).filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
+    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.HK.id)
+
+    return sortHKCitations(
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
+    )
+  } catch (error){
+    Logger.error(error)
   }
   return []
 }
