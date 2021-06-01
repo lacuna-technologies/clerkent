@@ -18,8 +18,8 @@
     "dev:firefox": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch --progress",
     "dev:opera": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=opera webpack --watch --progress",
     "generate:icons": "babel-node scripts/generateIcons.ts --extensions \".ts\"",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint": "eslint . --ext .ts,.tsx --cache",
+    "lint:fix": "eslint . --ext .ts,.tsx --cache --fix",
     "lint:staged": "lint-staged",
     "prepare": "husky install",
     "test": "jest --watch",
@@ -35,7 +35,7 @@
       "tsc --allowSyntheticDefaultImports --jsx react --noEmit --esModuleInterop --moduleResolution node --skipLibCheck --resolveJsonModule --downlevelIteration --lib ESNEXT,ES2020.String,dom"
     ],
     "*.{ts,tsx,js,jsx,json}": [
-      "eslint --fix --ignore-pattern"
+      "eslint --cache --fix"
     ],
     "package.json": [
       "npx sort-package-json"

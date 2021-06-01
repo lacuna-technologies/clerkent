@@ -1,3 +1,8 @@
 node_modules/
-dist/
+generated/
 extension/
+.git/
+.husky/
+.vscode/
+assets/
+demo/
