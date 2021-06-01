@@ -35,7 +35,7 @@ const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => 
   return null
 }
 
-const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.Case[] > => {
+const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
   try {
 
     const { data, request } = result
@@ -50,7 +50,7 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
 
     const multipleCases = $(`a[name="cases"] > h1.search-results`)?.eq(0)?.text()?.trim()
     if(multipleCases && multipleCases.includes(`Matching Cases`)){
-      return $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
+      const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
         const name = $(`td.case-cited > a`, element).text().trim()
         const lawCiteLink = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
         const link = $(`td.service > a`, element).attr(`href`)
@@ -65,8 +65,8 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
         }
       }).get()
       .filter(({ citation }) => Helpers.isCitationValid(citation))
-      // const subResult = await Request.get(`${COMMONLII_DOMAIN}${firstCaseURL}`)
-      // return parseCase(citation, subResult)
+      Logger.log(`CommonLII scraper result`, results)
+      return results
     }
 
     const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
@@ -88,7 +88,7 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
     }
     
     
-    return [{
+    const res = [{
       citation: citationText,
       database: Constants.DATABASES.commonlii,
       ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
@@ -96,6 +96,8 @@ const parseCase = async (citation: string, result: AxiosResponse): Promise<Law.C
       name,
       ...(pdf ? { pdf } : {}),
     }]
+    Logger.log(`CommonLII scraper result`, res)
+    return res
 
   } catch (error){
     Logger.error(error)
@@ -112,7 +114,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       },
     })
     
-    return parseCase(citation, result)
+    return parseCase(result)
     
   } catch (error){
     Logger.error(error)
@@ -130,7 +132,7 @@ const getCaseByName = async (citation: string, jurisdiction: string = null): Pro
       },
     })
 
-    return parseCase(citation, result)
+    return parseCase(result)
   } catch (error){
     Logger.error(error)
     return []

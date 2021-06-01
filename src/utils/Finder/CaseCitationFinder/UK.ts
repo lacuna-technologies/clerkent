@@ -50,6 +50,7 @@ export const sortUKCitations = (citationsArray: any[], attribute = null) => sort
 )
 
 export const findUKCaseCitationMatches = (query: string) => {
+
   const abbrs = formatAbbrs(UKAbbrs)
   // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
@@ -63,11 +64,16 @@ export const findUKCaseCitationMatches = (query: string) => {
 export const findUKCaseCitation = (query:string): CaseCitationFinderResult[] => {
   const matches = findUKCaseCitationMatches(query)
   if (matches.length > 0) {
-    return matches.map((match) => ({
-      citation: match[0],
-      index: match.index,
-      jurisdiction: Constants.JURISDICTIONS.UK.id,
-    })).map(c => ({ ...c, type: `case-citation` }))
+    return sortUKCitations(
+      matches.map((match) => ({
+        citation: match[0],
+        index: match.index,
+        journal: match[6],
+        jurisdiction: Constants.JURISDICTIONS.UK.id,
+        type: `case-citation`,
+      })),
+      `journal`,
+    )
   }
   return []
 }

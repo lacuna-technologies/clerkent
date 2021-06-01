@@ -54,7 +54,10 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 
     const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element) => {
       const name = $(`a`, element).eq(0).text().trim().split(`[`)[0]
-      const citation = Helpers.findCitation(CaseCitationFinder.findUKCaseCitation, $(`small`, element).text().trim())
+      const citation = Helpers.findCitation(
+        CaseCitationFinder.findUKCaseCitation,
+        $(`small`, element).text().trim(),
+      )
       const link = `${DOMAIN}${$(`a`, element).eq(0).attr(`href`)}`
       return {
         citation,

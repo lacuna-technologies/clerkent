@@ -4,7 +4,7 @@ import Common from '../common'
 import LegislationGovUk from './LegislationGovUk'
 import Logger from '../../Logger'
 import Helpers from '../../Helpers'
-import { sortUKCitations, findUKCaseCitationMatches } from '../../Finder/CaseCitationFinder/UK'
+import { sortUKCitations } from '../../Finder/CaseCitationFinder/UK'
 import Constants from '../../Constants'
 
 const getLegislation = LegislationGovUk.getLegislation
@@ -17,13 +17,11 @@ const getCaseByName = async (caseName): Promise<Law.Case[]> => {
     .flat()
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.UK.id)
 
+    Logger.log(`UK getCaseByName pre-sort results`, results)
+
     return sortUKCitations(
-      Helpers.uniqueBy(results, `citation`)
-        .map(c => ({
-          ...c,
-          journal: findUKCaseCitationMatches(c.citation)[0],
-      })),
-      `journal`,
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
     )
   } catch (error) {
     Logger.error(error)

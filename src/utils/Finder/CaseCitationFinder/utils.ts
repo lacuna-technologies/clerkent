@@ -19,5 +19,8 @@ export const sortCitationsByVolume = (abbrsList, citationsArray: any[], attribut
       return indexA - indexB
     })
   }
-  return sortCitationsByVolume(abbrsList, citationsArray.map(c => c[attribute])).map(c => citationsArray.find(v => v[attribute] === c))
+  return sortCitationsByVolume(
+    abbrsList,
+    citationsArray.map(c => c[attribute]),
+  ).map(c => citationsArray.find(v => v[attribute] === c))
 }
