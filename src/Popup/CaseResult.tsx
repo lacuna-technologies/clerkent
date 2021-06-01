@@ -12,7 +12,7 @@ const CaseResult = ({
 }) => {
   return (
     <div className="result">
-      <p className="details">
+      <div className="details">
         <div className="left">
           <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction]?.emoji}</span>
           { database && <span className="database">{database.name}</span> }
@@ -26,7 +26,7 @@ const CaseResult = ({
             ) : null
           }
         </div>
-      </p>
+      </div>
       <a
         className="case-name link"
         target="_blank"

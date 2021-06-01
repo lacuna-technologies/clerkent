@@ -8,7 +8,7 @@ import { sortUKCitations } from '../../Finder/CaseCitationFinder/UK'
 import Constants from '../../Constants'
 
 const getLegislation = LegislationGovUk.getLegislation
-const getCaseByName = async (caseName): Promise<Law.Case[]> => {
+const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.all([
       BAILII.getCaseByName(caseName),
@@ -27,12 +27,8 @@ const getCaseByName = async (caseName): Promise<Law.Case[]> => {
   return []
 }
 
-const bailiiPriority = [`UKSC`, `EWCA`, `EWHC`, `UKPC`, `UKHL`, ` KB `, ` QB `, ` Ch `, `EMLR`, ` All ER`, ` WLR `, ` Fam `]
-
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  const options = bailiiPriority.some(cit => citation.includes(cit))
-    ? [BAILII, Common.CommonLII]
-    : [Common.CommonLII, BAILII]
+  const options =  [BAILII, Common.CommonLII]
   for (const option of options) {
     try {
       return await option.getCaseByCitation(citation)

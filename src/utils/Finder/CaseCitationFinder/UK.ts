@@ -13,7 +13,13 @@ const UKAbbrs = [
     { abbr: `App Cas` },
     { abbr: `Cr App R` },
 
+    { abbr: `CSIH` },
+    { abbr: `ScotCS CSIH` },
+    { abbr: `SCLR` },
+
     { abbr: `EWHC`, appendum: `( Patents)?` },
+    { abbr: `CSOH` },
+    { abbr: `ScotCS CSOH` },
     { abbr: `QB`, appendum: `(D)?` },
     { abbr: `KB` },
     { abbr: `Ch`, appendum: `( D)?` },
@@ -56,7 +62,7 @@ export const findUKCaseCitationMatches = (query: string) => {
   const yearRegex = new RegExp(/((\[|\()[12]\d{3}(-[12]\d{3})?(\]|\)))/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
-  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs})[ _]${pageRegex.source}`, `gi`)
 
   return [...query.matchAll(regex)]
 }

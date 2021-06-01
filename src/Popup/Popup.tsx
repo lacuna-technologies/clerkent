@@ -107,16 +107,23 @@ const Popup: React.FC = () => {
     }
   }, [])
 
-  const onModeChange = useCallback((newMode: boolean) => {
+  const onModeChange = useCallback((newMode: boolean, doNotStore: boolean = false) => {
     const parsedMode = parseMode(newMode)
     setMode(parsedMode)
-    Storage.set(keys.SELECTED_MODE, parsedMode)
+    if(!doNotStore){
+      Storage.set(keys.SELECTED_MODE, parsedMode)
+    }
     doSearch({ inputMode: parsedMode })
   }, [doSearch])
 
-  const onChangeJurisdiction = useCallback(({ target: { value } }): void => {
+  const onChangeJurisdiction = useCallback((
+    { target: { value } },
+    doNotStore: boolean = false,
+  ): void => {
     setSelectedJurisdiction(value)
-    Storage.set(keys.SELECTED_JURISDICTION, value)
+    if(!doNotStore){
+      Storage.set(keys.SELECTED_JURISDICTION, value)
+    }
     doSearch({ inputJurisdiction: value})
   }, [doSearch])
 
@@ -142,12 +149,12 @@ const Popup: React.FC = () => {
       }
       const storedJurisdiction = await Storage.get(keys.SELECTED_JURISDICTION)
       if(storedJurisdiction !== null && storedJurisdiction.length > 0){
-        onChangeJurisdiction({ target: { value: storedJurisdiction } })
+        onChangeJurisdiction({ target: { value: storedJurisdiction } }, true)
         shouldDoSearch = true
       }
       const storedMode = await Storage.get(keys.SELECTED_MODE)
       if(storedMode !== null && storedMode.length > 0){
-        onModeChange(storedMode)
+        onModeChange(modeToBool(storedMode), true)
         shouldDoSearch = true
       }
 
