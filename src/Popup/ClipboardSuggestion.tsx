@@ -19,7 +19,7 @@ const ClipboardSuggestion = ({ query, applyClipboardText }) => {
 
   return (clipboardText && query !== clipboardText) ? (
     <Admonition title="Search for copied text?" className="clipboard-suggestion" onClick={onClick}>
-      {clipboardText}
+      <em>{clipboardText}</em>
     </Admonition>
   ) : null
 }

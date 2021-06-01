@@ -3,6 +3,7 @@ import { Constants } from '../utils'
 import type Law from '../types/Law'
 import CaseResult from './CaseResult'
 import ShowMore from './ShowMore'
+import Loading from '../components/Loading'
 import './QueryResult.scss'
 
 const maxResults = 3
@@ -13,7 +14,7 @@ const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
   const onShowMore = useCallback(() => setMorePressed(true), [])
 
   if (isSearching){
-    return <span>Loading...</span>
+    return <Loading />
   }
 
   if(searchResult.length === 0){

@@ -27,10 +27,16 @@ const uniqueBy = (array: any[], attribute: string) =>  [
   ...new Set(array.map(r => r[attribute])),
 ].map(((attribute_) => array.find((c) => c[attribute] === attribute_)))
 
+const getRandomInteger = (min: number, max: number): number => Math.floor(Math.random()*(max-min)) + min
+
+const getRandomElement = (array: any[]) => array[getRandomInteger(0, array.length)]
+
 const Helpers = {
   classnames,
   debounce,
   findCitation,
+  getRandomElement,
+  getRandomInteger,
   isCitationValid,
   sanitiseFilename,
   uniqueBy,
