@@ -49,7 +49,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
 
       const noResultMessage = {
         action: Messenger.ACTION_TYPES.viewCitation,
-        data: false,
+        data: [],
         source: Messenger.TARGETS.background,
         target: source,
       }
@@ -85,7 +85,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
 
       const noResultMessage = {
         action: Messenger.ACTION_TYPES.search,
-        data: false,
+        data: [],
         source: Messenger.TARGETS.background,
         target: source,
       }

@@ -10,7 +10,8 @@
 
   > .result {
     padding-bottom: 1rem;
-    width: 100%;
+    width: 95%;
+    box-sizing: border-box;
 
     > .details {
       display: flex;
@@ -22,6 +23,7 @@
       > .left {
         > .database {
           margin-left: 0.4rem;
+          box-sizing: border-box;
         }
       }
 

@@ -4,11 +4,11 @@ import type { Runtime } from 'webextension-polyfill-ts'
 import type { Message } from '../utils/Messenger'
 import Law from '../types/Law'
 import QueryResult from './QueryResult'
-import { Messenger, Storage, Logger, Helpers } from '../utils'
+import { Constants, Messenger, Storage, Logger, Helpers } from '../utils'
 import Toggle from '../components/Toggle'
 import SelectInput from '../components/SelectInput'
-import Constants from '../utils/Constants'
 import ExternalLinks from './ExternalLinks'
+import ClipboardSuggestion from './ClipboardSuggestion'
 
 import './Popup.scss'
 
@@ -27,10 +27,11 @@ type SearchResult = Law.Case | Law.Legislation
 const Popup: React.FC = () => {
   const port = useRef({} as Runtime.Port)
   const [query, setQuery] = useState(``)
+  const [lastSearchQuery, setLastSearchQuery] = useState(query)
+  const [isSearching, setIsSearching] = useState(false)
   const [mode, setMode] = useState(`case` as Law.SearchMode)
   const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
   const [searchResult, setSearchResult] = useState([] as SearchResult[])
-  const [notFound, setNotFound] = useState(false)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
 
   const search = useCallback((citation, inputMode, inputJurisdiction) => sendMessage({
@@ -54,7 +55,6 @@ const Popup: React.FC = () => {
   ) => {
     setQuery(value)
     setSearchResult([] as SearchResult[])
-    setNotFound(false)
     if(!doNotStore){
       debouncedStoreQuery(value)
     }
@@ -70,8 +70,9 @@ const Popup: React.FC = () => {
   ) => {
     if(inputQuery.length >= 3 || forceSearch){ // ignore anything that's too short
       Logger.log(`Doing search`, inputQuery, inputMode)
-      setNotFound(false)
       debouncedViewCitation(inputQuery, inputMode, inputJurisdiction)
+      setIsSearching(true)
+      setLastSearchQuery(inputQuery)
     }
   },  [debouncedViewCitation, query, mode, selectedJurisdiction])
 
@@ -101,11 +102,8 @@ const Popup: React.FC = () => {
     }
     if(message.action === Messenger.ACTION_TYPES.search){
       const { data } = message
-      if(data === false || (Array.isArray(data) && data.length === 0)){
-        setNotFound(true)
-      } else {
-        setSearchResult(Array.isArray(data) ? data : [data])
-      }
+      setIsSearching(false)
+      setSearchResult(Array.isArray(data) ? data : [data])
     }
   }, [])
 
@@ -121,6 +119,11 @@ const Popup: React.FC = () => {
     Storage.set(keys.SELECTED_JURISDICTION, value)
     doSearch({ inputJurisdiction: value})
   }, [doSearch])
+
+  const applyClipboardText = useCallback((clipboardText) => {
+    onSearchQueryChange({target: { value: clipboardText }})
+    doSearch({ inputQuery: clipboardText })
+  }, [doSearch, onSearchQueryChange])
 
   useEffect(() => {
     port.current = browser.runtime.connect(``, { name: `popup-port` })
@@ -167,7 +170,6 @@ const Popup: React.FC = () => {
   // }, [])
 
   return (
-    
     <section id="popup">
       <div className="options">
         <Toggle
@@ -192,13 +194,20 @@ const Popup: React.FC = () => {
         onKeyDown={onEnter}
         value={query}
       />
-      {query.length > 0 ?
-        <QueryResult
-          searchResult={searchResult}
-          downloadPDF={downloadPDF}
-          notFound={notFound}
-        /> : (
-          <p>Press enter to search</p>
+      {
+        query === lastSearchQuery ? (
+          <ClipboardSuggestion query={query} applyClipboardText={applyClipboardText} />
+        ) : null
+      }
+      {
+        (!isSearching && query.length > 0 && searchResult.length === 0 && lastSearchQuery !== query) ? (
+           <span>Press enter to search</span>
+        ) : (
+          <QueryResult
+            searchResult={searchResult}
+            downloadPDF={downloadPDF}
+            isSearching={isSearching}
+          />
         )
       }
       {

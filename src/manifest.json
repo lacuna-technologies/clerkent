@@ -14,6 +14,7 @@
   "permissions": [
     "storage",
     "downloads",
+    "clipboardRead",
     "*://lawcite.org/*",
     "*://www.austlii.edu.au/*",
     "*://www.bailii.org/*",

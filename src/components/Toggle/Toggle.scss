@@ -7,6 +7,7 @@
   border: 1px solid $border-color;
   width: fit-content;
   border-radius: 0.2rem;
+  box-sizing: border-box;
 
   > div {
     padding: 0.2rem 0.4rem;

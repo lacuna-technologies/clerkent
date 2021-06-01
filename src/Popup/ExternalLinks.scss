@@ -1,6 +1,7 @@
 @import "../styles/core.scss";
 
 #external-links {
+  box-sizing: border-box;
 
   > .links-container {
     display: flex;
@@ -13,6 +14,7 @@
       padding: 0.2rem 0.6rem;
       border: 1px solid $border-color;
       border-radius: 0.25rem;
+      box-sizing: border-box;
 
       &:hover {
         background-color: lightgray;

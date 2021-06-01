@@ -1,7 +1,14 @@
 @import "../styles/core.scss";
 
+html {
+  overflow-x: hidden;
+  width: 28rem;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
 section#popup {
-  width: 25rem;
+  width: 28rem;
   background: white;
   font-family: $font;
   min-height: 8rem;
@@ -53,6 +60,7 @@ section#popup {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    box-sizing: border-box;
 
     > a {
       @include link;

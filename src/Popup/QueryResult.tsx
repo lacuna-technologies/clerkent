@@ -7,16 +7,17 @@ import './QueryResult.scss'
 
 const maxResults = 3
 
-const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
+// eslint-disable-next-line sonarjs/cognitive-complexity
+const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
   const [morePressed, setMorePressed] = useState(false)
   const onShowMore = useCallback(() => setMorePressed(true), [])
 
-  if(notFound){
-    return <span>No results found</span>
-  }
-  
-  if (searchResult.length === 0){
+  if (isSearching){
     return <span>Loading...</span>
+  }
+
+  if(searchResult.length === 0){
+    return <span>No results found</span>
   }
 
   const showMore = morePressed || searchResult.length <= maxResults
@@ -42,7 +43,9 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
     return (
       <div id="results">
         {
-          searchResult.map(({
+          searchResult
+          .slice(0, showMore ? undefined: maxResults)
+          .map(({
             database,
             jurisdiction,
             provisionNumber,
@@ -71,6 +74,7 @@ const QueryResult = ({ searchResult, downloadPDF, notFound }) => {
             </div>
           ))
         }
+        { showMore ? null : <ShowMore onClick={onShowMore} /> }
       </div>
     )
   }
