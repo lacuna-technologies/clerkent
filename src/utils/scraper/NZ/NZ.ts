@@ -8,11 +8,12 @@ import { sortNZCitations } from '../../Finder/CaseCitationFinder/NZ'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
-    const results = (await Promise.all([
+    const results = (await Promise.allSettled([
       nzlii.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.NZ.name),
     ]))
-    .flat()
+    .filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.NZ.id)
 
     return sortNZCitations(

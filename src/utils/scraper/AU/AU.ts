@@ -8,11 +8,12 @@ import Helpers from '../../Helpers'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
-    const results = (await Promise.all([
+    const results = (await Promise.allSettled([
       austlii.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.AU.name),
     ]))
-    .flat()
+    .filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.AU.id)
 
     return sortAUCitations(

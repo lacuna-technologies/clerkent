@@ -12,12 +12,13 @@ const getLegislation = SSO.getLegislation
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
-    const results = (await Promise.all([
+    const results = (await Promise.allSettled([
       SGSC.getCaseByName(caseName),
       SLW.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
     ]))
-    .flat()
+    .filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
 
     return sortSGCitations(

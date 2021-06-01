@@ -10,10 +10,11 @@ const getLegislation = EURLex.getLegislation
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
-    const results = (await Promise.all([
+    const results = (await Promise.allSettled([
       CURIA.getCaseByName(caseName),
     ]))
-    .flat()
+    .filter(({ status }) => status === `fulfilled`)
+    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.EU.id)
 
     return Helpers.uniqueBy(results, `citation`)
