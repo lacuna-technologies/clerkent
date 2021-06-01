@@ -5,6 +5,7 @@ Array [
   Object {
     "citation": "[1948] 1 KB 223",
     "index": 0,
+    "journal": "KB",
     "jurisdiction": "UK",
     "type": "case-citation",
   },
@@ -16,6 +17,7 @@ Array [
   Object {
     "citation": "[1965] 1 QB 456",
     "index": 0,
+    "journal": "QB",
     "jurisdiction": "UK",
     "type": "case-citation",
   },
@@ -27,6 +29,7 @@ Array [
   Object {
     "citation": "(1951) 35 Cr App R 164",
     "index": 0,
+    "journal": "Cr App R",
     "jurisdiction": "UK",
     "type": "case-citation",
   },
