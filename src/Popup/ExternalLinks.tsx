@@ -14,6 +14,9 @@ const ExternalLinks: React.FC<Props> = ({
   query,
   type,
 }) => {
+  if(![Constants.JURISDICTIONS.UK.id, Constants.JURISDICTIONS.SG.id, Constants.JURISDICTIONS.HK.id]){
+    return null
+  }
 
   return (
     <div id="external-links">
@@ -46,6 +49,16 @@ const ExternalLinks: React.FC<Props> = ({
                 href={`https://www.lawnet.sg/?clerkent-query=${query}`}
                 target="_blank" rel="noreferrer"
               >LawNet</a>
+            </>
+          ) : null
+        }
+        {
+          jurisdiction === Constants.JURISDICTIONS.HK.id ? (
+            <>
+              <a
+                href={`https://app.justis.com/search/${query}/1/Relevance`}
+                target="_blank" rel="noreferrer"
+              >Justis</a>
             </>
           ) : null
         }
