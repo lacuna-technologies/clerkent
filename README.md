@@ -11,6 +11,7 @@ Quickly locate, open, or download judgments
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox.svg" width="64" />](https://addons.mozilla.org/en-GB/firefox/addon/clerkent/)
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome.svg" width="64" />](https://chrome.google.com/webstore/detail/clerkent/ogjefnociaddjemkkajgmfpmhmpokmhj)
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge.svg" width="64" />](https://clerkent.huey.xyz/help#edge-installation)
 
 ## Screenshots
 
