@@ -27,7 +27,10 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const pdfPath = $(`a[href$=".pdf"]`).eq(0).attr(`href`)
 
   const result = {
-    citation,
+    citation: Helpers.findCitation(
+      CaseCitationFinder.findUKCaseCitation,
+      $(`title`).text().trim(),
+    ),
     link: request.responseURL,
     name: $(`title`).text().trim().split(`[`)[0],
     ...(pdfPath ? {pdf: `${DOMAIN}${pdfPath}`} : {}),
