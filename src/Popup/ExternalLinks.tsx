@@ -14,7 +14,7 @@ const ExternalLinks: React.FC<Props> = ({
   query,
   type,
 }) => {
-  if(![Constants.JURISDICTIONS.UK.id, Constants.JURISDICTIONS.SG.id, Constants.JURISDICTIONS.HK.id]){
+  if(![Constants.JURISDICTIONS.UK.id, Constants.JURISDICTIONS.SG.id, Constants.JURISDICTIONS.HK.id].includes(jurisdiction)){
     return null
   }
 

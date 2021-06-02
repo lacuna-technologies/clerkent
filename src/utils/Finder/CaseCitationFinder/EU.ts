@@ -1,8 +1,8 @@
 import Constants from '../../Constants'
 import type { CaseCitationFinderResult } from './types'
 
-export const epoRegex = new RegExp(/\\b[GJT][ _]?\d{1,4}\/\d{1,2}/)
-export const cjeuRegex = new RegExp(/\\b[CT]-\d{1,3}\/\d{1,2}/)
+export const epoRegex = new RegExp(/\b[GJT][ _]?\d{1,4}\/\d{1,2}/)
+export const cjeuRegex = new RegExp(/\b[CT]-\d{1,3}\/\d{1,2}/)
 
 // TODO: sort by year
 export const sortEUCitations = (citationsArray: any[], attribute = null) => citationsArray
@@ -10,7 +10,7 @@ export const sortEUCitations = (citationsArray: any[], attribute = null) => cita
 export const findEUCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
   const cleanedQuery = query
-    .replace(/‑/g, `-`)
+    .replace(new RegExp(`[${String.fromCharCode(8209)}]`, `g`), `-`)
     .replace(/case /gi, `C-`)
 
   const matches = [...cleanedQuery.matchAll(regex)]
