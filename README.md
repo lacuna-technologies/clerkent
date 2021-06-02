@@ -14,8 +14,7 @@ Quickly locate, open, or download judgments
 
 ## Screenshots
 
-![demo](./demo/demo.gif)
-![search](./demo/search.png)
+![screenshot1](./demo/screenshot1.png)
 
 ## Features
 
