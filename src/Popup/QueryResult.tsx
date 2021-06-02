@@ -14,7 +14,7 @@ const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
   const onShowMore = useCallback(() => setMorePressed(true), [])
 
   if (isSearching){
-    return <Loading />
+    return <Loading.Animated />
   }
 
   if(searchResult.length === 0){

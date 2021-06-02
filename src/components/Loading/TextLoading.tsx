@@ -25,7 +25,7 @@ const thingsToLoad = [
   `Consolidating findings`,
 ]
 
-const Loading = () => {
+const TextLoading = () => {
 
   const [loadingMessage, setLoadingMessage] = useState(`Loading`)
 
@@ -45,4 +45,4 @@ const Loading = () => {
   )
 }
 
-export default Loading
+export default TextLoading
