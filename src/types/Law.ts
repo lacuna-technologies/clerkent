@@ -6,7 +6,7 @@ declare namespace Law {
   }
 
   interface Link {
-    name: `Summary` | `Judgment` | `Opinion` | `Legislation`,
+    doctype: `Summary` | `Judgment` | `Opinion` | `Legislation`,
     filetype: `PDF` | `HTML`,
     url: string,
   }

@@ -56,7 +56,13 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
       ...legislation,
       database: Constants.DATABASES.SG_sso,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
-      link: statuteResult.link,
+      links: [
+        {
+          doctype: `Legislation`,
+          filetype: `HTML`,
+          url: statuteResult.link,
+        },
+      ],
       statute: statuteResult.name,
     }]
   }
@@ -75,7 +81,13 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
       content: legisContent,
       database: Constants.DATABASES.SG_sso,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
-      link: request.responseURL,
+      links: [
+        {
+          doctype: `Legislation`,
+          filetype: `HTML`,
+          url: request.responseURL,
+        },
+      ],
       statute: statuteResult.name,
     }]
 
