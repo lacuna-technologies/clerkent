@@ -10,12 +10,13 @@ interface Props {
   searchResult: (Law.Case | Law.Legislation)[],
   downloadPDF: ({ name, citation, pdf }) => () => void,
   isSearching: boolean,
+  mode: `case` | `legislation`,
 }
 
 const maxResults = 3
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const QueryResult: React.FC<Props> = ({ searchResult, downloadPDF, isSearching }) => {
+const QueryResult: React.FC<Props> = ({ mode, searchResult, downloadPDF, isSearching }) => {
   const [morePressed, setMorePressed] = useState(false)
   const onShowMore = useCallback(() => setMorePressed(true), [])
 
@@ -24,7 +25,7 @@ const QueryResult: React.FC<Props> = ({ searchResult, downloadPDF, isSearching }
   }
 
   if(searchResult.length === 0){
-    return <span>No results found</span>
+    return <span>No {mode === `case` ? `cases` : `legislation`} found</span>
   }
 
   const showMore = morePressed || searchResult.length <= maxResults
@@ -58,6 +59,7 @@ const QueryResult: React.FC<Props> = ({ searchResult, downloadPDF, isSearching }
             return (
               <LegislationResult
                 legislation={legislation}
+                downloadPDF={downloadPDF}
                 key={`${provisionType}-${provisionNumber}-${statute}`}
               />
             )

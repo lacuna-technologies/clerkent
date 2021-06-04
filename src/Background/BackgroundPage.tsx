@@ -117,8 +117,8 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     case Messenger.ACTION_TYPES.downloadFile: {
       const { filename, url } = otherProperties
       await browser.downloads.download({
-        conflictAction: `overwrite`,
         filename,
+        saveAs: true,
         url,
       })
     

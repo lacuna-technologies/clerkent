@@ -25,12 +25,18 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
   return $(`.EurlexContent .SearchResult`).map((_, element): StatuteResult => {
     const name = $(`h2`, element).text().trim()
     const link = $(`h2 > a`, element).attr(`name`) // full URL is in name for some reason
+    const pdf = $(`ul.SearchResultDoc li a.piwik_download[title*="pdf"]`).attr(`href`)
     return {
       links: [
         {
           doctype: `Legislation`,
           filetype: `HTML`,
           url: link,
+        },
+        {
+          doctype: `Legislation`,
+          filetype: `PDF`,
+          url: `${DOMAIN}/${pdf}`,
         },
       ],
       name,
