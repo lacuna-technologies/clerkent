@@ -2,6 +2,16 @@ import React from 'react'
 import Constants from '../utils/Constants'
 import type Law from '../types/Law'
 
+const getBestLink = (links: Law.Link[]): Law.Link => {
+  const htmlJudgment = links.find(({ doctype, filetype }) => doctype === `Judgment` && filetype === `HTML`)
+  if(htmlJudgment){ return htmlJudgment }
+
+  const summary = links.find(({ doctype} ) => doctype === `Summary`)
+  if(summary){ return summary }
+
+  return links[0]
+}
+
 interface Props {
   case: Law.Case,
   downloadPDF: ({ name, citation, pdf }) => () => void,
@@ -42,7 +52,7 @@ const CaseResult: React.FC<Props> = ({
       <a
         className="case-name link"
         target="_blank"
-        href={links[0]?.url}
+        href={getBestLink(links)?.url}
         rel="noreferrer"
       >
         {name} {citation}
