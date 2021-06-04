@@ -89,7 +89,7 @@ const Popup: React.FC = () => {
 
   const downloadPDF = useCallback(({ name, citation, pdf }) => () => sendMessage({
     action: Messenger.ACTION_TYPES.downloadFile,
-    filename: `${Helpers.sanitiseFilename(name)} ${citation}.pdf`,
+    filename: `${Helpers.sanitiseFilename(name)}${citation.length > 0 ? ` ${citation}` : ``}.pdf`,
     source: Messenger.TARGETS.popup,
     target: Messenger.TARGETS.background,
     url: pdf,
@@ -214,6 +214,7 @@ const Popup: React.FC = () => {
             searchResult={searchResult}
             downloadPDF={downloadPDF}
             isSearching={isSearching}
+            mode={mode}
           />
         )
       }
