@@ -54,7 +54,13 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     citation: neutral,
     database: Constants.DATABASES.HK_hklii,
     jurisdiction: Constants.JURISDICTIONS.HK.id,
-    link: `${DOMAIN}${casePath}`,
+    links: [
+      {
+        doctype: `Judgment`,
+        filetype: `HTML`,
+        url: `${DOMAIN}${casePath}`,
+      },
+    ],
     name,
   }]
 }

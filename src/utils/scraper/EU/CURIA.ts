@@ -8,10 +8,10 @@ import Helpers from '../../Helpers'
 
 const DOMAIN = `https://curia.europa.eu`
 
-const parseCaseData = (data: AxiosResponse[`data`]) => {
+const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   const $ = cheerio.load(data)
 
-  return $(`#listeAffaires > ul.rich-datalist > li.rich-list-item`).map((_, element) => {
+  return $(`#listeAffaires > ul.rich-datalist > li.rich-list-item`).map((_, element): Law.Case => {
     const name = $(`.affaire .affaire_header .affaire_title`, element).text().trim()
     const citation = Helpers.findCitation(findEUCaseCitation, name)
     const link = $(`td.decision > span.decision_links > a`, element).attr(`href`)
@@ -20,7 +20,13 @@ const parseCaseData = (data: AxiosResponse[`data`]) => {
       citation,
       database: Constants.DATABASES.EU_curia,
       jurisdiction: Constants.JURISDICTIONS.EU.id,
-      link,
+      links: [
+        {
+          doctype: `Summary`,
+          filetype: `HTML`,
+          url: link,
+        },
+      ],
       name: name.replace(citation, ``).replace(/^[\s-]+/g, ``).trim(),
     }
   }).get()

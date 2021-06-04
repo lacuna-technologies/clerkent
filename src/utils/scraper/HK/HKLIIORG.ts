@@ -8,10 +8,10 @@ import type { AxiosResponse } from 'axios'
 
 const DOMAIN = `https://www.hklii.org`
 
-const parseCaseData = (data: AxiosResponse[`data`]) => {
+const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   const $ = cheerio.load(data)
 
-  return $(`body ol[start="1"] > li`).map((_, element) => {
+  return $(`body ol[start="1"] > li`).map((_, element): Law.Case => {
     const nameText = $(`a:first-of-type`, element).eq(0).text().trim()
     const name = nameText.split(`[`)[0]
     const link = `${DOMAIN}${$(`a:nth-of-type(2)`, element).attr(`href`)}`
@@ -23,7 +23,13 @@ const parseCaseData = (data: AxiosResponse[`data`]) => {
       citation,
       database: Constants.DATABASES.HK_hkliiorg,
       jurisdiction: Constants.JURISDICTIONS.HK.id,
-      link,
+      links: [
+        {
+          doctype: `Judgment`,
+          filetype: `HTML`,
+          url: link,
+        },
+      ],
       name,
     }
   }).get()
