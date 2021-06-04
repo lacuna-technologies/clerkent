@@ -1,4 +1,4 @@
-const {defaults} = require(`jest-config`)
+import { defaults } from 'jest-config'
 
 const config = {
   moduleFileExtensions: [...defaults.moduleFileExtensions, `ts`, `tsx`],
@@ -6,4 +6,4 @@ const config = {
   verbose: true,
 }
 
-module.exports = config
+export default config

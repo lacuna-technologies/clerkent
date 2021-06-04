@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "es5", // ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
-		"module": "esnext", // Module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
+		"module": "commonjs", // Module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
 		"lib": [
 			"dom",
 			"dom.iterable",
@@ -17,11 +17,12 @@
 		"jsx": "react",
 		"allowSyntheticDefaultImports": true,
 		"downlevelIteration": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"allowJs": false
 	},
 	"include": [
 		"src",
-		"webpack.config.js",
+		"jest.config.ts.ts",
 		"jest.config.js"
 	],
 	"exclude": ["**/node_modules", "**/.*/"]
