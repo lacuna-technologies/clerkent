@@ -30,3 +30,7 @@ jobs:
         run: npm run generate:icons
       - name: run tests
         run: npm run test:ci
+      - name: run FOSSA scan
+        uses: fossa-contrib/fossa-action@v1
+        with:
+          fossa-api-key: ${{ secrets.FOSSA_API_KEY }}

@@ -32,3 +32,7 @@ npm run dev:opera
 Load it as an unpacked extension
 
 Hot reloading should work
+
+## Dependencies
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B1364%2Fgit%40github.com%3Alacuna-technologies%2Fclerkent.git.svg?type=large)](https://app.fossa.com/projects/custom%2B1364%2Fgit%40github.com%3Alacuna-technologies%2Fclerkent.git?ref=badge_large)
