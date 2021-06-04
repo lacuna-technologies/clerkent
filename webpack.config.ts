@@ -1,15 +1,15 @@
-const path = require(`path`)
-const webpack = require(`webpack`)
-const FilemanagerPlugin = require(`filemanager-webpack-plugin`)
-const TerserPlugin = require(`terser-webpack-plugin`)
-const CopyWebpackPlugin = require(`copy-webpack-plugin`)
-const HtmlWebpackPlugin = require(`html-webpack-plugin`)
-const { CleanWebpackPlugin } = require(`clean-webpack-plugin`)
-const ExtensionReloader = require(`webpack-extension-reloader`)
-const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
-const WextManifestWebpackPlugin = require(`wext-manifest-webpack-plugin`)
-const ForkTsCheckerWebpackPlugin = require(`fork-ts-checker-webpack-plugin`)
-const OptimizeCSSAssetsPlugin = require(`optimize-css-assets-webpack-plugin`)
+import path from 'path'
+import webpack from 'webpack'
+import FilemanagerPlugin from 'filemanager-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import ExtensionReloader from 'webpack-extension-reloader'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import WextManifestWebpackPlugin from 'wext-manifest-webpack-plugin'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 
 const viewsPath = path.join(__dirname, `views`)
 const sourcePath = path.join(__dirname, `src`)
@@ -19,7 +19,7 @@ const targetBrowser = process.env.TARGET_BROWSER
 
 const extensionReloaderPlugin =
   nodeEnvironment === `development`
-    ? new ExtensionReloader({
+    ? new (ExtensionReloader as any)({
       entries: {
         
         background: `background`,
@@ -30,11 +30,9 @@ const extensionReloaderPlugin =
       port: 9090,
       reloadPage: true,
     })
-    : () => {
-      this.apply = () => {}
-    }
+    : () => {}
 
-const getExtensionFileType = (browser) => {
+const getExtensionFileType = (browser: string) => {
   if (browser === `opera`) {
     return `crx`
   }
@@ -46,7 +44,7 @@ const getExtensionFileType = (browser) => {
   return `zip`
 }
 
-module.exports = {
+const WebpackConfig = {
   devtool: false, 
 
   entry: {
@@ -255,3 +253,5 @@ module.exports = {
     poll: 1000,
   },
 }
+
+export default WebpackConfig
