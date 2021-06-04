@@ -4,11 +4,18 @@ declare namespace Law {
     name: string, 
     url: string
   }
+
+  interface Link {
+    name: `Summary` | `Judgment` | `Opinion` | `Legislation`,
+    filetype: `PDF` | `HTML`,
+    url: string,
+  }
   interface Case {
     name: string,
     citation: string,
-    link: string
+    link?: string
     pdf?: string
+    links: Link[]
     jurisdiction?: JursidictionCode
     database: Database
     type?: Type
@@ -17,8 +24,9 @@ declare namespace Law {
     provisionType: string,
     provisionNumber: string,
     statute: string,
-    link: string,
+    link?: string,
     pdf?: string,
+    links: Link[],
     jurisdiction?: JursidictionCode,
     content?: string,
     database: Database
