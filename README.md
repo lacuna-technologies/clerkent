@@ -5,7 +5,9 @@
   Clerkent
 </h1>
 
-Quickly locate, open, or download judgments
+Case law and legislation search at your fingertips
+
+See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 
 ## Install
 
@@ -16,26 +18,6 @@ Quickly locate, open, or download judgments
 ## Screenshots
 
 ![screenshot1](./demo/screenshot1.png)
-
-## Features
-
-- [x] Preview and download judgments with a single click
-- [ ] Preview and download judgments for all cases mentioned in copy-and-pasted text or an uploaded word document / PDF
-- [x] Universal judgment search box
-
-### Supported Jurisdictions
-
-- [x] England & Wales (neutral citations, and most common law reports available on open databases)
-- [x] Singapore (neutral citations)
-  - [x] SLR (some)
-- [ ] Europe
-  - [x] CJEU
-  - [ ] ECtHR
-  - [x] EPO TBA
-- [x] Australia
-- [x] New Zealand
-- [x] Hong Kong (neutral citations)
-- [x] Canada
 
 ## Development
 
