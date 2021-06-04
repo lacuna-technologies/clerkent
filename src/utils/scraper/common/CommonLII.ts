@@ -15,7 +15,7 @@ import type { AxiosResponse } from 'axios'
 //    SGHC - http://www.commonlii.org/sg/cases/SGHC/
 
 const LAWCITE_DOMAIN = `http://lawcite.org`
-const COMMONLII_DOMAIN = `http://www.commonlii.org`
+// const COMMONLII_DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
 const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => {
@@ -72,29 +72,47 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
     const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
     // const date = $(`div.date`)?.text()?.trim()
     const link = $(`div.citation > a.free-external`)?.attr(`href`)
+    const judgmentLink: Law.Link = {
+      doctype: `Judgment`,
+      filetype: `HTML`,
+      url: link,
+    }
     const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
     const citationText = Helpers.findCitation(
       CaseCitationFinder.findCaseCitation,
       $(`div.citation`).text().trim(),
     )
 
-    let pdf: string | undefined
+    let pdfLink: Law.Link | null = null
     if(link){
       const { data: pdfData } = await Request.get(link)
       const $$ = cheerio.load(pdfData)
 
       const pdfHref = $$(`b > a`).filter((_, element) => $$(element).text().includes(`PDF version`))?.attr(`href`)
-      pdf = pdfHref ? `${link.split(`/`).slice(0, -1).join(`/`)}/${pdfHref}` : undefined
+      pdfLink = {
+        doctype: `Judgment`,
+        filetype: `PDF`,
+        url: `${link.split(`/`).slice(0, -1).join(`/`)}/${pdfHref}`,
+       }
+    }
+
+    const summaryURL: Law.Link = {
+      doctype: `Summary`,
+      filetype: `HTML`,
+      url: request.responseURL,
     }
     
     
-    const results = [{
+    const results: Law.Case[] = [{
       citation: citationText,
       database: Constants.DATABASES.commonlii,
       ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
-      link: link || request.responseURL,
+      links: [
+        ...(judgmentLink ? [judgmentLink] : []),
+        ...(summaryURL ? [summaryURL] : []),
+        ...(pdfLink ? [pdfLink] : []),
+      ],
       name,
-      ...(pdf ? { pdf } : {}),
     }]
     Logger.log(`CommonLII scraper result`, results)
     return results

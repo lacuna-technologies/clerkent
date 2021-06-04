@@ -8,9 +8,9 @@ import type { AxiosResponse } from 'axios'
 
 const DOMAIN = `http://www8.austlii.edu.au`
 
-const parseCaseData = (data: AxiosResponse[`data`]) => {
+const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   const $ = cheerio.load(data)
-  return $(`#page-main > .card > ul > li`).map((_, element) => {
+  return $(`#page-main > .card > ul > li`).map((_, element): Law.Case => {
     const name = $(`a:first-of-type`, element).text().trim()
     const link = `${DOMAIN}${$(`a:first-of-type`, element).attr(`href`)}`
     const citation = Helpers.findCitation(findAUCaseCitation, name)
@@ -18,7 +18,13 @@ const parseCaseData = (data: AxiosResponse[`data`]) => {
       citation,
       database: Constants.DATABASES.AU_austlii,
       jurisdiction: Constants.JURISDICTIONS.AU.id,
-      link,
+      links: [
+        {
+          doctype: `Judgment`,
+          filetype: `HTML`,
+          url: link,
+        },
+      ],
       name: name.replace(citation, ``).trim(),
     }
   }).get()

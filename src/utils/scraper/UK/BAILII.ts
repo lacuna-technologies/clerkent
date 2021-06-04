@@ -26,16 +26,25 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
 
   const pdfPath = $(`a[href$=".pdf"]`).eq(0).attr(`href`)
 
-  const result = {
+  const result: Law.Case = {
     citation: Helpers.findCitation(
       CaseCitationFinder.findUKCaseCitation,
       $(`title`).text().trim(),
     ),
-    link: request.responseURL,
-    name: $(`title`).text().trim().split(`[`)[0],
-    ...(pdfPath ? {pdf: `${DOMAIN}${pdfPath}`} : {}),
     database: Constants.DATABASES.UK_bailii,
     jurisdiction: Constants.JURISDICTIONS.UK.id,
+    links: [
+      {
+        doctype: `Judgment`,
+        filetype: `HTML`,
+        url: request.responseURL,
+      },
+      ...(pdfPath
+        ? [{ doctype: `Judgment`, filetype: `PDF`, url: `${DOMAIN}${pdfPath}` } as Law.Link]
+        : []
+      ),
+    ],
+    name: $(`title`).text().trim().split(`[`)[0],
   }
 
   return [result]
@@ -55,7 +64,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 
     const $ = cheerio.load(data)
 
-    const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element) => {
+    const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element): Law.Case => {
       const name = $(`a`, element).eq(0).text().trim().split(`[`)[0]
       const citation = Helpers.findCitation(
         CaseCitationFinder.findUKCaseCitation,
@@ -66,7 +75,13 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         citation,
         database: Constants.DATABASES.UK_bailii,
         jurisdiction: Constants.JURISDICTIONS.UK.id,
-        link,
+        links: [
+          {
+            doctype: `Judgment`,
+            filetype: `HTML`,
+            url: link,
+          },
+        ],
         name,
       }
     }).get().filter(({ citation }) => Helpers.isCitationValid(citation))

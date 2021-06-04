@@ -14,7 +14,7 @@ const parseCase = ($: cheerio.Root, cheerioElement: cheerio.Element): Law.Case =
   const citation = $(`.text ul.decision li`, cheerioElement).eq(0).text().trim()
 
   const summaryLink: Law.Link | null = link
-    ? { doctype: `Judgment`, filetype: `HTML`, url: `${DOMAIN}${link}` }
+    ? { doctype: `Summary`, filetype: `HTML`, url: `${DOMAIN}${link}` }
     : null
   const pdfLink:Law.Link = { doctype: `Judgment`, filetype: `PDF`, url: pdf }
   return {

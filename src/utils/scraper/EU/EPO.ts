@@ -4,7 +4,9 @@ import Constants from '../../Constants'
 
 const DOMAIN = `https://www.epo.org`
 
-const zeroPad = (number, length = 4) => number.length < length ? zeroPad(`0${number}`, length) : number
+const zeroPad = (number: string, length = 4) => (
+  number.length < length ? zeroPad(`0${number}`, length) : number
+)
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const [prepend, number] = [citation.slice(0,1), citation.slice(1)].map(a => a.replace(/_/g, ``).trim())
@@ -113,7 +115,13 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     citation,
     database: Constants.DATABASES.EU_epo,
     jurisdiction: Constants.JURISDICTIONS.EU.id,
-    link: url,
+    links: [
+      {
+        doctype: `Summary`,
+        filetype: `HTML`,
+        url,
+      },
+    ],
     name: title,
   }]
 

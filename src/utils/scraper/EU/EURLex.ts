@@ -9,7 +9,7 @@ const DOMAIN = `https://eur-lex.europa.eu`
 
 interface StatuteResult {
   name: string,
-  link: string
+  links: Law.Legislation[`links`]
 }
 
 const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
@@ -22,11 +22,17 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
     },
   })
   const $ = cheerio.load(data)
-  return $(`.EurlexContent .SearchResult`).map((_, element) => {
+  return $(`.EurlexContent .SearchResult`).map((_, element): StatuteResult => {
     const name = $(`h2`, element).text().trim()
     const link = $(`h2 > a`, element).attr(`name`) // full URL is in name for some reason
     return {
-      link,
+      links: [
+        {
+          doctype: `Legislation`,
+          filetype: `HTML`,
+          url: link,
+        },
+      ],
       name,
     }
   }).get()
@@ -34,7 +40,7 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
 
 const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation[]> => {
   const {
-    provisionType,
+    // provisionType,
     provisionNumber,
     statute,
   } = legislation
@@ -43,11 +49,11 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
 
   try {
     const result = await getStatute(statute)
-    statuteResults = result.map(({ link, name }) => ({
+    statuteResults = result.map(({ links, name }): Law.Legislation => ({
       ...legislation,
       database: Constants.DATABASES.EU_eurlex,
       jurisdiction: Constants.JURISDICTIONS.EU.id,
-      link,
+      links,
       statute: name,
     }))
   } catch (error){

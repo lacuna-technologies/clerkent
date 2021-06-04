@@ -9,10 +9,10 @@ import type { AxiosResponse } from 'axios'
 
 const DOMAIN = `http://www.nzlii.org`
 
-const parseCaseData = (data: AxiosResponse[`data`]) => {
+const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   const $ = cheerio.load(data)
 
-  return $(`body ol[start="1"] > li`).map((_, element) => {
+  return $(`body ol[start="1"] > li`).map((_, element): Law.Case => {
     const name = $(`a:first-of-type`, element).eq(0).text().trim()
     const link = $(`a:first-of-type`, element).attr(`href`)
     const citation = Helpers.findCitation(findNZCaseCitation, name)
@@ -20,7 +20,13 @@ const parseCaseData = (data: AxiosResponse[`data`]) => {
       citation,
       database: Constants.DATABASES.NZ_nzlii,
       jurisdiction: Constants.JURISDICTIONS.NZ.id,
-      link,
+      links: [
+        {
+          doctype: `Judgment`,
+          filetype: `HTML`,
+          url: link,
+        },
+      ],
       name: name.replace(citation, ``).trim(),
     }
   }).get()

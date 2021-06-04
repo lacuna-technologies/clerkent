@@ -22,7 +22,13 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
     const name = element.text().trim()
     const link = `${DOMAIN}${element.attr(`href`)}`
     return {
-      link,
+      links: [
+        {
+          doctype: `Legislation`,
+          filetype: `HTML`,
+          url: link,
+        },
+      ],
       name,
     }
   }).get()
@@ -54,7 +60,13 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
       ...legislation,
       database: Constants.DATABASES.UK_legislation,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
-      link: statuteResult.link,
+      links: [
+        {
+          doctype: `Legislation`,
+          filetype: `HTML`,
+          url: statuteResult.link,
+        },
+      ],
       statute: statuteResult.name,
     }]
   }
@@ -75,7 +87,13 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
       content: legisContent,
       database: Constants.DATABASES.UK_legislation,
       jurisdiction: Constants.JURISDICTIONS.UK.id,
-      link: request.responseURL,
+      links: [
+        {
+          doctype: `Legislation`,
+          filetype: `PDF`,
+          url: request.responseURL,
+        },
+      ],
       statute: statuteResult.name,
     }]
   } catch (error) {

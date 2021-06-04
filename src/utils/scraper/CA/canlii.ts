@@ -9,13 +9,13 @@ import type { AxiosResponse } from 'axios'
 
 const DOMAIN = `https://www.canlii.org`
 
-const parseCase = (data: AxiosResponse[`data`]) => {
+const parseCase = (data: AxiosResponse[`data`]): Law.Case[] => {
   const { results } = data
   return results.map(({
     title,
     path,
     reference,
-  }) => {
+  }): Law.Case => {
     const cleanReference = typeof reference === `string`
       ? Helpers.findCitation(
           findCACaseCitation,
@@ -26,7 +26,13 @@ const parseCase = (data: AxiosResponse[`data`]) => {
       citation: cleanReference,
       database: Constants.DATABASES.CA_canlii,
       jurisdiction: Constants.JURISDICTIONS.CA.id,
-      link: `${DOMAIN}${path}`,
+      links: [
+        {
+          doctype: `Judgment`,
+          filetype: `HTML`,
+          url: `${DOMAIN}${path}`,
+        },
+      ],
       name: cheerio.load(title)(`html`).text().trim(),
     }
   }).filter(({ citation }) => Helpers.isCitationValid(citation))
