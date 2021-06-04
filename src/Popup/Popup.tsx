@@ -227,11 +227,6 @@ const Popup: React.FC = () => {
         ) : null
       }
       <div id="help">
-        {/*
-          <button className="link">
-            Options
-          </button>
-        */}
         <a className="link" href="https://clerkent.huey.xyz/help" target="_blank" rel="noreferrer">
           Help
         </a>

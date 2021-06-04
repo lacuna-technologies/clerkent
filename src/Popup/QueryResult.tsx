@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
-import { Constants } from '../utils'
 import type Law from '../types/Law'
 import CaseResult from './CaseResult'
+import LegislationResult from './LegislationResult'
 import ShowMore from './ShowMore'
 import Loading from '../components/Loading'
 import './QueryResult.scss'
@@ -53,34 +53,15 @@ const QueryResult: React.FC<Props> = ({ searchResult, downloadPDF, isSearching }
         {
           (searchResult as Law.Legislation[])
           .slice(0, showMore ? undefined: maxResults)
-          .map(({
-            database,
-            jurisdiction,
-            provisionNumber,
-            provisionType,
-            statute,
-            links,
-          }) => (
-            <div className="result" key={`${provisionType}-${provisionNumber}-${statute}`}>
-              <p className="details">
-                <div className="left">
-                  { jurisdiction &&
-                    <span className="jurisdiction">
-                      {Constants.JURISDICTIONS[jurisdiction].emoji}
-                    </span>
-                  }
-                  { database && <span className="database">{database.name}</span> }
-                </div>
-              </p>
-              <a className="legislation-name link" href={links[0]?.url} target="_blank" rel="noreferrer">
-                {provisionNumber
-                  ? `${provisionType} ${provisionNumber}, `
-                  : null
-                }
-                {statute}
-              </a>
-            </div>
-          ))
+          .map((legislation) => {
+            const { provisionType, provisionNumber, statute } = legislation
+            return (
+              <LegislationResult
+                legislation={legislation}
+                key={`${provisionType}-${provisionNumber}-${statute}`}
+              />
+            )
+          })
         }
         { showMore ? null : <ShowMore onClick={onShowMore} /> }
       </div>
