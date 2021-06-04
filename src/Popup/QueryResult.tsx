@@ -6,10 +6,16 @@ import ShowMore from './ShowMore'
 import Loading from '../components/Loading'
 import './QueryResult.scss'
 
+interface Props {
+  searchResult: (Law.Case | Law.Legislation)[],
+  downloadPDF: ({ name, citation, pdf }) => () => void,
+  isSearching: boolean,
+}
+
 const maxResults = 3
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
+const QueryResult: React.FC<Props> = ({ searchResult, downloadPDF, isSearching }) => {
   const [morePressed, setMorePressed] = useState(false)
   const onShowMore = useCallback(() => setMorePressed(true), [])
 
@@ -28,12 +34,13 @@ const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
     return (
       <div id="results">
         {
-          searchResult
+          (searchResult as Law.Case[])
             .slice(0, showMore ? undefined : maxResults)
-            .map(({ name, citation, link, pdf, jurisdiction, database }) => (
+            .map((result) => (
               <CaseResult
-                {...{ citation, database, downloadPDF, jurisdiction, link, name, pdf }}
-                key={`${name}-${citation}`}
+                case={result}
+                downloadPDF={downloadPDF}
+                key={`${result.name}-${result.citation}`}
               />
             ))
         }
@@ -44,7 +51,7 @@ const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
     return (
       <div id="results">
         {
-          searchResult
+          (searchResult as Law.Legislation[])
           .slice(0, showMore ? undefined: maxResults)
           .map(({
             database,
@@ -52,9 +59,9 @@ const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
             provisionNumber,
             provisionType,
             statute,
-            link,
+            links,
           }) => (
-            <div className="result" key={`${provisionType}-${provisionNumber}-${statute}-${link}`}>
+            <div className="result" key={`${provisionType}-${provisionNumber}-${statute}`}>
               <p className="details">
                 <div className="left">
                   { jurisdiction &&
@@ -65,7 +72,7 @@ const QueryResult = ({ searchResult, downloadPDF, isSearching }) => {
                   { database && <span className="database">{database.name}</span> }
                 </div>
               </p>
-              <a className="legislation-name link" href={link} target="_blank" rel="noreferrer">
+              <a className="legislation-name link" href={links[0]?.url} target="_blank" rel="noreferrer">
                 {provisionNumber
                   ? `${provisionType} ${provisionNumber}, `
                   : null

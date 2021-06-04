@@ -14,9 +14,14 @@ const parseCase = (name: string, link: string) => ({
   citation: findSGCaseCitation(name)[0]?.citation,
   database: Constants.DATABASES.SG_slw,
   jurisdiction: Constants.JURISDICTIONS.SG.id,
-  link,
+  links: [
+    {
+      doctype: `Judgment`,
+      filetype: `PDF`,
+      url: link,
+    },
+  ],
   name: name.split(`[`)[0],
-  pdf: link,
 })
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {

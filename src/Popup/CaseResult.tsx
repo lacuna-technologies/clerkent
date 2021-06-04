@@ -1,15 +1,24 @@
 import React from 'react'
 import Constants from '../utils/Constants'
+import type Law from '../types/Law'
 
-const CaseResult = ({
-  citation,
-  name,
-  link,
-  pdf,
-  jurisdiction,
-  database,
+interface Props {
+  case: Law.Case,
+  downloadPDF: ({ name, citation, pdf }) => () => void,
+}
+
+const CaseResult: React.FC<Props> = ({
+  case: {
+    citation,
+    name,
+    links,
+    jurisdiction,
+    database,
+  },
   downloadPDF,
 }) => {
+  const pdf = links.find(({ filetype }) => filetype === `PDF`)
+
   return (
     <div className="result">
       <div className="details">
@@ -21,7 +30,10 @@ const CaseResult = ({
           {
             pdf ? (
               <p className="links">
-                <button className="pdf button" onClick={downloadPDF({ citation, name, pdf })}>PDF</button>
+                <button
+                  className="pdf button"
+                  onClick={downloadPDF({ citation, name, pdf: pdf.url })}
+                >PDF</button>
               </p>
             ) : null
           }
@@ -30,7 +42,7 @@ const CaseResult = ({
       <a
         className="case-name link"
         target="_blank"
-        href={link}
+        href={links[0]?.url}
         rel="noreferrer"
       >
         {name} {citation}
