@@ -1,6 +1,6 @@
 import React from 'react'
 import type Law from '../types/Law'
-import { Constants } from '../utils'
+import { Constants, Helpers } from '../utils'
 
 interface Props {
   legislation: Law.Legislation,
@@ -18,7 +18,7 @@ const LegislationResult: React.FC<Props> = ({
   },
   downloadPDF,
 }) => {
-  const pdf = links.find(({ filetype }) => filetype === `PDF`)
+  const pdf = Helpers.getPDFLink(links)
 
   return (
     <div className="result">

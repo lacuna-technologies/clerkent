@@ -1,4 +1,5 @@
 import Finder from "./Finder"
+import type Law from '../types/Law'
 
 const sanitiseFilename = (fileName: string) => fileName.replace(/[^\d -,a-z]/gi, ``)
 const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) => {
@@ -31,10 +32,24 @@ const getRandomInteger = (min: number, max: number): number => Math.floor(Math.r
 
 const getRandomElement = (array: any[]) => array[getRandomInteger(0, array.length)]
 
+const getBestLink = (links: Law.Link[]): Law.Link => {
+  const htmlJudgment = links.find(({ doctype, filetype }) => doctype === `Judgment` && filetype === `HTML`)
+  if(htmlJudgment){ return htmlJudgment }
+
+  const summary = links.find(({ doctype} ) => doctype === `Summary`)
+  if(summary){ return summary }
+
+  return links[0]
+}
+
+const getPDFLink = (links: Law.Link[]): Law.Link => links.find(({ filetype }) => filetype === `PDF`)[0]
+
 const Helpers = {
   classnames,
   debounce,
   findCitation,
+  getBestLink,
+  getPDFLink,
   getRandomElement,
   getRandomInteger,
   isCitationValid,

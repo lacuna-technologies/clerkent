@@ -29,12 +29,9 @@ const handleViewCitation = (message: Message) => {
   if(data.length === 0){
     tooltip.textContent = `Could not find case`
   } else {
-    const { name, citation, link, pdf, jurisdiction, database } = data[0] as Law.Case
+    const { name, citation, links, jurisdiction, database } = data[0] as Law.Case
 
     tooltip.innerHTML = ``
-
-    const caseName = document.createElement(`strong`)
-    caseName.textContent = `${name} ${citation}`
 
     // meta
     const metaDiv = document.createElement(`div`)
@@ -42,34 +39,36 @@ const handleViewCitation = (message: Message) => {
     const jurisSpan = document.createElement(`span`)
     jurisSpan.textContent = Constants.JURISDICTIONS[jurisdiction].emoji
     metaDiv.append(jurisSpan)
+
+    const databaseSpan = document.createElement(`span`)
+    databaseSpan.textContent = database.name
+    metaDiv.append(databaseSpan)
+
+    const judgmentLink = Helpers.getBestLink(links)
     
-    if(link){
-      const databaseLink = document.createElement(`a`)
-      databaseLink.href = link
-      databaseLink.setAttribute(`target`, `_blank`)
-      databaseLink.setAttribute(`rel`, `noopener noreferrer`)
-      databaseLink.textContent = database.name
-      metaDiv.append(databaseLink)
-    } else {
-      const databaseSpan = document.createElement(`span`)
-      databaseSpan.textContent = database.name
-      metaDiv.append(databaseSpan)
+    const caseName = document.createElement(`a`)
+    if(judgmentLink){
+      caseName.href = judgmentLink.url
+      caseName.setAttribute(`target`, `_blank`)
+      caseName.setAttribute(`rel`, `noopener noreferrer`)
     }
-    
+    caseName.textContent = `${name} ${citation}`
+
     tooltip.append(metaDiv)
+    tooltip.append(caseName)
 
     const linksDiv = document.createElement(`div`)
-    if(pdf){
-      const pdfLink = document.createElement(`a`)
-      pdfLink.href = pdf
-      pdfLink.addEventListener(`click`, downloadFile({ citation, name, pdf }))
-      pdfLink.textContent = `PDF`
-      pdfLink.setAttribute(`target`, `_blank`)
-      pdfLink.setAttribute(`rel`, `noopener noreferrer`)
-      linksDiv.append(pdfLink)
+    const pdfLink = Helpers.getPDFLink(links)
+    if(pdfLink){
+      const pdfLinkElement = document.createElement(`a`)
+      pdfLinkElement.href = pdfLink.url
+      pdfLinkElement.addEventListener(`click`, downloadFile({ citation, name, pdf: pdfLink.url }))
+      pdfLinkElement.textContent = `PDF`
+      pdfLinkElement.setAttribute(`target`, `_blank`)
+      pdfLinkElement.setAttribute(`rel`, `noopener noreferrer`)
+      linksDiv.append(pdfLinkElement)
     }
 
-    tooltip.append(caseName)
     tooltip.append(linksDiv)
   }
 }
