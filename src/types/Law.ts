@@ -13,8 +13,6 @@ declare namespace Law {
   interface Case {
     name: string,
     citation: string,
-    link?: string
-    pdf?: string
     links: Link[]
     jurisdiction?: JursidictionCode
     database: Database
@@ -24,8 +22,6 @@ declare namespace Law {
     provisionType: string,
     provisionNumber: string,
     statute: string,
-    link?: string,
-    pdf?: string,
     links: Link[],
     jurisdiction?: JursidictionCode,
     content?: string,

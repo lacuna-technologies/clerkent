@@ -26,7 +26,6 @@ const parseCase = ($: cheerio.Root, cheerioElement: cheerio.Element): Law.Case =
       pdfLink,
     ],
     name,
-    pdf,
   }
 }
 
