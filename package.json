@@ -23,7 +23,8 @@
     "lint:staged": "lint-staged",
     "prepare": "husky install",
     "test": "jest --watch",
-    "test:ci": "jest"
+    "test:ci": "jest",
+    "version": "babel-node scripts/getVersion.ts --extensions \".ts\""
   },
   "husky": {
     "hooks": {

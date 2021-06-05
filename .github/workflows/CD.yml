@@ -1,8 +1,9 @@
 name: build & deploy
 on:
-  push:
-    tags:
-      - 'v*'
+  push
+  # push:
+  #   tags:
+  #     - 'v*'
 
 jobs:
   build:
@@ -34,8 +35,11 @@ jobs:
         run: npm run lint
       - name: generate icons
         run: npm run generate:icons
-      # - name: build
-      #   run: npm run build
+      - name: build
+        run: npm run build
+      - name: version
+        run: npm run version --silent
+        id: version
       # - uses: trmcnvn/firefox-addon@v1
       #   with:
       #     uuid: '{68470d9e-14a9-4697-a19b-413d6773c788}'
