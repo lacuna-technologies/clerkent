@@ -36,17 +36,30 @@ const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => 
 }
 
 const parseMultipleCase = ($: cheerio.Root): Law.Case[] => {
-  const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
+  const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element): Law.Case => {
     const name = $(`td.case-cited > a`, element).text().trim()
-    const lawCiteLink = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
-    const link = $(`td.service > a`, element).attr(`href`)
+    const lawCiteURL = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
+    const judgmentURL = $(`td.service > a`, element).attr(`href`)
     const jurisdiction = matchJurisdiction($(`td.jurisdiction`, element).text().trim())
     const citation = Helpers.findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
+    const lawCiteLink: Law.Link | null = lawCiteURL && lawCiteURL.length > 0 ? {
+      doctype: `Summary`,
+      filetype: `HTML`,
+      url: lawCiteURL,
+    } : null
+    const judgmentLink: Law.Link | null = judgmentURL && judgmentURL.length > 0 ? {
+      doctype: `Judgment`,
+      filetype: `HTML`,
+      url: judgmentURL,
+    } : null
     return {
       citation,
       database: Constants.DATABASES.commonlii,
       ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
-      link: lawCiteLink || link,
+      links: [
+        ...(lawCiteLink ? [lawCiteLink] : []),
+        ...(judgmentLink ? [judgmentLink] : []),
+      ],
       name,
     }
   }).get()
