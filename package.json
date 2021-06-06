@@ -33,7 +33,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,d.ts}": [
-      "bash -c tsc --noEmit"
+      "tsc-files --noEmit"
     ],
     "*.{ts,tsx,js,jsx,json}": [
       "eslint --cache --fix"
@@ -116,6 +116,7 @@
     "sharp": "^0.28.3",
     "terser-webpack-plugin": "^4.2.3",
     "ts-node": "^10.0.0",
+    "tsc-files": "^1.1.2",
     "ttf-loader": "^1.0.2",
     "typescript": "^4.3.2",
     "webextension-polyfill-ts": "^0.25.0",

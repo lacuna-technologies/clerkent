@@ -35,7 +35,27 @@ const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => 
   return null
 }
 
-const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
+const parseMultipleCase = ($: cheerio.Root): Law.Case[] => {
+  const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
+    const name = $(`td.case-cited > a`, element).text().trim()
+    const lawCiteLink = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
+    const link = $(`td.service > a`, element).attr(`href`)
+    const jurisdiction = matchJurisdiction($(`td.jurisdiction`, element).text().trim())
+    const citation = Helpers.findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
+    return {
+      citation,
+      database: Constants.DATABASES.commonlii,
+      ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
+      link: lawCiteLink || link,
+      name,
+    }
+  }).get()
+  .filter(({ citation }) => Helpers.isCitationValid(citation))
+  Logger.log(`CommonLII scraper result`, results)
+  return results
+}
+
+const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
   try {
 
     const { data, request } = result
@@ -50,33 +70,17 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
 
     const multipleCases = $(`a[name="cases"] > h1.search-results`)?.eq(0)?.text()?.trim()
     if(multipleCases && multipleCases.includes(`Matching Cases`)){
-      const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element) => {
-        const name = $(`td.case-cited > a`, element).text().trim()
-        const lawCiteLink = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
-        const link = $(`td.service > a`, element).attr(`href`)
-        const jurisdiction = matchJurisdiction($(`td.jurisdiction`, element).text().trim())
-        const citation = Helpers.findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
-        return {
-          citation,
-          database: Constants.DATABASES.commonlii,
-          ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
-          link: lawCiteLink || link,
-          name,
-        }
-      }).get()
-      .filter(({ citation }) => Helpers.isCitationValid(citation))
-      Logger.log(`CommonLII scraper result`, results)
-      return results
+      return parseMultipleCase($)
     }
 
     const name = ($(`h1.name`)[0] as any).children.find(child => child.type === `text`).data.trim()
     // const date = $(`div.date`)?.text()?.trim()
     const link = $(`div.citation > a.free-external`)?.attr(`href`)
-    const judgmentLink: Law.Link = {
+    const judgmentLink: Law.Link | null = (link && link.length > 0) ? {
       doctype: `Judgment`,
       filetype: `HTML`,
       url: link,
-    }
+    } : null
     const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
     const citationText = Helpers.findCitation(
       CaseCitationFinder.findCaseCitation,
@@ -89,11 +93,11 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[] > => {
       const $$ = cheerio.load(pdfData)
 
       const pdfHref = $$(`b > a`).filter((_, element) => $$(element).text().includes(`PDF version`))?.attr(`href`)
-      pdfLink = {
+      pdfLink = (pdfHref && pdfHref.length > 0) ? {
         doctype: `Judgment`,
         filetype: `PDF`,
         url: `${link.split(`/`).slice(0, -1).join(`/`)}/${pdfHref}`,
-       }
+       } : null
     }
 
     const summaryURL: Law.Link = {
