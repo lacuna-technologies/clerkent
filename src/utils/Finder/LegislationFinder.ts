@@ -43,7 +43,7 @@ const provisionAbbreviations = [
 const provisionTypeRegex = provisionAbbreviations.map((a) => a.abbrs.join(`|`)).join(`|`)
 const provisionSubsectionRegex = new RegExp(`\\(\\d{1,2}[A-Z]{0,2}\\)`)
 
-const unabbreviateProvision = (provisionType) => {
+const unabbreviateProvision = (provisionType: string) => {
   const isMatch = provisionAbbreviations.filter(({ abbrs }) => abbrs.includes(provisionType.trim().toLowerCase()))
   if(isMatch.length === 1){
     return isMatch[0].name
@@ -73,6 +73,7 @@ const findLegislation = (citation: string): LegislationFinderResult[] => {
         type: `legislation`,
       }
     })
+
   return matches.reduce((current, { statute, ...attributes }) => {
     return [
       ...current,

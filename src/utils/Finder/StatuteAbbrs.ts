@@ -84,6 +84,18 @@ const UKAbbrs = [
     abbrs: [`ipa`, `ipa 2016`],
     name: `Investigatory Powers Act 2016`,
   },
+  {
+    abbrs: [`eqa`, `eqa 2010`],
+    name: `Equality Act 2010`,
+  },
+  {
+    abbrs: [`lra`, `lra 2002`],
+    name: `Land Registration Act 2002`,
+  },
+  {
+    abbrs: [`lra`, `lra 1997`],
+    name: `Land Registration Act 1997`,
+  },
 ].map(abbr => ({ ...abbr, jurisdiction: Constants.JURISDICTIONS.UK.id }))
 
 const StatuteAbbrs = [
