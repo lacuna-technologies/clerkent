@@ -33,7 +33,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,d.ts}": [
-      "tsc --allowSyntheticDefaultImports --jsx react --noEmit --esModuleInterop --moduleResolution node --skipLibCheck --resolveJsonModule --downlevelIteration --lib ESNEXT,ES2020.String,dom"
+      "bash -c tsc --noEmit"
     ],
     "*.{ts,tsx,js,jsx,json}": [
       "eslint --cache --fix"
