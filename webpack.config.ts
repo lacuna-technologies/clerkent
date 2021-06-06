@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 import webpack from 'webpack'
 import FilemanagerPlugin from 'filemanager-webpack-plugin'
@@ -14,6 +15,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 const viewsPath = path.join(__dirname, `views`)
 const sourcePath = path.join(__dirname, `src`)
 const destinationPath = path.join(__dirname, `extension`)
+const generatedAssetsPath = path.join(__dirname, `generated`)
 const nodeEnvironment = process.env.NODE_ENV || `development`
 const targetBrowser = process.env.TARGET_BROWSER
 
@@ -42,6 +44,14 @@ const getExtensionFileType = (browser: string) => {
   }
 
   return `zip`
+}
+
+if(!fs.existsSync(destinationPath)){
+  fs.mkdirSync(destinationPath)
+}
+
+if(!fs.existsSync(generatedAssetsPath)){
+  fs.mkdirSync(generatedAssetsPath)
 }
 
 const WebpackConfig = {
@@ -185,7 +195,7 @@ const WebpackConfig = {
     new MiniCssExtractPlugin({ filename: `css/[name].css` }),
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{ from: `generated/`, to: `assets` }],
+      patterns: [{ from: `${generatedAssetsPath}/`, to: `assets` }],
     }),
     // plugin to enable browser reloading in development mode
     extensionReloaderPlugin,
