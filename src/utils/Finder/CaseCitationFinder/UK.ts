@@ -71,7 +71,6 @@ export const findUKCaseCitationMatches = (query: string) => {
 export const findUKCaseCitation = (query:string): CaseCitationFinderResult[] => {
   const matches = findUKCaseCitationMatches(query)
   if (matches.length > 0) {
-    console.log(`matches`, matches)
     return sortUKCitations(
       matches.map((match) => ({
         citation: match[0],

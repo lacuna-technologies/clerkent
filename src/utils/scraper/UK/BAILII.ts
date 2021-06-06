@@ -58,6 +58,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         params: {
           mask_path: `uk/cases scot/cases ew/cases ie/cases nie/cases eu/cases`,
           querytitle: caseName,
+          sort: `rank`,
         },
       },
     )
