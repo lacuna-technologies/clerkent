@@ -18,6 +18,7 @@ const CaseResult: React.FC<Props> = ({
   downloadPDF,
 }) => {
   const pdf = Helpers.getPDFLink(links)
+  const link = Helpers.getBestLink(links)?.url
 
   return (
     <div className="result">
@@ -42,7 +43,7 @@ const CaseResult: React.FC<Props> = ({
       <a
         className="case-name link"
         target="_blank"
-        href={Helpers.getBestLink(links)?.url}
+        href={link}
         rel="noreferrer"
       >
         {name} {citation}

@@ -42,7 +42,7 @@ const getBestLink = (links: Law.Link[]): Law.Link => {
   return links[0]
 }
 
-const getPDFLink = (links: Law.Link[]): Law.Link => links.find(({ filetype }) => filetype === `PDF`)[0]
+const getPDFLink = (links: Law.Link[]): Law.Link => links.find(({ filetype }) => filetype === `PDF`)
 
 const Helpers = {
   classnames,
