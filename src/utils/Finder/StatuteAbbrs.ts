@@ -96,6 +96,14 @@ const UKAbbrs = [
     abbrs: [`lra`, `lra 1997`],
     name: `Land Registration Act 1997`,
   },
+  {
+    abbrs: [`pa`, `pa 2004`],
+    name: `Patents Act 2004`,
+  },
+  {
+    abbrs: [`cdpa`, `cdpa 1988`],
+    name: `Copyright, Designs and Patents Act 1988`,
+  },
 ].map(abbr => ({ ...abbr, jurisdiction: Constants.JURISDICTIONS.UK.id }))
 
 const StatuteAbbrs = [

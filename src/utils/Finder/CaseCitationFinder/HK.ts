@@ -3,12 +3,12 @@ import { formatAbbrs, sortCitationsByVolume } from './utils'
 import type { CaseCitationFinderResult } from './types'
 
 export const HKAbbrs =[
-  { abbr: `HKCA` },
   { abbr: `HKCFA` },
-  { abbr: `HKCFI` },
-  { abbr: `HKLRD` },
   { abbr: `HKCFAR` },
+  { abbr: `HKCA` },
   { abbr: `HKC` },
+  { abbr: `HKLRD` },
+  { abbr: `HKCFI` },
   { abbr: `HKDC` },
   { abbr: `HKFC` },
   { abbr: `HKLdT` },
