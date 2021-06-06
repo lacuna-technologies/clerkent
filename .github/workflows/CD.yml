@@ -9,13 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Check package version
-        uses: technote-space/package-version-check-action@v1
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
-      - name: update manifest.json version
-        run: echo "`jq '.version="${{ steps.package-version.outputs.current-version}}"' src/manifest.json`" > manifest.json
+        with:
+          lfs: true
+      
       - name: Use Node.JS
         uses: actions/setup-node@v2-beta
         with:
@@ -34,12 +30,40 @@ jobs:
         run: npm run lint
       - name: generate icons
         run: npm run generate:icons
-      # - name: build
-      #   run: npm run build
-      # - uses: trmcnvn/firefox-addon@v1
-      #   with:
-      #     uuid: '{68470d9e-14a9-4697-a19b-413d6773c788}'
-      #     xpi: extension/firefox.xpi
-      #     manifest: src/manifest.json
-      #     api-key: ${{ secrets.FIREFOX_API_KEY }}
-      #     api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+
+      - name: version
+        run: npm run version --silent >> $CLERKENT_VERSION
+        id: version
+
+      - name: build
+        run: |
+          npm run build
+          mv extension/chrome.zip extension/${{ env.CLERKENT_VERSION }}-chrome.zip
+          mv extension/firefox.xpi extension/${{ env.CLERKENT_VERSION }}-firefox.xpi
+      
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          files: |
+            extension/${{ env.CLERKENT_VERSION }}-chrome.zip
+            extension/${{ env.CLERKENT_VERSION }}-firefox.xpi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: lacuna-technologies/clerkent
+
+      - uses: trmcnvn/firefox-addon@v1
+        with:
+          uuid: '{68470d9e-14a9-4697-a19b-413d6773c788}'
+          xpi: extension/${{ env.CLERKENT_VERSION }}-firefox.xpi
+          manifest: extension/firefox//manifest.json
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+
+      - uses: mnao305/chrome-extension-upload@1.1.1
+        with:
+          file-path: extension/${{ env.CLERKENT_VERSION }}-chrome.zip
+          extension-id: ogjefnociaddjemkkajgmfpmhmpokmhj
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
