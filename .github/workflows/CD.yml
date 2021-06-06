@@ -30,7 +30,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: install dependencies
-        run: npm ci
+        run: npm i && sudo apt-get update && sudo apt-get install -y libvips
       - name: lint
         run: npm run lint
       - name: generate icons
