@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Clerkent",
+  "name": "Clerkent - quickly legal search",
   "icons": {
     "16": "assets/favicon-16.png",
     "32": "assets/favicon-32.png",
@@ -34,7 +34,6 @@
     "https://www.supremecourt.gov.sg/*"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
-  "__chrome|firefox__author": "Huey",
   "__chrome__minimum_chrome_version": "49",
   "__chrome|opera__options_page": "options.html",
   "options_ui": {
@@ -49,7 +48,21 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*/*"
+        "http://*/*",
+        "https://*/*"
+      ],
+      "exclude_matches": [
+        "https://advance.lexis.com/*",
+        "https://app.justis.com/*",
+        "https://login.westlawasia.com/*",
+        "https://uk.westlaw.com/*",
+        "https://westlawasia.com/*",
+        "https://www-lawnet-sg.lawproxy1.nus.edu.sg/*",
+        "https://www-lawnet-sg.libproxy.smu.edu.sg/*",
+        "https://www-lexisnexis-com.libproxy.ucl.ac.uk/*",
+        "https://www.lawnet.sg/*",
+        "https://www.lexisnexis.com/*",
+        "https://www.lexread.lexisnexis.com/*"
       ],
       "js": [
         "js/contentScript.bundle.js"
