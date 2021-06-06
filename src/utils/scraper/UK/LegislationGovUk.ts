@@ -9,7 +9,7 @@ const DOMAIN = `https://www.legislation.gov.uk`
 
 interface StatuteResult {
   name: string,
-  link: string
+  links: Law.Legislation[`links`]
 }
 
 const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
@@ -48,31 +48,28 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
     if(result.length === 0){
       return []
     }
-    const { link, name  } = result[0]
-    statuteResult = { link, name }
+
+    if(!provisionNumber){
+      return result.map((statute) => {
+        return {
+          ...legislation,
+          database: Constants.DATABASES.UK_legislation,
+          jurisdiction: Constants.JURISDICTIONS.UK.id,
+          links: statute.links,
+          statute: statute.name,
+        }
+      })
+    }
+
+    const { links, name } = result[0]
+    statuteResult = { links, name }
   } catch (error){
     Logger.error(error)
     return []
   }
 
-  if(!provisionNumber){
-    return [{
-      ...legislation,
-      database: Constants.DATABASES.UK_legislation,
-      jurisdiction: Constants.JURISDICTIONS.UK.id,
-      links: [
-        {
-          doctype: `Legislation`,
-          filetype: `HTML`,
-          url: statuteResult.link,
-        },
-      ],
-      statute: statuteResult.name,
-    }]
-  }
-
   const provisionLink = [
-    ...statuteResult.link.split(`/`).slice(0, -1),
+    ...statuteResult.links[0].url.split(`/`).slice(0, -1),
     provisionType.toLowerCase(), provisionNumber,
   ].join(`/`)
 
