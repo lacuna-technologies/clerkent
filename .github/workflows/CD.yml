@@ -32,7 +32,7 @@ jobs:
         run: npm run generate:icons
 
       - name: version
-        run: npm run version --silent >> $CLERKENT_VERSION
+        run: echo "CLERKENT_VERSION=$(npm run version --silent)" >> $CLERKENT_VERSION
         id: version
 
       - name: build
