@@ -195,7 +195,7 @@ const WebpackConfig = {
     new MiniCssExtractPlugin({ filename: `css/[name].css` }),
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{ from: `${generatedAssetsPath}/`, to: `assets` }],
+      patterns: [{ from: `${generatedAssetsPath}`, to: `assets` }],
     }),
     // plugin to enable browser reloading in development mode
     extensionReloaderPlugin,
