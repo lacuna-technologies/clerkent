@@ -5,14 +5,17 @@ import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import Highlighter from './Highlighter'
 import Searcher from './Searcher'
+import OptionsStorage from '../utils/OptionsStorage'
 import './ContentScript.scss'
 
 let port: Runtime.Port
 
+let highlightEnabled
+
 const onMessage = (message: Message) => {
   Logger.log(`content script received:`, message)
 
-  if(document.querySelector(`#clerkent-tooltip`) === null){
+  if(highlightEnabled && document.querySelector(`#clerkent-tooltip`) === null){
     Tooltip.init()
   }
   
@@ -24,14 +27,18 @@ const onMessage = (message: Message) => {
   }
 }
 
-const init = () => {
+const init = async () => {
   port = browser.runtime.connect(``, { name: `contentscript-port` })
   port.onMessage.addListener(onMessage)
 
-  const hasHits = Highlighter.scanForCitations(port)
+  highlightEnabled = await OptionsStorage.highlight.get()
 
-  if(hasHits){
-    Tooltip.init()
+  if(highlightEnabled){
+    const hasHits = Highlighter.scanForCitations(port)
+
+    if(hasHits){
+      Tooltip.init()
+    }
   }
 
   Searcher.init()

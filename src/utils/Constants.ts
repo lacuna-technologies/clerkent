@@ -168,6 +168,13 @@ const MISC_DATABASES = {
   },
 }
 
+const INSTITUTIONAL_LOGINS = {
+  NONE: `None`,
+  NUS: `National University of Singapore`,
+  SMU: `Singapore Management University`,
+  UCL: `University College London`,
+}
+
 const dedupeObjects = (inputObject: Record<string, Record<string, string>>, jurisdictionCode: Law.JursidictionCode) =>
   Object.entries(inputObject)
   .reduce((accumulator, [id, object]: [string, Record<string, string>]) => ({
@@ -216,6 +223,7 @@ const COURTS: Record<string, Record<string, string>> = {
 const Constants = {
   COURTS,
   DATABASES,
+  INSTITUTIONAL_LOGINS,
   JURISDICTIONS,
 }
 
