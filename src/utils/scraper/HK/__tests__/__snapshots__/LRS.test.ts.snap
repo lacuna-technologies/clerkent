@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HK LRS should parse getCaseByCitation result correctly 1`] = `
+Array [
+  Object {
+    "citation": "[2021] HKCFA 14",
+    "database": Object {
+      "icon": "",
+      "name": "Legal Reference System",
+      "url": "https://www.judiciary.hk/en/legal_ref/judgments.htm",
+    },
+    "jurisdiction": "HK",
+    "links": Array [
+      Object {
+        "doctype": "Judgment",
+        "filetype": "HTML",
+        "url": "https://legalref.judiciary.hk/lrs/common/ju/ju_frame.jsp?DIS=135729&currpage=T",
+      },
+    ],
+    "name": "FACV11/2020 HSIN CHONG CONSTRUCTION COMPANY LIMITED (in liquidation) v. BUILD KING CONSTRUCTION LIMITED",
+  },
+]
+`;
+
+exports[`HK LRS should send valid request for getCaseByCitation 1`] = `
+Array [
+  Array [
+    "https://legalref.judiciary.hk/lrs/common/search/jud_search_ncn.jsp",
+    Object {
+      "params": Object {
+        "isadvsearch": "1",
+        "ncnLanguage": "en",
+        "ncnParagraph": "",
+        "ncnValue": "[2021] HKCFA 14",
+        "query": "Go!",
+        "selDatabase": "JU",
+        "selall": "0",
+        "txtSearch": "[2021] HKCFA 14",
+        "txtselectopt": "4",
+      },
+    },
+  ],
+]
+`;

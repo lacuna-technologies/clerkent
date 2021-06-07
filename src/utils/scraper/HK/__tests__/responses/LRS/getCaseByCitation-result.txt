@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head><link href="/lrs/common/pd/css.css" rel="stylesheet" type="text/css" >
+<script language="JavaScript" src="/lrs/javascript/autofsize.js" type="text/JavaScript"></script>
+<script type="text/javascript">
+<!--
+parent.document.title=window.document.title.replace("XCHRX","");
+parent.document.title=window.document.title.replace("999999","");
+-->
+</script>
+<Style Type="text/css">
+<!--
+body {
+width: 100%;
+}
+-->
+</style>
+<META NAME="robots" CONTENT="noindex,nofollow">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/css/elrs.css" />
+    <script language="JavaScript" src="/js/judgment.js" type="text/JavaScript">
+    </script>
+
+    <title>FACV11/2020 HSIN CHONG CONSTRUCTION COMPANY LIMITED (in liquidation) v. BUILD KING CONSTRUCTION LIMITED</title>
+</head>
+
+<body><form name=search_body><table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td>
+    <p style="text-align:right"><a href="/doc/judg/html/vetted/other/en/2020/FACV000011_2020_files/FACV000011_2020ES.htm" onclick="window.open(this.href,'popupwindow');return false;">Press Summary (English)</a></p>
+
+    <p style="text-align:right"><a href="/doc/judg/html/vetted/other/en/2020/FACV000011_2020_files/FACV000011_2020CS.htm" onclick="window.open(this.href,'popupwindow');return false;">Press Summary (Chinese)</a></p>
+    <p style="text-align:right">FACV No. 11 of 2020</p>
+<p style="text-align:right">[2021] HKCFA 14</p>
+
+    <p style="text-align:center"><strong>IN THE COURT OF FINAL APPEAL OF THE</strong></p>
+
+    <p style="text-align:center"><strong>HONG KONG SPECIAL ADMINISTRATIVE REGION</strong></p>
+<p style="text-align:center"><strong>FINAL APPEAL NO. 11 OF 2020 (CIVIL)</strong></p>
+
+    <p style="text-align:center">(ON APPEAL FROM CACV NO. 321 OF 2019)</p>
+
+    <p style="text-align:center">_____________________</p>    
+
+<parties>
+        <p style="text-align:left">BETWEEN</p>
+
+        <table width="100%" border="0" style="border-collapse: collapse" cellpadding="0" cellspacing="0">
+            <tr>
+                <td style="text-align:center;upper" width="25%"></td>
+
+                <td style="text-align:center;upper" width="50%">
+              HSIN CHONG CONSTRUCTION COMPANY LIMITED <br />
+            (in liquidation) </td>
+
+                <td style="text-align:center;upper" width="25%" valign="top">
+                Appellant                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align:center;upper"></td>
+
+                <td style="text-align:center;upper">
+              and                </td>
+
+                <td style="text-align:center;upper"></td>
+            </tr>
+
+            <tr>
+                <td style="text-align:center;upper"></td>
+
+                <td style="text-align:center;upper">
+              BUILD KING CONSTRUCTION LIMITED                </td>
+
+                <td style="text-align:center;upper">
+                Respondent                </td>
+            </tr>
+        </table>
+    </parties>
+    <p style="text-align:center">_____________________</p>    
+   
+
+    <coram>
+        <table width="100%" border="0" style="border-collapse: collapse" cellpadding="0" cellspacing="0">
+            <tr>
+<td valign="top" style="width: 17%">
+                    Before:<br /></td>
+
+              <td width="85%">
+                    Chief Justice Cheung, Mr Justice Ribeiro PJ,
+              Mr Justice Fok PJ, Mr Justice Tang NPJ and
+                    Mr Justice Gummow NPJ<br /></td>
+            </tr>
+      </table>
+    </coram>
+
+    <date>
+        <table width="100%" border="0" style="border-collapse: collapse" cellpadding="0" cellspacing="0">
+        <tr>
+<td valign="top" style="width: 17%">Date of Hearing: 
+                              </td>
+
+                <td width="85%">22 April 2021 
+                                </td>
+          </tr>
+<tr>
+                <td valign="top" style="width: 17%">
+              Date of Judgment:                </td>
+
+                <td width="85%">
+                13 May 2021                </td>
+            </tr>
+        </table>
+    </date>
+
+    <p style="text-align:center">________________________</p>
+
+    <p style="text-align:center">JUDGMENT</p>
+
+    <p style="text-align:center">_________________________</p>
+    <p><b>Chief Justice Cheung:</b></p>
+<p><a name="p1" class="para" id="p1">1.</a>&nbsp;&nbsp;I agree with the joint judgment of Mr Justice Ribeiro PJ and Mr Justice Fok PJ.</p>
+
+    <p><b>Mr Justice Ribeiro PJ and Mr Justice Fok PJ:</b></p>
+
+<p><a name="p2" class="para" id="p2">2.</a>&nbsp;&nbsp;This judgment concerns a contested application for the retrospective validation of the disposition of a company’s property made after commencement of the company’s winding up.</p>
+
+    <p class="heading">A.&nbsp;&nbsp;&nbsp;&nbsp; The Joint Venture Agreement and the Company’s financial difficulties</p>
+
+    <p><a name="p3" class="para" id="p3">3.</a>&nbsp;&nbsp;Pursuant to a Joint Venture Agreement dated 21 November 2013 (“<u>the JVA</u>”) Hsin Chong Construction Company Limited (“<u>the Company</u>”) and Build King Construction Limited (“<u>Build King</u>”) tendered for and, on 22 June 2016, were awarded a Government contract to design and build a large police facility in Kowloon with the Company taking a 65% interest and Build King the remaining 35% in their unincorporated joint venture.</p>
+
+    <p><a name="p4" class="para" id="p4">4.</a>&nbsp;&nbsp;In 2017 and 2018, it became increasingly clear that the Company was in dire financial straits.&nbsp; Among other indications, trading in the Company’s listed shares was suspended in March 2017, defaults occurred in meeting its debt obligations, its auditors qualified its accounts on the going concern basis and, on 17 July 2018, the West Kowloon Cultural District Authority, the employer under a separate contract for the Company to construct the M+ Museum, determined that contract on the ground of the Company’s insolvency. &nbsp;On 27 August 2018, a creditor issued a petition to wind up the Company.<a href="#_ftn1" name="_ftnref1" title="" id="_ftnref1">[1]</a></p>
+
+    <p><a name="p5" class="para" id="p5">5.</a>&nbsp;&nbsp;Clause 17 of the JVA provides a mechanism whereby one party may exclude the other from the joint venture on the ground of that other’s insolvency.&nbsp; It enables the “Continuing Party” to exclude the “Defaulting Party” from “further participation in the management of the Joint Venture and the Contract and the profits arising therefrom” and permits the Continuing Party “to take over the benefits of the Defaulting Party in the Joint Venture (but without releasing the Defaulting Party from its obligation to bear its proportionate share of any loss resulting or to result from the Contract) ...”.</p>
+
+    <p><a name="p6" class="para" id="p6">6.</a>&nbsp;&nbsp;If the option to exclude is exercised, Clause 17 provides for an accounting exercise to be performed at the completion of the project to calculate the amount of any accrued profit the Defaulting Party might be entitled to up to the date of exclusion, less the Defaulting Party’s share of any losses, pre- and post-exclusion, and any expenditure or loss incurred by the Continuing Party due to the Defaulting Party’s default.&nbsp; Clause 17.5 accordingly provides:</p>
+<blockquote>
+        <p class="quote">“Upon completion or termination of the Contract, receipt of all amounts due to be paid by the Client pursuant to the terms thereof and the ascertainment of all liabilities of the Continuing Party under or arising out of or in connection with the Contract or the construction of the Works, the Continuing Party shall, subject as hereinafter provided, account to the Defaulting Party who shall be entitled to receive an amount equal to the sum provided by him towards the Working Capital together with his proportionate share (as adjusted in accordance with the terms and conditions hereof as the case may be) of any profits or other entitlements earned and received by the Joint Venture in respect of the Contract but calculated up to the date when the Defaulting Party was excluded from the Joint Venture less:-</p>
+    <blockquote>
+      <p class="quote">(a) his share of any losses arising from the Contract calculated in accordance with the Proportions whether before or after the date of exclusion; and</p>
+      <p class="quote">(b) all costs, expenses, losses and damages incurred by the Continuing Party directly or indirectly as a result of the default of the Defaulting Party.</p>
+    </blockquote>
+  </blockquote>
+
+<p><a name="p7" class="para" id="p7">7.</a>&nbsp;&nbsp;The final account might show a sum due to the Continuing Party and Clause 17.6 accordingly stipulates:</p>
+
+    <blockquote>
+        <p class="quote">“In the event that the share of the costs, expenses, losses and damages chargeable to the Defaulting Party exceeds its entitlements, the Defaulting Party, or (as the case may be) its successors, receivers or other legal representatives, shall promptly pay the excess to the Continuing Party as a primary obligation and as a debt.”</p>
+    </blockquote>
+
+    <p><a name="p8" class="para" id="p8">8.</a>&nbsp;&nbsp;It will be convenient to refer to the benefits contingently claimable by the Defaulting Party in the event of Clause 17 being triggered as “<u>the residual rights</u>”.</p>
+
+    <p><a name="p9" class="para" id="p9">9.</a>&nbsp;&nbsp;On 13 December 2018, having taken the view that the Company was insolvent, Build King did indeed invoke Clause 17 constituting itself the “Continuing Party” and the Company the “Defaulting Party” for the purposes of that clause. &nbsp;At that stage, the design phase was close to completion and construction works on the structure were well advanced, while work on the architectural finishes and building services was just commencing.</p>
+
+    <p class="heading">B.&nbsp;&nbsp;&nbsp;&nbsp; The Supplemental Agreement</p>
+
+    <p><a name="p10" class="para" id="p10">10.</a>&nbsp;&nbsp;Negotiations ensued.&nbsp; They resulted in Build King and the Company entering into a Supplemental Agreement (“<u>the SA</u>”) dated 17 December 2018 whereby Build King agreed to acquire the Company’s residual rights together with its interests in materials, plant and equipment, deposits and partial payments which it had contributed to the joint venture.&nbsp; The consideration agreed to be paid by Build King for such acquisition was the sum of $53.6 million to be paid in two instalments of $20 million and $33.6 million respectively.&nbsp; It is common ground and has been accepted below that this represented a fair, and indeed, favourable valuation of the Company’s rights and interests being acquired since it included a significant amount for projected post-exclusion profits to which the Company was not entitled under the JVA. &nbsp;It also eliminated certain contingencies and removed the need to await a final accounting at the project’s completion.</p>
+
+    <p><a name="p11" class="para" id="p11">11.</a>&nbsp;&nbsp;However, crucially, by its clause 5(d) the SA specified that the $53.6 million “will be paid in [sic] the following designated account requested by [the Company]: Bank of East Asia 136-68-00013-1 savings account, Cogent Spring Limited [‘<u>Cogent Spring</u>’].”&nbsp; Clause 5(e) went on to stipulate:</p>
+
+    <blockquote>
+      <p class="quote">“[The Company] confirms that [Cogent Spring] is a wholly owned subsidiary of Hsin Chong Group Holdings Limited and that Build King’s payment to [Cogent Spring] will be understood as and/or equivalent to the effect that Build King has discharged its liability in connection with or arising from this SA.”</p>
+    </blockquote>
+<p><a name="p12" class="para" id="p12">12.</a>&nbsp;&nbsp;Initially, as indicated in a resolution by the Company’s board dated 13 December 2018, the intention was for the Company itself to use the amounts received from Build King “to settle the outstanding payment of MPF [Mandatory Provident Fund] and staff wages/salaries”, without any mention of Cogent Spring or any other third party recipient.&nbsp; However, as the trial judge found:</p>
+
+    <blockquote>
+      <p class="quote">“On 14 December 2018, the Company requested that payment be made to [Cogent Spring] ... as the Company’s bank accounts were frozen because of the petition and outstanding MPF contributions and employees’ wages could not be paid.”<a href="#_ftn2" name="_ftnref2" title="" id="_ftnref2">[2]</a></p>
+    </blockquote>
+<p><a name="p13" class="para" id="p13">13.</a>&nbsp;&nbsp;That proposal raised concerns on the part of certain directors on both sides of the transaction.&nbsp; The reaction of Mr Desmond Chang Kam Chuen, a Build King director, was to send an e-mail dated 14 December 2018 to Mr Wilfred Wu (then a director of the Company) stating:</p>
+
+    <blockquote>
+      <p class="quote">“I just noted that you request us to pay the first $20 million to another company named Cogent Spring. I’m sorry that we can’t entertain this request; instead, we will provide you a bank draft payable to [the Company], the party to the agreement.”</p>
+    </blockquote>
+<p><a name="p14" class="para" id="p14">14.</a>&nbsp;&nbsp;And Mr James Lee Kok Foo, who was one of the Company’s directors until he stepped down from the board on 14 December 2018, protested when he saw draft board minutes purporting to approve such payment to Cogent Spring and in his e-mail to the Company’s directors dated 16 December 2018, he stated:</p>
+
+    <blockquote>
+      <p class="quote">“I remind all to check the lawfulness of requesting Build King to make payments to [Cogent Spring] while [the Company’s] accounts have been frozen by concerned banks. This may be viewed as fraud rendering legal liability to directors so involved.”</p>
+    </blockquote>
+<p><a name="p15" class="para" id="p15">15.</a>&nbsp;&nbsp;Nonetheless, Build King proceeded to pay the first instalment to Cogent Spring instead of the Company, evidently to circumvent the problem of the latter’s frozen bank accounts with a view to paying outstanding salaries and MPF contributions.&nbsp; On 17 December 2018, the sum of $20 million was transferred into Cogent Spring’s account with the Bank of East Asia, as specified in the SA.&nbsp; The funds were then dissipated in making a variety of payroll and MPF payments, as well as towards meeting legal costs and miscellaneous utility and other expenses, involving not only the Company but other entities in the Group.</p>
+
+    <p class="heading">C.&nbsp;&nbsp;&nbsp;&nbsp; Section 182 and the application for validation</p>
+
+    <p><a name="p16" class="para" id="p16">16.</a>&nbsp;&nbsp;Section 182 of the Companies (Winding Up and Miscellaneous Provisions) Ordinance<a href="#_ftn3" name="_ftnref3" title="" id="_ftnref3">[3]</a> (“<u>CWUMPO</u>”) materially provides as follows:</p>
+
+    <blockquote>
+      <p class="quote">“In a winding up by the court, any disposition of the property of the company, including things in action, ... made after the commencement of the winding up, shall, unless the court otherwise orders, be void.”</p>
+    </blockquote>
+<p><a name="p17" class="para" id="p17">17.</a>&nbsp;&nbsp;As we have seen, the SA was executed on 17 December 2018 and the payment of $20 million to Cogent Spring was effected on the same date.&nbsp; As this was after presentation of the petition (on 27 August 2018) which is when the winding up is deemed to have commenced,<a href="#_ftn4" name="_ftnref4" title="" id="_ftnref4">[4]</a> the parties faced the possibility that the transaction might constitute a disposition of the Company’s property which was void unless the court otherwise ordered.</p>
+
+    <p><a name="p18" class="para" id="p18">18.</a>&nbsp;&nbsp;Build King might have, but did not, seek in advance the court’s approval of the SA and the payment.&nbsp; Instead, it sought the court’s retrospective validation by issuing a summons filed on 18 January 2019 seeking an order confirming that the SA should not be avoided by section 182.<a href="#_ftn5" name="_ftnref5" title="" id="_ftnref5">[5]</a>&nbsp; In taking that course, Build King took the risk of the court refusing to make the order.<a href="#_ftn6" name="_ftnref6" title="" id="_ftnref6">[6]</a>&nbsp; Since section 182 deems dispositions of company property occurring after commencement of the winding up to be void unless the court otherwise orders, if entry into and performance of the SA were held to constitute a disposition of the Company’s property (as the Company’s provisional liquidators contend), the transaction would be presumptively void and the burden would fall on Build King to show why the court ought to make a validating order.<a href="#_ftn7" name="_ftnref7" title="" id="_ftnref7">[7]</a></p>
+
+    <p class="heading">D.&nbsp;&nbsp;&nbsp;&nbsp; The decisions in the Courts below</p>
+
+    <p class="heading">D.1&nbsp;&nbsp; At first instance</p>
+
+    <p><a name="p19" class="para" id="p19">19.</a>&nbsp;&nbsp;Deputy High Court Judge Le Pichon held in favour of Build King and ordered that the SA and any disposition of property thereunder should not be avoided by virtue of section 182.<a href="#_ftn8" name="_ftnref8" title="" id="_ftnref8">[8]</a></p>
+
+    <p><a name="p20" class="para" id="p20">20.</a>&nbsp;&nbsp;Her Ladyship found (as pointed out above) that the Company had requested “that payment be made to [Cogent Spring] ... as the Company’s bank accounts were frozen because of the petition and outstanding MPF contributions and employees’ wages could not be paid.”<a href="#_ftn9" name="_ftnref9" title="" id="_ftnref9">[9]</a></p>
+
+    <p><a name="p21" class="para" id="p21">21.</a>&nbsp;&nbsp;She also found that:</p>
+
+    <blockquote>
+      <p class="quote">“... at the very least, [Build King] had an inkling that part of the proceeds would be applied by the Company in settling outstanding MPF contributions and employees’ wages that would contravene section 182 (absent any prior validation order) and that [Build King] could be said to be facilitating a possible contravention by making payment to Cogent Spring instead of the Company directly.”<a href="#_ftn10" name="_ftnref10" title="" id="_ftnref10">[10]</a></p>
+    </blockquote>
+<p><a name="p22" class="para" id="p22">22.</a>&nbsp;&nbsp;In deciding in favour of validation, the learned Judge held as follows:<a href="#_ftn11" name="_ftnref11" title="" id="_ftnref11">[11]</a></p>
+
+    <blockquote>
+      <p class="quote">“BK’s position was that that was a matter internal to the Company and not for a third party purchaser who is making a payment into the Group. BK made payment to the Company’s nominee to discharge its obligations as purchaser. Any disposition made subsequently of the proceeds would not have been made by BK but by the Company.” (§93)</p>
+      <p class="quote">“How should the court exercise its discretion? In so far as the proceeds (or part thereof) have been applied in contravention of section 182 and so prejudiced the unsecured creditors, it would have been because of misapplication of the purchase monies by the Company and/or its directorsand not BK. In any event, BK was and is not in a position to control or direct the Company’s application of the proceeds.” (§94)</p>
+      <p class="quote">“For BK, the acquisition of the Company’s residual rights in the JV was a commercial transaction negotiated at arm’s length. No ulterior purpose or agenda in BK making payment into the designated account can be discerned. It is not the PLs’ case that BK breached any duty or obligation whether to the unsecured creditors or anyone else. The only reason not to validate would be to punish BK for somehow facilitating a potential breach by the Company. But how would that benefit the unsecured creditors?” (§95)</p>
+      <p class="quote">“For a start, if the transaction is rendered void, the $53.6 million will have to be repaid to BK. The Company will have to await the completion of the project and the final accounting before it could receive the accrued profits up to the date of its exclusion. It has no right to any share of post-exclusion profits and its exposure to the possibility of having to carry its share of the loss on the Project will continue until its termination or completion.” (§96)</p>
+      <p class="quote">“In those circumstances, I can see no good reason for the court not to exercise its discretion to validate the transaction.” (§97)</p>
+    </blockquote>
+
+<p><a name="p23" class="para" id="p23">23.</a>&nbsp;&nbsp;Her Ladyship’s focus was thus on Build King’s payment which she regarded as a payment to the Company to discharge its obligations as purchaser under the SA and, for that reason, not a disposition of the Company’s property; that any subsequent misapplication of the funds was internal to the Company or its directors and did not involve Build King; and that Build King had not breached any duty to the unsecured creditors or otherwise.&nbsp; She was also concerned that the consequence of refusing validation would involve the Company having to “repay” $53.6 million to Build King.&nbsp;</p>
+
+    <p class="heading">D.2&nbsp;&nbsp; In the Court of Appeal and submissions on the present appeal</p>
+
+    <p><a name="p24" class="para" id="p24">24.</a>&nbsp;&nbsp;The Court of Appeal held that there were no valid grounds to interfere with the judge’s exercise of discretion.<a href="#_ftn12" name="_ftnref12" title="" id="_ftnref12">[12]</a>&nbsp; It referred to clause 5(e) of the SA<a href="#_ftn13" name="_ftnref13" title="" id="_ftnref13">[13]</a> which it took to mean that Cogent Spring “was designated as the Company’s agent to receive the consideration from BK on the Company’s behalf”,<a href="#_ftn14" name="_ftnref14" title="" id="_ftnref14">[14]</a> and held as follows:<a href="#_ftn15" name="_ftnref15" title="" id="_ftnref15">[15]</a></p>
+
+    <blockquote>
+        <p class="quote">“The judge has fully considered the circumstances in which $20 million was paid to Cogent Spring. Insofar as part of the proceeds had been applied in contravention of section 182 and so prejudiced the unsecured creditors, it would have been because of the subsequent misapplication of the proceeds by the Company and/or its directors and not BK. BK was not in a position to control or direct the Company’s application of the proceeds. The judge could discern no ulterior purpose or agenda in BK making payment into the designated account.” (§60)</p>
+
+        <p class="quote">“There is no evidence that BK had actual or constructive notice of any acts of impropriety of the payments out from the account of Cogent Spring caused to be made by the Company. When BK raised concern about the request of the Company to pay $20 million to Cogent Spring, this was before BK was informed by the Company that the reason for the request was because the Company’s accounts were frozen and hence it was not possible for the Company to apply the funds to pay its employees.” (§61)</p>
+    </blockquote>
+
+    <p><a name="p25" class="para" id="p25">25.</a>&nbsp;&nbsp;We return to the aforesaid decisions in our analysis of the transaction below.&nbsp; We pause however to note that the Court of Appeal’s suggestion in (§61) that Build King’s concern about the request to pay Cogent Spring was raised before Build King was aware that this was necessitated by the fact that the Company’s accounts were frozen because of the petition appears to run contrary to the trial judge’s findings set out above.<a href="#_ftn16" name="_ftnref16" title="" id="_ftnref16">[16]</a>&nbsp;</p>
+
+    <p><a name="p26" class="para" id="p26">26.</a>&nbsp;&nbsp;The submissions made by Mr Charles Manzoni SC<a href="#_ftn17" name="_ftnref17" title="" id="_ftnref17">[17]</a> reflected the approach adopted below.&nbsp; He placed much emphasis on the proposition that, because of what had been contractually agreed between the Company and Build King, payment by Build King to Cogent Spring in accordance with clause 5 of the SA was deemed to be payment to the Company and that only subsequent disbursements of the monies could constitute dispositions caught by section 182.</p>
+
+    <p class="heading">E.&nbsp;&nbsp;&nbsp;&nbsp; The principles regarding section 182 validation orders</p>
+
+    <p><a name="p27" class="para" id="p27">27.</a>&nbsp;&nbsp;Section 182 is modelled on virtually identical provisions which exist in other common law jurisdictions, especially in England and Wales<a href="#_ftn18" name="_ftnref18" title="" id="_ftnref18">[18]</a> and in Australia, so that reported decisions in those jurisdictions provide valuable guidance.</p>
+
+    <p><a name="p28" class="para" id="p28">28.</a>&nbsp;&nbsp;The minimalist language of section 182 does not specify the criteria or circumstances in which the court should or should not “otherwise order” so as to save a disposition from being void. However, construing the section purposively, as Buckley LJ put it in <i>Re Gray’s Inn Construction Co Ltd</i>, the section should be understood as giving effect to:</p>
+
+    <blockquote>
+        <p class="quote">“... a basic concept of our law governing the liquidation of insolvent estates, whether in bankruptcy or under the Companies Acts, that the free assets of the insolvent at the commencement of the liquidation shall be distributed rateably amongst the insolvent's unsecured creditors as at that date.” <a href="#_ftn19" name="_ftnref19" title="" id="_ftnref19">[19]</a></p>
+    </blockquote>
+
+    <p><a name="p29" class="para" id="p29">29.</a>&nbsp;&nbsp;His Lordship noted that, consistently with that basic concept:</p>
+    <blockquote>
+    <p class="quote">“There may be occasions ... when it would be beneficial, not only for the company but also for its unsecured creditors, that the company should be enabled to dispose of some of its property during the period after the petition has been presented but before a winding up order has been made.”<a href="#_ftn20" name="_ftnref20" title="" id="_ftnref20">[20]</a></p>
+    </blockquote>
+    <p><a name="p30" class="para" id="p30">30.</a>&nbsp;&nbsp;Many examples of such beneficial dispositions can be found in the reported cases.&nbsp; These include payments made in good faith in the ordinary course of business to keep the company afloat with a view to its possible longer-term survival or its being sold as a going concern and thus benefiting the company and its creditors more than would a break up realisation of the company’s assets;<a href="#_ftn21" name="_ftnref21" title="" id="_ftnref21">[21]</a> transactions entered into at full value after presentation of the petition which add to or prevent reduction of the company’s assets;<a href="#_ftn22" name="_ftnref22" title="" id="_ftnref22">[22]</a> transactions seizing an opportunity speedily to dispose of some piece of property at an exceptionally good price or incurring expenditure necessary to enable the company to complete a profitable contract;<a href="#_ftn23" name="_ftnref23" title="" id="_ftnref23">[23]</a> and so forth.<a href="#_ftn24" name="_ftnref24" title="" id="_ftnref24">[24]</a></p>
+
+    <p><a name="p31" class="para" id="p31">31.</a>&nbsp;&nbsp;The interests of the general body of creditors are determinative in deciding whether a disposition of the company’s property after commencement of the winding up should be validated: the court must do its best to ensure that their interests are not prejudiced.<a href="#_ftn25" name="_ftnref25" title="" id="_ftnref25">[25]</a> Validation orders may be made where the applicant shows that the disposition is likely to be or actually has been for the benefit of the unsecured creditors.<a href="#_ftn26" name="_ftnref26" title="" id="_ftnref26">[26]</a>&nbsp; Conversely, an order is likely to be refused if such benefit cannot be shown.&nbsp; This would obviously <i>a fortiori</i> be the case where the disposition is seen to involve a misapplication of the company’s property with a view to preferring the rights of certain creditors at the expense of the others, or to reducing overall the assets available for distribution to the general body of creditors.<a href="#_ftn27" name="_ftnref27" title="" id="_ftnref27">[27]</a></p>
+
+    <p class="heading">F.&nbsp;&nbsp;&nbsp;&nbsp; The transaction analysed</p>
+
+    <p><a name="p32" class="para" id="p32">32.</a>&nbsp;&nbsp;The concern of section 182 is with the disposition of a company’s property made after commencement of the winding up. If a transaction amounts to such a disposition, it is void unless the court orders otherwise.&nbsp; And as we have seen, in deciding whether to validate the disposition, the court regards the interests of the general body of creditors as of central importance.&nbsp;</p>
+
+    <p><a name="p33" class="para" id="p33">33.</a>&nbsp;&nbsp;It is therefore important to identify correctly the Company’s property and the disposition in question.&nbsp; Here, the Company’s residual rights plus incidental interests under the JVA constituted the initial property concerned.&nbsp; The Company agreed to sell them to Build King for the consideration of $53.6 million, payable in two instalments.&nbsp; So the residual and incidental rights were converted into a contractual chose in action consisting of a right to payment of that consideration which was the Company’s property. By entering into the SA with its clause 5, the Company and Build King agreed that that payment should not be made into the Company’s coffers (to circumvent the freezing of its bank accounts) but should instead be made to Cogent Spring, a different entity within the Group.&nbsp; In performing that agreement, a disposition of a chose in action with the value of $20 million, the first instalment, took place. &nbsp;Section 182 became applicable and rendered the SA and payment made thereunder void unless the Court otherwise orders.</p>
+
+    <p><a name="p34" class="para" id="p34">34.</a>&nbsp;&nbsp;With respect, both the Judge and the Court of Appeal focussed on the wrong property and the wrong “disposition”. &nbsp;They failed to recognise that the relevant property was the right to payment of $53.6 million and its first instalment as the consideration for sale of the Company’s residual and incidental JVA rights.&nbsp; They focussed on Build King’s payment of the monies which they described as merely Build King’s performance of its payment obligation under the SA, contractually acknowledged by the Company to constitute discharge of that obligation and, for that reason, not a relevant disposition.&nbsp; They considered that only the subsequent disbursements might constitute a misapplication of the purchase proceeds by “the Company and/or its directors”, over which Build King had no control and which involved no breach of duty on Build King’s part.&nbsp;</p>
+
+    <p><a name="p35" class="para" id="p35">35.</a>&nbsp;&nbsp;There are major flaws in the aforesaid approach.&nbsp; In the first place, it is a <i>non sequitur</i> to suggest that because payment is made to a third party in accordance with a contractual provision which deems such payment a discharge of the payor’s obligation, this somehow prevents that payment from being a section 182 disposition.&nbsp; If as a result of that payment, the Company’s property is transferred or dissipated so that the interests of the general body of creditors are prejudiced, it matters not that the transfer or dissipation is wrapped in contractual clothing.&nbsp; It is still a disposition which attracts section 182 and its prejudicial effect on the unsecured creditors prevents the transaction from being validated.&nbsp; The great majority of dispositions for which validation has been refused in the reported cases will have been made pursuant to contractual or other legal arrangements.<a href="#_ftn28" name="_ftnref28" title="" id="_ftnref28">[28]</a></p>
+
+    <p><a name="p36" class="para" id="p36">36.</a>&nbsp;&nbsp;The question of whether a disposition has taken place is one of substance and not form.&nbsp; As was explained by HH Judge Paul Matthews (sitting as an additional judge of the High Court) in <i>Officeserve Technologies Ltd (in Liquidation) v Anthony-Mike</i>,<a href="#_ftn29" name="_ftnref29" title="" id="_ftnref29">[29]</a> whether a disposition occurs is judged by what happens to the value of a company’s asset as a result of the transaction in question:</p>
+
+    <blockquote>
+      <p class="quote">“In considering what is and what is not a disposition for the purposes of s.127, it is necessary not to be constrained by what, in formal terms, may be the transfer of one interest in property, wholly and separately, to another person. The mischief against which the section is directed is clear. The destruction, or at least the <i>reduction</i> in value, of a property right belonging to the company, causing an immediate and equivalent <i>accrual</i> in value to another person, is well within that mischief.”<a href="#_ftn30" name="_ftnref30" title="" id="_ftnref30">[30]</a></p>
+    </blockquote>
+<p><a name="p37" class="para" id="p37">37.</a>&nbsp;&nbsp;His Lordship added:</p>
+
+    <blockquote>
+        <p class="quote">“In my judgment, it is sufficient that identifiable property by some act having legal consequences (so excluding mere effluxion of time) ceases to be in the ownership of the company, so that it is no longer available to the liquidator of the company for the statutory purposes, and <i>the value</i> accrues to some other person (so excluding consumption or waste), even though that other person cannot necessarily be said to become the owner of the same property.”<a href="#_ftn31" name="_ftnref31" title="" id="_ftnref31">[31]</a></p>
+    </blockquote>
+
+    <p><a name="p38" class="para" id="p38">38.</a>&nbsp;&nbsp;In the present case, it is clear that the value of the first instalment of $20 million never accrued to (and was never intended to accrue to) the Company but went entirely to Cogent Spring to be dissipated in favour of various third parties to the prejudice of the Company’s unsecured creditors and the <i>pari passu</i> principle.&nbsp; Thus, invocation of a principle of agency law that payment to an agent conferred with authority to receive money on behalf of his principal is deemed receipt by the principal is of no assistance to Build King here.&nbsp; Such a doctrinal deeming cannot obscure the fact that, in terms of substance and value, none of the $20 million reached the Company to be available for distribution to the general body of creditors.&nbsp;</p>
+
+    <p><a name="p39" class="para" id="p39">39.</a>&nbsp;&nbsp;Moreover, on the evidence and findings of the trial judge, the authority conferred on Cogent Spring was not to “receive payment on behalf of the Company” but to receive it to make intended disbursements to recipients other than the Company, circumventing the frozen bank accounts.&nbsp; Furthermore, the suggestion that any void disposition “only would have been because of misapplication of the purchase monies by the Company and/or its directors and not Build King” cannot be accepted since the Company and/or its directors never received Build King’s payment and did not have any of those funds to misapply.</p>
+
+    <p><a name="p40" class="para" id="p40">40.</a>&nbsp;&nbsp;Secondly, the judgments below erroneously emphasise that Build King had no ulterior purpose and breached no duty in making the payment to Cogent Spring as matters favouring the making of a validation order.&nbsp; As indicated above, the concern of section 182 is to preserve the Company’s property for proper distribution under the statute, applying to dispositions made after commencement of the winding up.&nbsp; The section does not concern itself with the parties to the transaction and does not require it to be shown that such parties were involved in any breaches of duty before the disposition is rendered presumptively void.&nbsp; Incidentally, it will be recalled that the trial judge found that Build King “had an inkling” – that is, “knew” – “that part of the proceeds would be applied by the Company in settling outstanding MPF contributions and employees’ wages that would contravene section 182 (absent any prior validation order) and that [Build King] could be said to be facilitating a possible contravention by making payment to Cogent Spring instead of the Company directly.”<a href="#_ftn32" name="_ftnref32" title="" id="_ftnref32">[32]</a> Whether or not such an intended circumvention of section 182 constitutes a breach of duty by someone or other is not presently in issue.&nbsp; However, such knowledge certainly does not militate in favour of a validation order.</p>
+
+    <p><a name="p41" class="para" id="p41">41.</a>&nbsp;&nbsp;Finally, the trial judge’s suggestion that “if the transaction is rendered void, the $53.6 million will have to be repaid to”<a href="#_ftn33" name="_ftnref33" title="" id="_ftnref33">[33]</a> Build King was incorrect.&nbsp; No part of those funds was ever paid to the Company. Indeed, the second instalment of $33.6 million was not paid out by Build King at all.&nbsp; So there was no question of any repayment by the Company to Build King.&nbsp; The effect of holding the SA void would be that the Company could revert to a claim against Build King for the value of its residual rights under the JVA as determined on a final accounting.<a href="#_ftn34" name="_ftnref34" title="" id="_ftnref34">[34]</a> It is uncertain how that amount would compare to the sum of $53.6 million agreed to under the SA.&nbsp;</p>
+
+    <p class="heading">G.&nbsp;&nbsp;&nbsp;&nbsp; Disposal of the appeal</p>
+
+    <p><a name="p42" class="para" id="p42">42.</a>&nbsp;&nbsp;For the aforesaid reasons, we would allow the appeal, set aside the validation orders made below and declare the SA and dispositions made thereunder to be void by reason of section 182.&nbsp;</p>
+
+    <p><a name="p43" class="para" id="p43">43.</a>&nbsp;&nbsp;We would make an order <i>nisi</i> that Build King should pay the costs here and below, giving the parties liberty if so advised, to lodge submissions in writing concerning costs within 14 days of the date of this judgment, in default of which the order <i>nisi</i> is to stand as an order absolute without further order.</p>
+    <p><b>Mr Justice Tang NPJ:</b></p>
+
+    <p><a name="p44" class="para" id="p44">44.</a>&nbsp;&nbsp;I agree with the joint judgment of Mr Justice Ribeiro PJ and Mr Justice Fok PJ.</p>
+
+    <p><b>Mr Justice Gummow NPJ:</b></p>
+<p><a name="p45" class="para" id="p45">45.</a>&nbsp;&nbsp;I agree with the joint judgment of Mr Justice Ribeiro PJ and Mr Justice Fok PJ.</p>
+
+    <p><b>Chief Justice Cheung:</b></p>
+
+<p><a name="p46" class="para" id="p46">46.</a>&nbsp;&nbsp;The appeal is unanimously allowed and we make the orders referred to in paragraphs 42 and 43 above.</p>
+<p>&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;</p>
+
+
+<table border="0" width="100%">
+        <tr>
+            <td style="text-align:center;upper" width="33%"><br />
+            (Andrew Cheung)<br />
+            Chief Justice</td>
+
+            <td style="text-align:center;upper" width="33%"><br />
+            (R A V Ribeiro)<br />
+            Permanent Judge</td>
+
+            <td style="text-align:center;upper" width="33%"><br />
+            (Joseph Fok)<br />
+            Permanent Judge</td>
+        </tr>
+    </table>
+
+    <p>&nbsp; &nbsp;</p>
+	<p>&nbsp;&nbsp;</p>
+    
+<table width="100%" border="0">
+   	<tr>
+     <td width="50%" style="text-align:center" valign="top">(Robert Tang)</td>
+     <td width="50%" style="text-align:center" valign="top">(William Gummow)</td>
+   	</tr>
+   	<tr>
+     <td style="text-align:center" valign="top">Non-Permanent Judge</td>
+     <td style="text-align:center" valign="top">Non-Permanent Judge</td>
+   	</tr>
+ 	</table>
+<representation>
+  <p>&nbsp;&nbsp;</p>
+	<p>Ms Audrey Eu SC, Mr John Hui and Mr Anson Wong Yu Yat, instructed by Wilkinson &amp; Grist, for the Appellant</p>
+      <p>Mr Charles Manzoni SC and Mr John Leung, instructed by Hogan Lovells, for the Respondent</p>
+      <p>The Official Receiver, attendance dispensed with</p>
+</representation>
+        
+
+<div>
+  <br clear="all" />
+        <hr align="left" size="1" width="33%" />
+
+        <p><a href="#_ftnref1" name="_ftn1" title="" id="_ftn1">[1]</a>&nbsp;After settlement was reached with the original petitioner, another creditor was substituted as petitioner, supported by others.&nbsp; A number of debt recovery actions were also commenced against the Company.</p>
+
+        <p><a href="#_ftnref2" name="_ftn2" title="" id="_ftn2">[2]</a>&nbsp;Deputy High Court Judge Le Pichon [2019] HKCFI 1531 at §87.</p>
+
+        <p><a href="#_ftnref3" name="_ftn3" title="" id="_ftn3">[3]</a>&nbsp;Cap 32.</p>
+
+        <p><a href="#_ftnref4" name="_ftn4" title="" id="_ftn4">[4]</a>&nbsp;Under CWUMPO section 184(2).</p>
+
+        <p><a href="#_ftnref5" name="_ftn5" title="" id="_ftn5">[5]</a>&nbsp;The Summons also sought validation of Build King’s exercise of its right to exclude the Company from the joint venture under Clause 17 of the JVA.&nbsp; The validity of such exclusion is no longer in issue and does not require discussion in this judgment.</p>
+
+        <p><a href="#_ftnref6" name="_ftn6" title="" id="_ftn6">[6]</a>&nbsp;As recognised in <i>In re Gray’s Inn Construction Co Ltd</i> [1980] 1 WLR 711 at 718D.</p>
+
+        <p><a href="#_ftnref7" name="_ftn7" title="" id="_ftn7">[7]</a>&nbsp;<i>Jardio Holdings Pty Ltd v</i> <i>Dorcon</i> <i>Construction Pty Ltd</i> (1984) 2 ACLC 574 at 579; <i>Re Leric International Ltd</i> [2009] 2 HKLRD 238 at §28.</p>
+
+        <p><a href="#_ftnref8" name="_ftn8" title="" id="_ftn8">[8]</a>&nbsp;[2019] HKCFI 1531 (13 June 2019).</p>
+
+        <p><a href="#_ftnref9" name="_ftn9" title="" id="_ftn9">[9]</a>&nbsp;<i>Ibid</i> at §87.</p>
+
+        <p><a href="#_ftnref10" name="_ftn10" title="" id="_ftn10">[10]</a>&nbsp;<i>Ibid</i> at §92.</p>
+
+        <p><a href="#_ftnref11" name="_ftn11" title="" id="_ftn11">[11]</a>&nbsp;BK and PLs being her abbreviations for Build King and the provisional liquidations of the Company.</p>
+
+        <p><a href="#_ftnref12" name="_ftn12" title="" id="_ftn12">[12]</a>&nbsp;[2019] HKCA 1305 (4 December 2019) at §58, per Kwan VP, with whom Cheung and Yuen JJA agreed.</p>
+
+        <p><a href="#_ftnref13" name="_ftn13" title="" id="_ftn13">[13]</a>&nbsp;Set out above at §11.</p>
+
+        <p><a href="#_ftnref14" name="_ftn14" title="" id="_ftn14">[14]</a>&nbsp;[2019] HKCA 1305 at §59.</p>
+
+        <p><a href="#_ftnref15" name="_ftn15" title="" id="_ftn15">[15]</a>&nbsp;Footnote references have been omitted.</p>
+
+        <p><a href="#_ftnref16" name="_ftn16" title="" id="_ftn16">[16]</a>&nbsp;At §§12 and 13.</p>
+
+        <p><a href="#_ftnref17" name="_ftn17" title="" id="_ftn17">[17]</a>&nbsp;Appearing with Mr John Leung on behalf of Build King.</p>
+
+        <p><a href="#_ftnref18" name="_ftn18" title="" id="_ftn18">[18]</a>&nbsp;In recent times, section 227 of the Companies Act 1948 as re-enacted by the Companies Act 1985, section 522 and the Insolvency Act 1986, section 127. Those provisions derive from section 153 of the Companies Act 1862, and subsequent enactments in the Acts of 1908 and 1929.&nbsp; See <i>Re S A &amp; D Wright Ltd</i> [1992] BCC 503 at 503.</p>
+
+        <p><a href="#_ftnref19" name="_ftn19" title="" id="_ftn19">[19]</a>&nbsp;[1980] 1 WLR 711 at 717D; <i>Goldlion Properties Ltd v Regent National Enterprises Ltd</i> (2009) 12 HKCFAR 512 at §117; <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §20.</p>
+
+        <p><a href="#_ftnref20" name="_ftn20" title="" id="_ftn20">[20]</a>&nbsp;[1980] 1 WLR 711 at 717E.</p>
+
+        <p><a href="#_ftnref21" name="_ftn21" title="" id="_ftn21">[21]</a>&nbsp;Eg, <i>Re Stean’s (Bournemouth) Ltd</i> [1950] 1 All ER 21 at 24; In <i>re Clifton Place Garage Ltd</i> [1970] Ch 477 at 493-494; In <i>re J Leslie Engineers Co Ltd (In Liquidation)</i> [1976] 1 WLR 292 at 301, 304; <i>In re Gray’s Inn Construction Co Ltd</i> [1980] 1 WLR 711 at 717F-G; <i>Re Luen Cheong Tai Construction Co Ltd</i> [2004] 1 HKLRD 735 at §12; <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §21.</p>
+
+        <p><a href="#_ftnref22" name="_ftn22" title="" id="_ftn22">[22]</a>&nbsp;<i>In re Gray’s Inn Construction Co Ltd</i> [1980] 1 WLR 711 at 719B-E; <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §§43-44.</p>
+
+        <p><a href="#_ftnref23" name="_ftn23" title="" id="_ftn23">[23]</a>&nbsp;<i>In re Gray’s Inn Construction Co Ltd</i> [1980] 1 WLR 711 at 717F; <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §21.</p>
+
+        <p><a href="#_ftnref24" name="_ftn24" title="" id="_ftn24">[24]</a>&nbsp;While the point does not arise in the present case, we note and respectfully agree with the comments of Sales LJ in <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §§33-40 qualifying an aspect of Buckley LJ’s judgment in <i>In re Gray’s Inn Construction Co Ltd</i> [1980] 1 WLR 711 at 718F-G involving the “bald proposition” that “a disposition carried out in good faith in the ordinary course of business at a time when the parties are unaware that a petition has been presented may, it seems, normally be validated by the court”.</p>
+
+        <p><a href="#_ftnref25" name="_ftn25" title="" id="_ftn25">[25]</a>&nbsp;<i>In re Gray’s Inn Construction Co Ltd</i> [1980] 1 WLR 711 at 717G; <i>Re S A &amp; D Wright Ltd</i> [1992] BCC 503 at 504-505 (applying <i>In re Gray’s Inn Construction</i>); <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §20.</p>
+
+        <p><a href="#_ftnref26" name="_ftn26" title="" id="_ftn26">[26]</a>&nbsp;As Sales LJ pointed out in <i>Express Electrical Distributors Ltd v Beavis</i> [2016] 1 WLR 4783 at §25: “In a case where a retrospective validation order is sought, as distinct from a prospective order, the range of evidence available is likely to be different. In a case where a retrospective order is sought it may have become clear whether a particular transaction or the carrying on of the company’s general business in fact turned out to be for the benefit of the general body of creditors or not, whereas in a case where a prospective order is sought the court will have to make an assessment on the basis of such evidence as is available of what is likely to transpire in the future.”</p>
+
+        <p><a href="#_ftnref27" name="_ftn27" title="" id="_ftn27">[27]</a>&nbsp;<i>Re Stean’s (Bournemouth) Ltd</i> [1950] 1 All ER 21 at 24.</p>
+
+        <p><a href="#_ftnref28" name="_ftn28" title="" id="_ftn28">[28]</a>&nbsp;See eg, <i>B Mullan &amp; Sons (Contractors) Ltd v Ross and another</i> (1996) 54 Con LR 163 at 185 on the applicability of the equivalent section to a proposed payment by an employer directly to a sub-contractor pursuant to the construction contract after winding up proceedings had been started against the contractor, validation being refused.</p>
+
+        <p><a href="#_ftnref29" name="_ftn29" title="" id="_ftn29">[29]</a>&nbsp;[2017] EWHC 1920 (Ch), [2017] BCC 574.</p>
+
+        <p><a href="#_ftnref30" name="_ftn30" title="" id="_ftn30">[30]</a>&nbsp;[2017] BCC 574 at §90 (emphasis in original).&nbsp; Section 127 referred to is in the Insolvency Act 1986 which is materially identical to section 182.</p>
+
+        <p><a href="#_ftnref31" name="_ftn31" title="" id="_ftn31">[31]</a>&nbsp;<i>Ibid</i> at §99 (emphasis in original).</p>
+
+        <p><a href="#_ftnref32" name="_ftn32" title="" id="_ftn32">[32]</a>&nbsp; [2019] HKCFI 1531 at §92.</p>
+
+        <p><a href="#_ftnref33" name="_ftn33" title="" id="_ftn33">[33]</a> <i>Ibid</i> at §96.</p>
+
+        <p><a href="#_ftnref34" name="_ftn34" title="" id="_ftn34">[34]</a>&nbsp;As held, for instance, in <i>Re AGI Logistics (Hong Kong) Ltd (in liq)</i> [2015] 4 HKLRD 300, a tax refund which was an asset of a parent company in liquidation, wrongly paid by the Commissioner of Inland Revenue to a subsidiary rather than the parent and so held void under section 182, had to be paid again to the liquidators since the Company’s statutory right to the refund had not been met.</p>
+    </div>
+	<p>&nbsp;&nbsp; </p>
+</td></tr></table></form></body>
+</html>
+
+
+
