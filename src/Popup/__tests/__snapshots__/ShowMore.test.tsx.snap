@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowMore renders without error 1`] = `
+<div
+  id="show-more"
+  onClick={[Function]}
+>
+  <span>
+    <small>
+      Show More
+    </small>
+  </span>
+</div>
+`;

@@ -18,7 +18,8 @@
 		"allowSyntheticDefaultImports": true,
 		"downlevelIteration": true,
 		"esModuleInterop": true,
-		"allowJs": false
+		"allowJs": false,
+		"sourceMap": true
 	},
 	"include": [
 		"src",
