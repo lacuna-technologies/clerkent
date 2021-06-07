@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import type Law from '../types/Law'
 import Constants from '../utils/Constants'
+import OptionsStorage from '../utils/OptionsStorage'
+import type { OptionsSettings } from '../utils/OptionsStorage'
 import './ExternalLinks.scss'
+import { Logger } from '../utils'
 
 interface Props {
   jurisdiction: Law.JursidictionCode
@@ -9,14 +12,44 @@ interface Props {
   query: string
 }
 
+const supportedJurisdictions = new Set([
+  Constants.JURISDICTIONS.UK.id,
+  Constants.JURISDICTIONS.SG.id,
+  Constants.JURISDICTIONS.HK.id,
+])
+
+const getLawNetURL = (
+  institution: OptionsSettings[`institutionalLogin`],
+  query: string,
+) => (new Proxy({
+  NUS: `https://www-lawnet-sg.lawproxy1.nus.edu.sg/?clerkent-query=${query}`,
+  SMU: `https://www-lawnet-sg.libproxy.smu.edu.sg/?clerkent-query=${query}`,
+}, {
+  get(target, property) {
+    if(property in target) {return target[property as string]}
+    return `https://www.lawnet.sg/?clerkent-query=${query}`
+  },
+})[institution])
+
 const ExternalLinks: React.FC<Props> = ({
   jurisdiction,
   query,
   type,
 }) => {
-  if(![Constants.JURISDICTIONS.UK.id, Constants.JURISDICTIONS.SG.id, Constants.JURISDICTIONS.HK.id].includes(jurisdiction)){
+  const [institution, setInstitution] = useState(OptionsStorage.defaultOptions.institutionalLogin)
+
+  useEffect(() => {
+    (async () => {
+      const institutionSelection = await OptionsStorage.institutionalLogin.get()
+      setInstitution(institutionSelection)
+    })()
+  }, [])
+
+  if(!supportedJurisdictions.has(jurisdiction)){
     return null
   }
+
+  Logger.log(institution)
 
   return (
     <div id="external-links">
@@ -46,7 +79,7 @@ const ExternalLinks: React.FC<Props> = ({
           jurisdiction === Constants.JURISDICTIONS.SG.id ? (
             <>
               <a
-                href={`https://www.lawnet.sg/?clerkent-query=${query}`}
+                href={getLawNetURL(institution, query)}
                 target="_blank" rel="noreferrer"
               >LawNet</a>
             </>

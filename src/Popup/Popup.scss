@@ -16,7 +16,7 @@ section#popup {
   padding: 0.75rem;
   box-sizing: border-box;
 
-  > .options {
+  >.options {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -39,7 +39,8 @@ section#popup {
     margin-top: 1rem;
     padding-top: 1rem;
 
-    #mass-citations, #mass-citations:active {
+    #mass-citations,
+    #mass-citations:active {
       border: none;
       background: none;
       outline: none;
@@ -59,10 +60,10 @@ section#popup {
     padding-top: 0.75rem;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     box-sizing: border-box;
 
-    > a {
+    >a {
       @include link;
       color: darkslategray;
     }

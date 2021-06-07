@@ -9,12 +9,14 @@
   border-radius: 0.2rem;
   box-sizing: border-box;
 
-  > div {
+  >div {
     padding: 0.2rem 0.4rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 
-  > .active {
+  >.active {
     background-color: darkslategray;
     color: white;
   }

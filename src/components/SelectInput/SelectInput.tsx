@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import './SelectInput.scss'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
     content: string,
   }[],
   value: string,
-  onChange: ({ target: { value }}: { target: { value: string } }) => void
+  onChange: (value: string) => void
 }
 
 const SelectInput: React.FC<Props> = ({
@@ -15,9 +15,11 @@ const SelectInput: React.FC<Props> = ({
   value = options[0].value,
   onChange = () => {},
 }) => {
+  const onSelect = useCallback(({ target: { value } }) => onChange(value), [onChange])
+
   return (
     <div className="select-input">
-      <select value={value} onChange={onChange}>
+      <select value={value} onChange={onSelect}>
         {options.map(({ value, content }) => (
           <option value={value} key={value}>{content}</option>
         ))}

@@ -117,7 +117,7 @@ const Popup: React.FC = () => {
   }, [doSearch])
 
   const onChangeJurisdiction = useCallback((
-    { target: { value } },
+    value,
     doNotStore: boolean = false,
   ): void => {
     setSelectedJurisdiction(value)
@@ -149,7 +149,7 @@ const Popup: React.FC = () => {
       }
       const storedJurisdiction = await Storage.get(keys.SELECTED_JURISDICTION)
       if(storedJurisdiction !== null && storedJurisdiction.length > 0){
-        onChangeJurisdiction({ target: { value: storedJurisdiction } }, true)
+        onChangeJurisdiction(storedJurisdiction, true)
         shouldDoSearch = true
       }
       const storedMode = await Storage.get(keys.SELECTED_MODE)
@@ -228,6 +228,9 @@ const Popup: React.FC = () => {
         ) : null
       }
       <div id="help">
+        <a className="link" href={browser.runtime.getURL(`/options.html`)} target="_blank" rel="noreferrer">
+          Options
+        </a>
         <a className="link" href="https://clerkent.huey.xyz/help" target="_blank" rel="noreferrer">
           Help
         </a>
