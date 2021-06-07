@@ -1,6 +1,7 @@
 import React from 'react'
 import type Law from '../types/Law'
-import { Constants, Helpers } from '../utils'
+import Constants from '../utils/Constants'
+import Helpers from '../utils/Helpers'
 
 interface Props {
   legislation: Law.Legislation,

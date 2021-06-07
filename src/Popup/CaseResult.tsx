@@ -1,5 +1,6 @@
 import React from 'react'
-import { Helpers, Constants } from '../utils'
+import Helpers from '../utils/Helpers'
+import Constants from '../utils/Constants'
 import type Law from '../types/Law'
 
 interface Props {

@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryResult renders list of UK cases 1`] = `
+<div
+  id="results"
+>
+  <div
+    className="result"
+  >
+    <div
+      className="details"
+    >
+      <div
+        className="left"
+      >
+        <span
+          className="jurisdiction"
+        >
+          🇬🇧
+        </span>
+        <span
+          className="database"
+        >
+          BAILII
+        </span>
+      </div>
+      <div
+        className="right"
+      >
+        <p
+          className="links"
+        >
+          <button
+            className="pdf button"
+            onClick={[Function]}
+          >
+            PDF
+          </button>
+        </p>
+      </div>
+    </div>
+    <a
+      className="case-name link"
+      href="http://www.bailii.org/ew/cases/EWHC/QB/1884/2.html"
+      rel="noreferrer"
+      target="_blank"
+    >
+      R v Dudley and Stephens
+       
+      [1884] EWHC 2 (QB)
+    </a>
+  </div>
+</div>
+`;
+
+exports[`QueryResult renders loading 1`] = `
+<div
+  className="animated-loading-container"
+>
+  <div>
+    Loading...
+  </div>
+  <div
+    className="animated-loading"
+  >
+    <div />
+    <div />
+    <div />
+    <div />
+  </div>
+</div>
+`;
+
+exports[`QueryResult renders loading 2`] = `
+<div
+  className="animated-loading-container"
+>
+  <div>
+    Loading...
+  </div>
+  <div
+    className="animated-loading"
+  >
+    <div />
+    <div />
+    <div />
+    <div />
+  </div>
+</div>
+`;
+
+exports[`QueryResult renders no cases found 1`] = `
+<span>
+  No 
+  cases
+   found
+</span>
+`;
+
+exports[`QueryResult renders no legislation found 1`] = `
+<span>
+  No 
+  legislation
+   found
+</span>
+`;

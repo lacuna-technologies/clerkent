@@ -65,6 +65,7 @@ module.exports = {
       `never`,
     ],
     "sort-keys-fix/sort-keys-fix": `warn`,
+    "unicorn/consistent-function-scoping": `off`,
     "unicorn/filename-case": [
       `error`,
       {

@@ -7,3 +7,4 @@ extension/
 generated/
 .vscode
 .eslintcache
+coverage/

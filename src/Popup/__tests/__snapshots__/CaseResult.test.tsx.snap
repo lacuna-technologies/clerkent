@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CaseResult renders without error 1`] = `
+<div
+  className="result"
+>
+  <div
+    className="details"
+  >
+    <div
+      className="left"
+    >
+      <span
+        className="jurisdiction"
+      >
+        🇬🇧
+      </span>
+      <span
+        className="database"
+      >
+        BAILII
+      </span>
+    </div>
+    <div
+      className="right"
+    />
+  </div>
+  <a
+    className="case-name link"
+    href="https://www.bailii.org/ew/cases/EWCA/Civ/2006/145.html"
+    rel="noreferrer"
+    target="_blank"
+  >
+    IDA v University of Southampton
+     
+    [2006] EWCA Civ 145
+  </a>
+</div>
+`;

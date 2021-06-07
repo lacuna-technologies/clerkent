@@ -33,5 +33,6 @@
         "regenerator": true
       }
     ]
-  ]
+  ],
+  "exclude": ["/node_modules/"],
 }
