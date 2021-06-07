@@ -1,0 +1,1349 @@
+<!--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Legal Reference System</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META http-equiv="Content-Script-Type" content="type">
+<META http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE11" />
+<LINK href="/lrs/stylesheet/style.css" id="style_css" type="text/css" rel=stylesheet>
+<script language="Javascript" src="/lrs/javascript/mod_common.js" type="text/javascript"></script>
+<script language="Javascript" src="/lrs/javascript/mod_form.js" type="text/javascript"></script>
+<script language="Javascript" src="/lrs/javascript/processbar.js" type="text/javascript"></script>
+<script type="text/javascript">
+function text_underline(con){
+    var a = document.getElementById(con);
+    a.style.textDecoration  = 'underline';
+    
+  }
+
+function remove_underline(con){
+    var a = document.getElementById(con);
+    a.style.textDecoration  = 'none';
+}
+
+function get_cookie ( cookie_name )
+{
+	var str = '(^|;)?' + cookie_name + '=([^;]*)(;|$)';
+	var regexp = new RegExp(str, 'g');
+	var matches = document.cookie.match(regexp);
+	
+	if (matches)
+	{
+		var results = matches[matches.length-1].match(str);
+		if ( results )
+		return ( unescape ( results[2] ) );
+	}
+	
+	return null;
+}
+function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
+{
+	var cookie_string = name + "=" + escape ( value );
+	if ( exp_y )
+	{
+	var expires = new Date ( exp_y, exp_m, exp_d );
+	cookie_string += "; expires=" + expires.toGMTString();
+	}
+	if ( path )
+	cookie_string += "; path=" + escape ( path );
+	if ( domain )
+	cookie_string += "; domain=" + escape ( domain );
+	if ( secure )
+	cookie_string += "; secure";
+	document.cookie = cookie_string;
+}   
+if (window.name == '') window.name = 'isdWin';
+var cdomain = (location.hostname) ? location.hostname : null;
+if (cdomain)
+{
+	if (cdomain.search(/([0-9]{1,3}\.){3}[0-9]{1,3}/) == -1)
+	{
+		// remove subdomain
+		var tmp = cdomain.split(".");
+		tmp.shift();
+		cdomain = tmp.join(".");
+	}
+	// else
+	// {
+		// console.log("ip");
+	// }
+	// console.log(cdomain);
+}
+	 
+function changeFontSize(fs)
+{
+
+	set_cookie('fontsize',fs,2110,12,12,"/",cdomain);
+	var css=document.getElementById("style_css");
+	
+	if(fs=="0")
+	{
+	fs="/lrs/stylesheet/style_s.css";
+	}
+	if(fs=="1")
+	{
+	fs="/lrs/stylesheet/style.css";
+	}
+	if(fs=="2")
+	{
+	fs="/lrs/stylesheet/style_l.css";
+	}
+	css.setAttribute("href",fs);
+	
+	
+}
+function SizeOnLoad()
+{
+
+var fs = get_cookie('fontsize');
+if(fs == null)
+	fs = "0";
+if(fs=="0")
+{
+document.getElementById('fontSizeM').className='c1';document.getElementById('fontSizeL').className ='c2';document.getElementById('fontSizeXL').className ='c2';
+}
+if(fs=="1")
+{
+document.getElementById('fontSizeL').className='c1';document.getElementById('fontSizeM').className ='c2';document.getElementById('fontSizeXL').className ='c2';
+}
+if(fs=="2")
+{
+document.getElementById('fontSizeXL').className ='c1';document.getElementById('fontSizeM').className ='c2';document.getElementById('fontSizeL').className ='c2';
+}
+changeFontSize(fs);
+}
+
+</script>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+SetCookie ('curl', window.location.href);
+SetCookie ('ispopup', '0');
+function FORM_SUBMIT(frm) {  
+   //var frm=document.frm_search;      
+   //if (isEmpty(frm.txtSearch, 'TEXT')){   
+   if (frm.isadvsearch.value=="0"){
+	    /*if (frm.txtSearch.value==""){
+	      onErrorAlert(frm.txtSearch, 'Please enter key word.');
+	      return false;
+	   }*/
+   }else{
+      /* if ((frm.txtSearch.value=="")&&(frm.txtSearch1.value=="")&&(frm.txtSearch2.value=="")&&(frm.txtSearch3.value=="")){
+             onErrorAlert(frm.txtSearch, 'Please enter key word.');
+	     return false;
+       }*/
+   }
+   
+   if (frm.txtselectopt.value=="5"){
+   	if (lrs_isValidDate(frm.txtSearch.value, "/",2)){
+   	
+   	}else{
+   	onErrorAlert(frm.txtSearch, 'Invalid date format. Please enter again. ');
+   	return false;
+   	}
+   }
+   //202003 CR 0420 
+   if (frm.txtselectopt3.value=="5"){
+	   if (validatedate(frm.txtSearch3.value)){	   	
+	   	}else{
+	   	onErrorAlert(frm.txtSearch3, 'Invalid date format. Please enter again. ');	
+	   	return false;
+	   }
+   }
+   //S20180111
+   if (frm.txtselectopt.value=="10"){
+      var inputValue = frm.txtSearch.value.replace(/^\s+|\s+$/g,"");
+      if (!isEmpty(frm.txtSearch, 'TEXT') && !isValidCitationNo(inputValue)) {
+         onErrorAlert(frm.txtSearch, 'Invalid Neutral Citation Number, Please enter again');
+         return false;
+      }
+   } else if (frm.isadvsearch.value == '1' && frm.txtselectopt1.value=="10"){
+      var inputValue = frm.txtSearch1.value.replace(/^\s+|\s+$/g,"");
+      if (!isEmpty(frm.txtSearch1, 'TEXT') && !isValidCitationNo(inputValue)) {
+         onErrorAlert(frm.txtSearch1, 'Invalid Neutral Citation Number, Please enter again');
+         return false;
+      }
+   } else if (frm.isadvsearch.value == '1' && frm.txtselectopt2.value=="10"){
+      var inputValue = frm.txtSearch2.value.replace(/^\s+|\s+$/g,"");
+      if (!isEmpty(frm.txtSearch2, 'TEXT') && !isValidCitationNo(inputValue)) {
+         onErrorAlert(frm.txtSearch2, 'Invalid Neutral Citation Number, Please enter again');
+         return false;
+      }
+   } else if (frm.isadvsearch.value == '1' && frm.txtselectopt3.value=="10"){
+      var inputValue = frm.txtSearch3.value.replace(/^\s+|\s+$/g,"");
+      if (!isEmpty(frm.txtSearch3, 'TEXT') && !isValidCitationNo(inputValue)) {
+         onErrorAlert(frm.txtSearch3, 'Invalid Neutral Citation Number, Please enter again');
+         return false;
+      }
+	//202003 CR S
+   } else if (frm.isadvsearch.value == '1' && frm.txtselectopt4.value=="10"){
+	      var inputValue = frm.txtSearch4.value.replace(/^\s+|\s+$/g,"");
+	      if (!isEmpty(frm.txtSearch4, 'TEXT') && !isValidCitationNo(inputValue)) {
+	         onErrorAlert(frm.txtSearch4, 'Invalid Neutral Citation Number, Please enter again');
+	         return false;
+	      }
+	   } else if (frm.isadvsearch.value == '1' && frm.txtselectopt5.value=="10"){
+	      var inputValue = frm.txtSearch5.value.replace(/^\s+|\s+$/g,"");
+	      if (!isEmpty(frm.txtSearch5, 'TEXT') && !isValidCitationNo(inputValue)) {
+	         onErrorAlert(frm.txtSearch5, 'Invalid Neutral Citation Number, Please enter again');
+	         return false;
+	      }
+	   } else if (frm.isadvsearch.value == '1' && frm.txtselectopt6.value=="10"){
+	      var inputValue = frm.txtSearch6.value.replace(/^\s+|\s+$/g,"");
+	      if (!isEmpty(frm.txtSearch6, 'TEXT') && !isValidCitationNo(inputValue)) {
+	         onErrorAlert(frm.txtSearch6, 'Invalid Neutral Citation Number, Please enter again');
+	         return false;
+	      }
+		  
+		} else if (frm.isadvsearch.value == '1' && frm.txtselectopt7.value=="10"){
+	      var inputValue = frm.txtSearch7.value.replace(/^\s+|\s+$/g,"");
+	      if (!isEmpty(frm.txtSearch7, 'TEXT') && !isValidCitationNo(inputValue)) {
+	         onErrorAlert(frm.txtSearch7, 'Invalid Neutral Citation Number, Please enter again');
+	         return false;
+	      }
+		} else if (frm.isadvsearch.value == '1' && frm.txtselectopt8.value=="10"){
+	      var inputValue = frm.txtSearch8.value.replace(/^\s+|\s+$/g,"");
+	      if (!isEmpty(frm.txtSearch8, 'TEXT') && !isValidCitationNo(inputValue)) {
+	         onErrorAlert(frm.txtSearch8, 'Invalid Neutral Citation Number, Please enter again');
+	         return false;
+	      }
+		} else if (frm.isadvsearch.value == '1' && frm.txtselectopt9.value=="10"){
+	      var inputValue = frm.txtSearch9.value.replace(/^\s+|\s+$/g,"");
+	      if (!isEmpty(frm.txtSearch9, 'TEXT') && !isValidCitationNo(inputValue)) {
+	         onErrorAlert(frm.txtSearch9, 'Invalid Neutral Citation Number, Please enter again');
+	         return false;
+	      }
+	   }
+	//202003 CR E      
+   //}       
+   //E20180111
+   
+   
+   
+   return true;
+  
+}
+function havevalue(selectBox, nameToSelect){
+    var i=false;
+    for (var count = 0; count < selectBox.options.length; count++) {          
+        if(selectBox[count].selected==true){
+          if(selectBox[count].value == nameToSelect) {
+            i = true;
+          }
+        }
+        
+    }
+    return i;
+}
+
+
+function selectDBOption(selectBox, nameToSelect){ 
+    for (var count = 0; count < selectBox.options.length; count++) {          
+        if(selectBox[count].value == nameToSelect) {
+            selectBox[count].selected = true;
+        }
+    }
+
+}
+function showexamples(opt){
+  var example=document.getElementById("example");
+  var casenumber=document.getElementById("casenumber");
+  var egNCN = document.getElementById("egNCN"); //E20180111
+ 
+  if (opt==5){
+    example.style.display="inline";
+  } else{
+    example.style.display="none";
+  }
+  if (opt==4){
+    casenumber.style.display="inline";
+  }else{      
+    casenumber.style.display="none";
+  }
+  //S20180111
+  if (opt==10) {
+    egNCN.style.display="inline";
+  } else {
+    egNCN.style.display="none";
+  }
+  //E20180111
+   
+  if ((opt==4)||(opt==5)||(opt==6)||(opt==7)||(opt==8)||(opt==10)){
+    if (! ( havevalue(document.frm_search.selDatabase2,'JU') | havevalue(document.frm_search.selDatabase2,'RS') | havevalue(document.frm_search.selDatabase2,'RV'))) {           
+      selectDBOption(document.frm_search.selDatabase2,'JU');
+      selectDBOption(document.frm_search.selDatabase2,'RS');  
+      selectDBOption(document.frm_search.selDatabase2,'RV');  
+    }
+    getAppealfrm_db(document.frm_search);
+  }else if (opt==9){        
+    if (! ( havevalue(document.frm_search.selDatabase2,'RS') | havevalue(document.frm_search.selDatabase2,'RV'))) {           
+      selectDBOption(document.frm_search.selDatabase2,'RS');             
+      selectDBOption(document.frm_search.selDatabase2,'RV');             
+    }
+    getAppealfrm_db(document.frm_search);
+  }
+}
+function databaseselectall(frm,va){
+	with (frm){
+	    if (va.checked){
+	       for (var i=0;i< selDatabase2.length;i++){	     
+	        selDatabase2.options[i].selected=true	     
+	       }
+	    }else{
+	       for (var i=0;i< selDatabase2.length;i++){	     
+	        selDatabase2.options[i].selected=false;	     
+	       }
+	        selDatabase2.options[0].selected=true;
+	    }
+	}
+
+}
+//202003 CR S-------------------
+//202005 CR rm
+// function databaseselectallct(frm,va){
+// 	with (frm){
+// 	    if (va.checked){
+// 	       for (var i=0;i< selSchct.length;i++){	     
+// 	    	   selSchct.options[i].selected=true	    
+// 	    	   //alert("879 ABC");
+// 	       }
+// 	    }else{
+// 	       for (var i=0;i< selSchct.length;i++){	     
+// 	       selSchct.options[i].selected=false;	     
+// 	       }
+// 	       selSchct.options[0].selected=true;
+// 	       //alert("885 XYZ");
+// 	    }
+// 	}
+// }
+//202003 CR E
+function matchpop(url){
+   if (url.indexOf("?")>0){
+    url=url+"&currpage=T";
+    }else{
+    url=url+"?currpage=T";
+    }
+    jwindow= Addpop(url,'matchpage','1');
+    jwindow.status="Start";
+    // jwindow = window.open(url);
+  //S20170901
+  //if (navigator.userAgent.indexOf("Chrome") != -1) {
+    jwindow.moveTo(window.screen.width *0.05, window.screen.height *0.05);
+    jwindow.resizeTo(window.screen.width *0.9, window.screen.height *0.9);
+  //}
+  //E20170901
+}
+function judpop(url){
+//alert(escape(url));
+   if (url.indexOf("?")>0){
+    url=url+"&currpage=T";
+    }else{
+    url=url+"?currpage=T";
+    }
+    //alert(url);
+    jwindow= Addpop(url,'_blank','1');
+    jwindow.status="Start";
+    // jwindow = window.open(url);
+  //S20170901
+  //if (navigator.userAgent.indexOf("Chrome") != -1) {
+    jwindow.moveTo(window.screen.width *0.05, window.screen.height *0.05);
+    jwindow.resizeTo(window.screen.width *0.9, window.screen.height *0.9);
+  //}
+  //E20170901
+}
+function judpop1(url){
+//alert(url);
+   var tmp=window.location.href;
+    //window.location.href=url+'&curl='+escape(tmp);
+    window.top.location.href=url;
+}
+function nopop(url){
+    if (url.indexOf("?")>0){
+    url=url+"&currpage=T";
+    }else{
+    url=url+"?currpage=T";
+    }
+    window.location.href=url;
+}
+function commonpop(url,wn,a,b,c,d,e,f,g,h,i){
+    var jwindow=wn;
+    jwindow= Addpop(url,wn,a,b,c,d,e,f,g,h,i);        
+}
+//202003 CR 0416_1025
+function commonpopadv() {
+  advWin = window.open("https://legalref.judiciary.hk/lrs/common/search/search_result.jsp?isadvsearch=1&stem=1&selall=1", "advanced search","location=1,menubar=1,resizable=1,width=750, height=380");
+  advWin.resizeTo(window.screen.width *1, window.screen.height *.99);
+  advWin.focus();
+}
+function getOpts(oSelect) {
+	var opt, i = 0, selVals = new Array();
+	while (opt = oSelect[i++]) if (opt.selected) selVals[selVals.length] = opt.value;
+	return selVals;
+}
+
+
+function goSH(val){         
+	if (val=='CH'){
+	   if (window.location.href.indexOf('?')>=0){	       
+	       window.location.href=window.location.href+"&shcf=1";
+	   }else{
+	       window.location.href=window.location.href+"?shcf=1";	       
+	   }
+	
+	}else{	
+	//2020203 CR 0412 window.location.href="search_result.jsp?"+val;
+	window.location.href="search_result_form.jsp?"+val;
+	}
+}
+function gosort(val){         
+        document.forms[0].order.value=val;        
+	document.forms[0].submit();
+	return
+}
+//202003 CR change name from makexmlhttp to makexmlhttp20
+function makexmlhttp(ct){
+        
+        document.forms[0]['selcourtype'].length=0;
+        if (ct==''){
+        	document.forms[0]['selcourtype'].options[0]=new Option('-------------','',false,true);        	        	
+        }else if (document.forms[0]['selcourtname'].length == 3){                
+        	document.forms[0]['selcourtype'].options[0]=new Option('Criminal Case','CC',false,true);
+        }else{
+        
+	  	var http_request =new getxmlhttpobject();            
+	  	var parameters = 'ccs='+ct+'&changed_lan=EN';
+	  	//alert(parameters);
+	  	var url='/lrs/JType.xml';
+	  	var nodes=null;  	
+	  	xmlObjectConnect(http_request,url,"post",parameters,funAllDone,nodes);     	
+  	}
+}
+
+function funAllDone(xml_http,nodes)   
+{   
+
+          if(xml_http.responseText.length   >   150)   
+          {   
+                  {   
+                          var   xmldoc = xml_http.responseXML;       
+                          
+                          var nodes = xmldoc.getElementsByTagName('c');                               
+                          for (var i=0; i<nodes.length; i++) {		          
+		          	var v_ct = getTextByTagName(nodes[i], 'ct'); 
+		          	var v_cs = getTextByTagName(nodes[i], 'cs'); 
+			          if (v_cs==''){
+			          	document.forms[0]['selcourtype'].options[i]=new Option(v_ct,v_cs,false,true); 
+			          }else
+			          	document.forms[0]['selcourtype'].options[i]=new Option(v_ct,v_cs); 		          
+			 } 
+                  }   
+          }   
+          
+}	
+function getAppealfrm_getcrtn(val){
+         document.forms[0]['selcourtname'].length=0;
+        
+        // val:0 show all, val:1 DB=RS, val:2 DB=PD, val: 3 DB=RV selDatabase
+        //202005 CR val:0 show all, val:1 DB=RS, val:2 DB=PD, val: 3 DB=RV selDatabase2
+        if (val==0){
+               var cl = new Array("-------------","Court of Appeal of the High Court","High Court","District Court","Family Court");
+var clv = new Array("","CA","HC","DC","FC");
+
+	        
+        }else if (val==1){
+              var cl = new Array("-------------","High Court","District Court");
+              var clv = new Array("","HC","DC");
+        }else if ((val==2)|(val==3)){
+              var cl = new Array("-------------");
+              var clv = new Array("");
+        }
+        for (var i=0; i < cl.length;i++){			
+			if (clv[i]==''){
+				          	document.forms[0]['selcourtname'].options[i]=new Option(cl[i],clv[i],false,true); 
+				          }else{
+				          	document.forms[0]['selcourtname'].options[i]=new Option(cl[i],clv[i]); 		          
+			} 
+	}
+
+}
+function getAppealfrm_db(frm){
+
+  if (document.forms[0]['selcourtname']){
+	  var selected_values=getOpts(frm.selDatabase2);
+	  var optval=0;
+	  var opttmp=0;
+	  
+	  if (selected_values.length>0){
+		  if (selected_values.length==1){
+		     if (selected_values[0].indexOf('RV')>=0){
+		             optval=3;	              
+		      }else if (selected_values[0].indexOf('RS')>=0){
+		             optval=1;	              
+		      }else if (selected_values[0].indexOf('JU')>=0){
+		             optval=0;	              
+		      }else{
+		             optval=2;
+		      }        	      
+		  }else{		   
+		      
+		       if  (havevalue(frm.selDatabase2,'JU')){
+		       	optval=0;
+		       }else if (havevalue(frm.selDatabase2,'RS')){
+		       	optval=1;
+		       }else if (havevalue(frm.selDatabase2,'RV') & !(havevalue(frm.selDatabase2,'RS'))){
+		       	optval=3;
+		       }else{
+		       	optval=2;
+		       }				                     
+		  }		  
+		  getAppealfrm_getcrtn(optval);
+		  getAppealfrm_onchange();
+	  }
+  } 
+}
+function onchangedb(frm,val){
+  if (document.forms[0]['selcourtname'])
+  getAppealfrm_db(frm);
+ 
+  with(frm){     
+     frm.selall2.checked =false;
+     
+  }
+}
+
+//202003 CR Case Type S-------------------
+//202005 CR
+// function onchangeschct(frm,val){
+//   if (document.forms[0]['sel'])
+// 	  //getAppealfrm_db(frm);
+// 	  getAppealfrm_ct(frm);
+//  	//alert("ct");
+//   with(frm){     
+//      frm.selallct.checked =false;
+//      //alert("END");
+//   }
+// }
+//202003 CR Case Type E
+function getAppealfrm_onchange(){
+        if (document.forms[0]['selcourtname'])
+	with (document.forms[0]['selcourtname']){	        
+		if (selectedIndex!=0){			        
+			makexmlhttp(options[selectedIndex].value);
+		}else{
+			makexmlhttp('');
+		}
+	}	
+}
+function init(){
+
+     if (document.forms[0]['selcourtname']){
+	  
+	    getAppealfrm_db(document.forms[0]);
+	
+     }
+      
+}
+-->
+
+</script>
+<style type="text/css">
+.sortbutton { 
+ font-family: Arial, Helvetica, sans-serif; 
+ font-size: 12px; 
+ color: #102132; 
+ margin-left: 1px; 
+ margin-top: 3px; 
+ margin-bottom: 1px; 
+ font-weight: bold;
+ background-color: #CCCCCC;
+ line-height : 10px;
+ border : 2px outset #555555;
+ height: 20px
+}
+.bodystyle {margin-top:0px;margin-bottom:0px;margin-right:0px;margin-left:0px;}
+.divstyle1 {position:absolute; left:500px; top:150px;width:200px;height:20px; z-index:12; visibility:hidden;}
+.divstyle2 {position:absolute; left:580px; top:190px;width:200px;height:20px; z-index:12; visibility:hidden;}
+.tablestyle1 {width:750;}
+
+
+.c1,.c1:link,.c1:visited,.c1:hover{color:#D60000;}
+.c2,.c2:link,.c2:visited,.c2:hover{color:#000000;}
+
+#fontSizeM{font-size: 12px; font-family: 'Myriad Pro', Arial, Helvetica, sans-serif; text-decoration: none;}
+#fontSizeL{font-size: 16px; font-family: 'Myriad Pro', Arial, Helvetica, sans-serif; text-decoration: none;}
+#fontSizeXL{font-size: 20px; font-family: 'Myriad Pro', Arial, Helvetica, sans-serif; text-decoration: none;}
+
+</style>
+</head>
+
+<body class="bodystyle" onload="document.forms[0].txtSearch.select();init();yearOptions();getDateVal();" >
+
+<!--
+<div id="example" class="divstyle2"><p class="smalltxt">Example: 26/2/1998 or 26/2/98</p></div>
+<div id="casenumber" class="divstyle2"><p class="smalltxt">Example: DCCC350/2006</p></div>
+<div id="egNCN" class="divstyle2"><p class="smalltxt">Example: [2018] HKCA 14</p></div>
+-->
+
+
+<form name="frm_search" method=get target=resultpage onSubmit="javascript:return FORM_SUBMIT(this);" action="">  
+<table class="tablestyle1" border="0">
+
+  <tr> 
+    <td valign="top"> 
+      <table width="100%" border="0" cellSpacing=0 cellPadding=0>
+        <tr> 
+          <td align="right"> 
+	            <table width="100%" border="0" cellSpacing=0 cellPadding=0>
+	            <tbody>
+	              <tr> 
+	                <td valign="middle"> 
+	                  <!--Start Content-->
+				<table width="98%" border="0" cellSpacing=0 cellPadding=0 >
+				  <tr> 
+				    <td align=right> <a id="fontSizeM" class="c2" onfocus="text_underline('fontSizeM')" onmouseover="text_underline('fontSizeM')" onblur="remove_underline('fontSizeM')" onmouseout="remove_underline('fontSizeM')" title="Default Font Size" onclick="this.className='c1';document.getElementById('fontSizeL').className='c2';document.getElementById('fontSizeXL').className='c2'" href="javascript:changeFontSize(0)">A</a>&nbsp;<a id="fontSizeL" class="c1" onfocus="text_underline('fontSizeL')" onmouseover="text_underline('fontSizeL')" onblur="remove_underline('fontSizeL')" onmouseout="remove_underline('fontSizeL')" title="Larger Font Size" onclick="this.className='c1';document.getElementById('fontSizeM').className='c2';document.getElementById('fontSizeXL').className='c2'" href="javascript:changeFontSize(1)">A</a>&nbsp;<a id="fontSizeXL" class="c2" onfocus="text_underline('fontSizeXL')" onmouseover="text_underline('fontSizeXL')" onblur="remove_underline('fontSizeXL')" onmouseout="remove_underline('fontSizeXL')"  title="Largest Font Size" onclick="this.className='c1';document.getElementById('fontSizeM').className='c2';document.getElementById('fontSizeL').className='c2'" href="javascript:changeFontSize(2)">A</a>
+<script type="text/JavaScript">SizeOnLoad();</script>
+				    
+				           <a href="javascript:change_lang('tc');"><img src="/lrs/images/bnt_tc.gif" alt="Traditional Chinese" name="btn_tc"  border="0"></a>
+				    
+				    &nbsp;&nbsp;
+				    
+				           <a href="javascript:change_lang('sc');"><img src="/lrs/images/bnt_sc.gif" alt="Simplified Chinese" name="btn_sc"  border="0"></a>&nbsp;&nbsp;
+				    
+				    </td>
+				  </tr>
+				</table> 
+				                          
+<!--202003 CR Search Title comment S-->	
+<!-- 		                <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> -->
+		                
+<!-- 							  <TBODY>					   -->
+<!-- 							  <TR bgcolor="#EBDCCB"> -->
+<!-- 							    <TD style="width:17%; Height:25px;" class="subject">					             						                                                             -->
+
+<!-- 							        </TD>					         -->
+
+<!-- 							      </TR>					    -->
+<!-- 							    <TR> -->
+<!-- 							    <TD bgColor="#FFFFFF" colspan=3><img src="/lrs/images/spacer.gif" height=0 alt=""></td>		             						                                                            						    -->
+<!-- 							    </TR> -->
+		
+<!-- 							      </TBODY> -->
+<!-- 			          </TABLE>   -->
+<!--202003 CR Search Title comment E-->	
+	  
+<!--202003 CR Search Title comment add S-->
+	  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+		                
+							  <TBODY>					  
+							  <TR bgcolor="#EBDCCB">
+							    <TD style="width:17%; Height:25px;" class="subject">					             						                                                            
+								      &nbsp;Search Form                    
+							        </TD>					        
+							        <TD width="83%" align=right >[<a href="javascript:window.print();" class=default>Print</a>]&nbsp;&nbsp;</td>
+							      </TR>					   
+							    <TR>
+							    <TD bgColor="#FFFFFF" colspan=3><img src="/lrs/images/spacer.gif" height=0 alt=""></td>		             						                                                            						   
+							    </TR>
+		
+							      </TBODY>
+			          </TABLE>  
+<!--202003 CR Search Title comment add E-->
+
+	  
+
+
+
+
+
+
+<!-- 202003 CR js S -->
+
+<script language="JavaScript" type="text/JavaScript">
+
+function advSearch(frm1){
+	frm1.isadvsearch.value="0";	
+	    frm1.submit();	    	
+}
+               
+			          
+</script>
+<!-- 202003 CR S -->
+<script type="text/javascript">
+var numDays = {
+                '1': 31, '2': 28, '3': 31, '4': 30, '5': 31, '6': 30,
+                '7': 31, '8': 31, '9': 30, '10': 31, '11': 30, '12': 31
+              };
+
+function setDays(oMonthSel, oDaysSel, oYearSel)
+{
+	var nDays, oDaysSelLgth, opt, i = 1;
+	nDays = numDays[oMonthSel[oMonthSel.selectedIndex].value];
+
+	var oForm = oMonthSel.form;
+	var day1 = oDaysSel.options[oDaysSel.selectedIndex].value;
+	var month = oMonthSel.options[oMonthSel.selectedIndex].value;	
+	var year = oYearSel.options[oYearSel.selectedIndex].value;	
+	var no = 10;	
+	
+	
+	if (day1 > 0 && day1 <= 31 && month > 0 && month < 13 && year > 1900 && year < 2500){	
+	oForm.txtSearch3.value = day1 + '/' + month + '/' + year;
+		} else if (month > 0 && month < 13 && year > 1900 && year < 2500){		
+		oForm.txtSearch3.value ='/' + month + '/' + year;
+		} else if (day1 > 0 && day1 <= 31 && month > 0 && month < 13 && year === ""){
+		oForm.txtSearch3.value = day1 + '/' + month + '/';				
+		} else if (day1 > 0 && day1 <= 31 && year === ""){
+		oForm.txtSearch3.value = day1 + '/'+'/';		
+		} else if (day1 === "" && month > 0 && month < 13 && year === ""){
+		oForm.txtSearch3.value ='/' + month + '/';		
+		} else if (day1 > 0 && day1 <= 31 && year > 1900 && year < 2500){
+		oForm.txtSearch3.value = day1 + '/' + '/' + year;		
+		}else if (day1 === "" && year > 1900 && year < 2500){		
+		oForm.txtSearch3.value ='//' + year;
+		}else if (day1 === "0" && month === "0" && year > 1900){
+		oForm.txtSearch3.value ='//' + year;
+		}else{		
+		oForm.txtSearch3.value ='';		
+		}
+}
+//202003 CR 0419 
+
+function yearOptions(){      			
+            var myselectyr = document.getElementById("year");
+			//alert("yearOptions");
+			var today = new Date();
+			var currentYear = new Date().getFullYear();            
+            var optionValues;
+			//alert(currentYear);
+			for (var y = currentYear; y >=1945; y--){	
+				var option = document.createElement('option');
+				option.value = y;
+				option.innerHTML = y;
+				myselectyr.appendChild(option);				
+			}
+}
+
+function getDateVal(){
+         var dayelement = document.forms[0].day1;
+         for(x = 0; x < dayelement.length; x++){
+        	 	if(dayelement.options[x].value == ""){
+        	 		dayelement.options[x].selected = true;			 
+                       break;
+                 } 
+         }
+         var mthelement = document.forms[0].month;
+         for(x = 0; x < mthelement.length; x++){
+                 if(mthelement.options[x].value == ""){
+                       mthelement.options[x].selected = true;
+					   //alert("month");
+                       break;
+                 } 
+         }
+		  var yrelement = document.forms[0].year;		  
+         for(x = 0; x < yrelement.length; x++){
+                 if(yrelement.options[x].value == ""){
+                	 yrelement.options[x].selected = true;
+					 //alert("year");
+                       break;
+                 } 
+         }
+    }
+//20200414 E
+</script>
+
+
+
+<input type=hidden name="isadvsearch" value="1">
+                    <table cellspacing=0 cellpadding=0 width="100%" border=0>
+                    <tbody> 
+                    <tr bgcolor="#DAEBCB"> 
+                      <td> 
+                        <table cellspacing=0 cellpadding=2 width="100%" border=0>
+                          <tbody> 
+                          <tr> 
+                            <td valign=top nowrap >                              
+	                                  <table cellspacing=0 cellpadding=2 width="100%" border=0>
+	                                  <tbody> 
+	                                  <tr> 	                                  
+	                                  <Td width="100%" nowrap>
+		                                    <table cellspacing=0 cellpadding=0 width="100%" border=0>
+		                                    <TR><TD nowrap valign=middle rowspan="3">
+			                                           <table cellspacing=0 cellpadding=0 width="100%" border=0>
+			                                           <TR><TD class=smalltxt>A.&nbsp;Search by Full Text options:
+			                                           </TD>
+			                                           </TR>	
+			                                           <!-- 202003 CR S -->
+									<label id="selBoolean"  name="txtselectopt" title="select option" onclick="javascript:showexamples(this.value)" class="optionStyle"> 
+			                                           <TR><TD class=smalltxt nowrap>1.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt" type="hidden"size="20" value="1">		                                           
+									<input  size="82" class="optionStyle" value="any of these words" type="text" size='40' value="1"  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch" type="text" id="txtSearch" title="txtSearch" size="25" value="">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E -->
+				                                    <!-- 202003 CR S1 -->
+									<label id="selBoolean1"  name="txtselectopt1" title="select option" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>2.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt1" type="hidden"size="20" value="2">		                                           
+									<input  size="82" class="optionStyle" value="these words in any order" type="text" size='40' value="2"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch1" type="text" id="txtSearch1" title="txtSearch1" size="25" value="">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E1 -->
+				                                    <!-- 202003 CR S2 -->
+				                                     <label id="selBoolean2"  name="txtselectopt2" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>3.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt2" type="hidden"size="20" value="3">		                                           
+									<input size="82" class="optionStyle" value="this phrase" type="text" size='40' value="3"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch2" type="text" id="txtSearch2" title="txtSearch2" size="25" value="">
+				                                    <!-- stem start -->
+				                                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" title="stem" name="stem" value="1" style="border:0" checked><a href="javascript:commonpop('/lrs/en/help/help_stemming.htm','stemminghelp',400,100,'no','no',1,1,'no','no','no')" Title="click this for help" class=smalltxt>Stemming</a>&nbsp;<font color=#000000 class="smalltxt">(e.g. find "taxes" if your search word is "tax")</font>
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E2 -->
+				                                    <TR><TD class=smalltxt><br />B.&nbsp;Search By Case Detail:
+			                                           </TD>
+			                                           </TR>
+			                                        <!-- 202003 CR S3 DATE S -->
+<!-- 									<label id="selBoolean3"  name="txtselectopt3" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle"></label> -->
+			                                           <TR><TD class=smalltxt nowrap>4.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt3" type="hidden" size="20" value="5">		                                           
+									<input size="82" class="optionStyle" value="Date of Judgment / Reasons for Verdict / Reasons for Sentence" type="text" size='40' value="5"  selected  readonly >
+				                                    
+				                                    <!-- 20200323 CR S -->				        
+				        
+						&nbsp;<select class=smalltxt name="day1" id="day1" onchange="setDays(month,this,year)">
+						<option selected  class=smalltxt value="">Day&nbsp;</option>
+						<option value="0">---</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="23">23</option>
+						<option value="24">24</option>
+						<option value="25">25</option>
+						<option value="26">26</option>
+						<option value="27">27</option>
+						<option value="28">28</option>
+						<option value="29">29</option>
+						<option value="30">30</option>
+						<option value="31">31</option>						
+						</select>						
+						<select class=smalltxt name="month" id="month" onchange="setDays(this,day1,year)">
+						<option selected class=smalltxt value="">Month</option>
+						<option value="0">---</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>						
+						</select>
+						<select class=smalltxt name="year" id="year" onchange="setDays(month,day1,this)">						
+						<option selected  class=smalltxt value="">Year&nbsp;&nbsp;</option>
+						</select>
+				                                    <input class=smalltxt name="txtSearch3" type="hidden" id="txtSearch3" title="txtSearch3" size="25" value=""><span class="image-container" data-title="Example: 26/2/1998, 2/1998 or 1998"><img style="vertical-align:middle" src="../../images/q_mark.gif" height="14" width="14" alt=""></span>
+				                                    <!-- 20200323 CR E -->
+				                                    </td>
+				                                    </tr>
+						
+				                                    <!-- 202003 CR E3  DATE E -->	
+				                                    <!-- 202003 CR S4 -->
+									<label id="selBoolean4"  name="txtselectopt4" title="select option5" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>5.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt4" type="hidden"size="20" value="6">		                                           
+									<input  size="82" class="optionStyle" value="Coram of Judgment / Reasons for Verdict / Reasons for Sentence" type="text" size='40' value="6"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch4" type="text" id="txtSearch4" title="txtSearch4" size="25" value="">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E4 -->
+				                                    <!-- 202003 CR S5 -->
+									<label id="selBoolean5"  name="txtselectopt5" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>6.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt5" type="hidden"size="20" value="7">		                                           
+									<input  size="82" class="optionStyle" value="Parties of Judgment / Reasons for Verdict / Reasons for Sentence" type="text" size='40' value="7"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch5" type="text" id="txtSearch5" title="txtSearch5" size="25" value="BUILD KING CONSTRUCTION">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E5 -->
+				                                    <!-- 202003 CR S6 -->
+									<label id="selBoolean6"  name="txtselectopt6" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>7.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt6" type="hidden"size="20" value="8">		                                           
+									<input  size="82" class="optionStyle" value="Parties Representation" type="text" size='40' value="8"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch6" type="text" id="txtSearch6" title="txtSearch6" size="25" value="">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E6 -->
+				                                    <!-- 202003 CR S7 -->
+									<label id="selBoolean7"  name="txtselectopt7" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>8.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt7" type="hidden"size="20" value="9">		                                           
+									<input  size="82" class="optionStyle" value="Offence" type="text" size='40' value="9"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch7" type="text" id="txtSearch7" title="txtSearch7" size="25" value="">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E7 -->	
+				                                    <!--202003 CR S <table cellspacing=0 cellpadding=0 width="100%" border=0>-->
+				                                    <tr><td  class=smalltxt width="15%" valign="top" nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font>On appeal from : </font>  
+				                                    <!--202003 CR E </td><td width="85%" nowrap>--> 
+			<select name="selcourtname"  id="selcourtname" title="selcourtname" onchange="makexmlhttp(this.value);" style="font-size: 10px;"><option value="" >-------------</option></select><select name="selcourtype" ID="selcourtype" title="selcourtype" style="font-size: 10px;"><option value="">-------------</option></select></td></tr><!--202003 CR E </table> -->
+				                                    <TR><TD class=smalltxt><br />C.&nbsp;Search By Neutral Citation Number or Case Number:
+			                                           </TD>
+			                                           </TR>
+			                                        <!-- 202003 CR S8 -->
+									<label id="selBoolean8"  name="txtselectopt8" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>9.&nbsp;&nbsp;&nbsp;
+									<input name="txtselectopt8" type="hidden"size="20" value="10">		                                           
+									<input  size="82" class="optionStyle" value="Neutral Citation Number of Judgment / Reasons for Verdict / Reasons for Sentence" type="text" size='40' value="10"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch8" type="text" id="txtSearch8" title="txtSearch8" size="25" value="">&nbsp;<span class="image-container" data-title="Example: [2018] HKCA 14"><img style="vertical-align:middle" src="../../images/q_mark.gif" height="14" width="14" alt=""></span>
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E8 -->	
+				                                    <!-- 202003 CR S9 -->
+									<label id="selBoolean9"  name="txtselectopt9" title="select option3" onclick="javascript:showexamples(this.value)" class="optionStyle">	
+			                                           <TR><TD class=smalltxt nowrap>10.&nbsp;
+									<input name="txtselectopt9" type="hidden"size="20" value="4">		                                           
+									<input  size="82" class="optionStyle" value="Case Number of Judgment / Reasons for Verdict / Reasons for Sentence" type="text" size='40' value="4"  selected  readonly>
+				                                    &nbsp;<input class=smalltxt name="txtSearch9" type="text" id="txtSearch9" title="txtSearch9" size="25" value="">&nbsp;<span class="image-container" data-title="Example: FACV 18/2000"><img style="vertical-align:middle" src="../../images/q_mark.gif" height="14" width="14" alt=""></span>
+				                                    <br /><img src="/lrs/images/spacer.gif" height=10 alt="">
+				                                    </td>
+				                                    </tr>
+				                                    </label>
+				                                    <!-- 202003 CR E9 -->
+				                                    <!-- <TR><TD class=smalltxt><br />D.&nbsp;Search By Case Type:
+			                                           </TD>
+			                                           </TR>-->
+	
+				                                    <tr><td></td>
+				                                    </tr>
+				                                    </table>
+			                            </td>
+			                            <td valign=top rowspan="3">  &nbsp;&nbsp;
+			                            </td>
+			                            <td valign=top align=right>
+			                            <table>
+			                            <tr><td>
+			                                    <input type=submit value="Go!" class=pagestyle style="width:110">
+			                                     </td></tr>
+			                                     <tr><td>
+
+		                                    		<input type=button onclick="window.location.href='search_result_form.jsp?isadvsearch=1&amp;stem=1&amp;selall2=1&amp;'" value="New search" class=pagestyle style="width:110">&nbsp;&nbsp;
+		                                    </td></tr>
+		                                    </table></td>
+		                                    <td valign=top>	                                    
+			                                    <table cellspacing=0 cellpadding=0 width="100%" border=0>
+			                                    <TR><TD nowrap>&#149;	
+												<!-- 202005 0529 CR -->												
+												<a href="../search/search_result.jsp?isadvsearch=1&txtSearch=&txtselectopt=2&stem=1&selDatabase=JU&selDatabase=RV&selDatabase=RS&selDatabase=PD&selall=1" target=resultpage class=normaltxt> Advanced Search</a>
+			                                    </td></tr>
+			                                    <tr><TD nowrap>&#149;												
+			                                    <a href="javascript:commonpop('https://legalref.judiciary.hk/lrs/en/help/helpsearch.html#basic','helpmenu',767,500,'10','10','yes','no','no','no','yes')" class=normaltxt>Search Help</a>
+			                                    </tD></tr>
+												<!--202006 CR S-->
+											<tr>
+                                              <TD nowrap="nowrap">&#149;
+	                                    <a href="javascript:commonpop('https://legalref.judiciary.hk/lrs/en/help/helpvideo.html','helpmenu',767,500,'10','10','yes','no','no','no','yes')" class="normaltxt">Video Help</a>&nbsp;<img style="vertical-align:middle" valign="middle" src="../../images/videos.png" height="14" width="14" alt=""></td>
+                                            </tr>
+											<!--202006 CR E-->
+			                                    </table>
+			                               </td>
+			                             </tr>
+			                             <tr>
+			                               <td colspan="2">&nbsp;
+			                                 <p id="example" class="smalltxt" style="display:none;">Example: 26/2/1998 or 26/2/98</p>
+			                                 <p id="casenumber" class="smalltxt" style="display:none;">Example: FACV 18/2000</p>
+			                                 <p id="egNCN" class="smalltxt" style="display:none;">Example: [2018] HKCA 14</p>
+			                               </td>
+			                             </tr>
+			                             <tr>
+			                               <td colspan="2">&nbsp;</td>
+			                             </tr>
+			                             </table>
+			                             <!-- On Appeal 202003 CR S ******************** -->
+			                             
+	                                  </td>		                                                               
+	                                </tr>                                     
+	                                </tbody> 
+	                              </table>
+                            </td>
+                          </tr>
+                          </tbody> 
+                        </table>
+                      </td>
+                    </tr>
+                    <TR>
+                    <TD bgColor="#FFFFFF"><img src="/lrs/images/spacer.gif" height=0 alt=""></td>		             						                                                            						   
+                    </TR>
+                    <tr bgcolor=#ffffff> 
+                      <td> 
+                                  <table cellspacing=0 cellpadding=2 width="100%" border=0 bgcolor="#EBDCCB">
+                                  <tbody>                                                                   
+                                  <tr> 
+                                    <td style="width:16%; height:40px;" valign=middle nowrap>&nbsp;<b>Database(s): </b></td>
+                                    <td width="84%" rowspan=2 class="smalltxt"> 
+                                      <select name="selDatabase2" title="selDatabase2" size="4" multiple id="selDatabase2" onchange="javascript:onchangedb(this.form,this.value);">
+                                        <option value="JU" selected>Judgments</option>
+                                        <option value="RV" selected>Reasons for Verdict</option>                                        
+                                        <option value="RS" selected>Reasons for Sentence</option>
+										<option value="PD" selected>Practice Directions</option>
+                                      </select>
+                                      CTRL + click to select multiple databases </td>
+                                  </tr>
+                                  <tr><TD align=right valign=bottom style="height:10px;" class=smalltxt>                                    
+                                    <input type="checkbox" name="selall2" title="selall2" value="1" style="border:0" onclick="javascript:databaseselectall(this.form,this);getAppealfrm_db(this.form);"  checked >select all
+                                    </td>
+                                    </tr>                                  
+                                    <TR><TD></td><td><img src="/lrs/images/spacer.gif" height=10 alt=""></td></tr>
+                                  </tbody> 
+                                </table>
+                      </td>
+                    </tr>
+                    </tbody> 
+                  </table>
+
+	  
+	  
+		          
+	               </td>
+	              </tr>
+	              </tbody>
+	            </table>
+          </td>
+        </tr>
+
+        
+        <tr> 
+          <td valign="top" align=center bgcolor=#808080><img src="/lrs/images/spacer.gif" height=0 alt=""></td>
+        </tr>
+        <tr> 
+          <td valign="top" align=center bgcolor=#D4D0C8><img src="/lrs/images/spacer.gif" height=0 alt=""></td>
+        </tr>
+        <tr> 
+          <td valign="top" align=center style="height:2px;"><img src="/lrs/images/spacer.gif" height=0 alt=""></td>
+        </tr>
+        <tr> 
+          <td align="center"> 
+       
+                    <table cellspacing=0 cellpadding=0 width="100%" border=0>
+                      <tbody> 
+                      <tr bgcolor="#EBDCCB"> 
+                        <td bgcolor="#EBDCCB">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                             <tr> 
+                              <td style="width:30%;" valign="bottom">&nbsp;<font color="#FF0000"><strong>Result</strong></font>:  
+                                <!--1-1 out of--> 5 found </td>
+                              <td style="width:20%; height:30px;" valign="bottom" class="normaltxt">Total Pages: 1<!--Searching 
+                                for: <strong></strong>--> </td>
+                                <td align=right style="width:50%;" nowrap><font style="font-size:10pt"> </font>
+                                <select name=order title="Sort" onchange="javascript:gosort(this.value)" class="smalltxt">
+                                <option value="1" selected>Sort by Relevance</option>
+                                <option value="0" >Sort by Date</option>
+                                <!-- 202003 CR Sort by Title -->
+                                <option value="2" >Sort by Title</option>
+                                </select> 
+                                                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;<select name=SHCF title="Search History" onchange="goSH(this.value)" class="smalltxt">
+                                <option value="">---- View search history ----</option>
+                              <option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO%21&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO%21&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD%20KING%20CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO%21&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD%20KING%20CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU%2CRV%2CRS%2CPD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='day1=&month=&stem=1&txtSearch=&txtSearch1=&selcourtname=&txtSearch2=&selcourttype=&txtSearch3=&txtSearch4=&txtSearch5=BUILD%20KING%20CONSTRUCTION&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&txtSearch6=&advsearch=1&txtSearch7=&selall2=1&txtSearch8=&txtSearch9=&txtselectopt=1&txtselectopt1=2&vm=GO%21&txtselectopt2=3&txtselectopt3=5&txtselectopt4=6&txtselectopt5=7&txtselectopt6=8&txtselectopt7=9&txtselectopt8=10&txtselectopt9=4&year='> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='day1=&month=&stem=1&txtSearch=&txtSearch1=&selcourtname=&txtSearch2=&selcourttype=&txtSearch3=&txtSearch4=&txtSearch5=BUILD%20KING%20CONSTRUCTION&selDatabase2=JU%2CRV%2CRS%2CPD&txtSearch6=&advsearch=1&txtSearch7=&selall2=1&txtSearch8=&txtSearch9=&txtselectopt=1&txtselectopt1=2&vm=GO%21&txtselectopt2=3&txtselectopt3=5&txtselectopt4=6&txtselectopt5=7&txtselectopt6=8&txtselectopt7=9&txtselectopt8=10&txtselectopt9=4&year='> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU,RV,RS,PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourttype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU,RV,RS,PD&selall2=1&advsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option><option value='vm=GO!&txtselectopt=1&txtSearch=&txtselectopt1=2&txtSearch1=&txtselectopt2=3&txtSearch2=&stem=1&txtselectopt3=5&day1=&month=&year=&txtSearch3=&txtselectopt4=6&txtSearch4=&txtselectopt5=7&txtSearch5=BUILD+KING+CONSTRUCTION&txtselectopt6=8&txtSearch6=&txtselectopt7=9&txtSearch7=&selcourtname=&selcourtype=&txtselectopt8=10&txtSearch8=&txtselectopt9=4&txtSearch9=&selDatabase2=JU&selDatabase2=RV&selDatabase2=RS&selDatabase2=PD&selall2=1&isadvsearch=1'> | BUILD KING CONSTRUCTION</option>
+                              <option value='CH'>---- Clear history ----</option>
+                              </select>&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr>
+                            <td colspan=3>
+                             	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	                            <tr> 
+	                              <td bgcolor="#FFFFFF"><img src="/lrs/images/spacer.gif" height=1 width=1 alt=""></td>
+	                            </tr>
+	                            <tr>                             
+	                             <td  bgcolor="#DAEBCB" nowrap>
+<script language=javascript type="text/javascript">
+function pagesubmit(pageno,frm0){         
+        document.forms[0].page.value=pageno;        
+	document.forms[0].submit();
+	return
+}
+</script>
+<input type="hidden" name="page" value="1">
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD align="left" valign="middle" nowrap>&nbsp;Page 1 of <font color="#C82017"><B>1</B></font> | </td></tr></table> </td>
+	                            </tr>
+	                            <tr> 
+	                              <td bgcolor="#CCCCCC" height=1><img src="/lrs/images/spacer.gif" height=1 width=1 alt=""></td>
+	                            </tr>
+	                         </table>
+	                    </td></tr>
+                          </table>
+                          
+                        </td>
+                      </tr>
+                      <tr bgcolor=#ffffff> 
+                        <td> 
+                          <table width="100%" border="0" cellspacing="0" cellpadding="1">
+                           
+                            <tr> 
+                              <td height=300 valign=top> 
+                                <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                                
+						   
+
+
+ <tr> 
+    <td width="3%" valign="top" class="smalltxt">1.</td>
+    <td colspan="2" width="88%"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR>    
+    <TD width="65%" nowrap><script type="text/javascript">var temp135729='DIS=135729&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU';</script><img src='/lrs/images/ThemeXP/Epage.gif' alt='Judgment in English'>&nbsp;<B><a href="javascript:judpop1('search_result_detail_frame.jsp?'+temp135729);" class="searchfont">FACV11/2020</a>
+    	   </B> <a href="javascript:judpop('search_result_detail_frame.jsp?'+temp135729);" class=searchfont><img src="/lrs/images/new_win.gif" alt="Open it in new window browser" border=1></a>    
+   </b>&nbsp;&nbsp;&nbsp;&nbsp;[2021] HKCFA 14</td><td  width="35%"><font color=#04734D>Date</font>: 13/05/2021</tr></table></td>
+    <td width="9%" nowrap align=right valign=top>
+    <span class="bt"><a class="bt" href="javascript:matchpop('matches.jsp?'+temp135729);" class=bt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View the matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+    &nbsp;&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top"></td>
+    <td colspan="3" >HSIN CHONG CONSTRUCTION COMPANY LIMITED (in liquidation) v. BUILD KING CONSTRUCTION LIMITED
+    </td>	                                    
+  </tr>
+  <tr> 
+    <td valign="top" width="3%">&nbsp;</td>
+    <td valign="top" colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD><font color="#009900">Database: 
+      </font>Judgments&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://legalref.judiciary.hk/lrs//common/ju/ju_frame.jsp?AH=S&DIS=135729&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU" target="_top" class=default ><u>Appeal History</u></a></td></tr></table></td>
+    <td valign="top" style="width:9%;" align=right></td>
+  </tr>
+  <tr> 
+    <td valign="top" colspan="4" height=1 ><hr></td>
+  </tr>
+
+						   
+						   
+	                                 
+						   
+
+
+ <tr> 
+    <td width="3%" valign="top" class="smalltxt">2.</td>
+    <td colspan="2" width="88%"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR>    
+    <TD width="65%" nowrap><script type="text/javascript">var temp131803='DIS=131803&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU';</script><img src='/lrs/images/ThemeXP/Epage.gif' alt='Judgment in English'>&nbsp;<B><a href="javascript:judpop1('search_result_detail_frame.jsp?'+temp131803);" class="searchfont">FAMV152/2020</a>
+    	   </B> <a href="javascript:judpop('search_result_detail_frame.jsp?'+temp131803);" class=searchfont><img src="/lrs/images/new_win.gif" alt="Open it in new window browser" border=1></a>    
+   </b>&nbsp;&nbsp;&nbsp;&nbsp;[2020] HKCFA 36</td><td  width="35%"><font color=#04734D>Date</font>: 12/11/2020</tr></table></td>
+    <td width="9%" nowrap align=right valign=top>
+    <span class="bt"><a class="bt" href="javascript:matchpop('matches.jsp?'+temp131803);" class=bt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View the matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+    &nbsp;&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top"></td>
+    <td colspan="3" >HSIN CHONG CONSTRUCTION CO LTD (in provisional liquidation) v. BUILD KING CONSTRUCTION LTD
+    </td>	                                    
+  </tr>
+  <tr> 
+    <td valign="top" width="3%">&nbsp;</td>
+    <td valign="top" colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD><font color="#009900">Database: 
+      </font>Judgments&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://legalref.judiciary.hk/lrs//common/ju/ju_frame.jsp?AH=S&DIS=131803&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU" target="_top" class=default ><u>Appeal History</u></a></td></tr></table></td>
+    <td valign="top" style="width:9%;" align=right></td>
+  </tr>
+  <tr> 
+    <td valign="top" colspan="4" height=1 ><hr></td>
+  </tr>
+
+						   
+						   
+	                                 
+						   
+
+
+ <tr> 
+    <td width="3%" valign="top" class="smalltxt">3.</td>
+    <td colspan="2" width="88%"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR>    
+    <TD width="65%" nowrap><script type="text/javascript">var temp129209='DIS=129209&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU';</script><img src='/lrs/images/ThemeXP/Epage.gif' alt='Judgment in English'>&nbsp;<B><a href="javascript:judpop1('search_result_detail_frame.jsp?'+temp129209);" class="searchfont">CACV321/2019</a>
+    	   </B> <a href="javascript:judpop('search_result_detail_frame.jsp?'+temp129209);" class=searchfont><img src="/lrs/images/new_win.gif" alt="Open it in new window browser" border=1></a>    
+   </b>&nbsp;&nbsp;&nbsp;&nbsp;[2020] HKCA 536</td><td  width="35%"><font color=#04734D>Date</font>: 03/07/2020</tr></table></td>
+    <td width="9%" nowrap align=right valign=top>
+    <span class="bt"><a class="bt" href="javascript:matchpop('matches.jsp?'+temp129209);" class=bt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View the matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+    &nbsp;&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top"></td>
+    <td colspan="3" >HSIN CHONG CONSTRUCTION CO LTD v. BUILD KING CONSTRUCTION LTD
+    </td>	                                    
+  </tr>
+  <tr> 
+    <td valign="top" width="3%">&nbsp;</td>
+    <td valign="top" colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD><font color="#009900">Database: 
+      </font>Judgments&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://legalref.judiciary.hk/lrs//common/ju/ju_frame.jsp?AH=S&DIS=129209&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU" target="_top" class=default ><u>Appeal History</u></a></td></tr></table></td>
+    <td valign="top" style="width:9%;" align=right></td>
+  </tr>
+  <tr> 
+    <td valign="top" colspan="4" height=1 ><hr></td>
+  </tr>
+
+						   
+						   
+	                                 
+						   
+
+
+ <tr> 
+    <td width="3%" valign="top" class="smalltxt">4.</td>
+    <td colspan="2" width="88%"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR>    
+    <TD width="65%" nowrap><script type="text/javascript">var temp125936='DIS=125936&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU';</script><img src='/lrs/images/ThemeXP/Epage.gif' alt='Judgment in English'>&nbsp;<B><a href="javascript:judpop1('search_result_detail_frame.jsp?'+temp125936);" class="searchfont">CACV321/2019</a>
+    	   </B> <a href="javascript:judpop('search_result_detail_frame.jsp?'+temp125936);" class=searchfont><img src="/lrs/images/new_win.gif" alt="Open it in new window browser" border=1></a>    
+   </b>&nbsp;&nbsp;&nbsp;&nbsp;[2019] HKCA 1305</td><td  width="35%"><font color=#04734D>Date</font>: 04/12/2019</tr></table></td>
+    <td width="9%" nowrap align=right valign=top>
+    <span class="bt"><a class="bt" href="javascript:matchpop('matches.jsp?'+temp125936);" class=bt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View the matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+    &nbsp;&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top"></td>
+    <td colspan="3" >HSIN CHONG CONSTRUCTION CO LTD (in provisional liquidation) v. BUILD KING CONSTRUCTION LTD; <font color=#8C029B>Reported in: [2020] 1 HKLRD 316</font>
+    </td>	                                    
+  </tr>
+  <tr> 
+    <td valign="top" width="3%">&nbsp;</td>
+    <td valign="top" colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD><font color="#009900">Database: 
+      </font>Judgments&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://legalref.judiciary.hk/lrs//common/ju/ju_frame.jsp?AH=S&DIS=125936&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU" target="_top" class=default ><u>Appeal History</u></a></td></tr></table></td>
+    <td valign="top" style="width:9%;" align=right></td>
+  </tr>
+  <tr> 
+    <td valign="top" colspan="4" height=1 ><hr></td>
+  </tr>
+
+						   
+						   
+	                                 
+						   
+
+
+ <tr> 
+    <td width="3%" valign="top" class="smalltxt">5.</td>
+    <td colspan="2" width="88%"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR>    
+    <TD width="65%" nowrap><script type="text/javascript">var temp121974='DIS=121974&QS=%28%7BBUILD+KING+CONSTRUCTION%7D+%25parties%29&TP=JU';</script><img src='/lrs/images/ThemeXP/Cpage.gif' alt='Judgment in Traditional Chinese'>&nbsp;<B><a href="javascript:judpop1('search_result_detail_frame.jsp?'+temp121974);" class="searchfont">HCMA50/2018</a>
+    	   </B> <a href="javascript:judpop('search_result_detail_frame.jsp?'+temp121974);" class=searchfont><img src="/lrs/images/new_win.gif" alt="Open it in new window browser" border=1></a>    
+   </b>&nbsp;&nbsp;&nbsp;&nbsp;[2019] HKCFI 1119</td><td  width="35%"><font color=#04734D>Date</font>: 20/05/2019</tr></table></td>
+    <td width="9%" nowrap align=right valign=top>
+    <span class="bt"><a class="bt" href="javascript:matchpop('matches.jsp?'+temp121974);" class=bt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View the matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span>
+    &nbsp;&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top"></td>
+    <td colspan="3" class="chinesefont">香港特別行政區 訴 BUILD KING CONSTRUCTION LTD t/a KADEN CHUN WO JOINT VENTURE 及另一人
+    </td>	                                    
+  </tr>
+  <tr> 
+    <td valign="top" width="3%">&nbsp;</td>
+    <td valign="top" colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD><font color="#009900">Database: 
+      </font>Judgments&nbsp;&nbsp;&nbsp;&nbsp;
+      </td></tr></table></td>
+    <td valign="top" style="width:9%;" align=right></td>
+  </tr>
+  <tr> 
+    <td valign="top" colspan="4" height=1 ><hr></td>
+  </tr>
+
+						   
+						   
+						   <tr> 
+						   <td valign="top" colspan="4" height=1 align=center><b>End of search result</b></td>
+						   </tr>
+						   
+	                                                                   
+                                  <tr> 
+                                    <td colspan="4"></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td>&nbsp;</td>
+                            </tr>
+                        
+                          </table>
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          
+                           <tr> 
+                              <td height="15" bgcolor="#EBDCCB">&nbsp;</td>
+                            </tr>
+                             <tr> 
+                              <td bgcolor="#FFFFFF" height=1><img src="/lrs/images/spacer.gif" height=0 alt=""></td>
+                            </tr>
+                            <tr>
+                              <td bgcolor="#DAEBCB" ><table width="100%" border="0" cellspacing="0" cellpadding="0"><TR><TD align="left" valign="middle" nowrap>&nbsp;Page 1 of <font color="#C82017"><B>1</B></font> | </td></tr></table></td>
+                            </tr>                               
+        <tr> 
+          <td valign="top" align=center bgcolor=#D4D0C8><img src="/lrs/images/spacer.gif" height=0 alt=""></td>
+        </tr>                      
+                          </table>
+     
+     </td></tr></tbody>  </table>
+     </td>                
+              </tr>
+                      
+       
+                    
+                  
+              
+      
+   </table>
+   </td></tr>
+
+  
+</table>   </form>  
+<div id="printwai"><a href="https://www.w3.org/WAI/WCAG2AA-Conformance"><img src="../../images/wcag2AA.gif" alt="遵守2A級無障礙圖示，萬維網聯盟（W3C）- 無障礙網頁倡議（WAI） Web Content Accessibility Guidelines 2.0"></a></div>
+  
+<BR><BR>
+
+
+
+<script type="text/javascript" >
+<!--
+function change_lang(lan){
+	document.org_value.changed_lan.value=lan;
+	document.org_value.submit();
+}
+//-->
+</script>
+<form method=post name=org_value action="">
+<input type=hidden name='changed_lan' value=''><input type=hidden name='txtSearch' value=''><input type=hidden name='selDatabase2' value='JU'><input type=hidden name='selDatabase2' value='RV'><input type=hidden name='selDatabase2' value='RS'><input type=hidden name='selDatabase2' value='PD'><input type=hidden name='txtselectopt' value='1'><input type=hidden name='txtSearch9' value=''><input type=hidden name='stem' value='1'><input type=hidden name='txtSearch8' value=''><input type=hidden name='selcourtname' value=''><input type=hidden name='txtSearch7' value=''><input type=hidden name='txtSearch6' value=''><input type=hidden name='txtSearch5' value='BUILD KING CONSTRUCTION'><input type=hidden name='selcourtype' value=''><input type=hidden name='txtSearch4' value=''><input type=hidden name='txtSearch3' value=''><input type=hidden name='year' value=''><input type=hidden name='txtSearch2' value=''><input type=hidden name='txtSearch1' value=''><input type=hidden name='isadvsearch' value='1'><input type=hidden name='day1' value=''><input type=hidden name='txtselectopt9' value='4'><input type=hidden name='txtselectopt8' value='10'><input type=hidden name='txtselectopt7' value='9'><input type=hidden name='vm' value='GO!'><input type=hidden name='txtselectopt6' value='8'><input type=hidden name='txtselectopt5' value='7'><input type=hidden name='txtselectopt4' value='6'><input type=hidden name='month' value=''><input type=hidden name='txtselectopt3' value='5'><input type=hidden name='txtselectopt2' value='3'><input type=hidden name='selall2' value='1'><input type=hidden name='txtselectopt1' value='2'>
+<input style="visibility:hidden;" type="submit" value="">
+</form>
+
+</body>
+
+</html>
+ 

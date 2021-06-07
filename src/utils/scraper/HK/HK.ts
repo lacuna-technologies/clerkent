@@ -1,5 +1,6 @@
-import HKLIIHK from './HKLIIHK'
+// import HKLIIHK from './HKLIIHK'
 import HKLIIORG from './HKLIIORG'
+import LRS from './LRS'
 import Common from '../common'
 import type Law from '../../../types/Law'
 import Logger from '../../Logger'
@@ -10,6 +11,7 @@ import Helpers from '../../Helpers'
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
+      LRS.getCaseByName(caseName),
       HKLIIORG.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.HK.name),
     ]))
@@ -30,8 +32,9 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
+      LRS.getCaseByCitation(citation),
       HKLIIORG.getCaseByCitation(citation),
-      HKLIIHK.getCaseByCitation(citation),
+      // HKLIIHK.getCaseByCitation(citation),
       Common.CommonLII.getCaseByCitation(citation),
     ])).filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

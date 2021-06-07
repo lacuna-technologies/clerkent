@@ -129,6 +129,11 @@ const HK_DATABASES = {
     name: `HKLII.org`,
     url: `https://www.hklii.org/eng/`,
   },
+  lrs: {
+    icon: ``,
+    name: `Legal Reference System`,
+    url: `https://www.judiciary.hk/en/legal_ref/judgments.htm`,
+  },
 }
 
 const CA_DATABASES = {
