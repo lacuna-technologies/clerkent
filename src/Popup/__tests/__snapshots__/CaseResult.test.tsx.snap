@@ -12,14 +12,18 @@ exports[`CaseResult renders without error 1`] = `
     >
       <span
         className="jurisdiction"
+        title="United Kingdom"
       >
         🇬🇧
       </span>
-      <span
-        className="database"
+      <a
+        className="database no-link"
+        href="https://bailii.org/"
+        rel="noreferrer"
+        target="_blank"
       >
         BAILII
-      </span>
+      </a>
     </div>
     <div
       className="right"
@@ -27,13 +31,28 @@ exports[`CaseResult renders without error 1`] = `
   </div>
   <a
     className="case-name link"
-    href="https://www.bailii.org/ew/cases/EWCA/Civ/2006/145.html"
     rel="noreferrer"
     target="_blank"
   >
     IDA v University of Southampton
-     
-    [2006] EWCA Civ 145
   </a>
+  <div
+    className="links"
+  >
+    <span>
+      [2006] EWCA Civ 145
+    </span>
+    <div
+      className="link judgment"
+    >
+      <a
+        href="https://www.bailii.org/ew/cases/EWCA/Civ/2006/145.html"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Judgment
+      </a>
+    </div>
+  </div>
 </div>
 `;
