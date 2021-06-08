@@ -21,11 +21,16 @@ const JURISDICTIONS = {
     id: `HK` as Law.JursidictionCode,
     name: `Hong Kong`,
   },
-  MY: {
-    emoji: `🇲🇾`,
-    id: `MY` as Law.JursidictionCode,
-    name: `Malaysia`,
-  },
+  // ID: {
+  //   emoji: ``,
+  //   id: `IN` as Law.JursidictionCode,
+  //   name: `India`
+  // },
+  // MY: {
+  //   emoji: `🇲🇾`,
+  //   id: `MY` as Law.JursidictionCode,
+  //   name: `Malaysia`,
+  // },
   NZ: {
     emoji: `🇳🇿`,
     id: `NZ` as Law.JursidictionCode,

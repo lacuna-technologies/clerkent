@@ -8,40 +8,60 @@
   align-content: flex-start;
   box-sizing: border-box;
 
-  > .result {
+  >.result {
     padding-bottom: 1rem;
-    width: 95%;
+    width: 100%;
     box-sizing: border-box;
 
-    > .details {
+    >.details {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
 
-      > .left {
-        > .database {
+      >.left {
+        >.database {
           margin-left: 0.4rem;
           box-sizing: border-box;
         }
       }
 
-      > .right {
-
-      }
+      >.right {}
     }
 
-    > .case-name,
-    > .legislation-name {
+    >a.case-name,
+    >a.legislation-name {
       text-align: left;
+      text-decoration: none;
+      font-size: 110%;
+
+      &[href]:hover {
+        text-decoration: underline;
+      }
     }
 
     p {
       margin: 0;
     }
 
-    & + .result {
+    >.links {
+      display: flex;
+      flex-direction: row;
+      margin-top: 0.5rem;
+
+      >span+.link {
+        margin-left: 1rem;
+      }
+
+      >.link {
+        +.link {
+          margin-left: 1rem;
+        }
+      }
+    }
+
+    &+.result {
       padding-top: 1rem;
       border-top: 1px solid $border-color;
     }

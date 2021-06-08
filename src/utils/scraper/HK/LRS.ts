@@ -99,7 +99,11 @@ const parseResultsTable = ($: cheerio.Root): Law.Case[] => {
       const name = $(`td[colspan="3"]:nth-of-type(2)`, element).text().trim()
       currentResult = {
         ...currentResult,
-        name,
+        citation: currentResult.citation || Helpers.findCitation(
+          findHKCaseCitation,
+          name,
+        ),
+        name: name.replace(new RegExp(/; Reported in.+/), ``),
       }
     } else if($(`table`, element).length > 0) {
       results.push(currentResult)

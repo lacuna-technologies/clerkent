@@ -219,7 +219,7 @@ const Popup: React.FC = () => {
         )
       }
       {
-        (query.length > 0 && searchResult.length > 0 && mode === `case`) ? (
+        (query.length > 0 && !isSearching && mode === `case`) ? (
           <ExternalLinks
             jurisdiction={selectedJurisdiction}
             type={searchResult[0]?.type}
