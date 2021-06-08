@@ -15,40 +15,48 @@ exports[`QueryResult renders list of UK cases 1`] = `
       >
         <span
           className="jurisdiction"
+          title="United Kingdom"
         >
           🇬🇧
         </span>
-        <span
-          className="database"
+        <a
+          className="database no-link"
+          href="https://bailii.org/"
+          rel="noreferrer"
+          target="_blank"
         >
           BAILII
-        </span>
+        </a>
       </div>
       <div
         className="right"
-      >
-        <p
-          className="links"
-        >
-          <button
-            className="pdf button"
-            onClick={[Function]}
-          >
-            PDF
-          </button>
-        </p>
-      </div>
+      />
     </div>
     <a
       className="case-name link"
-      href="http://www.bailii.org/ew/cases/EWHC/QB/1884/2.html"
       rel="noreferrer"
       target="_blank"
     >
       R v Dudley and Stephens
-       
-      [1884] EWHC 2 (QB)
     </a>
+    <div
+      className="links"
+    >
+      <span>
+        [1884] EWHC 2 (QB)
+      </span>
+      <div
+        className="link judgment"
+      >
+        <a
+          href="http://www.bailii.org/ew/cases/EWHC/QB/1884/2.html"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Judgment
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;
