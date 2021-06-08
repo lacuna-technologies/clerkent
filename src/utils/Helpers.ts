@@ -32,11 +32,15 @@ const getRandomInteger = (min: number, max: number): number => Math.floor(Math.r
 
 const getRandomElement = (array: any[]) => array[getRandomInteger(0, array.length)]
 
+const getSummaryLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Summary`)
+const getJudgmentLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Judgment`)
+const getOpinionLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Opinion`)
+
 const getBestLink = (links: Law.Link[]): Law.Link => {
   const htmlJudgment = links.find(({ doctype, filetype }) => doctype === `Judgment` && filetype === `HTML`)
   if(htmlJudgment){ return htmlJudgment }
 
-  const summary = links.find(({ doctype} ) => doctype === `Summary`)
+  const summary = getSummaryLink(links)
   if(summary){ return summary }
 
   return links[0]
@@ -49,9 +53,12 @@ const Helpers = {
   debounce,
   findCitation,
   getBestLink,
+  getJudgmentLink,
+  getOpinionLink,
   getPDFLink,
   getRandomElement,
   getRandomInteger,
+  getSummaryLink,
   isCitationValid,
   sanitiseFilename,
   uniqueBy,

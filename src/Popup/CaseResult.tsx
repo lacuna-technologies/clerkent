@@ -2,6 +2,7 @@ import React from 'react'
 import Helpers from '../utils/Helpers'
 import Constants from '../utils/Constants'
 import type Law from '../types/Law'
+import ResultLink from './ResultLink'
 
 interface Props {
   case: Law.Case,
@@ -18,37 +19,49 @@ const CaseResult: React.FC<Props> = ({
   },
   downloadPDF,
 }) => {
-  const pdf = Helpers.getPDFLink(links)
-  const link = Helpers.getBestLink(links)?.url
+  const summaryURL = Helpers.getSummaryLink(links)?.url
+  const judgmentLink = Helpers.getJudgmentLink(links)
+  const opinionLink = Helpers.getOpinionLink(links)
 
   return (
     <div className="result">
       <div className="details">
         <div className="left">
-          <span className="jurisdiction">{Constants.JURISDICTIONS[jurisdiction]?.emoji}</span>
-          { database && <span className="database">{database.name}</span> }
+          <span className="jurisdiction" title={Constants.JURISDICTIONS[jurisdiction]?.name}>
+            {Constants.JURISDICTIONS[jurisdiction]?.emoji}
+          </span>
+          {
+            database && (
+              <a className="database no-link" href={database.url} target="_blank" rel="noreferrer">
+                {database.name}
+              </a>
+            )
+          }
         </div>
         <div className="right">
-          {
-            pdf ? (
-              <p className="links">
-                <button
-                  className="pdf button"
-                  onClick={downloadPDF({ citation, name, pdf: pdf.url })}
-                >PDF</button>
-              </p>
-            ) : null
-          }
+          
         </div>
       </div>
       <a
         className="case-name link"
         target="_blank"
-        href={link}
+        href={summaryURL}
         rel="noreferrer"
+        {...(summaryURL ? {title: `Summary`} : {})}
       >
-        {name} {citation}
+        {name}
       </a>
+      <div className="links">
+        <span>{citation}</span>
+        <ResultLink
+          link={judgmentLink}
+          onDownloadPDF={downloadPDF({ citation, name, pdf: judgmentLink?.url })}
+        />
+        <ResultLink
+          link={opinionLink}
+          onDownloadPDF={downloadPDF({ citation, name, pdf: opinionLink?.url })}
+        />
+      </div>
     </div>
   )
 }

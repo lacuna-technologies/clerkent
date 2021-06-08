@@ -4,19 +4,12 @@ import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
 import type { OptionsSettings } from '../utils/OptionsStorage'
 import './ExternalLinks.scss'
-import { Logger } from '../utils'
 
 interface Props {
   jurisdiction: Law.JursidictionCode
   type: Law.Type
   query: string
 }
-
-const supportedJurisdictions = new Set([
-  Constants.JURISDICTIONS.UK.id,
-  Constants.JURISDICTIONS.SG.id,
-  Constants.JURISDICTIONS.HK.id,
-])
 
 const getLawNetURL = (
   institution: OptionsSettings[`institutionalLogin`],
@@ -44,12 +37,6 @@ const ExternalLinks: React.FC<Props> = ({
       setInstitution(institutionSelection)
     })()
   }, [])
-
-  if(!supportedJurisdictions.has(jurisdiction)){
-    return null
-  }
-
-  Logger.log(institution)
 
   return (
     <div id="external-links">
@@ -86,7 +73,13 @@ const ExternalLinks: React.FC<Props> = ({
           ) : null
         }
         {
-          jurisdiction === Constants.JURISDICTIONS.HK.id ? (
+          [
+            Constants.JURISDICTIONS.CA.id,
+            Constants.JURISDICTIONS.HK.id,
+            Constants.JURISDICTIONS.AU.id,
+            Constants.JURISDICTIONS.NZ.id,
+            Constants.JURISDICTIONS.EU.id,
+          ].includes(jurisdiction) ? (
             <>
               <a
                 href={`https://app.justis.com/search/${query}/1/Relevance`}

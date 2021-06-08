@@ -29,7 +29,8 @@ declare namespace Law {
     type?: Type
   }
 
-  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY`
+  // ISO 3166-1 alpha-2
+  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `IN`
 
   type SearchMode = `case` | `legislation`
   type Type = `case-citation` | `case-name` | `legislation`

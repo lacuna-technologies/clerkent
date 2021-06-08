@@ -68,4 +68,8 @@ section#popup {
       color: darkslategray;
     }
   }
+
+  a.no-link {
+    @include no-link;
+  }
 }
