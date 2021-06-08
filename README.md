@@ -41,6 +41,10 @@ There are some tests, mostly snapshot tests.
 npm run test
 ```
 
+### Roadmap
+
+Find out what features and other changes are coming soon on the development [roadmap](https://github.com/lacuna-technologies/clerkent/projects/1).
+
 ## Dependencies
 
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B1364%2Fgit%40github.com%3Alacuna-technologies%2Fclerkent.git.svg?type=large)](https://app.fossa.com/projects/custom%2B1364%2Fgit%40github.com%3Alacuna-technologies%2Fclerkent.git?ref=badge_large)
