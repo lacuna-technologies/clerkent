@@ -1,58 +1,80 @@
 import Storage from './Storage'
 
-type InstitutionalLogin = `UCL` | `SMU` | `NUS` | `None`
+export type InstitutionalLogin = `UCL` | `SMU` | `NUS` | `None`
 
-export interface OptionsSettings {
-  highlightEnabled: boolean,
-  institutionalLogin: InstitutionalLogin
-}
-
-const defaultOptions: OptionsSettings = {
-  highlightEnabled: true,
-  institutionalLogin: `None`,
-}
-
-const keys = {
-  OPTIONS_HIGHLIGHT_ENABLED: `OPTIONS_HIGHLIGHT_ENABLED`,
-  OPTIONS_INSTITUTIONAL_LOGIN: `OPTIONS_INSTITUTIONAL_LOGIN`,
-}
-
-const highlight = {
-  get: async (): Promise<OptionsSettings[`highlightEnabled`]> => {
-    const result = await Storage.get(keys.OPTIONS_HIGHLIGHT_ENABLED)
-    if(result === null){
-      return defaultOptions.highlightEnabled
-    }
-    return result
+const keysObject = {
+  OPTIONS_CLIPBOARD_PASTE_ENABLED: {
+    defaultValue: false as boolean,
+    shortName: `clipboardPaste`,
   },
-  set: (value: OptionsSettings[`highlightEnabled`]) => Storage.set(keys.OPTIONS_HIGHLIGHT_ENABLED, value),
-}
-
-const institutionalLogin = {
-  get: async () => {
-    const result = await Storage.get(keys.OPTIONS_INSTITUTIONAL_LOGIN)
-    if(result === null){
-      return defaultOptions.institutionalLogin
-    }
-    return result
+  OPTIONS_HIGHLIGHT_ENABLED: {
+    defaultValue: true as boolean,
+    shortName: `highlight`,
   },
-  set: (value: OptionsSettings[`institutionalLogin`]) =>  Storage.set(keys.OPTIONS_INSTITUTIONAL_LOGIN, value),
+  OPTIONS_INSTITUTIONAL_LOGIN: {
+    defaultValue: `None` as InstitutionalLogin,
+    shortName: `institutionalLogin`,
+  },
+} as const
+export type OptionFullKey = keyof typeof keysObject
+export type OptionShortName = typeof keysObject[OptionFullKey][`shortName`]
+export type OptionType<T extends OptionFullKey> = typeof keysObject[T][`defaultValue`]
+export type OptionsSettings = {
+  [K in OptionFullKey]: OptionType<K>
 }
 
-const getAll = async () => {
-  const highlightEnabled = await highlight.get()
-  const institutionalLoginValue = await institutionalLogin.get()
-  return {
-    highlightEnabled,
-    institutionalLogin: institutionalLoginValue,
+const defaultOptions = Object.entries(keysObject).reduce((accumulator, [key, { defaultValue }]) => ({
+  ...accumulator,
+  [key]: defaultValue,
+}), {} as OptionsSettings)
+
+const makeGet = <K extends OptionFullKey>(settingKey: K) => async (): Promise<OptionsSettings[K]> => {
+  const result = await Storage.get(settingKey)
+  if(result === null){
+    return defaultOptions[settingKey]
+  }
+  return result
+}
+
+const makeSet = <K extends OptionFullKey>(settingKey: K) => (
+  value: typeof keysObject[K][`defaultValue`],
+) => Storage.set(
+  settingKey,
+  value,
+)
+
+export type OptionStorageContentType = {
+  [Property in OptionFullKey as typeof keysObject[OptionFullKey][`shortName`]]: {
+    get: () => Promise<OptionType<Property>>,
+    set: (value: OptionType<Property>) => void,
   }
 }
 
+const optionStorageContent = Object.entries(keysObject).reduce((
+  accumulator,
+  [key, { shortName }] : [OptionFullKey, typeof keysObject[OptionFullKey]]) => ({
+  ...accumulator,
+  [shortName]: {
+    get: makeGet(key as OptionFullKey),
+    set: makeSet(key as OptionFullKey),
+  },
+}), {} as OptionStorageContentType)
+
+const getAll = async () => {
+  const allResults = await Promise.all(
+    Object.values(keysObject).map(({ shortName }) => optionStorageContent[shortName].get()),
+  )
+
+  return Object.entries(keysObject).reduce((accumulator, [key], index) => ({
+    ...accumulator,
+    [key]: allResults[index],
+  }), {} as OptionsSettings)
+}
+
 const OptionsStorage = {
+  ...optionStorageContent,
   defaultOptions,
   getAll,
-  highlight,
-  institutionalLogin,
 }
 
 export default OptionsStorage

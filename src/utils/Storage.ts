@@ -17,7 +17,7 @@ const get = async (key: string, noJSON: boolean = false) => {
   if(result === null){
     return null
   }
-  Logger.log(`Storage retrieving`, result[key])
+  Logger.log(`Storage retrieving`, key, result[key])
   if(noJSON){
     return result[key]
   }

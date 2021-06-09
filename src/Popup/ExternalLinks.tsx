@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import type Law from '../types/Law'
 import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
-import type { OptionsSettings } from '../utils/OptionsStorage'
+import type { OptionsSettings, InstitutionalLogin } from '../utils/OptionsStorage'
 import './ExternalLinks.scss'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const getLawNetURL = (
-  institution: OptionsSettings[`institutionalLogin`],
+  institution: OptionsSettings[`OPTIONS_INSTITUTIONAL_LOGIN`],
   query: string,
 ) => (new Proxy({
   NUS: `https://www-lawnet-sg.lawproxy1.nus.edu.sg/?clerkent-query=${query}`,
@@ -29,11 +29,11 @@ const ExternalLinks: React.FC<Props> = ({
   query,
   type,
 }) => {
-  const [institution, setInstitution] = useState(OptionsStorage.defaultOptions.institutionalLogin)
+  const [institution, setInstitution] = useState(OptionsStorage.defaultOptions.OPTIONS_INSTITUTIONAL_LOGIN)
 
   useEffect(() => {
     (async () => {
-      const institutionSelection = await OptionsStorage.institutionalLogin.get()
+      const institutionSelection = await OptionsStorage.institutionalLogin.get() as InstitutionalLogin
       setInstitution(institutionSelection)
     })()
   }, [])

@@ -5,12 +5,12 @@ import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import Highlighter from './Highlighter'
 import Searcher from './Searcher'
-import OptionsStorage from '../utils/OptionsStorage'
+import OptionsStorage, { OptionsSettings } from '../utils/OptionsStorage'
 import './ContentScript.scss'
 
 let port: Runtime.Port
 
-let highlightEnabled
+let highlightEnabled: OptionsSettings[`OPTIONS_HIGHLIGHT_ENABLED`]
 
 const onMessage = (message: Message) => {
   Logger.log(`content script received:`, message)
@@ -45,7 +45,10 @@ const init = async () => {
   port = browser.runtime.connect(``, { name: `contentscript-port` })
   port.onMessage.addListener(onMessage)
 
-  highlightEnabled = (await OptionsStorage.highlight.get() && !highlightBlacklist.has(`window.location.hostname`))
+  highlightEnabled = (
+    await OptionsStorage.highlight.get() &&
+    !highlightBlacklist.has(`window.location.hostname`)
+  )
 
   if(highlightEnabled){
     const hasHits = Highlighter.scanForCitations(port)
