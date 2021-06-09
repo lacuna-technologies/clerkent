@@ -8,6 +8,7 @@ const hasInvalidCharacters = (string: string) => (new RegExp(/.*[<>\\{|}].*/, `g
 const getPopupSearchText = async (): Promise<string> => {
   const clipboardText = await readText()
   const isValid = (
+    clipboardText && clipboardText.length > 0 &&
     !isTooLong(clipboardText) && !isURI(clipboardText) &&
     !hasTooLongWord(clipboardText) && !hasInvalidCharacters(clipboardText)
   )
