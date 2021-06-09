@@ -1,12 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import OptionsStorage from '../utils/OptionsStorage'
+import OptionsStorage, { OptionShortName, OptionStorageContentType } from '../utils/OptionsStorage'
 import './Options.scss'
 import Highlight from './components/Highlight'
 import Institution from './components/Institution'
+import ClipboardPaste from './components/ClipboardPaste'
+
+type ThenArgument<T> = T extends PromiseLike<infer U> ? U : T
+export type updateOptionsType = <K extends OptionShortName>(
+  key: K,
+  value: ThenArgument<ReturnType<OptionStorageContentType[K][`get`]>>
+) => void
 
 const Options: React.FC = () => {
   const [optionsState, setOptionsState] = useState(OptionsStorage.defaultOptions)
-  const { highlightEnabled, institutionalLogin } = optionsState
+  const {
+    OPTIONS_HIGHLIGHT_ENABLED,
+    OPTIONS_INSTITUTIONAL_LOGIN,
+    OPTIONS_CLIPBOARD_PASTE_ENABLED,
+  } = optionsState
 
   const fetchOptions = useCallback(() => {
     (async () => {
@@ -15,10 +26,11 @@ const Options: React.FC = () => {
     })()
   }, [])
 
-  const updateOptions = useCallback((key, value) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateOptions = useCallback(((key, value) => {
     OptionsStorage[key].set(value)
     fetchOptions()
-  }, [fetchOptions])
+  }) as updateOptionsType, [fetchOptions])
 
   useEffect(() => {
     fetchOptions()
@@ -28,11 +40,15 @@ const Options: React.FC = () => {
     <div id="options-page">
       <h1>Clerkent Setup</h1>
       <Institution
-        value={institutionalLogin}
+        value={OPTIONS_INSTITUTIONAL_LOGIN}
         updateOptions={updateOptions}
       />
       <Highlight
-        value={highlightEnabled}
+        value={OPTIONS_HIGHLIGHT_ENABLED}
+        updateOptions={updateOptions}
+      />
+      <ClipboardPaste
+        value={OPTIONS_CLIPBOARD_PASTE_ENABLED}
         updateOptions={updateOptions}
       />
     </div>

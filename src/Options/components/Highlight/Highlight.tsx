@@ -1,8 +1,15 @@
 import React, { useCallback } from 'react'
 import Toggle from '../../../components/Toggle'
+import { OptionsSettings } from '../../../utils/OptionsStorage'
+import { updateOptionsType } from '../../Options'
 import './Highlight.scss'
 
-const Highlight = ({ value, updateOptions }) => {
+interface Props {
+  value: OptionsSettings[`OPTIONS_HIGHLIGHT_ENABLED`],
+  updateOptions: updateOptionsType
+}
+
+const Highlight: React.FC<Props> = ({ value, updateOptions }) => {
 
   const onChangeHighlight = useCallback(
     (value: boolean) => updateOptions(`highlight`, value),
@@ -23,6 +30,6 @@ const Highlight = ({ value, updateOptions }) => {
       />
     </section>
   )
-  }
+}
 
   export default Highlight
