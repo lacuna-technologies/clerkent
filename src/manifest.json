@@ -165,9 +165,7 @@
         "https://www.supremecourt.gov.sg/*",
         "https://www.tandfonline.com/*",
         "https://www.technologylawdispatch.com/*",
-        "https://www.vle.cam.ac.uk/*"
-      ],
-      "exclude_matches": [
+        "https://www.vle.cam.ac.uk/*",
         "https://advance.lexis.com/*",
         "https://app.justis.com/*",
         "https://login.westlawasia.com/*",

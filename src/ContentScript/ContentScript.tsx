@@ -27,11 +27,25 @@ const onMessage = (message: Message) => {
   }
 }
 
+const highlightBlacklist = new Set([
+  `advance.lexis.com`,
+  `app.justis.com`,
+  `login.westlawasia.com`,
+  `uk.westlaw.com`,
+  `westlawasia.com`,
+  `www-lawnet-sg.lawproxy1.nus.edu.sg`,
+  `www-lawnet-sg.libproxy.smu.edu.sg`,
+  `www-lexisnexis-com.libproxy.ucl.ac.uk`,
+  `www.lawnet.sg`,
+  `www.lexisnexis.com`,
+  `www.lexread.lexisnexis.com`,
+])
+
 const init = async () => {
   port = browser.runtime.connect(``, { name: `contentscript-port` })
   port.onMessage.addListener(onMessage)
 
-  highlightEnabled = await OptionsStorage.highlight.get()
+  highlightEnabled = (await OptionsStorage.highlight.get() && !highlightBlacklist.has(`window.location.hostname`))
 
   if(highlightEnabled){
     const hasHits = Highlighter.scanForCitations(port)
