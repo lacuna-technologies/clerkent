@@ -4,14 +4,18 @@ import type { CaseCitationFinderResult } from './types'
 
 export const SGAbbrs = [
   { abbr: `SGCA`, appendum: `(I)?` },
-  { abbr: `SGHC`, appendum: `(I)?` },
+  { abbr: `SGHC`, appendum: `(F|\\(I\\))?` },
   { abbr: `SLR`, appendum: `(\\(r\\))?` },
   { abbr: `SGDC` },
   { abbr: `SGMC` },
   { abbr: `SGIPOS` },
 ]
 
-export const sortSGCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(SGAbbrs, citationsArray, attribute)
+export const sortSGCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+  SGAbbrs, 
+  citationsArray, 
+  attribute,
+)
 
 export const findSGCaseCitationMatches = (query: string) => {
   const regex = new RegExp(`\\[[12]\\d{3}]( \\d{1,2})? (${
