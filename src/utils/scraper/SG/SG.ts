@@ -13,7 +13,7 @@ const getLegislation = SSO.getLegislation
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      // SGSC.getCaseByName(caseName),
+      SGSC.getCaseByName(caseName),
       // SLW.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
     ]))
