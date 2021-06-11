@@ -3,22 +3,24 @@ import Helpers from '../utils/Helpers'
 import Constants from '../utils/Constants'
 import type Law from '../types/Law'
 import ResultLink from './ResultLink'
+import type { downloadPDFType } from './QueryResult'
 
 interface Props {
   case: Law.Case,
-  downloadPDF: ({ name, citation, pdf }) => () => void,
+  downloadPDF: downloadPDFType
 }
 
 const CaseResult: React.FC<Props> = ({
-  case: {
+  case: currentCase,
+  downloadPDF,
+}) => {
+  const {
     citation,
     name,
     links,
     jurisdiction,
     database,
-  },
-  downloadPDF,
-}) => {
+  } = currentCase
   const summaryURL = Helpers.getSummaryLink(links)?.url
   const judgmentLink = Helpers.getJudgmentLink(links)
   const opinionLink = Helpers.getOpinionLink(links)
@@ -39,7 +41,6 @@ const CaseResult: React.FC<Props> = ({
           }
         </div>
         <div className="right">
-          
         </div>
       </div>
       <a
@@ -55,11 +56,11 @@ const CaseResult: React.FC<Props> = ({
         <span>{citation}</span>
         <ResultLink
           link={judgmentLink}
-          onDownloadPDF={downloadPDF({ citation, name, pdf: judgmentLink?.url })}
+          onDownloadPDF={downloadPDF({ doctype: `Judgment`, law: currentCase })}
         />
         <ResultLink
           link={opinionLink}
-          onDownloadPDF={downloadPDF({ citation, name, pdf: opinionLink?.url })}
+          onDownloadPDF={downloadPDF({ doctype: `Opinion`, law: currentCase })}
         />
       </div>
     </div>

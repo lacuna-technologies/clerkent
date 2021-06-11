@@ -6,27 +6,18 @@ import Constants from '../../Constants'
 import Logger from '../../Logger'
 import CaseCitationFinder from '../../Finder/CaseCitationFinder'
 import Helpers from '../../Helpers'
+import type { AxiosResponse } from 'axios'
+import PDF from '../../PDF'
 
 const DOMAIN = `https://www.bailii.org`
 
-const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
-  const { data, request } = await Request.post(
-    `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
-    qs.stringify({ citation }, { format : `RFC1738` }),
-    {
-      validateStatus: status => (status >= 200 && status < 300) || status === 302,
-    },
-  )
-
-  if(request.responseURL === `${DOMAIN}/cgi-bin/find_by_citation.cgi`) {
-    return []
-  }
+const parseSingleCase = (data: AxiosResponse[`data`], request: AxiosResponse[`request`]): Law.Case => {
 
   const $ = cheerio.load(data)
 
   const pdfPath = $(`a[href$=".pdf"]`).eq(0).attr(`href`)
 
-  const result: Law.Case = {
+  return {
     citation: Helpers.findCitation(
       CaseCitationFinder.findUKCaseCitation,
       $(`title`).text().trim(),
@@ -46,6 +37,22 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     ],
     name: $(`title`).text().trim().split(`[`)[0],
   }
+}
+
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
+  const { data, request } = await Request.post(
+    `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
+    qs.stringify({ citation }, { format : `RFC1738` }),
+    {
+      validateStatus: status => (status >= 200 && status < 300) || status === 302,
+    },
+  )
+
+  if(request.responseURL === `${DOMAIN}/cgi-bin/find_by_citation.cgi`) {
+    return []
+  }
+
+  const result = parseSingleCase(data, request)
 
   return [result]
 }
@@ -95,9 +102,31 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   }
 }
 
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const { data, request } = await Request.get(Helpers.getJudgmentLink(inputCase.links)?.url)
+
+  const parsedCase = parseSingleCase(data, request)
+
+  const existingURL = parsedCase.links.find(({ doctype, filetype }) => doctype === inputDocumentType && filetype === `PDF`)?.url
+  if(existingURL) {
+    return existingURL
+  }
+  
+  const fileName = Helpers.getFileName(inputCase, inputDocumentType)
+  await PDF.save({
+    code: `document.querySelectorAll('body>p:nth-of-type(1),body>p:nth-of-type(2),body>hr:nth-of-type(1)').forEach(v => v.remove());`
+      + `document.querySelectorAll('body>hr:last-of-type,body>small:last-of-type').forEach(v => v.remove());`
+      +`document.querySelector('body').setAttribute('style', 'font-family: Times New Roman;');`,
+    fileName,
+    url: request.responseURL,
+  })
+  return null
+}
+
 const BAILII = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default BAILII

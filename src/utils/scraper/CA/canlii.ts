@@ -6,6 +6,8 @@ import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import { findCACaseCitation } from '../../Finder/CaseCitationFinder/CA'
 import type { AxiosResponse } from 'axios'
+import Logger from '../../Logger'
+import PDF from '../../PDF'
 
 const DOMAIN = `https://www.canlii.org`
 
@@ -43,7 +45,6 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     `${DOMAIN}/en/search/ajaxSearch.do?${qs.stringify({ id: citation, page: 1})}`,
     {
       headers: {
-        Referer: `https://www.canlii.org/en/`,
         'X-Requested-With': `XMLHttpRequest`,
       },
     },
@@ -57,7 +58,6 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     `${DOMAIN}/en/search/ajaxSearch.do?${qs.stringify({ id: caseName, page: 1})}`,
     {
       headers: {
-        Referer: `https://www.canlii.org/en/`,
         'X-Requested-With': `XMLHttpRequest`,
       },
     },
@@ -66,9 +66,28 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return parseCase(data)
 }
 
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentLink = Helpers.getJudgmentLink(inputCase.links)?.url
+  try {
+    const { request } = await Request.head(judgmentLink.replace(/\.html$/i, `.pdf`))
+    return request.responseURL
+  } catch {
+    Logger.log(`CANLII: getPDF - no PDF available`)
+  }
+  
+  const fileName = Helpers.getFileName(inputCase, inputDocumentType)
+  await PDF.save({
+    code: `document.body.innerHTML = document.querySelector('#originalDocument').innerHTML;`,
+    fileName,
+    url: judgmentLink,
+  })
+  return null
+}
+
 const CA = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default CA

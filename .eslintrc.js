@@ -75,6 +75,7 @@ module.exports = {
         },
         ignore: [
           `[A-Z]{2,4}`,
+          `webextension-polyfill-ts`,
         ],
       },
     ],

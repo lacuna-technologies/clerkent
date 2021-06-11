@@ -6,6 +6,7 @@ import Constants from '../../Constants'
 import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import { findHKCaseCitation } from '../../Finder/CaseCitationFinder/HK'
+import PDF from '../../PDF'
 
 
 const DOMAIN = `https://legalref.judiciary.hk`
@@ -39,7 +40,7 @@ const getCaseByURL = async (url: string): Promise<Law.Case[]> => {
   }
 }
 
-const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
+export const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   try {
     const { data } = await Request.get(`${DOMAIN}/lrs/common/search/jud_search_ncn.jsp`, {
       params: {
@@ -160,9 +161,31 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return parseResultsTable($)
 }
 
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentLink = Helpers.getJudgmentLink(inputCase.links)?.url
+  const originalQs = qs.parse(judgmentLink.replace(/.+\?/, ``))
+  const { DIS } = originalQs
+  try {
+    const judgmentURL = new URL(judgmentLink)
+    const url = `${judgmentURL.protocol}//${judgmentURL.hostname}/lrs/common/ju/ju_body.jsp?${qs.stringify({ DIS })}`
+    const fileName = Helpers.getFileName(inputCase, inputDocumentType)
+    await PDF.save({
+      code: `document.querySelectorAll('a').forEach((el) => el.style = 'color: black; text-decoration: none;');`
+      + `document.querySelectorAll('.heading').forEach((el) => el.style = 'color: black;');`,
+      fileName,
+      url,
+    })
+  } catch (error) {
+    Logger.error(`HK LRS`, error)
+  }
+  
+  return null
+}
+
 const LRS = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default LRS

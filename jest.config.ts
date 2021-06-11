@@ -5,6 +5,7 @@ const config = {
   projects: [`<rootDir>/src`],
   transform: {
     "^.+\\.scss$": `jest-scss-transform`,
+    "^.+\\.svg$": `<rootDir>/tests/svgTransform.js`,
     "^.+\\.tsx?$": `<rootDir>/node_modules/babel-jest`,
   },
   verbose: true,

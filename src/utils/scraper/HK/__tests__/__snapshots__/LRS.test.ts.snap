@@ -6,6 +6,7 @@ Array [
     "citation": "[2021] HKCFA 14",
     "database": Object {
       "icon": "",
+      "id": "HK_lrs",
       "name": "Legal Reference System",
       "url": "https://www.judiciary.hk/en/legal_ref/judgments.htm",
     },

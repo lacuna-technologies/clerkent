@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import Request from '../../../Request'
-import LRS from '../LRS'
+import { getCaseByCitation } from '../LRS'
 
 jest.mock(`../../../Request`)
 const RequestGet = Request.get as jest.Mock
@@ -12,7 +12,7 @@ describe(`HK LRS`, () => {
   it(`should send valid request for getCaseByCitation`, () => {
     RequestGet.mockImplementation(() => Promise.resolve({ data: `` }))
     
-    LRS.getCaseByCitation(citationQuery)
+    getCaseByCitation(citationQuery)
     expect(RequestGet.mock.calls).toMatchSnapshot()
   })
 
@@ -29,7 +29,7 @@ describe(`HK LRS`, () => {
       .mockImplementationOnce(() => Promise.resolve({ data: mockSearchResponse }))
       .mockImplementationOnce(() => Promise.resolve({ data: mockResultResponse }))
 
-    const result = await LRS.getCaseByCitation(citationQuery)
+    const result = await getCaseByCitation(citationQuery)
     expect(result).toMatchSnapshot()
   })
 })

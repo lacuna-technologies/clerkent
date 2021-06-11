@@ -8,6 +8,7 @@ export const SGAbbrs = [
   { abbr: `SLR`, appendum: `(\\(r\\))?` },
   { abbr: `SGDC` },
   { abbr: `SGMC` },
+  { abbr: `SGIPOS` },
 ]
 
 export const sortSGCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(SGAbbrs, citationsArray, attribute)

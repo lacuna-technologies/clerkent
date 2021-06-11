@@ -89,6 +89,22 @@ const getLegislation = Memoize(async (
   }]) => `${provisionType}-${provisionNumber}-${statute}`,
 })
 
+const getPDF = (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
+  const existingLink = inputCase.links.find(({ doctype, filetype }) => doctype === inputDocumentType && filetype === `PDF`)
+  if(existingLink){
+    return Promise.resolve(existingLink?.url)
+  }
+
+  const targetJurisdiction = jurisdictionMap[inputCase.jurisdiction]
+  if(!targetJurisdiction || !(`getPDF` in targetJurisdiction)){
+    return Promise.resolve(``)
+  }
+
+  return (
+    targetJurisdiction as any
+  ).getPDF(inputCase, inputDocumentType)
+}
+
 const scraper = {
   AU,
   CA,
@@ -100,6 +116,7 @@ const scraper = {
   getCaseByCitation,
   getCaseByName,
   getLegislation,
+  getPDF,
 }
 
 export default scraper

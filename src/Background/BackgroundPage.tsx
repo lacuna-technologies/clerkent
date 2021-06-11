@@ -4,7 +4,7 @@ import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import Finder from '../utils/Finder'
-import type { Message } from '../utils/Messenger'
+import type { Message, OtherProperties} from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
 import type {
@@ -14,6 +14,7 @@ import type {
   FinderResult,
 } from '../utils/Finder'
 import Law from '../types/Law'
+import { Helpers } from '../utils'
 
 let currentCitation = null
 
@@ -39,79 +40,87 @@ const getScraperResult = (
   return Promise.resolve([])
 }
 
+const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties) => {
+   const { citation, source } = otherProperties
+  currentCitation = citation
+
+  const targets = Finder.findCase(citation)
+
+  const noResultMessage = {
+    action: Messenger.ACTION_TYPES.viewCitation,
+    data: [],
+    source: Messenger.TARGETS.background,
+    target: source,
+  }
+  if(targets.length === 0){
+    return port.postMessage(noResultMessage)
+  }
+  
+  const result = await Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult)
+
+  if(result.length === 0){
+    return port.postMessage(noResultMessage)
+  }
+
+  if(citation === currentCitation){ // ignore outdated results
+    const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
+
+    const message = {
+      action: Messenger.ACTION_TYPES.viewCitation,
+      data,
+      source: Messenger.TARGETS.background,
+      target: source,
+    }
+    Logger.log(`sending viewCitation`, message)
+    port.postMessage(message)
+  }
+}
+
+const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
+  const { citation, source, mode, jurisdiction } = otherProperties
+  currentCitation = citation
+
+  const targets = mode === `legislation` ? Finder.findLegislation(citation) : Finder.findCase(citation)
+
+  const noResultMessage = {
+    action: Messenger.ACTION_TYPES.search,
+    data: [],
+    source: Messenger.TARGETS.background,
+    target: source,
+  }
+  if(targets.length === 0){
+    return port.postMessage(noResultMessage)
+  }
+  
+  const result = await getScraperResult(targets, mode, jurisdiction)
+  Logger.log(`BackgroundPage scraper result`, targets, result)
+
+  if(result.length === 0){
+    return port.postMessage(noResultMessage)
+  }
+
+  if(citation === currentCitation){ // ignore outdated results
+    const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
+
+    const message = {
+      action: Messenger.ACTION_TYPES.search,
+      data,
+      source: Messenger.TARGETS.background,
+      target: source,
+    }
+    Logger.log(`sending search`, message)
+    port.postMessage(message)
+  }
+}
+
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
   switch (action) {
     case Messenger.ACTION_TYPES.viewCitation: {
-      const { citation, source } = otherProperties
-      currentCitation = citation
-
-      const targets = Finder.findCase(citation)
-
-      const noResultMessage = {
-        action: Messenger.ACTION_TYPES.viewCitation,
-        data: [],
-        source: Messenger.TARGETS.background,
-        target: source,
-      }
-      if(targets.length === 0){
-        return port.postMessage(noResultMessage)
-      }
-      
-      const result = await Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult)
-
-      if(result.length === 0){
-        return port.postMessage(noResultMessage)
-      }
-
-      if(citation === currentCitation){ // ignore outdated results
-        const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
-
-        const message = {
-          action: Messenger.ACTION_TYPES.viewCitation,
-          data,
-          source: Messenger.TARGETS.background,
-          target: source,
-        }
-        Logger.log(`sending viewCitation`, message)
-        port.postMessage(message)
-      }
+      await viewCitation(port, otherProperties)
     break
     }
     case Messenger.ACTION_TYPES.search: {
-      const { citation, source, mode, jurisdiction } = otherProperties
-      currentCitation = citation
-
-      const targets = mode === `legislation` ? Finder.findLegislation(citation) : Finder.findCase(citation)
-
-      const noResultMessage = {
-        action: Messenger.ACTION_TYPES.search,
-        data: [],
-        source: Messenger.TARGETS.background,
-        target: source,
-      }
-      if(targets.length === 0){
-        return port.postMessage(noResultMessage)
-      }
-      
-      const result = await getScraperResult(targets, mode, jurisdiction)
-      Logger.log(`BackgroundPage scraper result`, targets, result)
-
-      if(result.length === 0){
-        return port.postMessage(noResultMessage)
-      }
-
-      if(citation === currentCitation){ // ignore outdated results
-        const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
-
-        const message = {
-          action: Messenger.ACTION_TYPES.search,
-          data,
-          source: Messenger.TARGETS.background,
-          target: source,
-        }
-        Logger.log(`sending search`, message)
-        port.postMessage(message)
-      }
+      await search(port, otherProperties)
     break
     }
     case Messenger.ACTION_TYPES.downloadFile: {
@@ -123,6 +132,20 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       })
     
     break
+    }
+
+    case Messenger.ACTION_TYPES.downloadPDF: {
+      const { law, doctype } = otherProperties
+      const url = await Scraper.getPDF(law as Law.Case, doctype)
+      const fileName = Helpers.getFileName(law, doctype)
+      Logger.log(`downloadPDF fileName: `, fileName)
+      if(url){
+        await browser.downloads.download({
+          filename: fileName,
+          saveAs: true,
+          url: url,
+        })
+      }
     }
     // No default
   }

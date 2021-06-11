@@ -50,9 +50,22 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
   return []
 }
 
+
+const databaseMap = {
+  [Constants.DATABASES.HK_lrs.id]: LRS,
+  [Constants.DATABASES.HK_hkliiorg.id]: HKLIIORG,
+  [Constants.DATABASES.commonlii.id]: Common.CommonLII,
+}
+
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
+  const { database } = inputCase
+  return databaseMap[database.id].getPDF(inputCase, inputDocumentType)
+}
+
 const HK = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default HK

@@ -1,6 +1,8 @@
 import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants'
+import Helpers from '../../Helpers'
+import Logger from '../../Logger'
 
 const DOMAIN = `https://www.epo.org`
 
@@ -93,8 +95,6 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     },
     {
       headers: {
-          'Origin': DOMAIN,
-          'Referer': `${DOMAIN}/law-practice/case-law-appeals/advanced-search.html`,
           'X-Requested-With': `XMLHttpRequest`,
         },
     },
@@ -107,7 +107,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   } = data
 
   const result = results[0]
-  const title = result.properties.find(({ id }) => id === `title`).data[0].html
+  const title = result.properties.find(({ id }) => id === `title`).data[0].html.replace(citation, ``).trim()
   const url = result.properties.find(({ id }) => id === `url`).data[0].value.str
   
   
@@ -117,18 +117,32 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     jurisdiction: Constants.JURISDICTIONS.EU.id,
     links: [
       {
-        doctype: `Summary`,
+        doctype: `Judgment`,
         filetype: `HTML`,
         url,
       },
     ],
     name: title,
   }]
+}
 
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentLink = Helpers.getJudgmentLink(inputCase.links)?.url
+  try {
+    const { request } = await Request.head(judgmentLink
+      .replace(/\/recent\//i, `/pdf/`)
+      .replace(/\.html$/i, `.pdf`),
+    )
+    return request.responseURL
+  } catch {
+    Logger.log(`EPO: getPDF - no PDF available`)
+  }
+  return null
 }
 
 const CURIA = {
   getCaseByCitation,
+  getPDF,
 }
 
 export default CURIA

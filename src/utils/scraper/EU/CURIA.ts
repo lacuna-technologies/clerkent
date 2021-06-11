@@ -22,17 +22,33 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
       judgmentContainer,
     )
     const opinionURL = $(`tr:nth-of-type(2) .liste_table_cell_links_curia a`, textsContainer).attr(`href`)
-    const opinionLink: Law.Link | null = opinionURL ? {
+    const opinionLink: Law.Link = {
       doctype: `Opinion`,
       filetype: `HTML`,
       url: opinionURL,
-    } : null
+    }
     const judgmentURL = $(`tr:nth-of-type(1) .liste_table_cell_links_curia a`, textsContainer).attr(`href`)
-    const judgmentLink: Law.Link | null = judgmentURL ? {
+    const judgmentLink: Law.Link = {
       doctype: `Judgment`,
       filetype: `HTML`,
       url: judgmentURL,
-    } : null
+    }
+    const judgmentPDFURL = $(`tr:nth-of-type(1) .liste_table_cell_links_eurlex a`, textsContainer)
+      .attr(`href`)
+      .replace(/\/TXT\//, `/TXT/PDF/`)
+    const judgmentPDFLink: Law.Link = {
+      doctype: `Judgment`,
+      filetype: `PDF`,
+      url: judgmentPDFURL,
+    }
+    const opinionPDFURL = $(`tr:nth-of-type(2) .liste_table_cell_links_eurlex a`, textsContainer)
+      .attr(`href`)
+      .replace(/\/TXT\//, `/TXT/PDF/`)
+    const opinionPDFLink: Law.Link = {
+      doctype: `Opinion`,
+      filetype: `PDF`,
+      url: opinionPDFURL,
+    }
 
     return {
       citation,
@@ -44,8 +60,10 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
           filetype: `HTML`,
           url: summaryLink,
         },
-        ...(opinionLink ? [opinionLink] : []),
-        ...(judgmentLink ? [judgmentLink] : []),
+        ...(opinionURL ? [opinionLink] : []),
+        ...(judgmentURL ? [judgmentLink] : []),
+        ...(judgmentPDFURL ? [judgmentPDFLink] : []),
+        ...(opinionPDFURL ? [opinionPDFLink] : []),
       ],
       name: name.replace(citation, ``).trim().slice(1).replace(/^[\s-]+/g, ``).trim(),
     }
@@ -77,9 +95,12 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return parseCaseData(data)
 }
 
+const getPDF = () => null
+
 const CURIA = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default CURIA

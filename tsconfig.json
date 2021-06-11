@@ -24,7 +24,7 @@
 	"include": [
 		"src",
 		"jest.config.ts.ts",
-		"jest.config.js"
+		"src/types/Filetypes.d.ts"
 	],
 	"exclude": ["**/node_modules", "**/.*/"]
 }

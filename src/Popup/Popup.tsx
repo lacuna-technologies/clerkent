@@ -87,13 +87,14 @@ const Popup: React.FC = () => {
   //   Logger.log(selection)
   // }, [])
 
-  const downloadPDF = useCallback(({ name, citation, pdf }) => () => sendMessage({
-    action: Messenger.ACTION_TYPES.downloadFile,
-    filename: `${Helpers.sanitiseFilename(name)}${citation.length > 0 ? ` ${citation}` : ``}.pdf`,
-    source: Messenger.TARGETS.popup,
-    target: Messenger.TARGETS.background,
-    url: pdf,
-  }), [sendMessage])
+  const downloadPDF = useCallback(
+    ({ law, doctype }: { law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype`]}) => () => sendMessage({
+      action: Messenger.ACTION_TYPES.downloadPDF,
+      doctype,
+      law,
+      source: Messenger.TARGETS.popup,
+      target: Messenger.TARGETS.background,
+    }), [sendMessage])
 
   const onMessage = useCallback((message: Message) => {
     Logger.log(`popup received:`, message)

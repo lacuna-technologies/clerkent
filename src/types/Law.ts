@@ -2,7 +2,8 @@ declare namespace Law {
   interface Database {
     icon: string,
     name: string, 
-    url: string
+    url: string,
+    id: string,
   }
 
   interface Link {

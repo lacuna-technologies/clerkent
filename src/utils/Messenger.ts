@@ -1,7 +1,8 @@
 const ACTION_TYPES = {
   downloadFile: `downloadFile`,
-  lawnetSearch: `lawnetSearch`,
-  search: `search`, 
+  downloadPDF: `downloadPDF`,
+  lawnetSearch: `lawnetSearch`, 
+  search: `search`,
   test: `test`,
   test2: `test2`,
   viewCitation: `viewCitation`,
@@ -20,6 +21,10 @@ export interface Message {
   source: ValueOf<typeof TARGETS>
   target: ValueOf<typeof TARGETS>
   data?: unknown
+}
+
+export interface OtherProperties {
+  [x: string]: any
 }
 
 const Messenger = {
