@@ -4,7 +4,7 @@ import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
 
-const iconFile = path.join(__dirname, `..`, `assets`, `clerkent-light.png`)
+const iconFile = path.join(__dirname, `..`, `assets`, `clerkent.png`)
 const destination = path.join(__dirname, `..`, `generated`)
 const iconSizes = [16, 32, 48, 64, 128]
 

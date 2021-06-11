@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/pLUJxj6.png" width="200" />
+  <img src="./assets/clerkent.png" width="200" />
 </p>
 <h1 align="center">
   Clerkent
@@ -17,7 +17,8 @@ See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 
 ## Screenshots
 
-![screenshot1](./demo/screenshot1.png)
+![UK screenshot](./assets/screenshot_uk.png)
+![SG screenshot](./assets/screenshot_sg.png)
 
 ## Development
 
