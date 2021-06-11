@@ -28,17 +28,35 @@ const onMessage = (message: Message) => {
 }
 
 const highlightBlacklist = new Set([
+  `www.epo.org`,
   `advance.lexis.com`,
   `app.justis.com`,
+  `curia.europa.eu`,
+  `eur-lex.europa.eu`,
+  `lawcite.org`,
+  `legalref.judiciary.hk`,
+  `legislation.gov.uk`,
   `login.westlawasia.com`,
+  `scc-csc.lexum.com`,
+  `sso.agc.gov.sg`,
   `uk.westlaw.com`,
   `westlawasia.com`,
   `www-lawnet-sg.lawproxy1.nus.edu.sg`,
   `www-lawnet-sg.libproxy.smu.edu.sg`,
   `www-lexisnexis-com.libproxy.ucl.ac.uk`,
+  `www.austlii.edu.au`,
+  `www.bailii.org`,
+  `www.canlii.org`,
+  `www.commonlii.org`,
+  `www.hklii.hk`,
+  `www.hklii.org`,
   `www.lawnet.sg`,
   `www.lexisnexis.com`,
   `www.lexread.lexisnexis.com`,
+  `www.nzlii.org`,
+  `www.worldlii.org`,
+  `www6.austlii.edu.au`,
+  `www8.austlii.edu.au`,
 ])
 
 const init = async () => {
@@ -47,7 +65,7 @@ const init = async () => {
 
   highlightEnabled = (
     await OptionsStorage.highlight.get() &&
-    !highlightBlacklist.has(`window.location.hostname`)
+    !highlightBlacklist.has(window.location.hostname)
   )
 
   if(highlightEnabled){

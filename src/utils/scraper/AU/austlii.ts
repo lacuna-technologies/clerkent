@@ -5,14 +5,15 @@ import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import { findAUCaseCitation } from '../../Finder/CaseCitationFinder/AU'
 import type { AxiosResponse } from 'axios'
+import Logger from '../../Logger'
 
 const DOMAIN = `http://www8.austlii.edu.au`
 
 const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   const $ = cheerio.load(data)
   return $(`#page-main > .card > ul > li`).map((_, element): Law.Case => {
-    const name = $(`a:first-of-type`, element).text().trim()
-    const link = `${DOMAIN}${$(`a:first-of-type`, element).attr(`href`)}`
+    const name = $(`> a:first-of-type`, element).text().trim()
+    const link = `${DOMAIN}${$(`> a:first-of-type`, element).attr(`href`)}`
     const citation = Helpers.findCitation(findAUCaseCitation, name)
     return {
       citation,
@@ -61,9 +62,25 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return parseCaseData(data)
 }
 
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentLink = Helpers.getJudgmentLink(inputCase.links)?.url
+  const pdfURL = judgmentLink
+    .replace(/\/(viewdoc|sinodisp)\//, `/sign.cgi/`)
+    .replace(/\.html\??.*/, ``)
+  try {
+    const { request } = await Request.head(pdfURL)
+    return request.responseURL
+  } catch {
+    Logger.log(`austlii: getPDF - no PDF available`)
+  }
+  
+  return null
+}
+
 const AU = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default AU

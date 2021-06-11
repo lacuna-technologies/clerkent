@@ -6,6 +6,7 @@ import Helpers from '../../Helpers'
 import Logger from '../../Logger'
 import { findNZCaseCitation } from '../../Finder/CaseCitationFinder/NZ'
 import type { AxiosResponse } from 'axios'
+import PDF from '../../PDF'
 
 const DOMAIN = `http://www.nzlii.org`
 
@@ -14,7 +15,7 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
 
   return $(`body ol[start="1"] > li`).map((_, element): Law.Case => {
     const name = $(`a:first-of-type`, element).eq(0).text().trim()
-    const link = $(`a:first-of-type`, element).attr(`href`)
+    const link = $(`a:first-of-type`, element).attr(`href`).replace(/\?.*/i, ``)
     const citation = Helpers.findCitation(findNZCaseCitation, name)
     return {
       citation,
@@ -78,9 +79,32 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return []
 }
 
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentLink = Helpers.getJudgmentLink(inputCase.links)?.url
+  try {
+    const { request } = await Request.head(judgmentLink.replace(/\.html$/i, `.pdf`))
+    return request.responseURL
+  } catch {
+    Logger.log(`NZLII: getPDF - no PDF available`)
+  }
+  
+  const fileName = Helpers.getFileName(inputCase, inputDocumentType)
+  await PDF.save({
+    code: `const immediateChildren = document.querySelectorAll('body> *');`
+      + `const hrList = [];`
+      + `immediateChildren.forEach((el, i) => {if(el.nodeName === 'HR') {hrList.push(i)}});`
+      + `immediateChildren.forEach((el, i) => {if(i >= hrList.slice(-1)[0] || i <= hrList[0]){el.remove()}});`
+      +`document.querySelector('body').setAttribute('style', 'font-family: Times New Roman;');`,
+    fileName,
+    url: judgmentLink,
+  })
+  return null
+}
+
 const NZ = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default NZ

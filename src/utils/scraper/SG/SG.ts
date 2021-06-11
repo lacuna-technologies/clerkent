@@ -13,8 +13,8 @@ const getLegislation = SSO.getLegislation
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      SGSC.getCaseByName(caseName),
-      SLW.getCaseByName(caseName),
+      // SGSC.getCaseByName(caseName),
+      // SLW.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
     ]))
     .filter(({ status }) => status === `fulfilled`)
@@ -51,12 +51,22 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
   return []
 }
 
+const databaseMap = {
+  [Constants.DATABASES.commonlii.id]: Common.CommonLII,
+}
+
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
+  const { database } = inputCase
+  return databaseMap[database.id].getPDF(inputCase, inputDocumentType)
+}
+
 const SG = {
   SGSC,
   SLW,
   getCaseByCitation,
   getCaseByName,
   getLegislation,
+  getPDF,
 }
 
 export default SG

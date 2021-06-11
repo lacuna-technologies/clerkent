@@ -5,6 +5,7 @@ import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import { findHKCaseCitation } from '../../Finder/CaseCitationFinder/HK'
 import type { AxiosResponse } from 'axios'
+import PDF from '../../PDF'
 
 const DOMAIN = `https://www.hklii.org`
 
@@ -70,9 +71,27 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return parseCaseData(data)
 }
 
-const HKLII = {
-  getCaseByCitation,
-  getCaseByName,
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentLink = Helpers.getJudgmentLink(inputCase.links)?.url
+  const fileName = Helpers.getFileName(inputCase, inputDocumentType)
+  await PDF.save({
+    code: `document.body.innerHTML = document.querySelector('#main-content').innerHTML;`
+      + `const immediateChildren = document.querySelectorAll('body> *');`
+      + `const hrList = [];`
+      + `immediateChildren.forEach((el, i) => {if(el.nodeName === 'HR') {hrList.push(i)}});`
+      + `immediateChildren.forEach((el, i) => {if(i <= hrList[0]){el.remove()}});`
+      + `document.querySelector('body').setAttribute('style', 'font-family: Times New Roman;');`
+      + `document.querySelectorAll('a').forEach((el) => el.style = 'color: black !important; text-decoration: none;');`,
+    fileName,
+    url: judgmentLink,
+  })
+  return null
 }
 
-export default HKLII
+const HKLIIORG = {
+  getCaseByCitation,
+  getCaseByName,
+  getPDF,
+}
+
+export default HKLIIORG

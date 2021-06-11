@@ -6,6 +6,13 @@ import Logger from '../../Logger'
 import CaseCitationFinder from '../../Finder/CaseCitationFinder'
 import Helpers from '../../Helpers'
 import type { AxiosResponse } from 'axios'
+import BAILII from '../UK/BAILII'
+import nzlii from '../NZ/nzlii'
+import HKLIIORG from '../HK/HKLIIORG'
+import canlii from '../CA/canlii'
+import scclexum from '../CA/scclexum'
+import austlii from '../AU/austlii'
+import PDF from '../../PDF'
 
 // Available judgments
 //  Singapore
@@ -35,6 +42,8 @@ const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => 
   return null
 }
 
+const fixURL = (url: string) => url.replace(/scc\.lexum\.umontreal\.ca/, `scc-csc.lexum.com`)
+
 const parseMultipleCase = ($: cheerio.Root): Law.Case[] => {
   const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element): Law.Case => {
     const name = $(`td.case-cited > a`, element).text().trim()
@@ -50,7 +59,7 @@ const parseMultipleCase = ($: cheerio.Root): Law.Case[] => {
     const judgmentLink: Law.Link | null = judgmentURL && judgmentURL.length > 0 ? {
       doctype: `Judgment`,
       filetype: `HTML`,
-      url: judgmentURL,
+      url: fixURL(judgmentURL),
     } : null
     return {
       citation,
@@ -92,7 +101,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
     const judgmentLink: Law.Link | null = (link && link.length > 0) ? {
       doctype: `Judgment`,
       filetype: `HTML`,
-      url: link,
+      url: fixURL(link),
     } : null
     const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
     const citationText = Helpers.findCitation(
@@ -174,9 +183,43 @@ const getCaseByName = async (citation: string, jurisdiction: string = null): Pro
   }
 }
 
+const hostMap = {
+  'scc-csc.lexum.com': scclexum,
+  'www.austlii.edu.au': austlii,
+  'www.bailii.org': BAILII,
+  'www.canlii.org': canlii,
+  'www.hklii.org': HKLIIORG,
+  'www.nzlii.org': nzlii,
+  'www8.austlii.edu.au': austlii,
+}
+
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+  const judgmentURL = new URL(Helpers.getJudgmentLink(inputCase.links)?.url)
+  if(judgmentURL.hostname in hostMap){
+    return hostMap[judgmentURL.hostname].getPDF(inputCase, inputDocumentType)
+  }
+
+  if(judgmentURL.pathname.includes(`/sg/cases/SGCA/`) || judgmentURL.pathname.includes(`/sg/cases/SGHC/`)){
+    return judgmentURL.toString().replace(/\.html$/i, `.pdf`)
+  }
+
+  const fileName = Helpers.getFileName(inputCase, inputDocumentType)
+  await PDF.save({
+    code: `const immediateChildren = document.querySelectorAll('body> *');`
+      + `const hrList = [];`
+      + `immediateChildren.forEach((el, i) => {if(el.nodeName === 'HR') {hrList.push(i)}});`
+      + `immediateChildren.forEach((el, i) => {if(i >= hrList.slice(-1)[0] || i <= hrList[0]){el.remove()}});`,
+    fileName,
+    url: judgmentURL.toString(),
+  })
+
+  return null
+}
+
 const CommonLII = {
   getCaseByCitation,
   getCaseByName,
+  getPDF,
 }
 
 export default CommonLII

@@ -168,6 +168,7 @@ const NZ_DATABASES = {
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
+    id: `commonlii`,
     name: `CommonLII`,
     url: `http://www.commonlii.org`,
   },
@@ -184,7 +185,10 @@ const dedupeObjects = (inputObject: Record<string, Record<string, string>>, juri
   Object.entries(inputObject)
   .reduce((accumulator, [id, object]: [string, Record<string, string>]) => ({
     ...accumulator,
-    [`${jurisdictionCode}_${id}`]: object,
+    [`${jurisdictionCode}_${id}`]: {
+      id: `${jurisdictionCode}_${id}`,
+      ...object,
+    },
   }), {})
 
 const DATABASES: Record<string, Law.Database> = {

@@ -1,57 +1,65 @@
 import React from 'react'
 import type Law from '../types/Law'
 import Constants from '../utils/Constants'
-import Helpers from '../utils/Helpers'
+// import Helpers from '../utils/Helpers'
+import type { downloadPDFType } from './QueryResult'
+// import ResultLink from './ResultLink'
 
 interface Props {
   legislation: Law.Legislation,
-  downloadPDF: ({ name, citation, pdf }) => () => void,
+  downloadPDF: downloadPDFType,
 }
 
 const LegislationResult: React.FC<Props> = ({
-  legislation: {
+  legislation,
+  downloadPDF,
+}) => {
+  const {
     database,
     jurisdiction,
     provisionNumber,
     provisionType,
     statute,
     links,
-  },
-  downloadPDF,
-}) => {
-  const pdf = Helpers.getPDFLink(links)
+  } = legislation
+  const link = links[0]
 
   return (
     <div className="result">
       <div className="details">
         <div className="left">
-          { jurisdiction &&
-            <span className="jurisdiction">
-              {Constants.JURISDICTIONS[jurisdiction].emoji}
-            </span>
+          <span className="jurisdiction" title={Constants.JURISDICTIONS[jurisdiction]?.name}>
+            {Constants.JURISDICTIONS[jurisdiction]?.emoji}
+          </span>
+          {
+            database && (
+              <a className="database no-link" href={database.url} target="_blank" rel="noreferrer">
+                {database.name}
+              </a>
+            )
           }
-          { database && <span className="database">{database.name}</span> }
         </div>
         <div className="right">
-          {
-            pdf ? (
-              <p className="links">
-                <button
-                  className="pdf button"
-                  onClick={downloadPDF({ citation: ``, name: statute, pdf: pdf.url })}
-                >PDF</button>
-              </p>
-            ) : null
-          }
         </div>
       </div>
-      <a className="legislation-name link" href={links[0]?.url} target="_blank" rel="noreferrer">
+      <a
+        className="legislation-name link"
+        href={link?.url}
+        target="_blank"
+        rel="noreferrer"
+      >
         {provisionNumber
           ? `${provisionType} ${provisionNumber}, `
           : null
         }
         {statute}
       </a>
+      {/* <div className="links">
+        <ResultLink
+          link={link}
+          onDownloadPDF={downloadPDF({ doctype: `Legislation`, law: legislation })}
+        />
+      </div> */}
     </div>
   )
 }

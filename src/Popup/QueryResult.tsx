@@ -6,9 +6,13 @@ import ShowMore from './ShowMore'
 import Loading from '../components/Loading'
 import './QueryResult.scss'
 
+export type downloadPDFType = (
+  { law, doctype }: { law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype`]}
+) => () => void
+
 interface Props {
   searchResult: (Law.Case | Law.Legislation)[],
-  downloadPDF: ({ name, citation, pdf }) => () => void,
+  downloadPDF: downloadPDFType,
   isSearching: boolean,
   mode: `case` | `legislation`,
 }

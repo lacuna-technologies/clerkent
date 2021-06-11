@@ -36,10 +36,21 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
   return []
 }
 
+const databaseMap = {
+  [Constants.DATABASES.EU_curia.id]: CURIA,
+  [Constants.DATABASES.EU_epo.id]: EPO,
+}
+
+const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
+  const { database } = inputCase
+  return databaseMap[database.id].getPDF(inputCase, inputDocumentType)
+}
+
 const EU = {
   getCaseByCitation,
   getCaseByName,
   getLegislation,
+  getPDF,
 }
 
 export default EU

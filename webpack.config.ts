@@ -133,6 +133,20 @@ const WebpackConfig = {
           },
         ],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: `file-loader`,
+            options: {
+              esModule: false,
+              name: `[name].[ext]`,
+              outputPath: `assets/icons/`,
+              publicPath: `/assets/icons/`,
+            },
+          },
+        ],
+      },
     ],
   },
 

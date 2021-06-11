@@ -55,6 +55,16 @@
       }
 
       >.link {
+
+        a.pdf {
+          >img {
+            height: 1rem;
+            margin-left: 0.25rem;
+            margin-bottom: -0.15rem;
+            filter: invert(14%) sepia(89%) saturate(2676%) hue-rotate(350deg) brightness(84%) contrast(122%);
+          }
+        }
+
         +.link {
           margin-left: 1rem;
         }
