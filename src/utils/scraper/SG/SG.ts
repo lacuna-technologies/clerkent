@@ -7,6 +7,7 @@ import Helpers from '../../Helpers'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortSGCitations } from '../../Finder/CaseCitationFinder/SG'
+import { sortByNameSimilarity } from '../utils'
 
 const getLegislation = SSO.getLegislation
 
@@ -21,9 +22,12 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
 
-    return sortSGCitations(
-      Helpers.uniqueBy(results, `citation`),
-      `citation`,
+    return sortByNameSimilarity(
+      caseName,
+      sortSGCitations(
+        Helpers.uniqueBy(results, `citation`),
+        `citation`,
+      ),
     )
   } catch (error) {
     Logger.error(error)

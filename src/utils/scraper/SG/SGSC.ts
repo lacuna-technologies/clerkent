@@ -29,6 +29,8 @@ const parseCase = ($: cheerio.Root, cheerioElement: cheerio.Element): Law.Case =
   }
 }
 
+const trimLeadingPageZeros = (citation: string) => citation.replace(/ 0+([1-9]+)$/, ` $1`)
+
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(citation))
   const $ = cheerio.load(data)
@@ -36,7 +38,9 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const results = $(`.judgmentpage`)
     .map((_, element) => parseCase($, element))
     .get()
-    .filter((match: Law.Case)=> match.citation.toLowerCase() === citation.toLowerCase())
+    .filter(({ citation: scrapedCitation })=> (
+      trimLeadingPageZeros(scrapedCitation).toLowerCase() === citation.toLowerCase()
+    ))
   Logger.log(`SGSC scrape results`, results)
   return results
 }

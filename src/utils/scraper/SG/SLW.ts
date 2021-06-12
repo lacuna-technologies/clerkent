@@ -29,10 +29,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
 
   const results = data
     .map(([name, link]) => parseCase(name, link))
-    .filter(({ citation: scrapedCitation }) => (
-      Helpers.isCitationValid(scrapedCitation) &&
-      citation === scrapedCitation
-    ))
+    .filter(({ citation: scrapedCitation }) => citation.toLowerCase() === scrapedCitation.toLowerCase())
   Logger.log(`SLW scrape results`, results)
   return results
 }

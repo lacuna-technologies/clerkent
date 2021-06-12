@@ -6,6 +6,7 @@ import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import { sortUKCitations } from '../../Finder/CaseCitationFinder/UK'
 import Constants from '../../Constants'
+import { sortByNameSimilarity } from '../utils'
 
 const getLegislation = LegislationGovUk.getLegislation
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
@@ -18,9 +19,12 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.UK.id)
 
-    return sortUKCitations(
-      Helpers.uniqueBy(results, `citation`),
-      `citation`,
+    return sortByNameSimilarity(
+      caseName,
+      sortUKCitations(
+        Helpers.uniqueBy(results, `citation`),
+        `citation`,
+      ),
     )
   } catch (error) {
     Logger.error(error)
