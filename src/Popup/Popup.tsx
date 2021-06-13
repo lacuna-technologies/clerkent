@@ -125,7 +125,7 @@ const Popup: React.FC = () => {
     if(!doNotStore){
       Storage.set(keys.SELECTED_JURISDICTION, value)
     }
-    doSearch({ inputJurisdiction: value})
+    doSearch({ inputJurisdiction: value })
   }, [doSearch])
 
   const applyClipboardText = useCallback((clipboardText) => {
