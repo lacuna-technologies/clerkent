@@ -1,8 +1,10 @@
 import { Messenger, Helpers, Finder, Constants, Logger } from '../../utils'
 import type { Runtime } from 'webextension-polyfill-ts'
+import { browser } from 'webextension-polyfill-ts'
 import type { Message } from '../../utils/Messenger'
 import Law from '../../types/Law'
 import Tooltip from '../Tooltip'
+import PDFSvg from '../../assets/icons/pdf.svg'
 
 let port: Runtime.Port
 
@@ -11,15 +13,24 @@ const NODE_TYPES = {
   TEXT_NODE: 3,
 }
 
-const downloadFile = ({ name, citation, pdf }) => async (event: Event) => {
+const downloadPDF = (
+  { law, doctype }: { law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype`]},
+) => async (event: Event) => {
   event.preventDefault()
+  event.stopPropagation()
   port.postMessage({
-    action: Messenger.ACTION_TYPES.downloadFile,
-    filename: `${Helpers.sanitiseFilename(name)} ${citation}.pdf`,
+    action: Messenger.ACTION_TYPES.downloadPDF,
+    doctype,
+    law,
     source: Messenger.TARGETS.contentScript,
     target: Messenger.TARGETS.background,
-    url: pdf,
   })
+}
+
+const setOpenInNewTab = (element: HTMLElement): HTMLElement => {
+  element.setAttribute(`target`, `_blank`)
+  element.setAttribute(`rel`, `noopener noreferrer`)
+  return element
 }
 
 const handleViewCitation = (message: Message) => {
@@ -44,29 +55,63 @@ const handleViewCitation = (message: Message) => {
     databaseSpan.textContent = database.name
     metaDiv.append(databaseSpan)
 
-    const judgmentLink = Helpers.getBestLink(links)
+    const summaryURL = Helpers.getSummaryLink(links)?.url
+    const judgmentLink = Helpers.getJudgmentLink(links)
+    const opinionLink = Helpers.getOpinionLink(links)
     
-    const caseName = document.createElement(`a`)
-    if(judgmentLink){
-      caseName.href = judgmentLink.url
-      caseName.setAttribute(`target`, `_blank`)
-      caseName.setAttribute(`rel`, `noopener noreferrer`)
+    const caseNameElement = document.createElement(`a`)
+    if(summaryURL){
+      caseNameElement.href = summaryURL
+      setOpenInNewTab(caseNameElement)
     }
-    caseName.textContent = `${name} ${citation}`
+    caseNameElement.textContent = `${name} ${citation}`
 
     tooltip.append(metaDiv)
-    tooltip.append(caseName)
+    tooltip.append(caseNameElement)
 
     const linksDiv = document.createElement(`div`)
-    const pdfLink = Helpers.getPDFLink(links)
-    if(pdfLink){
-      const pdfLinkElement = document.createElement(`a`)
-      pdfLinkElement.href = pdfLink.url
-      pdfLinkElement.addEventListener(`click`, downloadFile({ citation, name, pdf: pdfLink.url }))
-      pdfLinkElement.textContent = `PDF`
-      pdfLinkElement.setAttribute(`target`, `_blank`)
-      pdfLinkElement.setAttribute(`rel`, `noopener noreferrer`)
-      linksDiv.append(pdfLinkElement)
+    linksDiv.className = `clerkent-links`
+    if(judgmentLink){
+      const judgmentLinkElement = document.createElement(`a`)
+      judgmentLinkElement.href = judgmentLink?.url
+      judgmentLinkElement.textContent = `Judgment`
+      setOpenInNewTab(judgmentLinkElement)
+
+      const judgmentPDFElement = document.createElement(`a`)
+      judgmentPDFElement.className = `clerkent-pdf`
+      judgmentPDFElement.href = judgmentLink?.url
+      const judgmentPDFIcon = document.createElement(`img`)
+      judgmentPDFIcon.src = browser.runtime.getURL(PDFSvg) 
+      judgmentPDFIcon.alt = `download PDF of judgment`
+      judgmentPDFElement.append(judgmentPDFIcon)
+      judgmentPDFElement.addEventListener(
+        `click`,
+        downloadPDF({ doctype: `Judgment`, law: data[0] as Law.Case }),
+      )
+
+      linksDiv.append(judgmentLinkElement)
+      linksDiv.append(judgmentPDFElement)
+    }
+    if(opinionLink){
+      const opinionLinkElement = document.createElement(`a`)
+      opinionLinkElement.href = opinionLink?.url
+      opinionLinkElement.textContent = `Opinion`
+      setOpenInNewTab(opinionLinkElement)
+
+      const opinionPDFElement = document.createElement(`a`)
+      opinionPDFElement.className = `clerkent-pdf`
+      opinionPDFElement.href = opinionLink?.url
+      const opinionPDFIcon = document.createElement(`img`)
+      opinionPDFIcon.src = browser.runtime.getURL(PDFSvg) 
+      opinionPDFIcon.alt = `download PDF of opinion`
+      opinionPDFElement.append(opinionPDFIcon)
+      opinionPDFElement.addEventListener(
+        `click`,
+        downloadPDF({ doctype: `Opinion`, law: data[0] as Law.Case }),
+      )
+
+      linksDiv.append(opinionLinkElement)
+      linksDiv.append(opinionPDFElement)
     }
 
     tooltip.append(linksDiv)

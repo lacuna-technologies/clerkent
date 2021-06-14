@@ -5,11 +5,11 @@
     text-decoration: underline dotted;
     cursor: pointer;
 
-    > .clerkent-tooltip {
+    >.clerkent-tooltip {
       display: none;
     }
 
-    &:hover > .clerkent-tooltip {
+    &:hover>.clerkent-tooltip {
       display: block;
     }
   }
@@ -19,31 +19,54 @@
   font-family: $font;
   display: none;
   position: fixed;
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   padding: 0.5rem 0.8rem;
   max-width: 15rem;
   z-index: 999;
+  border: 1px solid black;
+  box-sizing: border-box;
 
-  > .clerkent-meta {
+  >.clerkent-meta {
     display: flex;
     flex-direction: row;
     align-content: center;
     align-items: center;
     margin-bottom: 0.4rem;
-    > span {
+
+    >span {
       margin-right: 0.5rem;
     }
-    > small {
 
-    }
+    >small {}
   }
 
   a {
-    color: lightgray !important;
+    color: black !important;
+    text-decoration: none !important;
+
+    &[href] {
+      color: blue !important;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline !important;
+      }
+    }
   }
 
-  a:hover {
-    color: white !important;
+  >.clerkent-links {
+    a.clerkent-pdf {
+      >img {
+        height: 1rem;
+        margin-left: 0.25rem;
+        margin-bottom: -0.15rem;
+        filter: invert(14%) sepia(89%) saturate(2676%) hue-rotate(350deg) brightness(84%) contrast(122%);
+      }
+
+      &+a {
+        margin-left: 1rem;
+      }
+    }
   }
 }

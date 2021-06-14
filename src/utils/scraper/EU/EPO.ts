@@ -107,11 +107,10 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   } = data
 
   const result = results[0]
-  const title = result.properties.find(({ id }) => id === `title`).data[0].html.replace(citation, ``).trim()
+  const title = (result.properties.find(({ id }) => id === `title`).data[0]?.html || ``).replace(citation, ``).trim()
   const url = result.properties.find(({ id }) => id === `url`).data[0].value.str
   
-  
-  return [{
+  const cases: Law.Case[] = [{
     citation,
     database: Constants.DATABASES.EU_epo,
     jurisdiction: Constants.JURISDICTIONS.EU.id,
@@ -124,6 +123,10 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     ],
     name: title,
   }]
+
+  Logger.log(`EPO: getCaseByCitation result`, cases)
+
+  return cases
 }
 
 const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {

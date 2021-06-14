@@ -211,5 +211,8 @@
     },
     "default_title": "Clerkent",
     "default_popup": "popup.html"
-  }
+  },
+  "web_accessible_resources": [
+    "assets/icons/pdf.svg"
+  ]
 }
