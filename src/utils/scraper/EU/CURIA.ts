@@ -33,16 +33,16 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
       filetype: `HTML`,
       url: judgmentURL,
     }
-    const judgmentPDFURL = $(`tr:nth-of-type(1) .liste_table_cell_links_eurlex a`, textsContainer)
-      .attr(`href`)
+    const judgmentPDFURL = ($(`tr:nth-of-type(1) .liste_table_cell_links_eurlex a`, textsContainer)
+      .attr(`href`) || ``)
       .replace(/\/TXT\//, `/TXT/PDF/`)
     const judgmentPDFLink: Law.Link = {
       doctype: `Judgment`,
       filetype: `PDF`,
       url: judgmentPDFURL,
     }
-    const opinionPDFURL = $(`tr:nth-of-type(2) .liste_table_cell_links_eurlex a`, textsContainer)
-      .attr(`href`)
+    const opinionPDFURL = ($(`tr:nth-of-type(2) .liste_table_cell_links_eurlex a`, textsContainer)
+      .attr(`href`) || ``)
       .replace(/\/TXT\//, `/TXT/PDF/`)
     const opinionPDFLink: Law.Link = {
       doctype: `Opinion`,
@@ -62,8 +62,8 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
         },
         ...(opinionURL ? [opinionLink] : []),
         ...(judgmentURL ? [judgmentLink] : []),
-        ...(judgmentPDFURL ? [judgmentPDFLink] : []),
-        ...(opinionPDFURL ? [opinionPDFLink] : []),
+        ...(judgmentPDFURL.length > 0 ? [judgmentPDFLink] : []),
+        ...(opinionPDFURL.length > 0 ? [opinionPDFLink] : []),
       ],
       name: name.replace(citation, ``).trim().slice(1).replace(/^[\s-]+/g, ``).trim(),
     }

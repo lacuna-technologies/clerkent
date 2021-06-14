@@ -40,6 +40,7 @@ const getScraperResult = (
   return Promise.resolve([])
 }
 
+// used by ContentScript/Highlighter for citation hover
 const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties) => {
    const { citation, source } = otherProperties
   currentCitation = citation
@@ -76,6 +77,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties
   }
 }
 
+// Used by Popup
 const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
   const { citation, source, mode, jurisdiction } = otherProperties
   currentCitation = citation
@@ -121,16 +123,6 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
     }
     case Messenger.ACTION_TYPES.search: {
       await search(port, otherProperties)
-    break
-    }
-    case Messenger.ACTION_TYPES.downloadFile: {
-      const { filename, url } = otherProperties
-      await browser.downloads.download({
-        filename,
-        saveAs: true,
-        url,
-      })
-    
     break
     }
 
