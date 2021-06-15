@@ -163,6 +163,15 @@ const onConnect = (port: Runtime.Port) => {
   port.onMessage.addListener(onReceiveMessage(port))
 }
 
+const onInstall = (details: Runtime.OnInstalledDetailsType) => {
+  if(details?.previousVersion){
+    // just an update, do nothing
+    return
+  }
+  // otherwise open the guide
+  browser.tabs.create({ url: `guide.html` })
+}
+
 const DEBUG_MODE = process?.env?.NODE_ENV === `development`
 
 const init = () => {
@@ -174,6 +183,8 @@ const init = () => {
   if(DEBUG_MODE){
     browser.tabs.create({ url: `popup.html` })
   }
+
+  browser.runtime.onInstalled.addListener(onInstall)
 }
 
 const BackgroundPage = () => {
