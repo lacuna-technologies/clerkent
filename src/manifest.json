@@ -213,6 +213,7 @@
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [
-    "assets/icons/pdf.svg"
+    "assets/icons/pdf.svg",
+    "assets/clerkent.png"
   ]
 }

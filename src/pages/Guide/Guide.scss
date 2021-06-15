@@ -1,0 +1,59 @@
+@import "../../styles/core.scss";
+
+main#clerkent-guide {
+  max-width: 60rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: $font;
+
+  #clerkent-logo {
+    display: inline-block;
+    width: 1.1rem;
+  }
+
+  #celebration-emoji {
+    font-size: 3rem;
+  }
+
+  #arrow-indicator {
+    position: fixed;
+    right: 10rem;
+    top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .emoji {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  section.chrome-clarifications {
+    text-align: center;
+
+    p {
+      text-align: left;
+    }
+
+    img {
+      margin-top: 1rem;
+    }
+  }
+
+  footer {
+    margin-top: 2rem;
+    text-align: center;
+
+    a {
+      color: black;
+      text-decoration: underline dotted;
+
+      &:hover {
+        color: blue;
+        text-decoration: none;
+      }
+    }
+  }
+}

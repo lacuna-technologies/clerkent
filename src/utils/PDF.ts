@@ -1,4 +1,5 @@
 import { browser } from "webextension-polyfill-ts"
+import Browser from './Browser'
 
 const saveFirefox = (filename: string) => browser.tabs.saveAsPDF({
   footerLeft: ``,
@@ -13,9 +14,8 @@ const save = async ({
   code,
   fileName,
 }) => {
-  const extensionLink = browser.runtime.getURL(``)
-  const isFirefox = extensionLink.startsWith(`moz-extension://`)
-  const isChrome = extensionLink.startsWith(`chrome-extension://`)
+  const isFirefox = Browser.isFirefox()
+  const isChrome = Browser.isChrome()
 
   const tab = await browser.tabs.create({ url: url })
   await browser.tabs.executeScript(tab.id, {

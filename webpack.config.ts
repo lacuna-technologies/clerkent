@@ -27,7 +27,7 @@ const extensionReloaderPlugin =
         background: `background`,
         // TODO: reload manifest on update
         contentScript: `contentScript`,
-        extensionPage: [`popup`, `options`, `massCitations`],
+        extensionPage: [`popup`, `options`, `massCitations`, `guide`],
       },
       port: 9090,
       reloadPage: true,
@@ -60,6 +60,7 @@ const WebpackConfig = {
   entry: {
     background: path.join(sourcePath, `Background`, `index.tsx`),
     contentScript: path.join(sourcePath, `ContentScript`, `index.tsx`),
+    guide: path.join(sourcePath, `pages`, `Guide`, `index.tsx`),
     manifest: path.join(sourcePath, `manifest.json`),
     massCitations: path.join(sourcePath, `pages`, `MassCitations`, `index.tsx`),
     options: path.join(sourcePath, `Options`, `index.tsx`),
@@ -147,6 +148,20 @@ const WebpackConfig = {
           },
         ],
       },
+      {
+        test: /\.png$/,
+        use: [
+          {
+            loader: `file-loader`,
+            options: {
+              esModule: false,
+              name: `[name].[ext]`,
+              outputPath: `assets/`,
+              publicPath: `/assets/`,
+            },
+          },
+        ],
+      },
     ],
   },
 
@@ -205,11 +220,22 @@ const WebpackConfig = {
       inject: `body`,
       template: path.join(viewsPath, `mass-citations.html`),
     }),
+    new HtmlWebpackPlugin({
+      chunks: [`guide`],
+      filename: `guide.html`,
+      hash: true,
+      inject: `body`,
+      template: path.join(viewsPath, `guide.html`),
+    }),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: `css/[name].css` }),
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{ from: `${generatedAssetsPath}`, to: `assets` }],
+      patterns: [
+        { from: `${generatedAssetsPath}`, to: `assets` },
+        { from: path.join(__dirname, `assets`, `clerkent.png`), to: `assets` },
+        { from: path.join(__dirname, `assets`, `chrome_toolbar_screenshot.png`), to: `assets` },
+      ],
     }),
     // plugin to enable browser reloading in development mode
     extensionReloaderPlugin,
