@@ -5,6 +5,7 @@ import type Law from '../types/Law'
 import PDFSvg from '../assets/icons/pdf.svg'
 
 interface Props {
+  empty?: boolean,
   link: Law.Link,
   onDownloadPDF: () => void
 }
@@ -21,6 +22,7 @@ const PDFLink = ({
 }
 
 const ResultLink: React.FC<Props> = ({
+  empty = false,
   link,
   onDownloadPDF,
 }) => {
@@ -30,15 +32,17 @@ const ResultLink: React.FC<Props> = ({
     onDownloadPDF()
   }, [onDownloadPDF])
   return link ? (
-    <div className={Helpers.classnames(`link`, link.doctype.toLowerCase())}>
-      <a
-        href={link?.url}
-        target="_blank"
-        rel="noreferrer"
-        {...(link.filetype === `PDF` ? { onClick } : {})}
-      >
-        {link.doctype}
-      </a>
+    <div className={Helpers.classnames(`link`, link.doctype.toLowerCase(), empty ? `empty`: ``)}>
+      {!empty && (
+        <a
+          href={link?.url}
+          target="_blank"
+          rel="noreferrer"
+          {...(link.filetype === `PDF` ? { onClick } : {})}
+        >
+          {link.doctype}
+        </a>
+      )}
       <PDFLink href={link?.url} onClick={onClick} />
     </div>
   ) : null

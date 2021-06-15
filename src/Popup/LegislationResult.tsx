@@ -1,9 +1,9 @@
 import React from 'react'
 import type Law from '../types/Law'
 import Constants from '../utils/Constants'
-// import Helpers from '../utils/Helpers'
+import Helpers from '../utils/Helpers'
 import type { downloadPDFType } from './QueryResult'
-// import ResultLink from './ResultLink'
+import ResultLink from './ResultLink'
 
 interface Props {
   legislation: Law.Legislation,
@@ -23,6 +23,7 @@ const LegislationResult: React.FC<Props> = ({
     links,
   } = legislation
   const link = links[0]
+  const pdfLink = Helpers.getPDFLink(links)
 
   return (
     <div className="result">
@@ -54,12 +55,15 @@ const LegislationResult: React.FC<Props> = ({
         }
         {statute}
       </a>
-      {/* <div className="links">
-        <ResultLink
-          link={link}
-          onDownloadPDF={downloadPDF({ doctype: `Legislation`, law: legislation })}
-        />
-      </div> */}
+      {pdfLink && (
+        <div className="links">
+          <ResultLink
+            empty
+            link={link}
+            onDownloadPDF={downloadPDF({ doctype: `Legislation`, law: legislation })}
+          />
+        </div>
+      )}
     </div>
   )
 }
