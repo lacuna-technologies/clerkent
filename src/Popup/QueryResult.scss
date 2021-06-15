@@ -65,6 +65,14 @@
           }
         }
 
+        &.empty {
+          a.pdf {
+            >img {
+              margin-left: 0;
+            }
+          }
+        }
+
         +.link {
           margin-left: 1rem;
         }

@@ -28,6 +28,11 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
           filetype: `HTML`,
           url: link,
         },
+        {
+          doctype: `Legislation`,
+          filetype: `PDF`,
+          url: link.replace(/\/contents$/i, `/data.pdf`),
+        },
       ],
       name,
     }

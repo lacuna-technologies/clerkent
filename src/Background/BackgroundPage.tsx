@@ -131,6 +131,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       const url = await Scraper.getPDF(law as Law.Case, doctype)
       const fileName = Helpers.getFileName(law, doctype)
       Logger.log(`downloadPDF fileName: `, fileName)
+      Logger.log(`downloadPDF url: ${url}`)
       if(url){
         await browser.downloads.download({
           filename: fileName,

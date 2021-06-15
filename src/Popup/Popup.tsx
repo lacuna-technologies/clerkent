@@ -177,6 +177,14 @@ const Popup: React.FC = () => {
   //   })
   // }, [])
 
+  const supportedJurisdictions = mode === `case`
+    ? Object.values(Constants.JURISDICTIONS)
+    : [
+      Constants.JURISDICTIONS.EU,
+      Constants.JURISDICTIONS.UK,
+      Constants.JURISDICTIONS.SG,
+    ]
+
   return (
     <section id="popup">
       <div className="options">
@@ -187,7 +195,7 @@ const Popup: React.FC = () => {
           value={modeToBool(mode)}
         />
         <SelectInput
-          options={Object.values(Constants.JURISDICTIONS).map(({ id, emoji, name }) => ({
+          options={Object.values(supportedJurisdictions).map(({ id, emoji, name }) => ({
             content: `${emoji} ${name}`,
             value: id,
           }))}

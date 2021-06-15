@@ -62,6 +62,11 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
           filetype: `HTML`,
           url: statuteResult.link,
         },
+        {
+          doctype: `Legislation`,
+          filetype: `PDF`,
+          url: `${statuteResult.link}?ViewType=Pdf`,
+        },
       ],
       statute: statuteResult.name,
     }]
