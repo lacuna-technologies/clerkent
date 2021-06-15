@@ -203,6 +203,14 @@ const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`
     return judgmentURL.toString().replace(/\.html$/i, `.pdf`)
   }
 
+  try {
+    const pdfURL = (`${judgmentURL}`).replace(/\.html$/i, `.pdf`)
+    const { request } = await Request.head(pdfURL)
+    return request.responseURL
+  } catch {
+    Logger.log(`CommonLII: getPDF - no PDF available`)
+  }
+
   const fileName = Helpers.getFileName(inputCase, inputDocumentType)
   await PDF.save({
     code: `const immediateChildren = document.querySelectorAll('body> *');`
