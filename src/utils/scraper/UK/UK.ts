@@ -2,6 +2,7 @@ import type Law from '../../../types/Law'
 import BAILII from './BAILII'
 import Common from '../common'
 import LegislationGovUk from './LegislationGovUk'
+import Custom from '../custom'
 import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import { sortUKCitations } from '../../Finder/CaseCitationFinder/UK'
@@ -12,6 +13,7 @@ const getLegislation = LegislationGovUk.getLegislation
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
+      Custom.getCaseByName(caseName),
       BAILII.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.UK.name),
     ]))
@@ -35,6 +37,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
+      Custom.getCaseByCitation(citation, court),
       BAILII.getCaseByCitation(citation),
       Common.CommonLII.getCaseByCitation(citation),
     ])).filter(({ status }) => status === `fulfilled`)

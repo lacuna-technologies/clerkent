@@ -172,6 +172,12 @@ const MISC_DATABASES = {
     name: `CommonLII`,
     url: `http://www.commonlii.org`,
   },
+  custom: {
+    icon: ``,
+    id: `custom`,
+    name: `Clerkent`,
+    url: `#`,
+  },
 }
 
 const INSTITUTIONAL_LOGINS = {
