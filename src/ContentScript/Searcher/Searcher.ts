@@ -38,22 +38,23 @@ const init = async () => {
     case `www.lawnet.sg`:
     case `www-lawnet-sg.lawproxy1.nus.edu.sg`:
     case `www-lawnet-sg.libproxy.smu.edu.sg`: {
-      if(document.querySelector(`#_58_login`) !== null){
-        const query = getClerkentQuery()
-        await SearcherStorage.storeLawNetQuery(query)
-        return
-      }
-
-      const query = getClerkentQuery() || (await SearcherStorage.getLawNetQuery())
-      if(isQueryValid(query)){
-        LawNet.init(query)
-      }
-
       const queryDonePaths = [
         `/lawnet/group/lawnet/result-page`,
       ]
-      if(queryDonePaths.includes(window.location.pathname)){
-        SearcherStorage.removeLawNetQuery()
+      const urlParameterQuery = getClerkentQuery()
+      if (queryDonePaths.includes(window.location.pathname)){
+        // search result page
+        await SearcherStorage.removeLawNetQuery()
+      } else if(document.querySelector(`#_58_login`) !== null && isQueryValid(urlParameterQuery)){
+        // login page
+        const query = getClerkentQuery()
+        await SearcherStorage.storeLawNetQuery(query)
+      } else {
+        // first post-login page
+        const query = urlParameterQuery || (await SearcherStorage.getLawNetQuery())
+        if(isQueryValid(query)){
+          LawNet.init(query)
+        }
       }
       break
     }
