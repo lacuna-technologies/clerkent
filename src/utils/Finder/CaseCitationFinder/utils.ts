@@ -12,10 +12,15 @@ export const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => 
 export const cleanVolume = (volumeString: string) => volumeString.replace(/\./g, ``).toLowerCase().trim()
 
 export const sortCitationsByVolume = (abbrsList, citationsArray: any[], attribute = null) => {
+  const lastIfNotFound = (index: number) => index === -1 ? citationsArray.length + 1 : index
   if(attribute === null){
     return citationsArray.sort((a, b) => {
-      const indexA = abbrsList.findIndex(currentAbbr => new RegExp(formatAbbr(currentAbbr), `i`).test(a))
-      const indexB = abbrsList.findIndex(currentAbbr =>  new RegExp(formatAbbr(currentAbbr), `i`).test(b))
+      const indexA = lastIfNotFound(
+        abbrsList.findIndex(currentAbbr => new RegExp(formatAbbr(currentAbbr), `i`).test(a)),
+      )
+      const indexB = lastIfNotFound(
+        abbrsList.findIndex(currentAbbr =>  new RegExp(formatAbbr(currentAbbr), `i`).test(b)),
+      )
       return indexA - indexB
     })
   }

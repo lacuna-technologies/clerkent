@@ -26,18 +26,10 @@ const LAWCITE_DOMAIN = `http://lawcite.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
 const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => {
-  if(/united kingdom/gi.test(jurisdictionString)) {
-    return Constants.JURISDICTIONS.UK.id
-  } else if (/singapore/gi.test(jurisdictionString)) {
-    return Constants.JURISDICTIONS.SG.id
-  } else if (/hong kong/gi.test(jurisdictionString)) {
-    return Constants.JURISDICTIONS.HK.id
-  } else if (/canada/gi.test(jurisdictionString)) {
-    return Constants.JURISDICTIONS.CA.id
-  } else if (/australia/gi.test(jurisdictionString)) {
-    return Constants.JURISDICTIONS.AU.id
-  } else if (/new zealand/gi.test(jurisdictionString)) {
-    return Constants.JURISDICTIONS.NZ.id
+  for(const jurisdiction of Object.values(Constants.JURISDICTIONS)){
+    if((new RegExp(jurisdiction.name, `i`).test(jurisdictionString))){
+      return jurisdiction.id
+    }
   }
   return null
 }
@@ -199,12 +191,13 @@ const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`
     return hostMap[judgmentURL.hostname].getPDF(inputCase, inputDocumentType)
   }
 
-  if(judgmentURL.pathname.includes(`/sg/cases/SGCA/`) || judgmentURL.pathname.includes(`/sg/cases/SGHC/`)){
-    return judgmentURL.toString().replace(/\.html$/i, `.pdf`)
-  }
+  // if(judgmentURL.pathname.includes(`/sg/cases/SGCA/`) || judgmentURL.pathname.includes(`/sg/cases/SGHC/`)){
+  //   return judgmentURL.toString().replace(/\.html$/i, `.pdf`)
+  // }
 
   try {
-    const pdfURL = (`${judgmentURL}`).replace(/\.html$/i, `.pdf`)
+    const pdfURL = (`${judgmentURL}`).replace(/\?.*$/, ``).replace(/\.html$/i, `.pdf`)
+    Logger.log(pdfURL)
     const { request } = await Request.head(pdfURL)
     return request.responseURL
   } catch {

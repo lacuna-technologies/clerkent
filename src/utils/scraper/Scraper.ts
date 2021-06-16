@@ -6,6 +6,7 @@ import HK from './HK'
 import CA from './CA'
 import AU from './AU'
 import NZ from './NZ'
+import MY from './MY'
 import type Law from '../../types/Law'
 import Constants from '../Constants'
 import type {
@@ -26,6 +27,7 @@ const jurisdictionMap = {
   [Constants.JURISDICTIONS.NZ.id]: NZ,
   [Constants.JURISDICTIONS.SG.id]: SG,
   [Constants.JURISDICTIONS.UK.id]: UK,
+  [Constants.JURISDICTIONS.MY.id]: MY,
 }
 
 const getCaseByCitation = Memoize((
