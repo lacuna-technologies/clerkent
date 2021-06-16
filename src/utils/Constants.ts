@@ -26,11 +26,11 @@ const JURISDICTIONS = {
   //   id: `IN` as Law.JursidictionCode,
   //   name: `India`
   // },
-  // MY: {
-  //   emoji: `🇲🇾`,
-  //   id: `MY` as Law.JursidictionCode,
-  //   name: `Malaysia`,
-  // },
+  MY: {
+    emoji: `🇲🇾`,
+    id: `MY` as Law.JursidictionCode,
+    name: `Malaysia`,
+  },
   NZ: {
     emoji: `🇳🇿`,
     id: `NZ` as Law.JursidictionCode,
@@ -165,6 +165,14 @@ const NZ_DATABASES = {
   },
 }
 
+const MY_DATABASES = {
+  kehakiman: {
+    icon: ``,
+    name: `Kehakiman`,
+    url: `https://ejudgment.kehakiman.gov.my/portal/ap_list_all.php`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -205,6 +213,7 @@ const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(CA_DATABASES, `CA`),
   ...dedupeObjects(AU_DATABASES, `AU`),
   ...dedupeObjects(NZ_DATABASES, `NZ`),
+  ...dedupeObjects(MY_DATABASES, `MY`),
   ...MISC_DATABASES,
 }
 

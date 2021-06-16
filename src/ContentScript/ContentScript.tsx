@@ -28,10 +28,10 @@ const onMessage = (message: Message) => {
 }
 
 const highlightBlacklist = new Set([
-  `www.epo.org`,
   `advance.lexis.com`,
   `app.justis.com`,
   `curia.europa.eu`,
+  `ejudgment.kehakiman.gov.my`,
   `eur-lex.europa.eu`,
   `lawcite.org`,
   `legalref.judiciary.hk`,
@@ -48,6 +48,7 @@ const highlightBlacklist = new Set([
   `www.bailii.org`,
   `www.canlii.org`,
   `www.commonlii.org`,
+  `www.epo.org`,
   `www.hklii.hk`,
   `www.hklii.org`,
   `www.lawnet.sg`,
