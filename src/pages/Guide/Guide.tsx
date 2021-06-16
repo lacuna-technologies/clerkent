@@ -34,6 +34,12 @@ const Guide = () => {
       }
 
       <p>
+        <strong>Tip:&nbsp;</strong>If you use an institutional login for proprietary databases (e.g. WestLaw or LawNet), you should set it on the&nbsp;
+        <a href="/options.html">Options page</a>
+        &nbsp;so Clerkent can redirect you to the appropriate login page.
+      </p>
+
+      <p>
         Once you've clicked the icon and found the Clerkent search box, you can close this tab.
       </p>
 
