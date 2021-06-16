@@ -164,7 +164,8 @@ const onConnect = (port: Runtime.Port) => {
   port.onMessage.addListener(onReceiveMessage(port))
 }
 
-const onInstall = (details: Runtime.OnInstalledDetailsType) => {
+const onInstall = (details: Runtime.OnInstalledDetailsType): void => {
+  Logger.log(`onInstall`, details)
   if(details?.previousVersion){
     // just an update, do nothing
     return
@@ -175,17 +176,16 @@ const onInstall = (details: Runtime.OnInstalledDetailsType) => {
 
 const DEBUG_MODE = process?.env?.NODE_ENV === `development`
 
+const synchronousInit = () => {
+  browser.runtime.onInstalled.addListener(onInstall)
+}
+
 const init = () => {
-  browser.runtime.onInstalled.addListener((): void => {
-    Logger.log(`⚖ clerkent installed`)
-  })
   browser.runtime.onConnect.addListener(onConnect)
 
   if(DEBUG_MODE){
     browser.tabs.create({ url: `popup.html` })
   }
-
-  browser.runtime.onInstalled.addListener(onInstall)
 }
 
 const BackgroundPage = () => {
@@ -194,5 +194,7 @@ const BackgroundPage = () => {
     <h1>Background Page</h1>
   )
 }
+
+synchronousInit()
 
 export default BackgroundPage
