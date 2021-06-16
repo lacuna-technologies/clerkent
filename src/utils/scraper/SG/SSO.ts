@@ -38,21 +38,20 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
     statute,
   } = legislation
   
-  let statuteResult = {} as StatuteResult
+  let statuteResults = [] as StatuteResult[]
   try {
     const result = await getStatute(statute)
     if(result.length === 0){
       return []
     }
-    const { name, link } = result[0]
-    statuteResult = { link, name }
+    statuteResults = result
   } catch (error) {
     Logger.error(error)
     return []
   }
 
   if(!provisionNumber){ // getting the statute is enough
-    return [{
+    return statuteResults.map(({ name, link }) => ({
       ...legislation,
       database: Constants.DATABASES.SG_sso,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
@@ -60,19 +59,20 @@ const getLegislation = async (legislation: LegislationFinderResult): Promise<Law
         {
           doctype: `Legislation`,
           filetype: `HTML`,
-          url: statuteResult.link,
+          url: link,
         },
         {
           doctype: `Legislation`,
           filetype: `PDF`,
-          url: `${statuteResult.link}?ViewType=Pdf`,
+          url: `${link}?ViewType=Pdf`,
         },
       ],
-      statute: statuteResult.name,
-    }]
+      statute: name,
+    }))
   }
   
   try { 
+    const statuteResult = statuteResults[0]
     const { data, request } = await Request.get(statuteResult.link, {
       params: {
         ProvIds: `pr${provisionNumber}-`,

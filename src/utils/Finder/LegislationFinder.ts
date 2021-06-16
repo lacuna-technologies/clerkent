@@ -10,12 +10,18 @@ export interface LegislationFinderResult {
 }
 
 const unabbreviateStatute = (abbrStatute: string) => {
-  const isMatch = StatuteAbbrs.filter(abbr => abbr.abbrs.includes(abbrStatute.trim().toLowerCase()))
+  const makeRegex = (string: string) => (new RegExp(`\\b${string}\\b`, `i`))
+  const isMatch = StatuteAbbrs
+    .map(abbr => ({ ...abbr, match: abbr.abbrs.find((currentAbbr) => makeRegex(currentAbbr).test(abbrStatute)) }))
+    .filter(({ match }) => match)
 
   if(isMatch.length === 0){
     return [{ name: abbrStatute }]
   }
-  return isMatch.map(({ name, jurisdiction }) => ({ jurisdiction, name }))
+  return isMatch.map(({ name, jurisdiction, match }) => ({
+    jurisdiction,
+    name: abbrStatute.replace(makeRegex(match), name),
+  }))
 }
 
 const provisionAbbreviations = [
