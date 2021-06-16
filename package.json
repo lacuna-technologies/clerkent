@@ -47,6 +47,7 @@
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.7.3",
     "cheerio": "^1.0.0-rc.9",
+    "fuse.js": "^6.4.6",
     "gestalt-pattern-matcher": "^0.0.12",
     "memoizee": "^0.4.15",
     "qs": "^6.10.1",
