@@ -15,8 +15,8 @@ const getLawNetURL = (
   institution: OptionsSettings[`OPTIONS_INSTITUTIONAL_LOGIN`],
   query: string,
 ) => (new Proxy({
-  NUS: `https://www-lawnet-sg.lawproxy1.nus.edu.sg/?clerkent-query=${query}`,
-  SMU: `https://www-lawnet-sg.libproxy.smu.edu.sg/?clerkent-query=${query}`,
+  NUS: `https://proxylogin.nus.edu.sg/lawproxy1/public/login.asp?logup=false&url=https://www.lawnet.sg/lawnet/web/lawnet/ip-access?clerkent-query=${query}`,
+  SMU: `https://login.libproxy.smu.edu.sg/login?auth=shibboleth&url=https://www.lawnet.sg/lawnet/web/lawnet/ip-access?clerkent-query=${query}`,
 }, {
   get(target, property) {
     if(property in target) {return target[property as string]}
