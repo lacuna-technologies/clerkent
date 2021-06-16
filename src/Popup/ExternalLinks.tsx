@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useCallback } from 'react'
 import type Law from '../types/Law'
 import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
 import type { OptionsSettings, InstitutionalLogin } from '../utils/OptionsStorage'
 import './ExternalLinks.scss'
+
+import SearcherStorage from '../ContentScript/Searcher/SearcherStorage'
 
 interface Props {
   jurisdiction: Law.JursidictionCode
@@ -30,6 +32,14 @@ const ExternalLinks: React.FC<Props> = ({
   type,
 }) => {
   const [institution, setInstitution] = useState(OptionsStorage.defaultOptions.OPTIONS_INSTITUTIONAL_LOGIN)
+
+  const onLawnetClick = useCallback(() => {
+    // this is necessary because the NUS and SMU proxies don't pass query params
+    // and the redirect occurs before content scripts have time to run
+    if([`NUS`, `SMU`].includes(institution)){
+      SearcherStorage.storeLawNetQuery(query)
+    }
+  }, [query, institution])
 
   useEffect(() => {
     (async () => {
@@ -67,6 +77,7 @@ const ExternalLinks: React.FC<Props> = ({
             <>
               <a
                 href={getLawNetURL(institution, query)}
+                onClick={onLawnetClick}
                 target="_blank" rel="noreferrer"
               >LawNet</a>
             </>
