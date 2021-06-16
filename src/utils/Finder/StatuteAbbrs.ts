@@ -37,6 +37,18 @@ const SGAbbrs = [
     abbrs: [`da`],
     name: `Defamation Act`,
   },
+  {
+    abbrs: [`clpa`],
+    name: `Conveyancing and Law of Property Act`,
+  },
+  {
+    abbrs: [`lpa`],
+    name: `Legal Profession Act`,
+  },
+  {
+    abbrs: [`lpcr`, `lp(pc)r`, `lp(pc)r`, `lppcr`],
+    name: `Legal Profession (Professional Conduct) Rules`,
+  },
 ].map(abbr => ({ ...abbr, jurisdiction: Constants.JURISDICTIONS.SG.id }))
 
 const UKAbbrs = [
