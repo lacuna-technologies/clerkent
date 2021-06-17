@@ -65,6 +65,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         params: {
           mask_path: `uk/cases scot/cases ew/cases ie/cases nie/cases eu/cases`,
           querytitle: caseName,
+          show: 20, // because BAILII sometimes doesn't do the best job of sorting
           sort: `rank`,
         },
       },
