@@ -114,8 +114,9 @@ const Popup: React.FC = () => {
     if(!doNotStore){
       Storage.set(keys.SELECTED_MODE, parsedMode)
     }
-    doSearch({ inputMode: parsedMode })
-  }, [doSearch])
+    setLastSearchQuery(``)
+    setSearchResult([] as SearchResult[])
+  }, [])
 
   const onChangeJurisdiction = useCallback((
     value,
@@ -125,8 +126,9 @@ const Popup: React.FC = () => {
     if(!doNotStore){
       Storage.set(keys.SELECTED_JURISDICTION, value)
     }
-    doSearch({ inputJurisdiction: value })
-  }, [doSearch])
+    setLastSearchQuery(``)
+    setSearchResult([] as SearchResult[])
+  }, [])
 
   const applyClipboardText = useCallback((clipboardText) => {
     onSearchQueryChange({target: { value: clipboardText }})
