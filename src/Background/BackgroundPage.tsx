@@ -4,6 +4,7 @@ import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import Finder from '../utils/Finder'
+import Storage from '../utils/Storage'
 import type { Message, OtherProperties} from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
@@ -164,14 +165,22 @@ const onConnect = (port: Runtime.Port) => {
   port.onMessage.addListener(onReceiveMessage(port))
 }
 
-const onInstall = (details: Runtime.OnInstalledDetailsType): void => {
+const onInstall = async (details: Runtime.OnInstalledDetailsType): Promise<void> => {
   Logger.log(`onInstall`, details)
   if(details?.previousVersion){
     // just an update, do nothing
     return
   }
+
+  const GUIDE_SHOWN_KEY = `GUIDE_SHOWN`
+  const guideShown = await Storage.get(GUIDE_SHOWN_KEY)
+  if(guideShown === true){
+    // shown before, don't show again
+    return
+  }
   // otherwise open the guide
-  browser.tabs.create({ url: `guide.html` })
+  await browser.tabs.create({ url: `guide.html` })
+  await Storage.set(GUIDE_SHOWN_KEY, true)
 }
 
 const DEBUG_MODE = process?.env?.NODE_ENV === `development`
