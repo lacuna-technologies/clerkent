@@ -54,6 +54,7 @@ const Popup: React.FC = () => {
     doNotStore = false,
   ) => {
     setQuery(value)
+    setIsSearching(false)
     setSearchResult([] as SearchResult[])
     if(!doNotStore){
       debouncedStoreQuery(value)
@@ -219,7 +220,7 @@ const Popup: React.FC = () => {
       }
       {
         (!isSearching && query.length > 0 && searchResult.length === 0 && lastSearchQuery !== query) ? (
-           <span>Press enter to search</span>
+          <span>Press enter to search</span>
         ) : (
           <QueryResult
             searchResult={searchResult}
