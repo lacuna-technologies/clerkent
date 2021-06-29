@@ -31,7 +31,8 @@ declare namespace Law {
   }
 
   // ISO 3166-1 alpha-2
-  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `IN`
+  // except for ECHR
+  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `IN` | `ECHR` | `UN`
 
   type SearchMode = `case` | `legislation`
   type Type = `case-citation` | `case-name` | `legislation`

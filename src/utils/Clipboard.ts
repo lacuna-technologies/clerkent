@@ -1,7 +1,15 @@
 const readText = () => navigator.clipboard.readText()
 
 const isURI = (string: string) => (new RegExp(/.*(:\/\/|about:|chrome:).*/, `gi`)).test(string)
-const hasTooLongWord = (string: string) => string.match(/\w+/g).sort((a, b) => b.length - a.length)[0].length > 30
+const hasTooLongWord = (string: string) => {
+  const matches = string.match(/\w+/g)
+  if(matches === null){
+    return false
+  }
+  return matches.sort(
+    (a, b) => b.length - a.length,
+  )[0].length > 30
+}
 const isTooLong = (string: string) => string.length > 300
 const hasInvalidCharacters = (string: string) => (new RegExp(/.*[<>\\{|}].*/, `gi`)).test(string)
 

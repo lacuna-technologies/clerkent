@@ -7,6 +7,7 @@ import CA from './CA'
 import AU from './AU'
 import NZ from './NZ'
 import MY from './MY'
+import ECHR from './ECHR'
 import type Law from '../../types/Law'
 import Constants from '../Constants'
 import type {
@@ -28,6 +29,7 @@ const jurisdictionMap = {
   [Constants.JURISDICTIONS.SG.id]: SG,
   [Constants.JURISDICTIONS.UK.id]: UK,
   [Constants.JURISDICTIONS.MY.id]: MY,
+  [Constants.JURISDICTIONS.ECHR.id]: ECHR,
 }
 
 const getCaseByCitation = Memoize((
@@ -118,8 +120,10 @@ const getPDF = Memoize((inputCase: Law.Case, inputDocumentType: Law.Link[`doctyp
 const scraper = {
   AU,
   CA,
+  ECHR,
   EU,
   HK,
+  MY,
   NZ,
   SG,
   UK,

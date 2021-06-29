@@ -3,11 +3,16 @@ import type { CaseCitationFinderResult } from './types'
 
 export const epoRegex = new RegExp(/\b[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/\b[CT]-\d{1,3}\/\d{1,2}/)
+// TODO: parse ECLI
 
-// TODO: sort by year
-export const sortEUCitations = (citationsArray: any[], attribute = null) => citationsArray
+export const sortEUCitations = (
+  citationsArray: any[],
+  attribute = null,
+) => citationsArray
 
-export const findEUCaseCitation = (query: string): CaseCitationFinderResult[] => {
+export const findEUCaseCitation = (
+  query: string,
+): CaseCitationFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
   const cleanedQuery = query
     .replace(new RegExp(`[${String.fromCharCode(8209)}]`, `g`), `-`)

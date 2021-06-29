@@ -11,6 +11,11 @@ const JURISDICTIONS = {
     id: `CA` as Law.JursidictionCode,
     name: `Canada`,
   },
+  ECHR: {
+    emoji: `🇪🇺`,
+    id: `ECHR` as Law.JursidictionCode,
+    name: `ECHR`,
+  },
   EU: {
     emoji: `🇪🇺`,
     id: `EU` as Law.JursidictionCode,
@@ -173,6 +178,14 @@ const MY_DATABASES = {
   },
 }
 
+const ECHR_DATABASES = {
+  hudoc: {
+    icon: ``,
+    name: `HUDOC`,
+    url: `https://hudoc.echr.coe.int/eng`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -214,6 +227,7 @@ const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(AU_DATABASES, `AU`),
   ...dedupeObjects(NZ_DATABASES, `NZ`),
   ...dedupeObjects(MY_DATABASES, `MY`),
+  ...dedupeObjects(ECHR_DATABASES, `ECHR`),
   ...MISC_DATABASES,
 }
 
