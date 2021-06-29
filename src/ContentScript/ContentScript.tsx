@@ -33,6 +33,7 @@ const highlightBlacklist = new Set([
   `curia.europa.eu`,
   `ejudgment.kehakiman.gov.my`,
   `eur-lex.europa.eu`,
+  `hudoc.echr.coe.int`,
   `lawcite.org`,
   `legalref.judiciary.hk`,
   `legislation.gov.uk`,
