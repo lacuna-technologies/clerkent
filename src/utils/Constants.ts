@@ -51,6 +51,11 @@ const JURISDICTIONS = {
     id: `UK` as Law.JursidictionCode,
     name: `United Kingdom`,
   },
+  UN: {
+    emoji: `🌐`,
+    id: `UN` as Law.JursidictionCode,
+    name: `United Nations (ICJ)`,
+  },
 }
 
 
@@ -186,6 +191,14 @@ const ECHR_DATABASES = {
   },
 }
 
+const UN_DATABASES = {
+  icjcij: {
+    icon: ``,
+    name: `ICJ`,
+    url: `https://www.icj-cij.org/en/decisions`,
+  },
+}
+
 const MISC_DATABASES = {
   commonlii: {
     icon: ``,
@@ -231,6 +244,7 @@ const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(NZ_DATABASES, `NZ`),
   ...dedupeObjects(MY_DATABASES, `MY`),
   ...dedupeObjects(ECHR_DATABASES, `ECHR`),
+  ...dedupeObjects(UN_DATABASES, `UN`),
   ...MISC_DATABASES,
 }
 

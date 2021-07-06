@@ -92,6 +92,7 @@ const ExternalLinks: React.FC<Props> = ({
             Constants.JURISDICTIONS.NZ.id,
             Constants.JURISDICTIONS.EU.id,
             Constants.JURISDICTIONS.ECHR.id,
+            Constants.JURISDICTIONS.UN.id,
           ].includes(jurisdiction) ? (
             <>
               <a
