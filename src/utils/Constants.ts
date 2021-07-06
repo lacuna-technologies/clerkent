@@ -202,7 +202,10 @@ const MISC_DATABASES = {
 }
 
 const INSTITUTIONAL_LOGINS = {
+  KCL: `King's College London`,
+  LSE: `London School of Economics`,
   NONE: `None`,
+  NTU: `Nanyang Technological University`,
   NUS: `National University of Singapore`,
   SMU: `Singapore Management University`,
   UCL: `University College London`,

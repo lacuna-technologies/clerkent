@@ -37,7 +37,8 @@ const init = async () => {
   switch(window.location.hostname){
     case `www.lawnet.sg`:
     case `www-lawnet-sg.lawproxy1.nus.edu.sg`:
-    case `www-lawnet-sg.libproxy.smu.edu.sg`: {
+    case `www-lawnet-sg.libproxy.smu.edu.sg`:
+    case `www.lawnet.sg.remotexs.ntu.edu.sg`: {
       const queryDonePaths = [
         `/lawnet/group/lawnet/result-page`,
       ]
@@ -74,7 +75,8 @@ const init = async () => {
       break
     }
     
-
+    case `www-lexisnexis-com.gate2.library.lse.ac.uk`:
+    case `www-lexisnexis-com.libproxy.kcl.ac.uk`:
     case `www-lexisnexis-com.libproxy.ucl.ac.uk`:
     case `www.lexisnexis.com`: {
       // annoyingly, lexis does not pass query strings through login

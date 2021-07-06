@@ -28,6 +28,7 @@ const Institution: React.FC<Props> = ({ value, updateOptions }) => {
         options={institutionOptions}
         value={value}
         onChange={onChange}
+        defaultValue="NONE"
       />
     </section>
   )
