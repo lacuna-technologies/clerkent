@@ -7,21 +7,35 @@ interface Props {
     content: string,
   }[],
   value: string,
-  onChange: (value: string) => void
+  onChange: (value: string) => void,
+  defaultValue?: string,
 }
 
 const SelectInput: React.FC<Props> = ({
   options,
-  value = options[0].value,
+  value,
   onChange = () => {},
+  defaultValue,
 }) => {
   const onSelect = useCallback(({ target: { value } }) => onChange(value), [onChange])
+  const valueWithDefault = (((!value || !options.map(({ value }) => value).includes(value)) && defaultValue)
+    ? defaultValue
+    : value
+  )
 
   return (
     <div className="select-input">
-      <select value={value} onChange={onSelect}>
+      <select
+        value={valueWithDefault}
+        onChange={onSelect}
+      >
         {options.map(({ value, content }) => (
-          <option value={value} key={value}>{content}</option>
+          <option
+            value={value}
+            key={value}
+          >
+            {content}
+          </option>
         ))}
       </select>
     </div>

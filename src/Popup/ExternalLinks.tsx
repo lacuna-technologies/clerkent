@@ -17,6 +17,7 @@ const getLawNetURL = (
   institution: OptionsSettings[`OPTIONS_INSTITUTIONAL_LOGIN`],
   query: string,
 ) => (new Proxy({
+  NTU: `http://www.lawnet.sg.remotexs.ntu.edu.sg/lawnet/group/lawnet/legal-research/basic-search?clerkent-query=${query}`,
   NUS: `https://proxylogin.nus.edu.sg/lawproxy1/public/login.asp?logup=false&url=https://www.lawnet.sg/lawnet/web/lawnet/ip-access?clerkent-query=${query}`,
   SMU: `https://login.libproxy.smu.edu.sg/login?auth=shibboleth&url=https://www.lawnet.sg/lawnet/web/lawnet/ip-access?clerkent-query=${query}`,
 }, {
@@ -36,7 +37,7 @@ const ExternalLinks: React.FC<Props> = ({
   const onLawnetClick = useCallback(() => {
     // this is necessary because the NUS and SMU proxies don't pass query params
     // and the redirect occurs before content scripts have time to run
-    if([`NUS`, `SMU`].includes(institution)){
+    if([`NUS`, `SMU`, `NTU`].includes(institution)){
       SearcherStorage.storeLawNetQuery(query)
     }
   }, [query, institution])

@@ -1,6 +1,6 @@
 import Storage from './Storage'
 
-export type InstitutionalLogin = `UCL` | `SMU` | `NUS` | `None`
+export type InstitutionalLogin = `KCL` | `LSE` | `UCL` | `NTU` | `NUS` |  `SMU` | `None`
 
 const keysObject = {
   OPTIONS_CLIPBOARD_PASTE_ENABLED: {
