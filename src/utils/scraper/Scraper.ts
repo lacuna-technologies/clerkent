@@ -16,6 +16,7 @@ import type {
   LegislationFinderResult,
 } from '../Finder'
 import Logger from '../Logger'
+import UN from './UN'
 
 // type JurisdictionType = typeof SG | typeof UK | typeof EU | typeof HK | typeof CA | typeof AU | typeof NZ
 type JurisdictionWithLegislationSearch = typeof SG | typeof UK | typeof EU
@@ -30,6 +31,7 @@ const jurisdictionMap = {
   [Constants.JURISDICTIONS.UK.id]: UK,
   [Constants.JURISDICTIONS.MY.id]: MY,
   [Constants.JURISDICTIONS.ECHR.id]: ECHR,
+  [Constants.JURISDICTIONS.UN.id]: UN,
 }
 
 const getCaseByCitation = Memoize((
@@ -62,8 +64,6 @@ const getCaseByName = Memoize((
   if(!targetJurisdiction || !targetJurisdiction?.getCaseByName){
     return Promise.resolve([])
   }
-
-  Logger.log(`Scraper: getCaseByName`, name, targetJurisdiction)
 
   return targetJurisdiction.getCaseByName(name)
 }, {

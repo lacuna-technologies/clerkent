@@ -96,7 +96,7 @@ const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
   }
   
   const result = await getScraperResult(targets, mode, jurisdiction)
-  Logger.log(`BackgroundPage scraper result`, targets, result)
+  Logger.log(`BackgroundPage scraper result`, mode, jurisdiction, targets, result)
 
   if(result.length === 0){
     return port.postMessage(noResultMessage)

@@ -75,7 +75,6 @@ export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.
   } else {
     const levenScoreA = Leven(query, cleanAName)
     const levenScoreB = Leven(query, cleanBName)
-    Logger.log(`leven`, levenScoreA, levenScoreB)
     return levenScoreA > levenScoreB ? 1
       : (levenScoreA === levenScoreB ? 0 : -1)
   }

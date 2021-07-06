@@ -39,6 +39,7 @@ const getRandomElement = (array: any[]) => array[getRandomInteger(0, array.lengt
 const getSummaryLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Summary`)
 const getJudgmentLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Judgment`)
 const getOpinionLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Opinion`)
+const getOrderLink = (links: Law.Link[]): Law.Link => links.find(({ doctype }) => doctype === `Order`)
 
 const getBestLink = (links: Law.Link[]): Law.Link => {
   const htmlJudgment = links.find(({ doctype, filetype }) => doctype === `Judgment` && filetype === `HTML`)
@@ -71,6 +72,7 @@ const Helpers = {
   getFileName,
   getJudgmentLink,
   getOpinionLink,
+  getOrderLink,
   getPDFLink,
   getRandomElement,
   getRandomInteger,

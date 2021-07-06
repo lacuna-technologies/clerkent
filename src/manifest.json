@@ -34,6 +34,7 @@
     "https://sso.agc.gov.sg/*",
     "https://www.canlii.org/*",
     "https://www.epo.org/law-practice/case-law-appeals/*",
+    "https://www.icj-cij.org/*",
     "https://www.legislation.gov.uk/*",
     "https://www.singaporelawwatch.sg/*",
     "https://www.supremecourt.gov.sg/*"
@@ -194,6 +195,7 @@
         "https://www-lexisnexis-com.libproxy.ucl.ac.uk/*",
         "https://www.canlii.org/*",
         "https://www.epo.org/law-practice/case-law-appeals/*",
+        "https://www.icj-cij.org/*",
         "https://www.lawnet.sg/*",
         "https://www.legislation.gov.uk/*",
         "https://www.lexisnexis.com/*",

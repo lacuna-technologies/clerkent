@@ -24,6 +24,7 @@ const CaseResult: React.FC<Props> = ({
   const summaryURL = Helpers.getSummaryLink(links)?.url
   const judgmentLink = Helpers.getJudgmentLink(links)
   const opinionLink = Helpers.getOpinionLink(links)
+  const orderLink = Helpers.getOrderLink(links)
 
   return (
     <div className="result">
@@ -61,6 +62,10 @@ const CaseResult: React.FC<Props> = ({
         <ResultLink
           link={opinionLink}
           onDownloadPDF={downloadPDF({ doctype: `Opinion`, law: currentCase })}
+        />
+        <ResultLink
+          link={orderLink}
+          onDownloadPDF={downloadPDF({ doctype: `Order`, law: currentCase })}
         />
       </div>
     </div>

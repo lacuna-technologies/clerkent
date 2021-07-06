@@ -8,6 +8,7 @@ import { findAUCaseCitation, sortAUCitations } from './AU'
 import { findEUCaseCitation, sortEUCitations } from './EU'
 import { findMYCaseCitation, sortMYCitations } from './MY'
 import { findECHRCaseCitation, sortECHRCitations } from './ECHR'
+import { findUNCaseCitation, sortUNCitations } from './UN'
 
 const findCaseCitation = (query: string): CaseCitationFinderResult[] => {
   return [
@@ -20,6 +21,7 @@ const findCaseCitation = (query: string): CaseCitationFinderResult[] => {
     ...findNZCaseCitation(query),
     ...findMYCaseCitation(query),
     ...findECHRCaseCitation(query),
+    ...findUNCaseCitation(query),
   ]
 }
 
@@ -27,11 +29,13 @@ const CaseFinder = {
   findAUCaseCitation,
   findCACaseCitation,
   findCaseCitation,
+  findECHRCaseCitation,
   findEUCaseCitation,
   findHKCaseCitation,
   findNZCaseCitation,
   findSGCaseCitation,
   findUKCaseCitation,
+  findUNCaseCitation,
   sortAUCitations,
   sortCACitations,
   sortECHRCitations,
@@ -41,6 +45,7 @@ const CaseFinder = {
   sortNZCitations,
   sortSGCitations,
   sortUKCitations,
+  sortUNCitations,
 }
 
 export default CaseFinder
