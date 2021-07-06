@@ -1,6 +1,6 @@
 {
   "name": "clerkent",
-  "version": "2.7.5",
+  "version": "2.8.0",
   "private": true,
   "description": "quick search for international caselaw and legislation",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
