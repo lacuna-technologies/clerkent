@@ -1,4 +1,5 @@
 import SGSC from './SGSC'
+import eLitigation from './eLitigation'
 import SLW from './SLW'
 import Common from '../common'
 import SSO from './SSO'
@@ -14,7 +15,8 @@ const getLegislation = SSO.getLegislation
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      SGSC.getCaseByName(caseName),
+      eLitigation.getCaseByName(caseName),
+      // SGSC.getCaseByName(caseName),
       // SLW.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
     ]))
@@ -38,8 +40,9 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      SGSC.getCaseByCitation(citation),
-      SLW.getCaseByCitation(citation),
+      eLitigation.getCaseByName(citation),
+      // SGSC.getCaseByCitation(citation),
+      // SLW.getCaseByCitation(citation),
       Common.CommonLII.getCaseByCitation(citation),
     ])).filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

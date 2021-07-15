@@ -30,6 +30,7 @@ const onMessage = (message: Message) => {
 const highlightBlacklist = new Set([
   `advance.lexis.com`,
   `app.justis.com`,
+  `www.elitigation.sg/*`,
   `curia.europa.eu`,
   `ejudgment.kehakiman.gov.my`,
   `eur-lex.europa.eu`,
