@@ -88,6 +88,7 @@ module.exports = {
       {
         allowList: {
           Props: true,
+          eLitigation: true,
           props: true,
         },
       },

@@ -60,6 +60,11 @@ const JURISDICTIONS = {
 
 
 const SG_DATABASES = {
+  elitigation: {
+    icon: ``,
+    name: `eLitigation`,
+    url: `https://www.elitigation.sg/gdviewer/Home/Index`,
+  },
   lawnet: {
     icon: ``,
     name: `Lawnet`,
