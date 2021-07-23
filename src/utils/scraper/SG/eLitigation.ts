@@ -10,9 +10,9 @@ const parseCaseResults = (data: string): Law.Case[] => {
   const $ = cheerio.load(data)
   return $(`#listview > .row:nth-of-type(3) > .card.col-12`).map((_, element) => {
     const card = $(`> .card-body > .row`, element)
-    const name = $(`a.gd-card-title`, card).text().trim()
-    const link = $(`a.gd-card-title`, card).attr(`href`)
-    const pdf = $(`img.card-icon`, card).parent().attr(`href`)
+    const name = $(`a.gd-card-title,a.gd-heardertext`, card).text().trim()
+    const link = $(`a.gd-card-title,a.gd-heardertext`, card).attr(`href`)
+    const pdf = $(`img.card-icon`, card).parent().attr(`href`) || `${link.replace(`SUPCT/`, ``)}/pdf`
     const citation = $(`span.gd-addinfo-text`, card).first().text().trim().replace(`|`, ``)
 
     const summaryLink = link
