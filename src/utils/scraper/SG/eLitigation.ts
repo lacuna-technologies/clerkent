@@ -12,7 +12,7 @@ const parseCaseResults = (data: string): Law.Case[] => {
     const card = $(`> .card-body > .row`, element)
     const name = $(`a.gd-card-title,a.gd-heardertext`, card).text().trim()
     const link = $(`a.gd-card-title,a.gd-heardertext`, card).attr(`href`)
-    const pdf = $(`img.card-icon`, card).parent().attr(`href`) || `${link.replace(`SUPCT/`, ``)}/pdf`
+    const pdf = $(`img.card-icon`, card).parent().attr(`href`) || `${link.replace(`SUPCT/`, ``).replace(`/s/`, `/gd/`)}/pdf`
     const citation = $(`span.gd-addinfo-text`, card).first().text().trim().replace(`|`, ``)
 
     const summaryLink = link
@@ -50,7 +50,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         searchPhrase: citation,
         sortAscending: `False`,
         sortBy: `Score`,
-        verbose: false,
+        verbose: `False`,
         yearOfDecision: `All`,
       },
     })
@@ -68,7 +68,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       searchPhrase: caseName,
       sortAscending: `False`,
       sortBy: `Score`,
-      verbose: false,
+      verbose: `False`,
       yearOfDecision: `All`,
     },
   })
