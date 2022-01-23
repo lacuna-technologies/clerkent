@@ -1,2 +1,3 @@
-import Scraper from './Scraper'
-export default Scraper
+
+
+export {default} from './Scraper'

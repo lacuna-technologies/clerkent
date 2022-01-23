@@ -12,7 +12,7 @@ const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) =
   }
 }
 
-const classnames = (...arguments_: string[]) => [...new Set([...arguments_])].filter(item => item && item.length > 0).join(` `)
+const classnames = (...arguments_: string[]) => [...new Set(arguments_)].filter(item => item && item.length > 0).join(` `)
 
 const escapeRegExp = (string: string) => string.replace(/[$()*+.?[\\\]^{|}]/g, `\\$&`)
 

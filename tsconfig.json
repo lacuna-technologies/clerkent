@@ -26,5 +26,8 @@
 		"jest.config.ts.ts",
 		"src/types/Filetypes.d.ts"
 	],
-	"exclude": ["**/node_modules", "**/.*/"]
+	"exclude": [
+		"**/node_modules",
+		"**/.*/"
+	]
 }

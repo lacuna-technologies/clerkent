@@ -1,2 +1,3 @@
-import ECHR from './ECHR'
-export default ECHR
+
+
+export {default} from './ECHR'

@@ -1,2 +1,3 @@
-import SG from './SG'
-export default SG
+
+
+export {default} from './SG'

@@ -1,6 +1,6 @@
 {
   "name": "clerkent",
-  "version": "2.8.4",
+  "version": "2.8.5",
   "private": true,
   "description": "quick search for international caselaw and legislation",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
@@ -33,7 +33,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,d.ts}": [
-      "tsc-files --noEmit"
+      "tsc-files --noEmit src/types/Filetypes.d.ts"
     ],
     "*.{ts,tsx,js,jsx,json}": [
       "eslint --cache --fix"

@@ -1,2 +1,3 @@
-import EU from './EU'
-export default EU
+
+
+export {default} from './EU'
