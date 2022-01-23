@@ -1,6 +1,5 @@
 import Leven from 'leven'
 import Law from '../../types/Law'
-import Logger from '../Logger'
 
 const longestCommonSubstring = (stringA: string, stringB: string) => {
   if (!stringA || !stringB) {
@@ -12,22 +11,22 @@ const longestCommonSubstring = (stringA: string, stringB: string) => {
 
   let longestSubstr = ``
   let currentSubstr = ``
-  for(const element of stringA){
+  for (const element of stringA) {
     currentSubstr += element
-    if(!stringB.toLowerCase().includes(currentSubstr.toLowerCase())){
-      if(currentSubstr.length > longestSubstr.length){
+    if (!stringB.toLowerCase().includes(currentSubstr.toLowerCase())) {
+      if (currentSubstr.length > longestSubstr.length) {
         longestSubstr = currentSubstr
       }
       currentSubstr = ``
     }
   }
   return currentSubstr.length > longestSubstr.length ? {
-      length: currentSubstr.length,
-      str: currentSubstr,
-    } : {
-      length: longestSubstr.length,
-      str: longestSubstr,
-    }
+    length: currentSubstr.length,
+    str: currentSubstr,
+  } : {
+    length: longestSubstr.length,
+    str: longestSubstr,
+  }
 }
 
 const probablySameCase = (caseNameA: string, caseNameB: string) => {
@@ -47,7 +46,7 @@ export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.
   const cleanAName = a.name.toLowerCase()
   const cleanBName = b.name.toLowerCase()
 
-  if(probablySameCase(cleanAName, cleanBName)){
+  if (probablySameCase(cleanAName, cleanBName)) {
     // probably the same case
     // keep sort order
     return 0
@@ -62,16 +61,16 @@ export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.
     length: lengthScoreB,
   } = longestCommonSubstring(cleanQuery, cleanBName)
 
-  if(Math.max(lengthScoreA, lengthScoreB) >= 0.8 * query.length){
+  if (Math.max(lengthScoreA, lengthScoreB) >= 0.8 * query.length) {
     const wholeWordA = (new RegExp(`\\b${longestSubstrA}\\b`, `i`)).test(cleanAName)
     const wholeWordB = (new RegExp(`\\b${longestSubstrB}\\b`, `i`)).test(cleanBName)
 
-    if(wholeWordA === wholeWordB || lengthScoreA !== lengthScoreB){
+    if (wholeWordA === wholeWordB || lengthScoreA !== lengthScoreB) {
       return lengthScoreA > lengthScoreB ? -1
-      : (lengthScoreA === lengthScoreB ? 0 : 1)
+        : (lengthScoreA === lengthScoreB ? 0 : 1)
     } else {
       return wholeWordA ? -1 : 1
-    }  
+    }
   } else {
     const levenScoreA = Leven(query, cleanAName)
     const levenScoreB = Leven(query, cleanBName)
