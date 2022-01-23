@@ -80,6 +80,7 @@ module.exports = {
       },
     ],
     "unicorn/no-array-reduce": `off`,
+    "unicorn/no-await-expression-member": `off`,
     "unicorn/no-null": 0,
     "unicorn/prefer-module": `off`,
     "unicorn/prefer-node-protocol": `off`,
