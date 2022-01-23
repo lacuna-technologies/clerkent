@@ -1,2 +1,3 @@
-import UN from './UN'
-export default UN
+
+
+export {default} from './UN'

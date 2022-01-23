@@ -142,6 +142,7 @@ const Popup: React.FC = () => {
     port.current.onMessage.addListener(onMessage)
   }, [onMessage, sendMessage])
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     (async () => {
       let shouldDoSearch = false

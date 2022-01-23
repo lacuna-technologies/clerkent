@@ -18,16 +18,14 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .map(rawCase => toLawCase(rawCase))
 }
 
-const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => Promise.resolve(
-  CustomCases
+const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => CustomCases
   .filter(({ citations }) =>
     citations.some((cit) => (new RegExp(`${citation}`, `i`)).test(cit)),
   )
   .map(({ citations, ...others }) => ({
     ...others,
     citation: citations[0],
-  })),
-)
+  }))
 
 const Custom = {
   getCaseByCitation,

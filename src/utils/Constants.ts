@@ -230,14 +230,11 @@ const INSTITUTIONAL_LOGINS = {
 }
 
 const dedupeObjects = (inputObject: Record<string, Record<string, string>>, jurisdictionCode: Law.JursidictionCode) =>
-  Object.entries(inputObject)
-  .reduce((accumulator, [id, object]: [string, Record<string, string>]) => ({
-    ...accumulator,
-    [`${jurisdictionCode}_${id}`]: {
+  Object.fromEntries(Object.entries(inputObject)
+  .map(( [id, object]: [string, Record<string, string>]) => [`${jurisdictionCode}_${id}`, {
       id: `${jurisdictionCode}_${id}`,
       ...object,
-    },
-  }), {})
+    }]))
 
 const DATABASES: Record<string, Law.Database> = {
   ...dedupeObjects(SG_DATABASES, `SG`),

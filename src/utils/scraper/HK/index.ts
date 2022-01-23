@@ -1,2 +1,3 @@
-import HK from './HK'
-export default HK
+
+
+export {default} from './HK'

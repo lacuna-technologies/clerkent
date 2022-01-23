@@ -1,2 +1,3 @@
-import UK from './UK'
-export default UK
+
+
+export {default} from './UK'
