@@ -2,13 +2,34 @@ import Constants from '../../Constants'
 import { formatAbbrs, sortCitationsByVolume } from './utils'
 import type { CaseCitationFinderResult } from './types'
 
-export const SGAbbrs = [
+export const SGSCAbbrs = [
   { abbr: `SGCA`, appendum: `(I)?` },
   { abbr: `SGHC`, appendum: `(F|\\(I\\))?` },
-  { abbr: `SLR`, appendum: `(\\(r\\))?` },
+  { abbr: `SGHCR` },
+]
+
+export const neutralSGAbbrs = [
+  ...SGSCAbbrs,
   { abbr: `SGDC` },
   { abbr: `SGMC` },
   { abbr: `SGIPOS` },
+  { abbr: `SGPDPC` },
+  { abbr: `SGPC` },
+  { abbr: `SGIAC` },
+  { abbr: `SGITBR` },
+  { abbr: `SGJC` },
+  { abbr: `SGMCA` },
+  { abbr: `SGMML` },
+  { abbr: `SGCRT` },
+  { abbr: `SGCCS` },
+  { abbr: `SGCAB` },
+  { abbr: `SGAB` },
+  { abbr: `SDRP` },
+]
+
+export const SGAbbrs = [
+  ...neutralSGAbbrs,
+  { abbr: `SLR`, appendum: `(\\(r\\))?` },
   { abbr: `MLR` },
   { abbr: `MLJ` },
 ]
@@ -19,10 +40,12 @@ export const sortSGCitations = (citationsArray: any[], attribute = null) => sort
   attribute,
 )
 
+export const makeCaseCitationRegex = (abbrs: typeof SGAbbrs) => new RegExp(`\\[[12]\\d{3}]( \\d{1,2})? (${
+  formatAbbrs(abbrs)
+}) \\d{1,4}`, `gi`)
+
 export const findSGCaseCitationMatches = (query: string) => {
-  const regex = new RegExp(`\\[[12]\\d{3}]( \\d{1,2})? (${
-    formatAbbrs(SGAbbrs)
-  }) \\d{1,4}`, `gi`)
+  const regex = makeCaseCitationRegex(SGAbbrs)
   return [...query.matchAll(regex)]
 }
 
