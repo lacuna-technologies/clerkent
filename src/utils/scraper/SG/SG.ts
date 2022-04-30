@@ -51,6 +51,8 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
       .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
 
+    Logger.log(`acb`, results)
+
     return sortSGCitations(
       Helpers.uniqueBy(results, `citation`),
       `citation`,

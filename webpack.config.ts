@@ -251,7 +251,7 @@ const WebpackConfig = {
     extensions: [`.ts`, `.tsx`, `.js`, `.json`],
     modules: [
       path.resolve(__dirname, `src`),
-      path.resolve(__dirname, `node_modules`),
+      `node_modules`,
     ],
   },
 
