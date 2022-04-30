@@ -5,6 +5,9 @@ import Constants from 'utils/Constants'
 
 const SEARCH_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/search/supreme-court`
 const CITATION_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/document/citation`
+const defaultUserDevice = {
+  isBot: false,
+}
 const defaultSearchConfig = {
   info: {
     appId: `APP_LAWNET_ONE`,
@@ -19,11 +22,7 @@ const defaultSearchConfig = {
       start: 1,
     },
     sessionId: null,
-    userDevice: {
-      info: {
-        isBot: false,
-      },
-    },
+    userDevice: defaultUserDevice,
     userId: 0,
     userName: null,
   },
@@ -35,11 +34,7 @@ const defaultCitationConfig = {
       citation: ``,
     },
     sessionId: null,
-    userDevice: {
-      info: {
-        isBot: false,
-      },
-    },
+    userDevice: defaultUserDevice,
     userId: 0,
     userName: null,
   },
@@ -49,15 +44,20 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   try {
     const requestBody = {
       ...defaultCitationConfig,
+      data: {
+        ...defaultCitationConfig.info.data,
+        citation,
+      },
       info: {
         ...defaultCitationConfig.info,
-        data: {
-          ...defaultCitationConfig.info.data,
-          citation,
-        },
       },
     }
-    const { data } = await Request.post(CITATION_API_URL, requestBody)
+    const requestOptions = {
+      headers: {
+        'Auth-Type': `Public`,
+      },
+    }
+    const { data } = await Request.post(CITATION_API_URL, requestBody, requestOptions)
     const encodedCitation = citation.replaceAll(` `, `+`)
     const judgmentLink: Law.Link = {
       doctype: `Judgment`,
@@ -73,6 +73,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     const result: Law.Case = {
       citation: data.data.metadata[`NeutralCitation`][`NCit`],
       database: Constants.DATABASES.openlaw,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
       links: [
         judgmentLink,
       ],
@@ -115,6 +116,7 @@ const getSearchResults = async (query: string): Promise<Law.Case[]>=> {
       return {
         citation: result.ncitation,
         database: Constants.DATABASES.openlaw,
+        jurisdiction: Constants.JURISDICTIONS.SG.id,
         links: [
           judgmentLink,
         ],
