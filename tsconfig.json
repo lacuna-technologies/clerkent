@@ -19,7 +19,8 @@
 		"downlevelIteration": true,
 		"esModuleInterop": true,
 		"allowJs": false,
-		"sourceMap": true
+		"sourceMap": true,
+		"baseUrl": "src"
 	},
 	"include": [
 		"src",

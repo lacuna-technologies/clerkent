@@ -58,22 +58,28 @@ const JURISDICTIONS = {
   },
 }
 
+type CountryDatabases = Record<string, Omit<Law.Database, `id`>>
 
-const SG_DATABASES = {
+const SG_DATABASES: CountryDatabases = {
   elitigation: {
     icon: ``,
     name: `eLitigation`,
     url: `https://www.elitigation.sg/gdviewer/Home/Index`,
   },
-  lawnet: {
+  lawnetsg: {
     icon: ``,
-    name: `Lawnet`,
+    name: `Lawnet.sg`,
     url: `https://www.lawnet.sg/lawnet/web/lawnet/home`,
   },
   lexis: {
     icon: ``,
     name: `Lexread`,
     url: `https://www.lexread.lexisnexis.com/`,
+  },
+  openlaw: {
+    icon: ``,
+    name: `OpenLaw`,
+    url: `https://www.lawnet.com/openlaw`,
   },
   sc: {
     icon: ``,
@@ -97,7 +103,7 @@ const SG_DATABASES = {
   },
 }
 
-const UK_DATABASES = {
+const UK_DATABASES: CountryDatabases = {
   bailii: {
     icon: ``,
     name: `BAILII`,
@@ -120,7 +126,7 @@ const UK_DATABASES = {
   },
 }
 
-const EU_DATABASES = {
+const EU_DATABASES: CountryDatabases = {
   curia: {
     icon: ``,
     name: `CURIA`,
@@ -138,7 +144,7 @@ const EU_DATABASES = {
   },
 }
 
-const HK_DATABASES = {
+const HK_DATABASES: CountryDatabases = {
   hkliihk: {
     icon: ``,
     name: `HKLII.hk`,
@@ -156,7 +162,7 @@ const HK_DATABASES = {
   },
 }
 
-const CA_DATABASES = {
+const CA_DATABASES: CountryDatabases = {
   canlii: {
     icon: ``,
     name: `CanLII`,
@@ -164,7 +170,7 @@ const CA_DATABASES = {
   },
 }
 
-const AU_DATABASES = {
+const AU_DATABASES: CountryDatabases = {
   austlii: {
     icon: ``,
     name: `AustLII`,
@@ -172,7 +178,7 @@ const AU_DATABASES = {
   },
 }
 
-const NZ_DATABASES = {
+const NZ_DATABASES: CountryDatabases = {
   nzlii: {
     icon: ``,
     name: `NZLII`,
@@ -180,7 +186,7 @@ const NZ_DATABASES = {
   },
 }
 
-const MY_DATABASES = {
+const MY_DATABASES: CountryDatabases = {
   kehakiman: {
     icon: ``,
     name: `Kehakiman`,
@@ -188,7 +194,7 @@ const MY_DATABASES = {
   },
 }
 
-const ECHR_DATABASES = {
+const ECHR_DATABASES: CountryDatabases = {
   hudoc: {
     icon: ``,
     name: `HUDOC`,
@@ -196,7 +202,7 @@ const ECHR_DATABASES = {
   },
 }
 
-const UN_DATABASES = {
+const UN_DATABASES: CountryDatabases = {
   icjcij: {
     icon: ``,
     name: `ICJ`,
@@ -204,7 +210,7 @@ const UN_DATABASES = {
   },
 }
 
-const MISC_DATABASES = {
+const MISC_DATABASES: Record<string, Law.Database> = {
   commonlii: {
     icon: ``,
     id: `commonlii`,
@@ -237,16 +243,16 @@ const dedupeObjects = (inputObject: Record<string, Record<string, string>>, juri
     }]))
 
 const DATABASES: Record<string, Law.Database> = {
-  ...dedupeObjects(SG_DATABASES, `SG`),
-  ...dedupeObjects(UK_DATABASES, `UK`),
-  ...dedupeObjects(EU_DATABASES, `EU`),
-  ...dedupeObjects(HK_DATABASES, `HK`),
-  ...dedupeObjects(CA_DATABASES, `CA`),
-  ...dedupeObjects(AU_DATABASES, `AU`),
-  ...dedupeObjects(NZ_DATABASES, `NZ`),
-  ...dedupeObjects(MY_DATABASES, `MY`),
-  ...dedupeObjects(ECHR_DATABASES, `ECHR`),
-  ...dedupeObjects(UN_DATABASES, `UN`),
+  ...dedupeObjects(SG_DATABASES, `SG`) as Record<string, Law.Database>,
+  ...dedupeObjects(UK_DATABASES, `UK`) as Record<string, Law.Database>,
+  ...dedupeObjects(EU_DATABASES, `EU`) as Record<string, Law.Database>,
+  ...dedupeObjects(HK_DATABASES, `HK`) as Record<string, Law.Database>,
+  ...dedupeObjects(CA_DATABASES, `CA`) as Record<string, Law.Database>,
+  ...dedupeObjects(AU_DATABASES, `AU`) as Record<string, Law.Database>,
+  ...dedupeObjects(NZ_DATABASES, `NZ`) as Record<string, Law.Database>,
+  ...dedupeObjects(MY_DATABASES, `MY`) as Record<string, Law.Database>,
+  ...dedupeObjects(ECHR_DATABASES, `ECHR`) as Record<string, Law.Database>,
+  ...dedupeObjects(UN_DATABASES, `UN`) as Record<string, Law.Database>,
   ...MISC_DATABASES,
 }
 

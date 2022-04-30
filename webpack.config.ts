@@ -249,6 +249,10 @@ const WebpackConfig = {
       ),
     },
     extensions: [`.ts`, `.tsx`, `.js`, `.json`],
+    modules: [
+      path.resolve(__dirname, `src`),
+      path.resolve(__dirname, `node_modules`),
+    ],
   },
 
   // https://github.com/webpack/webpack/issues/1194#issuecomment-560382342
