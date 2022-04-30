@@ -3,10 +3,6 @@ import Request from '../../Request'
 import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
-import {
-  SGSCAbbrs,
-  makeCaseCitationRegex,
-} from '../../Finder/CaseCitationFinder/SG'
 
 const DOMAIN = `https://www.elitigation.sg`
 

@@ -1,3 +1,1 @@
-
-
-export {default} from './SG'
+export { default } from './SG'

@@ -97,7 +97,12 @@ module.exports = {
       },
     ],
   },
-  "settings": {
+  settings: {
+    "import/resolver": {
+      node: {
+        paths: [`src`],
+      },
+    },
     "node": {
       "tryExtensions": [`.tsx`], // append tsx to the list as well
     },
