@@ -40,8 +40,8 @@ const probablySameCase = (caseNameA: string, caseNameB: string) => {
   return sameCaseProbability >= 0.8
 }
 
-const commonAppendsRegex = / ?(\(?pte\.?\)?|private|ltd|limited|llp|sdn|bhd|co|company|corporation|corp|\(s\)|inc|gmbh|and others|and (another|other)( (suits?|appeals?|matters?))?|& \d{1,2} ors|& anor|\(interim judicial managers appointed\)|\(in liquidation\)|, singapore branch)\.?/gi
-const removeCommonAppends = (caseName: string) => caseName.replaceAll(commonAppendsRegex, ``)
+const commonAppendsRegex = / ?(\(?pte\.?\)?|private|ltd|limited|llp|sdn|bhd|co|company|corp|\(s\)|inc|gmbh|and others|and (another|other)( (suits?|appeals?|matters?))?|& \d{1,2} ors|& anor|\(interim judicial managers appointed\)|\(in liquidation\)|, singapore branch)\b$/gi
+const removeCommonAppends = (caseName: string) => (caseName+``).replaceAll(commonAppendsRegex, ``)
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.sort((a, b) => {
