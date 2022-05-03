@@ -1,4 +1,4 @@
-import Law from "../../../types/Law"
+import type Law from "types/Law"
 import { sortByNameSimilarity } from "../utils"
 
 const randomSort = (array) => array.slice(0, array.length).sort((a, b) => (Math.random() - 0.5))
@@ -14,16 +14,25 @@ const sampleCases = [
     ],
     query: `range`,
   },
+  {
+    cases: [
+      { name: `Tribune Investment Trust Inc v Soosan Trading Co Ltd` },
+      { name: `UJF v UJG` },
+      { name: `Azman bin Kamis v Saag Oilfield Engineering (S) Pte Ltd (formerly known as Derrick Services Singapore Pte Ltd) and another suit` },
+      { name: `Lee Tat Development Pte Ltd v Management Corporation of Grange Heights Strata Title No 301 (No 2)` },
+    ],
+    query: `tribune investment v soosan`,
+  },
 ]
 
 describe(`scraper utils`, () => {
-  it(`TODO: add tests`, () => {})
-  // temporarily disabled because leven does not play well with Jest
-  // it(`sorts case names correctly`, () => {
-  //   for (const input of sampleCases) {
-  //     const { query, cases } = input
-  //     const shuffledCases = randomSort(cases) as Law.Case[]
-  //     expect(sortByNameSimilarity(query, shuffledCases)[0].name).toBe(cases[0].name)
-  //   }
-  // })
+  it(`sorts case names correctly`, () => {
+    for (const input of sampleCases) {
+      const { query, cases } = input
+      const shuffledCases = randomSort(cases) as Law.Case[]
+      const sorted = sortByNameSimilarity(query, shuffledCases)
+      expect(sorted[0].name).toBe(cases[0].name)
+      expect(sorted).toMatchSnapshot()
+    }
+  })
 })

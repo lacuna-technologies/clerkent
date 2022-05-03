@@ -11,6 +11,9 @@ const config = {
     "^.+\\.svg$": `<rootDir>/tests/svgTransform.js`,
     "^.+\\.tsx?$": `<rootDir>/node_modules/babel-jest`,
   },
+  transformIgnorePatterns: [
+    `node_modules/(?!(leven)/)`,
+  ],
   verbose: true,
 }
 

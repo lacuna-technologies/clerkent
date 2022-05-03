@@ -1,5 +1,5 @@
-import Leven from 'leven'
-import Law from '../../types/Law'
+import Leven from '../Leven'
+import type Law from 'types/Law'
 
 const longestCommonSubstring = (stringA: string, stringB: string) => {
   if (!stringA || !stringB) {
@@ -37,14 +37,17 @@ const probablySameCase = (caseNameA: string, caseNameB: string) => {
     caseNameB,
   )
   const sameCaseProbability = longestSubstrLength / Math.min(caseNameA.length, caseNameB.length)
-  return sameCaseProbability >= 0.7
+  return sameCaseProbability >= 0.8
 }
+
+const commonAppendsRegex = / ?(\(?pte\.?\)?|private|ltd|limited|llp|sdn|bhd|co|company|corporation|corp|\(s\)|inc|gmbh|and others|and (another|other)( (suits?|appeals?|matters?))?|& \d{1,2} ors|& anor|\(interim judicial managers appointed\)|\(in liquidation\)|, singapore branch)\.?/gi
+const removeCommonAppends = (caseName: string) => caseName.replaceAll(commonAppendsRegex, ``)
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.sort((a, b) => {
-  const cleanQuery = query.toLowerCase()
-  const cleanAName = a.name.toLowerCase()
-  const cleanBName = b.name.toLowerCase()
+  const cleanQuery = removeCommonAppends(query.toLowerCase())
+  const cleanAName = removeCommonAppends(a.name.toLowerCase())
+  const cleanBName = removeCommonAppends(b.name.toLowerCase())
 
   if (probablySameCase(cleanAName, cleanBName)) {
     // probably the same case

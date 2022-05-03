@@ -39,7 +39,8 @@ const fixURL = (url: string) => url.replace(/scc\.lexum\.umontreal\.ca/, `scc-cs
 const parseMultipleCase = ($: cheerio.Root): Law.Case[] => {
   const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element): Law.Case => {
     const name = $(`td.case-cited > a`, element).text().trim()
-    const lawCiteURL = `${LAWCITE_DOMAIN}${$(`td.case-cited > a`, element).attr(`href`)}`
+    const relativeLawCiteURL = $(`td.case-cited > a`, element).attr(`href`)
+    const lawCiteURL = `${LAWCITE_DOMAIN}${relativeLawCiteURL}`
     const judgmentURL = $(`td.service > a`, element).attr(`href`)
     const jurisdiction = matchJurisdiction($(`td.jurisdiction`, element).text().trim())
     const citation = Helpers.findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
@@ -107,11 +108,12 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
       const $$ = cheerio.load(pdfData)
 
       const pdfHref = $$(`b > a`).filter((_, element) => $$(element).text().includes(`PDF version`))?.attr(`href`)
+      const cleanPath = link.split(`/`).slice(0, -1).join(`/`)
       pdfLink = (pdfHref && pdfHref.length > 0) ? {
         doctype: `Judgment`,
         filetype: `PDF`,
-        url: `${link.split(`/`).slice(0, -1).join(`/`)}/${pdfHref}`,
-       } : null
+        url: `${cleanPath}/${pdfHref}`,
+      } : null
     }
 
     const summaryURL: Law.Link = {
@@ -185,7 +187,10 @@ const hostMap = {
   'www8.austlii.edu.au': austlii,
 }
 
-const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string | null> => {
+const getPDF = async (
+  inputCase: Law.Case,
+  inputDocumentType: Law.Link[`doctype`],
+): Promise<null> => {
   const judgmentURL = new URL(Helpers.getJudgmentLink(inputCase.links)?.url)
   if(judgmentURL.hostname in hostMap){
     return hostMap[judgmentURL.hostname].getPDF(inputCase, inputDocumentType)
