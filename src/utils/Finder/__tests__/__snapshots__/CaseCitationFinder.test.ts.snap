@@ -3,11 +3,12 @@
 exports[`Finder 🇬🇧 citations 1`] = `
 Array [
   Object {
-    "citation": "[1948] 1 KB 223",
+    "abbr": "Ves Sen",
+    "citation": "(1754) 2 Ves Sen 547",
     "index": 0,
-    "journal": "KB",
     "jurisdiction": "UK",
     "type": "case-citation",
+    "year": "1754",
   },
 ]
 `;
@@ -15,11 +16,12 @@ Array [
 exports[`Finder 🇬🇧 citations 2`] = `
 Array [
   Object {
-    "citation": "[1965] 1 QB 456",
+    "abbr": "All ER",
+    "citation": "[1843-60] All ER 249",
     "index": 0,
-    "journal": "QB",
     "jurisdiction": "UK",
     "type": "case-citation",
+    "year": "1843",
   },
 ]
 `;
@@ -27,11 +29,77 @@ Array [
 exports[`Finder 🇬🇧 citations 3`] = `
 Array [
   Object {
-    "citation": "(1951) 35 Cr App R 164",
+    "abbr": "KB",
+    "citation": "[1948] 1 KB 223",
     "index": 0,
-    "journal": "Cr App R",
     "jurisdiction": "UK",
     "type": "case-citation",
+    "year": "1948",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 4`] = `
+Array [
+  Object {
+    "abbr": "QB",
+    "citation": "[1965] 1 QB 456",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "1965",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 5`] = `
+Array [
+  Object {
+    "abbr": "Cr App R",
+    "citation": "(1951) 35 Cr App R 164",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "1951",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 6`] = `
+Array [
+  Object {
+    "abbr": "UKHL",
+    "citation": "[2007] UKHL 17",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2007",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 7`] = `
+Array [
+  Object {
+    "abbr": "UKIPO",
+    "citation": "O/328/22",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
+exports[`Finder 🇬🇧 citations 8`] = `
+Array [
+  Object {
+    "abbr": "UKIPO",
+    "citation": "O/002/22",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2022",
   },
 ]
 `;

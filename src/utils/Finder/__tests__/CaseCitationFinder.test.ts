@@ -24,9 +24,14 @@ describe(`Finder`, () => {
 
   it(`🇬🇧 citations`, () => {
     const citations = [
+      `(1754) 2 Ves Sen 547`,
+      `[1843-60] All ER 249`,
       `[1948] 1 KB 223`,
       `[1965] 1 QB 456`,
       `(1951) 35 Cr App R 164`,
+      `[2007] UKHL 17`,
+      `O/328/22`,
+      `O/002/22`,
     ]
 
     for (const citation of citations) {
