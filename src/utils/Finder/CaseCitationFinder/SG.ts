@@ -40,7 +40,7 @@ export const sortSGCitations = (citationsArray: any[], attribute = null) => sort
   attribute,
 )
 
-export const makeCaseCitationRegex = (abbrs: typeof SGAbbrs) => new RegExp(`\\[[12]\\d{3}]( \\d{1,2})? (${
+export const makeCaseCitationRegex = (abbrs: typeof SGAbbrs) => new RegExp(`\\[(?<year>[12]\\d{3})\\]( \\d{1,2})? (?<abbr>${
   formatAbbrs(abbrs)
 }) \\d{1,4}`, `gi`)
 
@@ -52,8 +52,11 @@ export const findSGCaseCitationMatches = (query: string) => {
 export const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const matches = findSGCaseCitationMatches(query)
   return matches.map((match) => ({
+    abbr: match.groups.abbr,
     citation: match[0],
     index: match.index,
     jurisdiction: Constants.JURISDICTIONS.SG.id,
-  })).map(c => ({ ...c, type: `case-citation` }))
+    type: `case-citation`,
+    year: match.groups.year,
+  }))
 }

@@ -9,7 +9,7 @@ export interface CaseNameFinderResult {
   name: string,
   type: `case-name`
 }
- 
+
 export type FinderResult = CaseCitationFinderResult | LegislationFinderResult | CaseNameFinderResult
 
 const findCase = Memoize((citation: string): FinderResult[] => {

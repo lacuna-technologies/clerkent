@@ -1,7 +1,15 @@
 import { defaults } from 'jest-config'
 
 const config = {
-  moduleFileExtensions: [...defaults.moduleFileExtensions, `ts`, `tsx`],
+  moduleDirectories: [
+    `node_modules`,
+    `src`,
+  ],
+  moduleFileExtensions: [
+    ...defaults.moduleFileExtensions,
+    `ts`,
+    `tsx`,
+  ],
   projects: [`<rootDir>/src`],
   testPathIgnorePatterns: [
     `<rootDir>/node_modules/`,
