@@ -134,5 +134,8 @@
     "webpack-extension-reloader": "^1.1.4",
     "wext-manifest-loader": "^2.3.0",
     "wext-manifest-webpack-plugin": "^1.2.1"
-  }
+  },
+  "os": [
+    "linux"
+  ]
 }

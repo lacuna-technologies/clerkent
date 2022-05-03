@@ -17,6 +17,7 @@ describe(`HK LRS`, () => {
   })
 
   it(`should parse getCaseByCitation result correctly`, async () => {
+    expect.assertions(1)
     const mockSearchResponse = fs.readFileSync(
       path.join(__dirname, `responses`, `LRS`, `getCaseByCitation-search.txt`),
       `utf-8`,

@@ -17,6 +17,7 @@ describe(`SG OpenLaw`, () => {
     expect(RequestPost.mock.calls).toMatchSnapshot()
   })
   it(`should parse getCaseByCitation result correctly`, async () => {
+    expect.assertions(1)
     const mockResponse = JSON.parse(fs.readFileSync(
       path.join(__dirname, `responses`, `OpenLaw`, `getCaseByCitation-result.txt`),
     ).toString())
