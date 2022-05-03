@@ -24,6 +24,7 @@
     "prepare": "husky install",
     "test": "jest --watch",
     "test:ci": "jest --ci --coverage && codecov",
+    "test:clear-cache": "jest --clearCache",
     "version": "babel-node scripts/getVersion.ts --extensions \".ts\""
   },
   "husky": {

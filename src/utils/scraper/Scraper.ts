@@ -96,7 +96,11 @@ const getLegislation = Memoize((
   }, inputJurisdiction]) => `${provisionType}-${provisionNumber}-${statute}-${inputJurisdiction}`,
 })
 
-const getPDF = Memoize((inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
+const getPDF = Memoize((
+  inputCase: Law.Case,
+  inputDocumentType: Law.Link[`doctype`],
+): Promise<string> => {
+  Logger.log(`Scraper: getPDF`, inputCase, inputDocumentType)
   const existingLink = inputCase.links.find(({ doctype, filetype }) => doctype === inputDocumentType && filetype === `PDF`)
   if(existingLink){
     return Promise.resolve(existingLink?.url)

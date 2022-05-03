@@ -1,4 +1,3 @@
-import SGSC from './SGSC'
 import eLitigation from './eLitigation'
 import SLW from './SLW'
 import Common from '../common'
@@ -9,7 +8,7 @@ import Logger from 'utils/Logger'
 import Constants from 'utils/Constants'
 import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
 import { sortByNameSimilarity } from '../utils'
-import LawNet from './Lawnet'
+import OpenLaw from './OpenLaw'
 
 const getLegislation = SSO.getLegislation
 
@@ -17,9 +16,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
       eLitigation.getCaseByName(caseName),
-      LawNet.getCaseByName(caseName),
-      // SGSC.getCaseByName(caseName),
-      // SLW.getCaseByName(caseName),
+      OpenLaw.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
     ]))
       .filter(({ status }) => status === `fulfilled`)
@@ -39,19 +36,15 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return []
 }
 
-const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
+const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
       eLitigation.getCaseByCitation(citation),
-      LawNet.getCaseByCitation(citation),
-      // SGSC.getCaseByCitation(citation),
-      // SLW.getCaseByCitation(citation),
+      OpenLaw.getCaseByCitation(citation),
       Common.CommonLII.getCaseByCitation(citation),
     ])).filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
       .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
-
-    Logger.log(`acb`, results)
 
     return sortSGCitations(
       Helpers.uniqueBy(results, `citation`),
@@ -65,15 +58,20 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
 
 const databaseMap = {
   [Constants.DATABASES.commonlii.id]: Common.CommonLII,
+  [Constants.DATABASES.SG_openlaw.id]: OpenLaw,
 }
 
-const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
+const getPDF = async (
+  inputCase: Law.Case,
+  inputDocumentType: Law.Link[`doctype`],
+): Promise<string | void> => {
+  Logger.log(`SG: getPDF`, inputCase, inputDocumentType)
   const { database } = inputCase
   return databaseMap[database.id].getPDF(inputCase, inputDocumentType)
 }
 
 const SG = {
-  LawNet,
+  OpenLaw,
   SLW,
   eLitigation,
   getCaseByCitation,

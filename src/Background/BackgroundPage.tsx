@@ -133,13 +133,14 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       const fileName = Helpers.getFileName(law, doctype)
       Logger.log(`downloadPDF fileName: `, fileName)
       Logger.log(`downloadPDF url: ${url}`)
-      if(url){
+      if(url && url.length > 0){
         await browser.downloads.download({
           filename: fileName,
           saveAs: true,
-          url: url,
+          url,
         })
       }
+    break
     }
     // No default
   }
