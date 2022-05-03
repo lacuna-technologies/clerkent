@@ -28,7 +28,7 @@ const Options: React.FC = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateOptions = useCallback(((key, value) => {
-    OptionsStorage[key].set(value)
+    OptionsStorage[key].set(value as any)
     fetchOptions()
   }) as updateOptionsType, [fetchOptions])
 

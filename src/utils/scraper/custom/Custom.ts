@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js'
-import type Law from "../../../types/Law"
+import type Law from "types/Law"
 import CustomDB from './CustomDB'
 import type { RawCase } from './CustomDB'
 
@@ -11,7 +11,7 @@ const toLawCase = ({ citations, ...others }: RawCase): Law.Case => ({
   })
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  const fuse = new Fuse(CustomCases.map(({ name }) => name), {})
+  const fuse = new Fuse(CustomCases.map(({ name }) => name), { fieldNormWeight: 1 })
   return fuse
     .search(caseName)
     .map(({ refIndex }) => CustomCases[refIndex])
