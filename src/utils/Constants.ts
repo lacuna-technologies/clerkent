@@ -109,6 +109,11 @@ const UK_DATABASES: CountryDatabases = {
     name: `BAILII`,
     url: `https://bailii.org/`,
   },
+  ipo: {
+    icon: ``,
+    name: `IPO`,
+    url: `https://www.gov.uk/government/organisations/intellectual-property-office`,
+  },
   legislation: {
     icon: ``,
     name: `legislation.gov.uk`,
