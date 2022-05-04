@@ -11,21 +11,24 @@ const toLawCase = ({ citations, ...others }: RawCase): Law.Case => ({
   })
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  const fuse = new Fuse(CustomCases.map(({ name }) => name), { fieldNormWeight: 1 })
+  const fuse = new Fuse(CustomCases.map(({ name }) => name))
   return fuse
     .search(caseName)
     .map(({ refIndex }) => CustomCases[refIndex])
     .map(rawCase => toLawCase(rawCase))
 }
 
-const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => CustomCases
+const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
+  const escapedCitation = citation.replaceAll(`[`, `\\[`)
+  return CustomCases
   .filter(({ citations }) =>
-    citations.some((cit) => (new RegExp(`${citation}`, `i`)).test(cit)),
+    citations.some((cit) => (new RegExp(`${escapedCitation}`, `i`)).test(cit)),
   )
   .map(({ citations, ...others }) => ({
     ...others,
     citation: citations[0],
   }))
+}
 
 const Custom = {
   getCaseByCitation,

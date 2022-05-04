@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js'
 import cheerio from 'cheerio'
 import type Law from 'types/Law'
 import Logger from 'utils/Logger'
@@ -36,13 +37,14 @@ const getAllCases = async (): Promise<Law.Case[]> => {
     getHistoricalCases,
   ])).filter(({ status }) => status === `fulfilled`)
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   return results.flatMap(({ value }: PromiseFulfilledResult<AxiosResponse<any, any>>) => {
     const { data } = value
     const $ = cheerio.load(data)
     return $(`.sfContentBlock table`).map((tableIndex, table) => {
       // ignore header which for some reason is located in tbody
-      return $(`tbody tr`, table).slice(0, 5).map((rowIndex, row) => {
-        try{
+      return $(`tbody tr`, table).map((rowIndex, row) => {
+        try {
           const isHeaderRow = $(`td:nth-child(1)`, row).text().trim() === `Citation`
           const isAppealRow = $(row).children().length === 2
           if(isHeaderRow || isAppealRow){
@@ -50,7 +52,11 @@ const getAllCases = async (): Promise<Law.Case[]> => {
           }
           const fullCitation = $(`td:nth-child(1)`, row).text()
           const { citation } = Finder.findCaseCitation(fullCitation)[0]
-          const name = fullCitation.replace(citation, ``).trim()
+          const markPatent = $(`td:nth-child(3)`, row).text().trim()
+          const name = fullCitation.replace(citation, ``).trim() +
+            (markPatent && markPatent.length > 0
+              ? ` (${markPatent})`
+              : ``)
           const links = $(`td:nth-child(6) a`, row)
 
           const judgmentURL = links.filter((_, link) => 
@@ -82,6 +88,7 @@ const getAllCases = async (): Promise<Law.Case[]> => {
           }
         } catch (error){
           Logger.error(error, $(`td:nth-child(1)`, row).text())
+          return null
         }
       }).get().filter(c => c !== null)
     }).get()
@@ -89,11 +96,19 @@ const getAllCases = async (): Promise<Law.Case[]> => {
 }
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
-  return await getAllCases()
+  const allCases = await getAllCases()
+  const escapedCitation = citation.replaceAll(`[`, `\\[`)
+  return allCases.filter(({ citation: c }) => {
+    return (new RegExp(`${escapedCitation}`, `i`).test(c))
+  })
 }
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  return await getAllCases()
+  const allCases = await getAllCases()
+  const fuse = new Fuse(allCases.map(({ name }) => name))
+
+  return fuse.search(caseName)
+    .map(({ refIndex }) => allCases[refIndex])
 }
 
 // const search = async (citation: string): Promise<Law.Case[]> => {

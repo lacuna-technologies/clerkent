@@ -20,6 +20,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       eLitigation.getCaseByName(caseName),
       OpenLaw.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
+      IPOS.getCaseByName(caseName),
     ]))
       .filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

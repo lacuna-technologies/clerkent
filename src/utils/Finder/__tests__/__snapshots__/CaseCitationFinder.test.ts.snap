@@ -233,3 +233,16 @@ Array [
   },
 ]
 `;
+
+exports[`Finder 🇸🇬 citations 10`] = `
+Array [
+  Object {
+    "abbr": "SGIPOS",
+    "citation": "[2022] SGIPOS 4",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
