@@ -32,6 +32,7 @@ describe(`Finder`, () => {
       `[2007] UKHL 17`,
       `O/328/22`,
       `O/002/22`,
+      `O01422`,
     ]
 
     for (const citation of citations) {

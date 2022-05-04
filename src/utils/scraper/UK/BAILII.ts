@@ -79,7 +79,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         CaseCitationFinder.findUKCaseCitation,
         $(`small`, element).text().trim(),
       )
-      const link = `${DOMAIN}${$(`a`, element).eq(0).attr(`href`)}`
+      const path = $(`a`, element).eq(0).attr(`href`)
+      const link = `${DOMAIN}${path}`
       return {
         citation,
         database: Constants.DATABASES.UK_bailii,

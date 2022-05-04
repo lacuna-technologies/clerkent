@@ -58,7 +58,7 @@ export const sortUKCitations = (citationsArray: any[], attribute = null) => sort
   attribute,
 )
 
-const ukIPORegex = /O\/\d{3}\/(?<year>\d{2})/
+const ukIPORegex = /(\[\d{4}] UKIntelP o\d{5}|O\/?\d{3}\/?(?<year>\d{2}))/
 
 export const findUKCaseCitationMatches = (query: string) => {
   const abbrs = formatAbbrs(UKAbbrs)

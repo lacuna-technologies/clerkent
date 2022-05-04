@@ -104,6 +104,19 @@ Array [
 ]
 `;
 
+exports[`Finder 🇬🇧 citations 9`] = `
+Array [
+  Object {
+    "abbr": "UKIPO",
+    "citation": "O01422",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
 exports[`Finder 🇸🇬 citations 1`] = `
 Array [
   Object {
