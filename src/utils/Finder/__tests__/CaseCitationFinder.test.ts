@@ -12,6 +12,7 @@ describe(`Finder`, () => {
       `[1988] SGCA 16`,
       `[2001] 2 SLR 253`,
       `[2001] 2 SLR 253`,
+      `[2022] SGIPOS 4`,
     ]
 
     for(const citation of citations){
