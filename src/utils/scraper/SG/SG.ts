@@ -10,6 +10,7 @@ import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
 import { sortByNameSimilarity } from '../utils'
 import OpenLaw from './OpenLaw'
 import Finder from 'utils/Finder'
+import IPOS from './IPOS'
 
 const getLegislation = SSO.getLegislation
 
@@ -37,18 +38,25 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   return []
 }
 
+const getApplicableDatabases = (citation: string) => {
+  const [{ year, abbr }] = Finder.findCaseCitation(citation)
+  if(abbr === `SGIPOS`){
+    return [IPOS.getCaseByCitation(citation)]
+  } else {
+    return Number.parseInt(year) >= 2000 ? [
+        eLitigation.getCaseByCitation(citation),
+        Common.CommonLII.getCaseByCitation(citation),
+      ] : [
+        OpenLaw.getCaseByCitation(citation),
+        Common.CommonLII.getCaseByCitation(citation),
+      ]
+  }
+}
+
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   try {
-    const [{ year }] = Finder.findCaseCitation(citation)
     const results = (await Promise.allSettled(
-      Number.parseInt(year) >= 2000
-        ? [
-          eLitigation.getCaseByCitation(citation),
-          Common.CommonLII.getCaseByCitation(citation),
-        ] : [
-          OpenLaw.getCaseByCitation(citation),
-          Common.CommonLII.getCaseByCitation(citation),
-        ],
+      getApplicableDatabases(citation),
     )).filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
       .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)

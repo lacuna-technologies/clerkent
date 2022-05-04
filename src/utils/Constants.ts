@@ -66,6 +66,11 @@ const SG_DATABASES: CountryDatabases = {
     name: `eLitigation`,
     url: `https://www.elitigation.sg/gdviewer/Home/Index`,
   },
+  ipos: {
+    icon: ``,
+    name: `IPOS`,
+    url: `https://www.ipos.gov.sg/manage-ip/resolve-ip-disputes/legal-decisions`,
+  },
   lawnetsg: {
     icon: ``,
     name: `Lawnet.sg`,
