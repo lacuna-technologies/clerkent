@@ -21,15 +21,14 @@ const parseCase = (name: string, link: string) => ({
       url: link,
     },
   ],
-  name: name.split(`[`)[0],
+  name: name.split(`[`)[0].trim(),
 })
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const { data } = await Request.get(getSearchResults(citation))
-
   const results = data
     .map(([name, link]) => parseCase(name, link))
-    .filter(({ citation: scrapedCitation }) => citation.toLowerCase() === scrapedCitation.toLowerCase())
+    .filter(({ citation: scrapedCitation }) => scrapedCitation && citation.toLowerCase() === scrapedCitation.toLowerCase())
   Logger.log(`SLW scrape results`, results)
   return results
 }

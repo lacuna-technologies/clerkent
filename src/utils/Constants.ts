@@ -101,6 +101,11 @@ const SG_DATABASES: CountryDatabases = {
     name: `Singapore Statutes Online`,
     url: `https://sso.agc.gov.sg/`,
   },
+  stb: {
+    icon: ``,
+    name: `Strata Titles Board`,
+    url: `https://www.stratatb.gov.sg/resources-judgments.html`,
+  },
   westlaw: {
     icon: ``,
     name: `Westlaw Asia`,

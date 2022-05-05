@@ -1,6 +1,7 @@
 import Constants from '../../Constants'
 import { formatAbbrs, sortCitationsByVolume } from './utils'
 import type { CaseCitationFinderResult } from './types'
+import { SGSTBlongFormatRegex } from 'utils/scraper/SG/STB'
 
 export const SGSCAbbrs = [
   { abbr: `SGCA`, appendum: `(I)?` },
@@ -10,21 +11,23 @@ export const SGSCAbbrs = [
 
 export const neutralSGAbbrs = [
   ...SGSCAbbrs,
+  { abbr: `SDRP` },
+  { abbr: `SGAB` },
+  { abbr: `SGCAB` },
+  { abbr: `SGCCS` },
+  { abbr: `SGCRT` },
   { abbr: `SGDC` },
-  { abbr: `SGMC` },
-  { abbr: `SGIPOS` },
-  { abbr: `SGPDPC` },
-  { abbr: `SGPC` },
   { abbr: `SGIAC` },
+  { abbr: `SGIPOS` },
   { abbr: `SGITBR` },
   { abbr: `SGJC` },
+  { abbr: `SGMC` },
   { abbr: `SGMCA` },
   { abbr: `SGMML` },
-  { abbr: `SGCRT` },
-  { abbr: `SGCCS` },
-  { abbr: `SGCAB` },
-  { abbr: `SGAB` },
-  { abbr: `SDRP` },
+  { abbr: `SGPC` },
+  { abbr: `SGPDPC` },
+  { abbr: `SGPDPCR` },
+  { abbr: `SGSTB` },
 ]
 
 export const SGAbbrs = [
@@ -40,19 +43,31 @@ export const sortSGCitations = (citationsArray: any[], attribute = null) => sort
   attribute,
 )
 
-export const makeCaseCitationRegex = (abbrs: typeof SGAbbrs) => new RegExp(`\\[(?<year>[12]\\d{3})\\]( \\d{1,2})? (?<abbr>${
-  formatAbbrs(abbrs)
-}) \\d{1,4}`, `gi`)
+export const makeCaseCitationRegex = (abbrs: typeof SGAbbrs) => new RegExp(
+  `(`+
+    `\\[(?<year>[12]\\d{3})\\]( \\d{1,2})? (?<abbr>${
+      formatAbbrs(abbrs)
+    }) \\d{1,4}`+
+    `|`+
+    `(?<stb>${SGSTBlongFormatRegex.source})`+
+  `)`, `gi`)
 
 export const findSGCaseCitationMatches = (query: string) => {
   const regex = makeCaseCitationRegex(SGAbbrs)
   return [...query.matchAll(regex)]
 }
 
+const getAbbr = (match) => {
+  if(match.groups.stb){
+    return `SGSTB`
+  }
+  return match.groups.abbr
+}
+
 export const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
   const matches = findSGCaseCitationMatches(query)
   return matches.map((match) => ({
-    abbr: match.groups.abbr,
+    abbr: getAbbr(match),
     citation: match[0],
     index: match.index,
     jurisdiction: Constants.JURISDICTIONS.SG.id,
