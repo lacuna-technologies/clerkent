@@ -4,7 +4,6 @@ import type Law from 'types/Law'
 import Logger from 'utils/Logger'
 import Request from 'utils/Request'
 import Constants from 'utils/Constants'
-import memoize from 'memoizee'
 import type { AxiosResponse } from 'axios'
 import Finder from 'utils/Finder'
 
@@ -15,9 +14,9 @@ import Finder from 'utils/Finder'
 // since there are not that many
 
 const BASE_URL = `https://www.ipos.gov.sg`
-const IPOS_SEARCH_URL = `${BASE_URL}/manage-ip/resolve-ip-disputes/legal-decisions/LoadCaseData`
-const IPOS_CURRENT_DECISIONS = `${BASE_URL}/manage-ip/resolve-ip-disputes/legal-decisions`
-const IPOS_HISTORICAL_DECISIONS = `${BASE_URL}/manage-ip/resolve-ip-disputes/legal-decisions/legal-decisions-(pre-2018)`
+const SEARCH_URL = `${BASE_URL}/manage-ip/resolve-ip-disputes/legal-decisions/LoadCaseData`
+const CURRENT_DECISIONS = `${BASE_URL}/manage-ip/resolve-ip-disputes/legal-decisions`
+const HISTORICAL_DECISIONS = `${BASE_URL}/manage-ip/resolve-ip-disputes/legal-decisions/legal-decisions-(pre-2018)`
 
 const makeAbsoluteURL = (url: string): string => {
   if(!url){
@@ -29,69 +28,72 @@ const makeAbsoluteURL = (url: string): string => {
   return `${BASE_URL}${url}`
 }
 
+const parseCasesPage = (html: string): Law.Case[] => {
+  const $ = cheerio.load(html)
+  return $(`.sfContentBlock table`).map((tableIndex, table) => {
+    // ignore header which for some reason is located in tbody
+    return $(`tbody tr`, table).map((rowIndex, row) => {
+      try {
+        const isHeaderRow = $(`td:nth-child(1)`, row).text().trim() === `Citation`
+        const isAppealRow = $(row).children().length === 2
+        if(isHeaderRow || isAppealRow){
+          return null
+        }
+        const fullCitation = $(`td:nth-child(1)`, row).text()
+        const { citation } = Finder.findCaseCitation(fullCitation)[0]
+        const markPatent = $(`td:nth-child(3)`, row).text().trim()
+        const name = fullCitation.replace(citation, ``).trim() +
+          (markPatent && markPatent.length > 0
+            ? ` (${markPatent})`
+            : ``)
+        const links = $(`td:nth-child(6) a`, row)
+
+        const judgmentURL = links.filter((_, link) => 
+          $(link).text().includes(`Full Decision`),
+        ).eq(0).attr(`href`)
+        const summaryURL = links.filter((_, link) =>
+          $(link).text().includes(`Case Summary`),
+        ).eq(0).attr(`href`)
+
+        const judgmentLink: Law.Link = {
+          doctype: `Judgment`,
+          filetype: `PDF`,
+          url: makeAbsoluteURL(judgmentURL),
+        }
+        const summaryLink: Law.Link = {
+          doctype: `Summary`,
+          filetype: `PDF`,
+          url: makeAbsoluteURL(summaryURL),
+        }
+        return {
+          citation,
+          database: Constants.DATABASES.SG_ipos,
+          jurisdiction: Constants.JURISDICTIONS.SG.id,
+          links: [
+            ...(judgmentURL && judgmentURL.length > 0 ? [judgmentLink] : []),
+            ...(summaryURL && summaryURL.length > 0 ? [summaryLink] : []),
+          ],
+          name,
+        }
+      } catch (error){
+        Logger.error(error, $(`td:nth-child(1)`, row).text())
+        return null
+      }
+    }).get().filter(c => c !== null)
+  }).get()
+}
+
 const getAllCases = async (): Promise<Law.Case[]> => {
-  const getCurrentCases = Request.get(IPOS_CURRENT_DECISIONS)
-  const getHistoricalCases = Request.get(IPOS_HISTORICAL_DECISIONS)
+  const getCurrentCases = Request.get(CURRENT_DECISIONS)
+  const getHistoricalCases = Request.get(HISTORICAL_DECISIONS)
   const results = (await Promise.allSettled([
     getCurrentCases,
     getHistoricalCases,
   ])).filter(({ status }) => status === `fulfilled`)
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   return results.flatMap(({ value }: PromiseFulfilledResult<AxiosResponse<any, any>>) => {
     const { data } = value
-    const $ = cheerio.load(data)
-    return $(`.sfContentBlock table`).map((tableIndex, table) => {
-      // ignore header which for some reason is located in tbody
-      return $(`tbody tr`, table).map((rowIndex, row) => {
-        try {
-          const isHeaderRow = $(`td:nth-child(1)`, row).text().trim() === `Citation`
-          const isAppealRow = $(row).children().length === 2
-          if(isHeaderRow || isAppealRow){
-            return null
-          }
-          const fullCitation = $(`td:nth-child(1)`, row).text()
-          const { citation } = Finder.findCaseCitation(fullCitation)[0]
-          const markPatent = $(`td:nth-child(3)`, row).text().trim()
-          const name = fullCitation.replace(citation, ``).trim() +
-            (markPatent && markPatent.length > 0
-              ? ` (${markPatent})`
-              : ``)
-          const links = $(`td:nth-child(6) a`, row)
-
-          const judgmentURL = links.filter((_, link) => 
-            $(link).text().includes(`Full Decision`),
-          ).eq(0).attr(`href`)
-          const summaryURL = links.filter((_, link) =>
-            $(link).text().includes(`Case Summary`),
-          ).eq(0).attr(`href`)
-
-          const judgmentLink: Law.Link = {
-            doctype: `Judgment`,
-            filetype: `PDF`,
-            url: makeAbsoluteURL(judgmentURL),
-          }
-          const summaryLink: Law.Link = {
-            doctype: `Summary`,
-            filetype: `PDF`,
-            url: makeAbsoluteURL(summaryURL),
-          }
-          return {
-            citation,
-            database: Constants.DATABASES.SG_ipos,
-            jurisdiction: Constants.JURISDICTIONS.SG.id,
-            links: [
-              ...(judgmentURL && judgmentURL.length > 0 ? [judgmentLink] : []),
-              ...(summaryURL && summaryURL.length > 0 ? [summaryLink] : []),
-            ],
-            name,
-          }
-        } catch (error){
-          Logger.error(error, $(`td:nth-child(1)`, row).text())
-          return null
-        }
-      }).get().filter(c => c !== null)
-    }).get()
+    return parseCasesPage(data)
   })
 }
 

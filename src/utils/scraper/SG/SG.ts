@@ -1,16 +1,17 @@
-import eLitigation from './eLitigation'
-import SLW from './SLW'
-import Common from '../common'
-import SSO from './SSO'
-import type Law from 'types/Law'
-import Helpers from 'utils/Helpers'
-import Logger from 'utils/Logger'
-import Constants from 'utils/Constants'
-import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
 import { sortByNameSimilarity } from '../utils'
-import OpenLaw from './OpenLaw'
+import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
+import Common from '../common'
+import Constants from 'utils/Constants'
+import eLitigation from './eLitigation'
 import Finder from 'utils/Finder'
+import Helpers from 'utils/Helpers'
 import IPOS from './IPOS'
+import Logger from 'utils/Logger'
+import OpenLaw from './OpenLaw'
+import SLW from './SLW'
+import SSO from './SSO'
+import STB from './STB'
+import type Law from 'types/Law'
 
 const getLegislation = SSO.getLegislation
 
@@ -21,6 +22,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       OpenLaw.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
       IPOS.getCaseByName(caseName),
+      STB.getCaseByName(caseName),
     ]))
       .filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
@@ -41,16 +43,28 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 
 const getApplicableDatabases = (citation: string) => {
   const [{ year, abbr }] = Finder.findCaseCitation(citation)
-  if(abbr === `SGIPOS`){
-    return [IPOS.getCaseByCitation(citation)]
-  } else {
-    return Number.parseInt(year) >= 2000 ? [
-        eLitigation.getCaseByCitation(citation),
-        Common.CommonLII.getCaseByCitation(citation),
-      ] : [
-        OpenLaw.getCaseByCitation(citation),
-        Common.CommonLII.getCaseByCitation(citation),
-      ]
+  switch (abbr) {
+    case `SGIPOS`: {
+      return [IPOS.getCaseByCitation(citation)]
+    }
+    case `SGPDPC`: 
+    case `SGPDPCR`: {
+      // SLW is best source for now
+      // PDPC's website does not include citations
+      return [SLW.getCaseByCitation(citation)]
+    }
+    case `SGSTB`: {
+      return [STB.getCaseByCitation(citation)]
+    }
+    default: {
+      return Number.parseInt(year) >= 2000 ? [
+          eLitigation.getCaseByCitation(citation),
+          Common.CommonLII.getCaseByCitation(citation),
+        ] : [
+          OpenLaw.getCaseByCitation(citation),
+          Common.CommonLII.getCaseByCitation(citation),
+        ]
+    }
   }
 }
 

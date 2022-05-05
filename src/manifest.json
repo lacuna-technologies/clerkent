@@ -41,6 +41,7 @@
     "https://www.icj-cij.org/*",
     "https://www.legislation.gov.uk/*",
     "https://www.singaporelawwatch.sg/*",
+    "https://www.stratatb.gov.sg/*",
     "https://www.supremecourt.gov.sg/*"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
@@ -169,6 +170,7 @@
         "https://www.singaporelawreview.com/*",
         "https://www.singaporelawwatch.sg/*",
         "https://www.societyofasianlawyers.co.uk/*",
+        "https://www.stratatb.gov.sg/*",
         "https://www.supremecourt.gov.sg/*",
         "https://www.tandfonline.com/*",
         "https://www.technologylawdispatch.com/*",
