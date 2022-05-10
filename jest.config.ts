@@ -15,7 +15,7 @@ const config = {
     `<rootDir>/node_modules/`,
   ],
   transform: {
-    "^.+\\.scss$": `jest-scss-transform`,
+    "^.+\\.scss$": `<rootDir>/tests/styleMock.js`,
     "^.+\\.svg$": `<rootDir>/tests/svgTransform.js`,
     "^.+\\.tsx?$": `<rootDir>/node_modules/babel-jest`,
   },
