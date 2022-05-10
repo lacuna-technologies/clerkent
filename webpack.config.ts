@@ -3,6 +3,7 @@ import path from 'path'
 import webpack from 'webpack'
 import FilemanagerPlugin from 'filemanager-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
+// eslint-disable-next-line import/default
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
@@ -10,7 +11,6 @@ import ExtensionReloader from 'webpack-extension-reloader'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import WextManifestWebpackPlugin from 'wext-manifest-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 
 const viewsPath = path.join(__dirname, `views`)
 const sourcePath = path.join(__dirname, `src`)
@@ -55,7 +55,7 @@ if(!fs.existsSync(generatedAssetsPath)){
 }
 
 const WebpackConfig = {
-  devtool: false, 
+  devtool: `eval-source-map`, 
 
   entry: {
     background: path.join(sourcePath, `Background`, `index.tsx`),
@@ -175,8 +175,6 @@ const WebpackConfig = {
   plugins: [
     // Plugin to not generate js bundle for manifest entry
     new WextManifestWebpackPlugin(),
-    // Generate sourcemaps
-    new webpack.SourceMapDevToolPlugin({ filename: false }),
     new ForkTsCheckerWebpackPlugin(),
     // environmental variables
     new webpack.EnvironmentPlugin([`NODE_ENV`, `TARGET_BROWSER`]),
@@ -274,11 +272,6 @@ const WebpackConfig = {
             format: {
               comments: false,
             },
-          },
-        }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorPluginOptions: {
-            preset: [`default`, { discardComments: { removeAll: true } }],
           },
         }),
         new FilemanagerPlugin({
