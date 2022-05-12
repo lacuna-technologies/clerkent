@@ -7,7 +7,6 @@ import TerserPlugin from 'terser-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import ExtensionReloader from 'webpack-extension-reloader'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import WextManifestWebpackPlugin from 'wext-manifest-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
@@ -19,20 +18,19 @@ const generatedAssetsPath = path.join(__dirname, `generated`)
 const nodeEnvironment = process.env.NODE_ENV || `development`
 const targetBrowser = process.env.TARGET_BROWSER
 
-const extensionReloaderPlugin =
-  nodeEnvironment === `development`
-    ? new (ExtensionReloader as any)({
-      entries: {
-        
-        background: `background`,
-        // TODO: reload manifest on update
-        contentScript: `contentScript`,
-        extensionPage: [`popup`, `options`, `massCitations`, `guide`],
-      },
-      port: 9090,
-      reloadPage: true,
-    })
-    : () => {}
+// const extensionReloaderPlugin =
+//   nodeEnvironment === `development`
+//     ? new (ExtensionReloader as any)({
+//       entries: {
+//         background: `background`,
+//         // TODO: reload manifest on update
+//         contentScript: `contentScript`,
+//         extensionPage: [`popup`, `options`, `massCitations`, `guide`],
+//       },
+//       port: 9090,
+//       reloadPage: true,
+//     })
+//     : () => {}
 
 const getExtensionFileType = (browser: string) => {
   if (browser === `opera`) {
@@ -55,7 +53,7 @@ if(!fs.existsSync(generatedAssetsPath)){
 }
 
 const WebpackConfig = {
-  devtool: `eval-source-map`, 
+  devtool: `source-map`, 
 
   entry: {
     background: path.join(sourcePath, `Background`, `index.tsx`),
@@ -70,7 +68,6 @@ const WebpackConfig = {
   
   mode: nodeEnvironment,
 
-  
   module: {
     rules: [
       {
@@ -235,8 +232,11 @@ const WebpackConfig = {
         { from: path.join(__dirname, `assets`, `chrome_toolbar_screenshot.png`), to: `assets` },
       ],
     }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || `development`),
+    }),
     // plugin to enable browser reloading in development mode
-    extensionReloaderPlugin,
+    // extensionReloaderPlugin,
   ],
 
   

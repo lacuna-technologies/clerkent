@@ -1,6 +1,8 @@
 import * as React from 'react'
-import ReactDOM from 'react-dom'
-
+import { createRoot } from 'react-dom/client'
 import Popup from './Popup'
 
-ReactDOM.render(<Popup />, document.querySelector(`#popup-root`))
+const container = document.querySelector(`#popup-root`)
+const root = createRoot(container)
+
+root.render(<Popup />)

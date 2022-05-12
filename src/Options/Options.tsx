@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import OptionsStorage, { OptionShortName, OptionStorageContentType } from '../utils/OptionsStorage'
-import './Options.scss'
 import Highlight from './components/Highlight'
 import Institution from './components/Institution'
 import ClipboardPaste from './components/ClipboardPaste'
+import 'styles/tailwind.css'
 
 type ThenArgument<T> = T extends PromiseLike<infer U> ? U : T
 export type updateOptionsType = <K extends OptionShortName>(
@@ -37,20 +37,24 @@ const Options: React.FC = () => {
   }, [fetchOptions])
 
   return (
-    <div id="options-page">
-      <h1>Clerkent Setup</h1>
-      <Institution
-        value={OPTIONS_INSTITUTIONAL_LOGIN}
-        updateOptions={updateOptions}
-      />
-      <Highlight
-        value={OPTIONS_HIGHLIGHT_ENABLED}
-        updateOptions={updateOptions}
-      />
-      <ClipboardPaste
-        value={OPTIONS_CLIPBOARD_PASTE_ENABLED}
-        updateOptions={updateOptions}
-      />
+    <div className="w-full h-full min-h-screen bg-gray-100 py-8 select-none">
+      <div className="bg-white w-full max-w-5xl mx-auto my-0 p-8 text-lg flex flex-col gap-8">
+        <h1 className="text-5xl font-black mt-0 mb-4">
+          Clerkent Setup
+        </h1>
+        <Institution
+          value={OPTIONS_INSTITUTIONAL_LOGIN}
+          updateOptions={updateOptions}
+        />
+        <Highlight
+          value={OPTIONS_HIGHLIGHT_ENABLED}
+          updateOptions={updateOptions}
+        />
+        <ClipboardPaste
+          value={OPTIONS_CLIPBOARD_PASTE_ENABLED}
+          updateOptions={updateOptions}
+        />
+      </div>
     </div>
   )
 }

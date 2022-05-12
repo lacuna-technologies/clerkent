@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Helpers from '../../utils/Helpers'
+import Helpers from '../utils/Helpers'
 
 const thingsToLoad = [
   `Loading`,

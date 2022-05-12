@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
-import Toggle from '../../../components/Toggle'
-import { OptionsSettings } from '../../../utils/OptionsStorage'
-import { updateOptionsType } from '../../Options'
-import './Highlight.scss'
+import Toggle from 'components/Toggle'
+import { OptionsSettings } from 'utils/OptionsStorage'
+import { updateOptionsType } from '../Options'
 
 interface Props {
   value: OptionsSettings[`OPTIONS_HIGHLIGHT_ENABLED`],
@@ -17,8 +16,8 @@ const Highlight: React.FC<Props> = ({ value, updateOptions }) => {
   )
 
   return (
-    <section id="highlight-option">
-      <div className="label">
+    <section className="flex flex-row justify-between items-center gap-8">
+      <div className="flex flex-col">
         <strong>Highlighting</strong>
         <label>Underline case citations and show the case name on hover on supported websites?</label>
       </div>

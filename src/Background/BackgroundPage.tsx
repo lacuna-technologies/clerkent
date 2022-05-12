@@ -184,7 +184,7 @@ const onInstall = async (details: Runtime.OnInstalledDetailsType): Promise<void>
   await Storage.set(GUIDE_SHOWN_KEY, true)
 }
 
-const DEBUG_MODE = process?.env?.NODE_ENV === `development`
+const DEBUG_MODE = process.env.NODE_ENV === `development`
 
 const synchronousInit = () => {
   browser.runtime.onInstalled.addListener(onInstall)

@@ -3,8 +3,7 @@ import type Law from '../types/Law'
 import CaseResult from './CaseResult'
 import LegislationResult from './LegislationResult'
 import ShowMore from './ShowMore'
-import Loading from '../components/Loading'
-import './QueryResult.scss'
+import AnimatedLoading from '../components/AnimatedLoading'
 
 export type downloadPDFType = (
   { law, doctype }: { law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype`]}
@@ -25,7 +24,7 @@ const QueryResult: React.FC<Props> = ({ mode, searchResult, downloadPDF, isSearc
   const onShowMore = useCallback(() => setMorePressed(true), [])
 
   if (isSearching){
-    return <Loading.Animated />
+    return <AnimatedLoading />
   }
 
   if(searchResult.length === 0){
@@ -37,7 +36,7 @@ const QueryResult: React.FC<Props> = ({ mode, searchResult, downloadPDF, isSearc
   const resultType: Law.Type = searchResult[0]?.type
   if(resultType === `case-citation` || resultType === `case-name`){
     return (
-      <div id="results">
+      <div className="flex flex-col mt-2 items-start content-start gap-4">
         {
           (searchResult as Law.Case[])
             .slice(0, showMore ? undefined : maxResults)
@@ -54,7 +53,7 @@ const QueryResult: React.FC<Props> = ({ mode, searchResult, downloadPDF, isSearc
     )
   } else if (resultType === `legislation`){
     return (
-      <div id="results">
+      <div className="flex flex-col mt-2 items-start content-start gap-4">
         {
           (searchResult as Law.Legislation[])
           .slice(0, showMore ? undefined: maxResults)

@@ -171,7 +171,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       return matches
     })
 
-  return result.flat()
+  return result.flat().slice(0, 20)
 }
 
 const getPDF = async (inputCase: Law.Case): Promise<string | null> => {

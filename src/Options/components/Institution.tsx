@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import SelectInput from '../../../components/SelectInput'
-import Constants from '../../../utils/Constants'
-import type { OptionsSettings } from '../../../utils/OptionsStorage'
-import type { updateOptionsType } from '../../Options'
+import SelectInput from '../../components/SelectInput'
+import Constants from '../../utils/Constants'
+import type { OptionsSettings } from '../../utils/OptionsStorage'
+import type { updateOptionsType } from '../Options'
 
 const institutionOptions = Object.entries(Constants.INSTITUTIONAL_LOGINS).map(
   ([key, value]) => ({ content: value, value: key }),
@@ -17,8 +17,8 @@ const Institution: React.FC<Props> = ({ value, updateOptions }) => {
   const onChange = useCallback((value) => updateOptions(`institutionalLogin`, value), [updateOptions])
 
   return (
-    <section id="institution-option">
-      <div className="label">
+    <section className="flex flex-row justify-between items-center gap-8">
+      <div className="flex flex-col">
         <strong>Institutional Login</strong>
         <label>
           Do you have login credentials for any of the following institutions? Setting this option allows Clerkent to redirect you to the appropriate WestLaw / LexisNexis / LawNet login page
