@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .pdf-filter {
+    filter: invert(14%) sepia(89%) saturate(2676%) hue-rotate(350deg) brightness(84%) contrast(122%);
+  }
+
+  .loading-container > div {
+    @apply absolute w-[10px] h-[10px] bg-slate-600 rounded-full;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .loading-container > div:nth-child(1) {
+    left: 4px;
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+  .loading-container > div:nth-child(2) {
+    left: 4px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .loading-container > div:nth-child(3) {
+    left: 16px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .loading-container > div:nth-child(4) {
+    left: 28px;
+    animation: lds-ellipsis3 0.6s infinite;
+  }
+
+  /* #clerkent-tooltip {
+    @apply font-sans hidden fixed bg-white py-2 px-6 max-w-[15rem] z-[999] border border-solid border-black;
+  }
+
+  #clerkent-tooltip > .clerkent-meta {
+    @apply flex flex-row content-center items-center mb-3;
+  }
+
+  #clerkent-tooltip > .clerkent-meta > span {
+    @apply mr-2;
+  }
+
+  #clerkent-tooltip a {
+    @apply text-black no-underline;
+  }
+
+  #clerkent-tooltip a[href] {
+    @apply text-blue-600 cursor-pointer hover:underline;
+  }
+
+  #clerkent-tooltip > .clerkent-links a.clerkent-pdf > img {
+    @apply h-4 ml-2 mt-[0.3rem] pdf-filter;
+  }
+
+  #clerkent-tooltip > .clerkent-links a.clerkent-pdf + a {
+    @apply ml-4;
+  }
+
+  .clerkent.case {
+    @apply underline decoration-dotted cursor-pointer;
+  }
+  .clerkent.case > .clerkent-tooltip {
+    @apply hidden hover:block;
+  } */
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(12px, 0);
+  }
+}

@@ -1,4 +1,4 @@
-const DEBUG_MODE = process?.env?.NODE_ENV === `development`
+const DEBUG_MODE = process.env.NODE_ENV === `development`
 
 const log = (...arguments_: unknown[]) => {
   if(DEBUG_MODE){

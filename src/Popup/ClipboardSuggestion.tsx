@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Admonition from '../components/Admonition'
 import Clipboard from '../utils/Clipboard'
 import OptionsStorage from '../utils/OptionsStorage'
-import './ClipboardSuggestion.scss'
 
 const ClipboardSuggestion = ({ query, applyClipboardText }) => {
   const [clipboardText, setClipboardText] = useState(``)
@@ -23,7 +22,7 @@ const ClipboardSuggestion = ({ query, applyClipboardText }) => {
   }, [])
 
   return (enabled && clipboardText && query !== clipboardText) ? (
-    <Admonition title="Search for copied text?" className="clipboard-suggestion" onClick={onClick}>
+    <Admonition title="Search for copied text?" className="mb-4" onClick={onClick}>
       <em>{clipboardText}</em>
     </Admonition>
   ) : null

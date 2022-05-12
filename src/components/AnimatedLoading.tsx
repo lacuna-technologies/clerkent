@@ -1,11 +1,10 @@
 import React from 'react'
-import './AnimatedLoading.scss'
 
 const AnimatedLoading = () => {
   return (
-    <div className="animated-loading-container">
-      <div>Loading...</div>
-      <div className="animated-loading">
+    <div className="inline-flex flex-row items-center">
+      <div className="ml-[0.2rem]">Loading...</div>
+      <div className="inline-block relative w-[80px] h-[10px] loading-container">
         <div></div>
         <div></div>
         <div></div>

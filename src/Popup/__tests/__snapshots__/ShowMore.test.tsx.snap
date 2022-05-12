@@ -2,10 +2,12 @@
 
 exports[`ShowMore renders without error 1`] = `
 <div
-  id="show-more"
+  className="w-full text-center border-b border-solid border-gray-400 leading-[0.1rem] mt-2 mb-4 cursor-pointer"
   onClick={[Function]}
 >
-  <span>
+  <span
+    className="bg-white px-2"
+  >
     <small>
       Show More
     </small>

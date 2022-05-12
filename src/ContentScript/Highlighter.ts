@@ -1,10 +1,10 @@
-import { Messenger, Helpers, Finder, Constants, Logger } from '../../utils'
+import { Messenger, Helpers, Finder, Constants, Logger } from '../utils'
 import type { Runtime } from 'webextension-polyfill-ts'
 import { browser } from 'webextension-polyfill-ts'
-import type { Message } from '../../utils/Messenger'
-import Law from '../../types/Law'
-import Tooltip from '../Tooltip'
-import PDFSvg from '../../assets/icons/pdf.svg'
+import type { Message } from '../utils/Messenger'
+import Law from '../types/Law'
+import Tooltip from './Tooltip'
+import PDFSvg from '../assets/icons/pdf.svg'
 
 let port: Runtime.Port
 

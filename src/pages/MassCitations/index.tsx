@@ -1,6 +1,8 @@
 import * as React from 'react'
-import ReactDOM from 'react-dom'
-
+import { createRoot } from 'react-dom/client'
 import MassCitations from './MassCitations'
 
-ReactDOM.render(<MassCitations />, document.querySelector(`#mass-citations-root`))
+const container = document.querySelector(`#mass-citations-root`)
+const root = createRoot(container)
+
+root.render(<MassCitations /> )

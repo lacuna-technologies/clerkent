@@ -3,8 +3,6 @@ import type Law from '../types/Law'
 import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
 import type { OptionsSettings, InstitutionalLogin } from '../utils/OptionsStorage'
-import './ExternalLinks.scss'
-
 import SearcherStorage from '../ContentScript/Searcher/SearcherStorage'
 
 interface Props {
@@ -26,6 +24,21 @@ const getLawNetURL = (
     return `https://www.lawnet.sg/?clerkent-query=${query}`
   },
 })[institution])
+
+const ExternalButton: React.FC<{
+  href: string,
+  children: React.ReactNode,
+  onClick?: () => void
+}> = ({ href, children, onClick = () => {} }) => {
+  return (
+    <a
+      className="py-1 px-2 border border-solid border-gray-400 rounded hover:bg-gray-200"
+      href={href}
+      onClick={onClick}
+      target="_blank" rel="noreferrer"
+    >{children}</a>
+  )
+}
 
 const ExternalLinks: React.FC<Props> = ({
   jurisdiction,
@@ -50,37 +63,33 @@ const ExternalLinks: React.FC<Props> = ({
   }, [])
 
   return (
-    <div id="external-links">
+    <div className="select-none">
       <small>Search on:</small>
-      <div className="links-container">
+      <div className="flex flex-row justify-center mt-2 gap-4">
         {
           jurisdiction === Constants.JURISDICTIONS.UK.id ? (
             <>
-              <a
+              <ExternalButton
                 href={`https://uk.westlaw.com/Browse/Home/WestlawUK/Cases?clerkent-query=${query}&clerkent-type=${type}`}
-                target="_blank" rel="noreferrer"
-              >Westlaw UK</a>
+              >Westlaw UK</ExternalButton>
 
-              <a
+              <ExternalButton
                 href={`https://www.lexisnexis.com/uk/legal/home/home.do?clerkent-query=${query}`}
-                target="_blank" rel="noreferrer"
-              >LexisNexis UK</a>
+              >LexisNexis UK</ExternalButton>
 
-              <a
+              <ExternalButton
                 href={`https://app.justis.com/search/${query}/1/Relevance`}
-                target="_blank" rel="noreferrer"
-              >Justis</a>
+              >Justis</ExternalButton>
             </>
           ) : null
         }
         {
           jurisdiction === Constants.JURISDICTIONS.SG.id ? (
             <>
-              <a
+              <ExternalButton
                 href={getLawNetURL(institution, query)}
                 onClick={onLawnetClick}
-                target="_blank" rel="noreferrer"
-              >LawNet</a>
+              >LawNet</ExternalButton>
             </>
           ) : null
         }
@@ -95,10 +104,9 @@ const ExternalLinks: React.FC<Props> = ({
             Constants.JURISDICTIONS.UN.id,
           ].includes(jurisdiction) ? (
             <>
-              <a
+              <ExternalButton
                 href={`https://app.justis.com/search/${query}/1/Relevance`}
-                target="_blank" rel="noreferrer"
-              >Justis</a>
+              >Justis</ExternalButton>
             </>
           ) : null
         }

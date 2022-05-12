@@ -26,26 +26,24 @@ const CaseResult: React.FC<Props> = ({
   const opinionLink = Helpers.getOpinionLink(links)
   const orderLink = Helpers.getOrderLink(links)
 
+  const caseNameClass = summaryURL ? `text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900 hover:underline` : ``
+
   return (
-    <div className="result">
-      <div className="details">
-        <div className="left">
-          <span className="jurisdiction" title={Constants.JURISDICTIONS[jurisdiction]?.name}>
-            {Constants.JURISDICTIONS[jurisdiction]?.emoji}
-          </span>
-          {
-            database && (
-              <a className="database no-link" href={database.url} target="_blank" rel="noreferrer">
-                {database.name}
-              </a>
-            )
-          }
-        </div>
-        <div className="right">
-        </div>
+    <div className="w-full">
+      <div className="flex flex-row justify-start items-center mb-0.5">
+        <span className="jurisdiction" title={Constants.JURISDICTIONS[jurisdiction]?.name}>
+          {Constants.JURISDICTIONS[jurisdiction]?.emoji}
+        </span>
+        {
+          database && (
+            <a className="ml-2" href={database.url} target="_blank" rel="noreferrer">
+              {database.name}
+            </a>
+          )
+        }
       </div>
       <a
-        className="case-name link"
+        className={`align-left text-lg ${caseNameClass}`}
         target="_blank"
         href={summaryURL}
         rel="noreferrer"
@@ -53,7 +51,7 @@ const CaseResult: React.FC<Props> = ({
       >
         {name}
       </a>
-      <div className="links">
+      <div className="flex flex-row mt-0.5 gap-4">
         <span>{citation}</span>
         <ResultLink
           link={judgmentLink}

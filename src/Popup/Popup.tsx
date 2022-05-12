@@ -9,8 +9,7 @@ import Toggle from '../components/Toggle'
 import SelectInput from '../components/SelectInput'
 import ExternalLinks from './ExternalLinks'
 import ClipboardSuggestion from './ClipboardSuggestion'
-
-import './Popup.scss'
+import 'styles/tailwind.css'
 
 const keys = {
   QUERY: `POPUP_QUERY`,
@@ -190,8 +189,8 @@ const Popup: React.FC = () => {
     ]
 
   return (
-    <section id="popup">
-      <div className="options">
+    <section className="overflow-x-hidden overflow-y-scroll h-min w-112 min-h-32 p-4">
+      <div className="flex flex-row justify-between content-center items-stretch gap-8">
         <Toggle
           leftText="Cases"
           rightText="Legislation"
@@ -199,6 +198,7 @@ const Popup: React.FC = () => {
           value={modeToBool(mode)}
         />
         <SelectInput
+          className="flex-1"
           options={Object.values(supportedJurisdictions).map(({ id, emoji, name }) => ({
             content: `${emoji} ${name}`,
             value: id,
@@ -208,6 +208,7 @@ const Popup: React.FC = () => {
         />
       </div>
       <input
+        className="w-full p-2 my-4 outline-none rounded border border-solid border-gray-400"
         type="search"
         placeholder="case citation, party name, or legislation"
         onChange={onSearchQueryChange}
@@ -240,11 +241,21 @@ const Popup: React.FC = () => {
           />
         ) : null
       }
-      <div id="help">
-        <a className="link" href={browser.runtime.getURL(`/options.html`)} target="_blank" rel="noreferrer">
+      <div className="mt-8 border-t border-solid border-gray-400 pt-6 flex flex-row justify-between select-none">
+        <a
+          className="text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900"
+          href={browser.runtime.getURL(`/options.html`)}
+          target="_blank"
+          rel="noreferrer"
+        >
           Options
         </a>
-        <a className="link" href="https://clerkent.huey.xyz/help" target="_blank" rel="noreferrer">
+        <a 
+          className="text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900"
+          href="https://clerkent.huey.xyz/help"
+          target="_blank"
+          rel="noreferrer"
+        >
           Help
         </a>
       </div>

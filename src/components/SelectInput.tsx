@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
-import './SelectInput.scss'
+import { Helpers } from 'utils'
 
 interface Props {
+  className?: string,
   options: {
     value: string,
     content: string,
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const SelectInput: React.FC<Props> = ({
+  className = ``,
   options,
   value,
   onChange = () => {},
@@ -24,21 +26,23 @@ const SelectInput: React.FC<Props> = ({
   )
 
   return (
-    <div className="select-input">
-      <select
-        value={valueWithDefault}
-        onChange={onSelect}
-      >
-        {options.map(({ value, content }) => (
-          <option
-            value={value}
-            key={value}
-          >
-            {content}
-          </option>
-        ))}
-      </select>
-    </div>
+    <select
+      className={Helpers.classnames(
+        `text-base h-full font-sans border border-solid border-gray-400 rounded px-2 py-1 outline-none bg-gray-100`,
+        className,
+      )}
+      value={valueWithDefault}
+      onChange={onSelect}
+    >
+      {options.map(({ value, content }) => (
+        <option
+          value={value}
+          key={value}
+        >
+          {content}
+        </option>
+      ))}
+    </select>
   )
 }
 

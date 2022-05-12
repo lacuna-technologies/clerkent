@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import Helpers from '../../utils/Helpers'
-import './Admonition.scss'
+import Helpers from '../utils/Helpers'
 
 const Admonition = ({
   className = ``,
@@ -16,20 +15,22 @@ const Admonition = ({
 
   return shouldHide ? null : (
     <div
-      className={Helpers.classnames(`admonition`, className, onClick ? `clickable` : ``)}
+      className={Helpers.classnames(
+        `border border-solid border-gray-400 px-2 py-1 flex flex-row hover:bg-gray-100`,
+        className,
+        onClick ? `cursor-pointer hover:bg-100` : ``,
+      )}
       onClick={onClick ? onClick : () => {}}
     >
-      <div className="left">
-        <div className="header">
+      <div className="grow">
+        <div className="inline-flex flex-row">
           <strong>{title}</strong>
         </div>
-        <div className="content">
+        <div>
           {children}
         </div>
       </div>
-      <div className="right">
-        <div className="dismiss-button" onClick={dismissAdmonition}>✕</div>
-      </div>
+      <div className="cursor-pointer text-xs p-1" onClick={dismissAdmonition}>✕</div>
     </div>
   )
 }

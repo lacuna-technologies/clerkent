@@ -1,34 +1,35 @@
 {
-	"compilerOptions": {
-		"target": "ES2018", // ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
-		"module": "commonjs", // Module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext",
-			"ES2020.String"
-		],
-		"declaration": false,
-		"isolatedModules": true,
-		/* Additional Checks */
-		"useDefineForClassFields": true,
-		"skipLibCheck": true,
-		"moduleResolution": "node",
-		"jsx": "react",
-		"allowSyntheticDefaultImports": true,
-		"downlevelIteration": true,
-		"esModuleInterop": true,
-		"allowJs": false,
-		"sourceMap": true,
-		"baseUrl": "src"
-	},
-	"include": [
-		"src",
-		"jest.config.ts.ts",
-		"src/types/Filetypes.d.ts"
-	],
-	"exclude": [
-		"**/node_modules",
-		"**/.*/"
-	]
+  "compilerOptions": {
+    "target": "ES2018", // ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
+    "module": "commonjs", // Module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "ES2020.String"
+    ],
+    "declaration": false,
+    "isolatedModules": true,
+    /* Additional Checks */
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "baseUrl": "src"
+  },
+  "include": [
+    "src",
+    "jest.config.ts.ts",
+    "src/types/Filetypes.d.ts",
+    "tailwind.config.js"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/.*/"
+  ]
 }
