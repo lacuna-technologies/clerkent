@@ -66,6 +66,9 @@ const ExternalLinks: React.FC<Props> = ({
     <div className="select-none">
       <small>Search on:</small>
       <div className="flex flex-row justify-center mt-2 gap-4">
+        <ExternalButton
+          href={`https://google.com/search?hl=en&q=${query}`}
+        >Google</ExternalButton>
         {
           jurisdiction === Constants.JURISDICTIONS.UK.id ? (
             <>

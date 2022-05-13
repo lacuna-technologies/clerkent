@@ -10,14 +10,8 @@ exports[`QueryResult renders list of UK cases 1`] = `
     <div
       className="flex flex-row justify-start items-center mb-0.5"
     >
-      <span
-        className="jurisdiction"
-        title="United Kingdom"
-      >
-        🇬🇧
-      </span>
       <a
-        className="ml-2"
+        className="text-xs"
         href="https://bailii.org/"
         rel="noreferrer"
         target="_blank"
@@ -87,38 +81,8 @@ exports[`QueryResult renders loading 1`] = `
 </div>
 `;
 
-exports[`QueryResult renders loading 2`] = `
-<div
-  className="inline-flex flex-row items-center"
->
-  <div
-    className="ml-[0.2rem]"
-  >
-    Loading...
-  </div>
-  <div
-    className="inline-block relative w-[80px] h-[10px] loading-container"
-  >
-    <div />
-    <div />
-    <div />
-    <div />
-  </div>
-</div>
-`;
-
 exports[`QueryResult renders no cases found 1`] = `
 <span>
-  No 
-  cases
-   found
-</span>
-`;
-
-exports[`QueryResult renders no legislation found 1`] = `
-<span>
-  No 
-  legislation
-   found
+  No cases found
 </span>
 `;

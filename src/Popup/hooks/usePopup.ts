@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
 import {
-  Messenger,
   Storage,
   Helpers,
   Logger,
@@ -11,18 +10,13 @@ import type Law from 'types/Law'
 const keys = {
   QUERY: `POPUP_QUERY`,
   SELECTED_JURISDICTION: `POPUP_SELECTED_JURISDICTION`,
-  SELECTED_MODE: `POPUP_SELECTED_MODE`,
 }
 
 type SearchResult = Law.Case | Law.Legislation
 
-const parseMode = (mode: boolean): Law.SearchMode => mode ? `legislation` : `case`
-const modeToBool = (mode: Law.SearchMode) => mode === `legislation`
-
 const usePopup = ({ search, setIsSearching, setSearchResult}) => {
   const [query, setQuery] = useState(``)
   const [lastSearchQuery, setLastSearchQuery] = useState(query)
-  const [mode, setMode] = useState(`case` as Law.SearchMode)
   const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
   
   const storeQuery = useCallback((value: string) => Storage.set(keys.QUERY, value), [])
@@ -47,18 +41,17 @@ const usePopup = ({ search, setIsSearching, setSearchResult}) => {
   const doSearch = useCallback((
     {
       inputQuery = query,
-      inputMode = mode,
       inputJurisdiction = selectedJurisdiction,
       forceSearch = false,
     } = {},
   ) => {
     if(inputQuery.length >= 3 || forceSearch){ // ignore anything that's too short
-      Logger.log(`Doing search`, inputQuery, inputMode)
-      debouncedViewCitation(inputQuery, inputMode, inputJurisdiction)
+      Logger.log(`Doing search`, inputQuery)
+      debouncedViewCitation(inputQuery, inputJurisdiction)
       setIsSearching(true)
       setLastSearchQuery(inputQuery)
     }
-  },  [debouncedViewCitation, query, mode, selectedJurisdiction, setIsSearching])
+  },  [debouncedViewCitation, query, selectedJurisdiction, setIsSearching])
 
   const onEnter = useCallback((event) => {
     if(event.key === `Enter`){
@@ -76,16 +69,6 @@ const usePopup = ({ search, setIsSearching, setSearchResult}) => {
   //     url: `mass-citations.html`,
   //   })
   // }, [])
-
-  const onModeChange = useCallback((newMode: boolean, doNotStore: boolean = false) => {
-    const parsedMode = parseMode(newMode)
-    setMode(parsedMode)
-    if(!doNotStore){
-      Storage.set(keys.SELECTED_MODE, parsedMode)
-    }
-    setLastSearchQuery(``)
-    setSearchResult([] as SearchResult[])
-  }, [setSearchResult])
 
   const onChangeJurisdiction = useCallback((
     value,
@@ -119,17 +102,11 @@ const usePopup = ({ search, setIsSearching, setSearchResult}) => {
         onChangeJurisdiction(storedJurisdiction, true)
         shouldDoSearch = true
       }
-      const storedMode = await Storage.get(keys.SELECTED_MODE)
-      if(storedMode !== null && storedMode.length > 0){
-        onModeChange(modeToBool(storedMode), true)
-        shouldDoSearch = true
-      }
 
       if(shouldDoSearch){
         doSearch({
           ...(storedQuery?.length > 0 ? { inputQuery: storedQuery }: {}),
           ...(storedJurisdiction?.length > 0 ? { inputJurisdiction: storedJurisdiction } : {}),
-          ...(storedMode?.length > 0 ? { inputMode: storedMode } : {}),
         })
       }
     })()
@@ -140,11 +117,8 @@ const usePopup = ({ search, setIsSearching, setSearchResult}) => {
   return {
     applyClipboardText,
     lastSearchQuery,
-    mode,
-    modeToBool,
     onChangeJurisdiction,
     onEnter,
-    onModeChange,
     onSearchQueryChange,
     query,
     selectedJurisdiction,
