@@ -1,9 +1,10 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, ClipboardEvent } from 'react'
 import {
   Storage,
   Helpers,
   Logger,
   Constants,
+  Finder,
 } from 'utils'
 import type Law from 'types/Law'
 
@@ -14,17 +15,31 @@ const keys = {
 
 type SearchResult = Law.Case | Law.Legislation
 
-const usePopup = ({ search, setIsSearching, setSearchResult}) => {
+const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   const [query, setQuery] = useState(``)
   const [lastSearchQuery, setLastSearchQuery] = useState(query)
   const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
   
   const storeQuery = useCallback((value: string) => Storage.set(keys.QUERY, value), [])
+  const autosetJurisdiction = useCallback((value: string) => {
+    const citations = Finder.findCaseCitation(value)
+    if(citations.length > 0){
+      setSelectedJurisdiction(citations[0].jurisdiction)
+    }
+  }, [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedViewCitation = useCallback(Helpers.debounce(search, 500), [search])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedStoreQuery = useCallback(Helpers.debounce(storeQuery, 250), [storeQuery])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedAutosetJurisdiction = useCallback(Helpers.debounce(autosetJurisdiction, 250), [])
+
+  const onPaste = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
+    const value = event.clipboardData.getData(`text/plain`)
+    // no debouncing if citation is pasted
+    autosetJurisdiction(value)
+  }, [autosetJurisdiction])
 
   const onSearchQueryChange = useCallback((
     { target: { value }},
@@ -33,10 +48,11 @@ const usePopup = ({ search, setIsSearching, setSearchResult}) => {
     setQuery(value)
     setIsSearching(false)
     setSearchResult([] as SearchResult[])
+    debouncedAutosetJurisdiction(value)
     if(!doNotStore){
       debouncedStoreQuery(value)
     }
-  }, [debouncedStoreQuery, setIsSearching, setSearchResult])
+  }, [debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResult])
 
   const doSearch = useCallback((
     {
@@ -119,6 +135,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult}) => {
     lastSearchQuery,
     onChangeJurisdiction,
     onEnter,
+    onPaste,
     onSearchQueryChange,
     query,
     selectedJurisdiction,
