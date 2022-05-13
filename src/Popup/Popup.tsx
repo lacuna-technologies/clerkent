@@ -2,7 +2,6 @@ import React from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import QueryResult from './QueryResult'
 import { Constants } from '../utils'
-import Toggle from '../components/Toggle'
 import SelectInput from '../components/SelectInput'
 import ExternalLinks from './ExternalLinks'
 import ClipboardSuggestion from './ClipboardSuggestion'
@@ -27,37 +26,22 @@ const Popup: React.FC = () => {
   const {
     applyClipboardText,
     lastSearchQuery,
-    mode,
     onChangeJurisdiction,
     onEnter,
-    onModeChange,
     onSearchQueryChange,
     query,
     selectedJurisdiction,
-    modeToBool,
   } = usePopup({
     search,
     setIsSearching,
     setSearchResult,
   })
 
-  const supportedJurisdictions = mode === `case`
-    ? Object.values(Constants.JURISDICTIONS)
-    : [
-      Constants.JURISDICTIONS.EU,
-      Constants.JURISDICTIONS.UK,
-      Constants.JURISDICTIONS.SG,
-    ]
+  const supportedJurisdictions = Constants.JURISDICTIONS
 
   return (
     <section className="overflow-x-hidden overflow-y-scroll h-min w-112 min-h-32 p-4">
       <div className="flex flex-row justify-between content-center items-stretch gap-8">
-        <Toggle
-          leftText="Cases"
-          rightText="Legislation"
-          onChange={onModeChange}
-          value={modeToBool(mode)}
-        />
         <SelectInput
           className="flex-1"
           options={Object.values(supportedJurisdictions).map(({ id, emoji, name }) => ({
@@ -89,12 +73,11 @@ const Popup: React.FC = () => {
             searchResult={searchResult}
             downloadPDF={downloadPDF}
             isSearching={isSearching}
-            mode={mode}
           />
         )
       }
       {
-        (query.length > 0 && !isSearching && mode === `case`) ? (
+        (query.length > 0 && !isSearching) ? (
           <ExternalLinks
             jurisdiction={selectedJurisdiction}
             type={searchResult[0]?.type}

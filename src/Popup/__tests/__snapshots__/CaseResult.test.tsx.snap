@@ -7,14 +7,8 @@ exports[`CaseResult renders without error 1`] = `
   <div
     className="flex flex-row justify-start items-center mb-0.5"
   >
-    <span
-      className="jurisdiction"
-      title="United Kingdom"
-    >
-      🇬🇧
-    </span>
     <a
-      className="ml-2"
+      className="text-xs"
       href="https://bailii.org/"
       rel="noreferrer"
       target="_blank"

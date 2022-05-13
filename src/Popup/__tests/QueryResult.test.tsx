@@ -34,19 +34,6 @@ describe(`QueryResult`, () => {
         searchResult={[]}
         downloadPDF={mockDownloadPDF}
         isSearching={false}
-        mode='case'
-      />,
-    ).toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-
-  it(`renders no legislation found`, () => {
-    const tree = renderer.create(
-      <QueryResult
-        searchResult={[]}
-        downloadPDF={mockDownloadPDF}
-        isSearching={false}
-        mode='legislation'
       />,
     ).toJSON()
     expect(tree).toMatchSnapshot()
@@ -58,20 +45,9 @@ describe(`QueryResult`, () => {
         searchResult={[]}
         downloadPDF={mockDownloadPDF}
         isSearching={true}
-        mode='case'
       />,
     ).toJSON()
     expect(treeCase).toMatchSnapshot()
-
-    const treeLegislation = renderer.create(
-      <QueryResult
-        searchResult={[]}
-        downloadPDF={mockDownloadPDF}
-        isSearching={true}
-        mode='legislation'
-      />,
-    ).toJSON()
-    expect(treeLegislation).toMatchSnapshot()
   })
 
   it(`renders list of UK cases`, () => {
@@ -80,7 +56,6 @@ describe(`QueryResult`, () => {
         searchResult={mockCases}
         downloadPDF={mockDownloadPDF}
         isSearching={false}
-        mode='case'
       />,
     ).toJSON()
     expect(tree).toMatchSnapshot()

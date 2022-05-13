@@ -21,21 +21,15 @@ let currentCitation = null
 
 const getScraperResult = (
   targets: FinderResult[],
-  mode: Law.SearchMode,
   jurisdiction: Law.JursidictionCode,
 ): Promise<Law.Legislation[] | Law.Case[]> => {
-  if(mode === `legislation`){
-    return Scraper.getLegislation(targets[0] as LegislationFinderResult, jurisdiction)
-  }
-  if(mode === `case`){
-    const { type } = targets[0]
-    switch (type) {
-      case `case-citation`: {
-        return Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult, jurisdiction)
-      }
-      case `case-name`: {
-        return Scraper.getCaseByName(targets[0] as CaseNameFinderResult, jurisdiction)
-      }
+  const { type } = targets[0]
+  switch (type) {
+    case `case-citation`: {
+      return Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult, jurisdiction)
+    }
+    case `case-name`: {
+      return Scraper.getCaseByName(targets[0] as CaseNameFinderResult, jurisdiction)
     }
   }
   return Promise.resolve([])
@@ -43,7 +37,7 @@ const getScraperResult = (
 
 // used by ContentScript/Highlighter for citation hover
 const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties) => {
-   const { citation, source } = otherProperties
+  const { citation, source } = otherProperties
   currentCitation = citation
 
   const targets = Finder.findCase(citation)
@@ -80,10 +74,9 @@ const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties
 
 // Used by Popup
 const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
-  const { citation, source, mode, jurisdiction } = otherProperties
+  const { citation, source, jurisdiction } = otherProperties
   currentCitation = citation
-
-  const targets = mode === `legislation` ? Finder.findLegislation(citation) : Finder.findCase(citation)
+  const targets = Finder.findCase(citation)
 
   const noResultMessage = {
     action: Messenger.ACTION_TYPES.search,
@@ -91,12 +84,9 @@ const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
     source: Messenger.TARGETS.background,
     target: source,
   }
-  if(targets.length === 0){
-    return port.postMessage(noResultMessage)
-  }
   
-  const result = await getScraperResult(targets, mode, jurisdiction)
-  Logger.log(`BackgroundPage scraper result`, mode, jurisdiction, targets, result)
+  const result = await getScraperResult(targets, jurisdiction)
+  Logger.log(`BackgroundPage scraper result`, jurisdiction, result)
 
   if(result.length === 0){
     return port.postMessage(noResultMessage)

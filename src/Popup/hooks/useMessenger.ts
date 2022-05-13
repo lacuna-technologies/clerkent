@@ -19,11 +19,10 @@ const useMessenger = ({ onSearchDone }) => {
     }
   }, [onSearchDone])
 
-  const search = useCallback((citation, inputMode, inputJurisdiction) => sendMessage({
+  const search = useCallback((citation, inputJurisdiction) => sendMessage({
     action: Messenger.ACTION_TYPES.search,
     citation: citation,
     jurisdiction: inputJurisdiction,
-    mode: inputMode,
     source: Messenger.TARGETS.popup,
     target: Messenger.TARGETS.background,
   }), [sendMessage])

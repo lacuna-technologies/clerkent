@@ -18,7 +18,6 @@ const CaseResult: React.FC<Props> = ({
     citation,
     name,
     links,
-    jurisdiction,
     database,
   } = currentCase
   const summaryURL = Helpers.getSummaryLink(links)?.url
@@ -31,12 +30,9 @@ const CaseResult: React.FC<Props> = ({
   return (
     <div className="w-full">
       <div className="flex flex-row justify-start items-center mb-0.5">
-        <span className="jurisdiction" title={Constants.JURISDICTIONS[jurisdiction]?.name}>
-          {Constants.JURISDICTIONS[jurisdiction]?.emoji}
-        </span>
         {
           database && (
-            <a className="ml-2" href={database.url} target="_blank" rel="noreferrer">
+            <a className="text-xs" href={database.url} target="_blank" rel="noreferrer">
               {database.name}
             </a>
           )
