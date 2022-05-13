@@ -11,7 +11,6 @@ import Logger from '../utils/Logger'
 import type {
   CaseCitationFinderResult,
   CaseNameFinderResult,
-  LegislationFinderResult,
   FinderResult,
 } from '../utils/Finder'
 import Law from '../types/Law'

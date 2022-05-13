@@ -31,6 +31,7 @@ const Popup: React.FC = () => {
     onSearchQueryChange,
     query,
     selectedJurisdiction,
+    onPaste,
   } = usePopup({
     search,
     setIsSearching,
@@ -59,6 +60,7 @@ const Popup: React.FC = () => {
         onChange={onSearchQueryChange}
         onKeyDown={onEnter}
         value={query}
+        onPaste={onPaste}
       />
       {
         query === lastSearchQuery ? (
