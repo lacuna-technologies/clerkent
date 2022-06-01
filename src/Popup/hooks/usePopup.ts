@@ -21,12 +21,24 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
   
   const storeQuery = useCallback((value: string) => Storage.set(keys.QUERY, value), [])
+  const onChangeJurisdiction = useCallback((
+    value,
+    doNotStore: boolean = false,
+  ): void => {
+    setSelectedJurisdiction(value)
+    if(!doNotStore){
+      Storage.set(keys.SELECTED_JURISDICTION, value)
+    }
+    setLastSearchQuery(``)
+    setSearchResult([] as SearchResult[])
+  }, [setSearchResult])
+
   const autosetJurisdiction = useCallback((value: string) => {
     const citations = Finder.findCaseCitation(value)
     if(citations.length > 0){
-      setSelectedJurisdiction(citations[0].jurisdiction)
+      onChangeJurisdiction(citations[0].jurisdiction)
     }
-  }, [])
+  }, [onChangeJurisdiction])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedViewCitation = useCallback(Helpers.debounce(search, 500), [search])
@@ -44,11 +56,16 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   const onSearchQueryChange = useCallback((
     { target: { value }},
     doNotStore = false,
+    debounceAutosetJurisdiction = true,
   ) => {
     setQuery(value)
     setIsSearching(false)
     setSearchResult([] as SearchResult[])
-    debouncedAutosetJurisdiction(value)
+    if(debounceAutosetJurisdiction){
+      debouncedAutosetJurisdiction(value)
+    } else {
+      autosetJurisdiction(value)
+    }
     if(!doNotStore){
       debouncedStoreQuery(value)
     }
@@ -86,18 +103,6 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   //   })
   // }, [])
 
-  const onChangeJurisdiction = useCallback((
-    value,
-    doNotStore: boolean = false,
-  ): void => {
-    setSelectedJurisdiction(value)
-    if(!doNotStore){
-      Storage.set(keys.SELECTED_JURISDICTION, value)
-    }
-    setLastSearchQuery(``)
-    setSearchResult([] as SearchResult[])
-  }, [setSearchResult])
-
   const applyClipboardText = useCallback((clipboardText) => {
     onSearchQueryChange({target: { value: clipboardText }})
     doSearch({ inputQuery: clipboardText })
@@ -110,7 +115,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   
       const storedQuery = await Storage.get(keys.QUERY)
       if(query.length === 0 && storedQuery !== null && storedQuery.length > 0){
-        onSearchQueryChange({target: { value: storedQuery }}, true)
+        onSearchQueryChange({target: { value: storedQuery }}, true, false)
         shouldDoSearch = true
       }
       const storedJurisdiction = await Storage.get(keys.SELECTED_JURISDICTION)

@@ -229,6 +229,14 @@
     "default_title": "Clerkent",
     "default_popup": "popup.html"
   },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Space"
+      },
+      "description": "Open the Clerkent search popup"
+    }
+  },
   "web_accessible_resources": [
     "assets/icons/pdf.svg",
     "assets/clerkent.png"

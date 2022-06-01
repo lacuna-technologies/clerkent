@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { browser } from 'webextension-polyfill-ts'
 import OptionsStorage, { OptionShortName, OptionStorageContentType } from '../utils/OptionsStorage'
 import Highlight from './components/Highlight'
 import Institution from './components/Institution'
 import ClipboardPaste from './components/ClipboardPaste'
 import 'styles/tailwind.css'
+import KeyboardShortcut from './components/KeyboardShortcut'
 
 type ThenArgument<T> = T extends PromiseLike<infer U> ? U : T
 export type updateOptionsType = <K extends OptionShortName>(
@@ -54,6 +56,22 @@ const Options: React.FC = () => {
           value={OPTIONS_CLIPBOARD_PASTE_ENABLED}
           updateOptions={updateOptions}
         />
+
+        <KeyboardShortcut />
+
+        <p>
+          To open the Welcome Guide again, click&nbsp;
+          <a
+            className="text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900"
+            href={browser.runtime.getURL(`/guide.html`)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            here
+          </a>
+          .
+        </p>
+        
       </div>
     </div>
   )

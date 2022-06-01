@@ -62,6 +62,13 @@
   .clerkent.case > .clerkent-tooltip {
     @apply hidden hover:block;
   } */
+
+  kbd {
+    @apply border border-solid border-gray-300 rounded bg-gray-100 p-0.5;
+  }
+  kbd + kbd {
+    @apply ml-1;
+  }
 }
 
 @keyframes lds-ellipsis1 {
