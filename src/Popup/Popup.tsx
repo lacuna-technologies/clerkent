@@ -8,6 +8,7 @@ import ClipboardSuggestion from './ClipboardSuggestion'
 import useMessenger from './hooks/useMessenger'
 import usePopup from './hooks/usePopup'
 import useSearch from './hooks/useSearch'
+import useFocusInput from './hooks/useFocusInput'
 
 import 'styles/tailwind.css'
 
@@ -37,6 +38,8 @@ const Popup: React.FC = () => {
     setIsSearching,
     setSearchResult,
   })
+  const inputReference = useFocusInput()
+
 
   const supportedJurisdictions = Constants.JURISDICTIONS
 
@@ -54,6 +57,7 @@ const Popup: React.FC = () => {
         />
       </div>
       <input
+        ref={inputReference}
         className="w-full p-2 my-4 outline-none rounded border border-solid border-gray-400"
         type="search"
         placeholder="case citation, party name, or legislation"

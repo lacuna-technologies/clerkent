@@ -18,8 +18,13 @@ const Guide = () => {
       
       <p className="mt-8">
         It should now appear in your browser toolbar (at the top-right corner of your browser window).
-        Click the Clerkent icon and try searching for something (e.g. "<span className="select-text">carbolic smoke ball</span>").
+        Click the Clerkent icon and try searching for something (e.g. "<span className="select-text">[1892] EWCA Civ 1</span>").
       </p>
+
+      <p className="mt-8">
+        You can also open the search popup via the keyboard shortcut <kbd>Ctrl</kbd><kbd>Space</kbd>.
+      </p>
+
       <div className="fixed right-40 top-8 flex flex-col items-center">
         <span className="text-4xl mb-2">↗️</span>
         <span>(somewhere here)</span>

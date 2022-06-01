@@ -63,7 +63,7 @@ const ExternalLinks: React.FC<Props> = ({
   }, [])
 
   return (
-    <div className="select-none">
+    <div className="select-none mt-4">
       <small>Search on:</small>
       <div className="flex flex-row justify-center mt-2 gap-4">
         <ExternalButton
