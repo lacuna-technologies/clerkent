@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { browser } from 'webextension-polyfill-ts'
-import type { Runtime } from 'webextension-polyfill-ts'
+import type { Downloads , Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import Finder from '../utils/Finder'
 import Storage from '../utils/Storage'
@@ -16,7 +16,10 @@ import type {
 import Law from '../types/Law'
 import { Helpers } from '../utils'
 
-let currentCitation = null
+const workingMemory = {
+  currentHighlightedCitation: null,
+  downloadCitation: null,
+}
 
 const getScraperResult = (
   targets: FinderResult[],
@@ -37,7 +40,7 @@ const getScraperResult = (
 // used by ContentScript/Highlighter for citation hover
 const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties) => {
   const { citation, source } = otherProperties
-  currentCitation = citation
+  workingMemory.currentHighlightedCitation = citation
 
   const targets = Finder.findCase(citation)
 
@@ -57,7 +60,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties
     return port.postMessage(noResultMessage)
   }
 
-  if(citation === currentCitation){ // ignore outdated results
+  if(citation === workingMemory.currentHighlightedCitation){ // ignore outdated results
     const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
 
     const message = {
@@ -74,7 +77,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties
 // Used by Popup
 const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
   const { citation, source, jurisdiction } = otherProperties
-  currentCitation = citation
+  workingMemory.currentHighlightedCitation = citation
   const targets = Finder.findCase(citation)
 
   const noResultMessage = {
@@ -91,7 +94,7 @@ const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
     return port.postMessage(noResultMessage)
   }
 
-  if(citation === currentCitation){ // ignore outdated results
+  if(citation === workingMemory.currentHighlightedCitation){ // ignore outdated results
     const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
 
     const message = {
@@ -102,6 +105,18 @@ const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
     }
     Logger.log(`sending search`, message)
     port.postMessage(message)
+  }
+}
+
+const downloadFile = async (url: string, fileName: string) => {
+  if(url && url.length > 0){
+    await browser.downloads.download({
+      filename: fileName,
+      saveAs: true,
+      url,
+    })
+  } else {
+    Logger.error(`Failed to downloadFile: url is empty`)
   }
 }
 
@@ -122,13 +137,13 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
       const fileName = Helpers.getFileName(law, doctype)
       Logger.log(`downloadPDF fileName: `, fileName)
       Logger.log(`downloadPDF url: ${url}`)
-      if(url && url.length > 0){
-        await browser.downloads.download({
-          filename: fileName,
-          saveAs: true,
-          url,
-        })
-      }
+      await downloadFile(url, fileName)
+    break
+    }
+
+    case Messenger.ACTION_TYPES.downloadFile: {
+      const { url, fileName } = otherProperties
+      await downloadFile(url, fileName)
     break
     }
     // No default
@@ -173,6 +188,23 @@ const onInstall = async (details: Runtime.OnInstalledDetailsType): Promise<void>
   await Storage.set(GUIDE_SHOWN_KEY, true)
 }
 
+const onDownload = (download: Downloads.DownloadItem) => {
+  if(typeof download.byExtensionId === `string`){
+    // don't mess with extension-initiated downloads, including Clerkent's
+    return
+  }
+  // const url = new URL(download.url)
+  // if(url.hostname === `www.elitigation.sg` && url.pathname.match(new RegExp(`^/gd/.*/pdf$`)) !== null){
+  //   browser.downloads.cancel(download.id)
+  //   browser.downloads.erase({
+  //     id: download.id,
+  //   })
+  //   browser.downloads.download({
+  //     url: download.url,
+  //   })
+  // }
+}
+
 const DEBUG_MODE = process.env.NODE_ENV === `development`
 
 const synchronousInit = () => {
@@ -181,6 +213,7 @@ const synchronousInit = () => {
 
 const init = () => {
   browser.runtime.onConnect.addListener(onConnect)
+  browser.downloads.onCreated.addListener(onDownload)
 
   if(DEBUG_MODE){
     browser.tabs.create({ url: `popup.html` })

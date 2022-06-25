@@ -65,6 +65,7 @@ module.exports = {
       `never`,
     ],
     "sonarjs/no-nested-template-literals": `warn`,
+    "unicorn/prefer-dom-node-text-content": `off`,
     "sort-keys-fix/sort-keys-fix": `warn`,
     "unicorn/consistent-function-scoping": `off`,
     "unicorn/filename-case": [
