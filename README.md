@@ -5,7 +5,7 @@
   Clerkent
 </h1>
 
-Case law and legislation search at your fingertips
+Case law at your fingertips
 
 See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 
