@@ -8,7 +8,7 @@
     "64": "assets/favicon-64.png",
     "128": "assets/favicon-128.png"
   },
-  "description": "quick search for international caselaw and legislation",
+  "description": "quick search for case law",
   "homepage_url": "https://clerkent.huey.xyz",
   "short_name": "Clerkent",
   "permissions": [
