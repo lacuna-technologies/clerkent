@@ -235,6 +235,7 @@ const scanForCitations = (inputPort: Runtime.Port) => {
 }
 
 const Highlighter = {
+  downloadPDF,
   handleViewCitation,
   scanForCitations,
 }

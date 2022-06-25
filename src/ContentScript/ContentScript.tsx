@@ -1,12 +1,13 @@
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
-import { Messenger, Logger } from '../utils'
+import { Messenger, Logger, Constants, Helpers } from '../utils'
 import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import Highlighter from './Highlighter'
 import Searcher from './Searcher'
 import OptionsStorage, { OptionsSettings } from '../utils/OptionsStorage'
 import './ContentScript.scss'
+import Law from 'types/Law'
 
 let port: Runtime.Port
 
@@ -30,7 +31,7 @@ const onMessage = (message: Message) => {
 const highlightBlacklist = new Set([
   `advance.lexis.com`,
   `app.justis.com`,
-  `www.elitigation.sg/*`,
+  `www.elitigation.sg`,
   `curia.europa.eu`,
   `ejudgment.kehakiman.gov.my`,
   `eur-lex.europa.eu`,
@@ -65,6 +66,33 @@ const highlightBlacklist = new Set([
   `www8.austlii.edu.au`,
 ])
 
+const downloadInterceptor = () => {
+  const { hostname, pathname } = window.location
+  if(hostname === `www.elitigation.sg` && new RegExp(`^/gdviewer/s/[0-9]{4}.+$`).test(pathname)){
+    const downloadButton = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
+    const law: Law.Case = {
+      citation: document.querySelector(`.HN-NeutralCit`).textContent.trim(),
+      database: Constants.DATABASES.SG_elitigation,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
+      links: [],
+      name: (document.querySelector(`.HN-CaseName`) as HTMLElement).innerText.replaceAll(/\n+/g, ` `),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    downloadButton.addEventListener(`click`, (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      port.postMessage({
+        action: Messenger.ACTION_TYPES.downloadFile,
+        fileName,
+        source: Messenger.TARGETS.contentScript,
+        target: Messenger.TARGETS.background,
+        url: (downloadButton as HTMLAnchorElement).href,
+      })
+    })
+  }
+}
+
 const init = async () => {
   port = browser.runtime.connect(``, { name: `contentscript-port` })
   port.onMessage.addListener(onMessage)
@@ -81,6 +109,8 @@ const init = async () => {
       Tooltip.init()
     }
   }
+
+  downloadInterceptor()
 
   Searcher.init()
 }
