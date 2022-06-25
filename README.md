@@ -32,8 +32,6 @@ npm run dev:opera
 
 Load it as an unpacked extension
 
-Hot reloading should work
-
 ### Tests
 
 There are some tests, mostly snapshot tests.
@@ -44,7 +42,7 @@ npm run test
 
 ### Roadmap
 
-Find out what features and other changes are coming soon on the development [roadmap](https://github.com/lacuna-technologies/clerkent/projects/1).
+Find out what features and other changes are coming soon on the development [roadmap](https://github.com/orgs/lacuna-technologies/projects/1).
 
 ## Dependencies
 
