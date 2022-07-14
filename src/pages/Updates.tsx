@@ -34,6 +34,7 @@ const Updates: React.FC = () => {
         <input
           className="py-2 px-4 my-4 bg-slate-800 border border-solid border-slate-800 text-white rounded-r outline-none cursor-pointer"
           type="submit" value="Subscribe" name="member[subscribe]" id="member_submit"
+          onClick={setDoNotRemind}
         />
       </form>
       <div className="text-sm self-start my-4">
