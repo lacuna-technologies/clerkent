@@ -11,12 +11,14 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import WextManifestWebpackPlugin from 'wext-manifest-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
+type TargetBrowser = `chrome` | `firefox` | `opera`
+
 const viewsPath = path.join(__dirname, `views`)
 const sourcePath = path.join(__dirname, `src`)
 const destinationPath = path.join(__dirname, `extension`)
 const generatedAssetsPath = path.join(__dirname, `generated`)
 const nodeEnvironment = process.env.NODE_ENV || `development`
-const targetBrowser = process.env.TARGET_BROWSER
+const targetBrowser = process.env.TARGET_BROWSER as TargetBrowser
 
 // const extensionReloaderPlugin =
 //   nodeEnvironment === `development`
