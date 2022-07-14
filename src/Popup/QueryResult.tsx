@@ -1,13 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import type Law from '../types/Law'
 import CaseResult from './CaseResult'
 import LegislationResult from './LegislationResult'
 import ShowMore from './ShowMore'
 import AnimatedLoading from '../components/AnimatedLoading'
-
-export type downloadPDFType = (
-  { law, doctype }: { law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype`]}
-) => () => void
 
 interface Props {
   searchResult: (Law.Case | Law.Legislation)[],

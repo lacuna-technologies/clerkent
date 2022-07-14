@@ -1,5 +1,3 @@
-import type Law from '../types/Law'
-
 const JURISDICTIONS = {
   AU: {
     emoji: `🇦🇺`,

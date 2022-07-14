@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import type { MouseEvent } from 'react'
 import Helpers from '../utils/Helpers'
-import type Law from '../types/Law'
 import PDFSvg from '../assets/icons/pdf.svg'
 
 interface Props {

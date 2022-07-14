@@ -1,5 +1,4 @@
 import Kehakiman from './Kehakiman'
-import type Law from '../../../types/Law'
 import Common from '../common'
 import Constants from '../../Constants'
 import { sortMYCitations } from '../../Finder/CaseCitationFinder/MY'

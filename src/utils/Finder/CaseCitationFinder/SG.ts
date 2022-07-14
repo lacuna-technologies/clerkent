@@ -1,6 +1,5 @@
 import Constants from '../../Constants'
 import { formatAbbrs, sortCitationsByVolume } from './utils'
-import type { CaseCitationFinderResult } from './types'
 import { SGSTBlongFormatRegex } from 'utils/scraper/SG/STB'
 
 export const SGSCAbbrs = [
@@ -64,7 +63,7 @@ const getAbbr = (match) => {
   return match.groups.abbr
 }
 
-export const findSGCaseCitation = (query: string): CaseCitationFinderResult[] => {
+export const findSGCaseCitation = (query: string): Finder.CaseCitationFinderResult[] => {
   const matches = findSGCaseCitationMatches(query)
   return matches.map((match) => ({
     abbr: getAbbr(match),

@@ -1,7 +1,5 @@
 import Storage from './Storage'
 
-export type InstitutionalLogin = `KCL` | `LSE` | `UCL` | `NTU` | `NUS` |  `SMU` | `None`
-
 const keysObject = {
   OPTIONS_CLIPBOARD_PASTE_ENABLED: {
     defaultValue: false as boolean,
@@ -16,9 +14,10 @@ const keysObject = {
     shortName: `institutionalLogin`,
   },
 } as const
-export type OptionFullKey = keyof typeof keysObject
+
+type OptionFullKey = keyof typeof keysObject
 export type OptionShortName = typeof keysObject[OptionFullKey][`shortName`]
-export type OptionType<T extends OptionFullKey> = typeof keysObject[T][`defaultValue`]
+type OptionType<T extends OptionFullKey> = typeof keysObject[T][`defaultValue`]
 export type OptionsSettings = {
   [K in OptionFullKey]: OptionType<K>
 }

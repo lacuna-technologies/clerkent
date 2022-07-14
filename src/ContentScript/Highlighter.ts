@@ -1,8 +1,6 @@
 import { Messenger, Helpers, Finder, Constants, Logger } from '../utils'
 import type { Runtime } from 'webextension-polyfill-ts'
 import { browser } from 'webextension-polyfill-ts'
-import type { Message } from '../utils/Messenger'
-import Law from '../types/Law'
 import Tooltip from './Tooltip'
 import PDFSvg from '../assets/icons/pdf.svg'
 
@@ -33,7 +31,7 @@ const setOpenInNewTab = (element: HTMLElement): HTMLElement => {
   return element
 }
 
-const handleViewCitation = (message: Message) => {
+const handleViewCitation = (message: Messenger.Message) => {
   const data = message.data as Law.Case[]
   const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
 

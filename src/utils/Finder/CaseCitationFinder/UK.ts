@@ -1,6 +1,5 @@
 import Constants from '../../Constants'
 import { formatAbbrs, sortCitationsByVolume } from './utils'
-import type { CaseCitationFinderResult } from './types'
 
 const UKAbbrs = [
     { abbr: `UKSC` },
@@ -86,7 +85,7 @@ const formatUKIPOYear = (shortYear: string) => {
   return shortYearNumber > 90 ? `19${shortYear}` : `20${shortYear}`
 }
 
-export const findUKCaseCitation = (query:string): CaseCitationFinderResult[] => {
+export const findUKCaseCitation = (query:string): Finder.CaseCitationFinderResult[] => {
   const matches = findUKCaseCitationMatches(query)
   if (matches.length > 0) {
     return sortUKCitations(

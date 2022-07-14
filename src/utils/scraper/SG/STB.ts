@@ -1,7 +1,6 @@
 import Fuse from 'fuse.js'
 import type { AxiosResponse } from 'axios'
-import cheerio from 'cheerio'
-import Law from 'types/Law'
+import * as cheerio from 'cheerio'
 import Constants from 'utils/Constants'
 import Logger from 'utils/Logger'
 import Request from 'utils/Request'

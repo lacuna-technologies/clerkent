@@ -1,4 +1,3 @@
-import type Law from '../../../types/Law'
 import BAILII from './BAILII'
 import Common from '../common'
 import LegislationGovUk from './LegislationGovUk'

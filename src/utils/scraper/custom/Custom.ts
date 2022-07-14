@@ -1,7 +1,5 @@
 import Fuse from 'fuse.js'
-import type Law from "types/Law"
 import CustomDB from './CustomDB'
-import type { RawCase } from './CustomDB'
 
 const { cases: CustomCases } = CustomDB
 

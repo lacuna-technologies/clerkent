@@ -1,9 +1,4 @@
-import type Law from "../../../types/Law"
 import Constants from "../../Constants"
-
-export interface RawCase extends Omit<Law.Case, `citation`> {
-  citations: Law.Case[`citation`][],
-}
 
 const CustomDBCases: RawCase[] = [
   {

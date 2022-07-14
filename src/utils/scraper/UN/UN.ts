@@ -1,6 +1,5 @@
 
 import ICJCIJ from './ICJCIJ'
-import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
 

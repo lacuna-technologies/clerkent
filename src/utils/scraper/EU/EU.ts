@@ -1,7 +1,6 @@
 import CURIA from './CURIA'
 import EPO from './EPO'
 import EURLex from './EURLex'
-import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'

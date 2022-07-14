@@ -1,19 +1,17 @@
 import { browser } from 'webextension-polyfill-ts'
 import type { Runtime } from 'webextension-polyfill-ts'
 import { Messenger, Logger, Constants, Helpers } from '../utils'
-import type { Message } from '../utils/Messenger'
 import Tooltip from './Tooltip'
 import Highlighter from './Highlighter'
 import Searcher from './Searcher'
 import OptionsStorage, { OptionsSettings } from '../utils/OptionsStorage'
 import './ContentScript.scss'
-import Law from 'types/Law'
 
 let port: Runtime.Port
 
 let highlightEnabled: OptionsSettings[`OPTIONS_HIGHLIGHT_ENABLED`]
 
-const onMessage = (message: Message) => {
+const onMessage = (message: Messenger.Message) => {
   Logger.log(`content script received:`, message)
 
   if(highlightEnabled && document.querySelector(`#clerkent-tooltip`) === null){

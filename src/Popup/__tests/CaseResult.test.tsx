@@ -1,6 +1,5 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import type Law from '../../types/Law'
 import Constants from '../../utils/Constants'
 import CaseResult from '../CaseResult'
 

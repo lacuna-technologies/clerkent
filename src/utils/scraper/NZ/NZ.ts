@@ -1,6 +1,5 @@
 import nzlii from './nzlii'
 import Common from '../common'
-import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import Constants from '../../Constants'

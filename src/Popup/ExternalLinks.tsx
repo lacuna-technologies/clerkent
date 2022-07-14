@@ -1,8 +1,7 @@
 import React, { useEffect, useState , useCallback } from 'react'
-import type Law from '../types/Law'
 import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
-import type { OptionsSettings, InstitutionalLogin } from '../utils/OptionsStorage'
+import type { OptionsSettings } from '../utils/OptionsStorage'
 import SearcherStorage from '../ContentScript/Searcher/SearcherStorage'
 
 interface Props {

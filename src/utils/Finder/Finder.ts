@@ -1,18 +1,9 @@
 import Memoize from 'memoizee'
 import CaseCitationFinder from './CaseCitationFinder'
 import LegislationFinder from './LegislationFinder'
-import type { CaseCitationFinderResult } from './CaseCitationFinder'
-import type { LegislationFinderResult } from './LegislationFinder'
 import Logger from '../Logger'
 
-export interface CaseNameFinderResult {
-  name: string,
-  type: `case-name`
-}
-
-export type FinderResult = CaseCitationFinderResult | LegislationFinderResult | CaseNameFinderResult
-
-const findCase = Memoize((citation: string): FinderResult[] => {
+const findCase = Memoize((citation: string): Finder.FinderResult[] => {
   const caseCitations = [...CaseCitationFinder.findCaseCitation(citation)]
   if(caseCitations.length > 0){
     Logger.log(`Found case citations: `, caseCitations)
@@ -33,5 +24,3 @@ const Finder = {
 }
 
 export default Finder
-export type { CaseCitationFinderResult } from './CaseCitationFinder'
-export type { LegislationFinderResult } from './LegislationFinder'
