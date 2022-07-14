@@ -1,7 +1,6 @@
 import React from 'react'
 import Helpers from '../utils/Helpers'
 import ResultLink from './ResultLink'
-import type { downloadPDFType } from './QueryResult'
 
 interface Props {
   case: Law.Case,

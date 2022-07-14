@@ -9,7 +9,7 @@ const toLawCase = ({ citations, ...others }: RawCase): Law.Case => ({
   })
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  const fuse = new Fuse(CustomCases.map(({ name }) => name))
+  const fuse = new Fuse(CustomCases.map(({ name }) => name), { ignoreLocation: true })
   return fuse
     .search(caseName)
     .map(({ refIndex }) => CustomCases[refIndex])

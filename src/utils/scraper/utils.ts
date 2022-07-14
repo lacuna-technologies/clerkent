@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js'
 import Leven from '../Leven'
 
 const longestCommonSubstring = (stringA: string, stringB: string) => {
@@ -80,3 +81,10 @@ export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.
       : (levenScoreA === levenScoreB ? 0 : -1)
   }
 })
+
+export const sortByName = (query: string, cases: Law.Case[]) => {
+  const fuse = new Fuse(cases.map(({ name }) => name), { ignoreLocation: true })
+  return fuse
+    .search(query)
+    .map(({ refIndex }) => cases[refIndex])
+}
