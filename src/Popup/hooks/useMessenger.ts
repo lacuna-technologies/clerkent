@@ -2,13 +2,11 @@ import { useRef, useCallback, useEffect } from 'react'
 import type { Runtime } from 'webextension-polyfill-ts'
 import { browser } from 'webextension-polyfill-ts'
 import { Logger, Messenger } from 'utils'
-import type { Message } from 'utils/Messenger'
-import type Law from 'types/Law'
 
 const useMessenger = ({ onSearchDone }) => {
   const port = useRef({} as Runtime.Port)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
-  const onMessage = useCallback((message: Message) => {
+  const onMessage = useCallback((message: Messenger.Message) => {
     Logger.log(`popup received:`, message)
     if(message.target !== Messenger.TARGETS.popup){
       return null // ignore

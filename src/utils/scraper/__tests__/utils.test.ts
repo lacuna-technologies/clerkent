@@ -1,4 +1,3 @@
-import type Law from "types/Law"
 import { sortByNameSimilarity } from "../utils"
 
 const randomSort = (array) => array.slice(0, array.length).sort(() => (Math.random() - 0.5))

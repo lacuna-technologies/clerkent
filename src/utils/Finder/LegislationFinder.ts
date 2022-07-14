@@ -1,13 +1,4 @@
-import Law from "../../types/Law"
 import StatuteAbbrs from './StatuteAbbrs'
-
-export interface LegislationFinderResult {
-  provisionType: string,
-  provisionNumber: string,
-  statute: string,
-  type: `legislation`,
-  jurisdiction: Law.JursidictionCode
-}
 
 const unabbreviateStatute = (abbrStatute: string) => {
   const makeRegex = (string: string) => (new RegExp(`\\b${string}\\b`, `i`))
@@ -57,7 +48,7 @@ const unabbreviateProvision = (provisionType: string) => {
   return provisionType
 }
 
-const findLegislation = (citation: string): LegislationFinderResult[] => {
+const findLegislation = (citation: string): Finder.LegislationFinderResult[] => {
   // eslint-disable-next-line unicorn/better-regex
   const regex = new RegExp(`((?<provision>(${provisionTypeRegex}) ?\\d{1,4}(${provisionSubsectionRegex.source})*)[ ,]*)?(?<statute>[A-Z]{2,}[ ,A-Z]*( ?[12]\\d{3})?)`, `gi`)
   const cleanedCitation = citation.trim()

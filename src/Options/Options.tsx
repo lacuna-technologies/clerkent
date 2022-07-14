@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { browser } from 'webextension-polyfill-ts'
-import OptionsStorage, { OptionShortName, OptionStorageContentType } from '../utils/OptionsStorage'
+import OptionsStorage from '../utils/OptionsStorage'
+import type { OptionShortName, OptionStorageContentType } from '../utils/OptionsStorage'
 import Highlight from './components/Highlight'
 import Institution from './components/Institution'
 import ClipboardPaste from './components/ClipboardPaste'
 import 'styles/tailwind.css'
 import KeyboardShortcut from './components/KeyboardShortcut'
 
-type ThenArgument<T> = T extends PromiseLike<infer U> ? U : T
 export type updateOptionsType = <K extends OptionShortName>(
   key: K,
   value: ThenArgument<ReturnType<OptionStorageContentType[K][`get`]>>

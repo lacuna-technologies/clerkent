@@ -1,5 +1,4 @@
 import { AxiosRequestConfig } from 'axios'
-import Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Request from '../../Request'
 

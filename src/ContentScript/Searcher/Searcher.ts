@@ -1,7 +1,6 @@
 import LawNet from './LawNet'
 import LexisUK from './LexisUK'
 import WestlawUK from './WestlawUK'
-import type Law from '../../types/Law'
 import { Logger } from '../../utils'
 import SearcherStorage from './SearcherStorage'
 

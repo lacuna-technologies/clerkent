@@ -1,5 +1,4 @@
 import Constants from '../../Constants'
-import type { CaseCitationFinderResult } from './types'
 
 export const sortUNCitations = (
   citationsArray: any[],
@@ -8,7 +7,7 @@ export const sortUNCitations = (
 
 export const findUNCaseCitation = (
   query: string,
-): CaseCitationFinderResult[] => {
+): Finder.CaseCitationFinderResult[] => {
   // TODO: figure out ICJ citation format
   return []
 }

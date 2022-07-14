@@ -1,7 +1,5 @@
 import Request from '../../Request'
-import cheerio from 'cheerio'
-import type { LegislationFinderResult } from '../../Finder'
-import type Law from '../../../types/Law'
+import * as cheerio from 'cheerio'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
 
@@ -32,7 +30,7 @@ const getStatute = async (statuteName: string): Promise<StatuteResult[]> => {
   }).get()
 }
 
-const getLegislation = async (legislation: LegislationFinderResult): Promise<Law.Legislation[]> => {
+const getLegislation = async (legislation: Finder.LegislationFinderResult): Promise<Law.Legislation[]> => {
   const {
     provisionNumber,
     statute,

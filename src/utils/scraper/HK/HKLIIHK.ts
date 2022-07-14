@@ -1,5 +1,4 @@
 import Request from '../../Request'
-import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 
 const DOMAIN = `https://www.hklii.hk`

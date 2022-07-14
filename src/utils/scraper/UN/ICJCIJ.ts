@@ -1,12 +1,11 @@
 import request from '../../Request'
-import cheerio from 'cheerio'
-import Law from "../../../types/Law"
+import * as cheerio from 'cheerio'
 import Constants from '../../Constants'
 import { sortByNameSimilarity } from '../utils'
 
 const BASE_URL = `https://www.icj-cij.org`
 
-interface Document {
+type Document = {
   casename: string,
   caseurl: string,
   docname: string,

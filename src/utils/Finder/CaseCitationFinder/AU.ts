@@ -1,6 +1,5 @@
 import Constants from '../../Constants'
 import { formatAbbrs, sortCitationsByVolume } from './utils'
-import type { CaseCitationFinderResult } from './types'
 
 export const AUAbbrs = [
   // approximate order only
@@ -114,7 +113,7 @@ export const findAUCaseCitationMatches = (query: string) => {
   return [...query.matchAll(regex)]
 }
 
-export const findAUCaseCitation = (query: string): CaseCitationFinderResult[] => {
+export const findAUCaseCitation = (query: string): Finder.CaseCitationFinderResult[] => {
   const matches = findAUCaseCitationMatches(query)
   if (matches.length > 0) {
     return matches.map((match) => ({

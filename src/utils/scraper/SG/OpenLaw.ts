@@ -1,5 +1,4 @@
 import Request from 'utils/Request'
-import type Law from 'types/Law'
 import Logger from 'utils/Logger'
 import Constants from 'utils/Constants'
 import { browser, Downloads } from 'webextension-polyfill-ts'

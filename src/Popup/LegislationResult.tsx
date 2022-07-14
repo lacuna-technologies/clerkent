@@ -1,8 +1,6 @@
 import React from 'react'
-import type Law from '../types/Law'
 import Constants from '../utils/Constants'
 import Helpers from '../utils/Helpers'
-import type { downloadPDFType } from './QueryResult'
 import ResultLink from './ResultLink'
 
 interface Props {

@@ -8,13 +8,7 @@ import AU from './AU'
 import NZ from './NZ'
 import MY from './MY'
 import ECHR from './ECHR'
-import type Law from '../../types/Law'
 import Constants from '../Constants'
-import type {
-  CaseCitationFinderResult,
-  CaseNameFinderResult,
-  LegislationFinderResult,
-} from '../Finder'
 import Logger from '../Logger'
 import UN from './UN'
 
@@ -35,7 +29,7 @@ const jurisdictionMap = {
 }
 
 const getCaseByCitation = Memoize((
-  targetCase: CaseCitationFinderResult,
+  targetCase: Finder.CaseCitationFinderResult,
   inputJurisdiction: Law.JursidictionCode = null,
 ): Promise<Law.Case[]> => {
   const { jurisdiction, citation, court } = targetCase
@@ -55,7 +49,7 @@ const getCaseByCitation = Memoize((
 })
 
 const getCaseByName = Memoize((
-  targetCaseName: CaseNameFinderResult,
+  targetCaseName: Finder.CaseNameFinderResult,
   inputJurisdiction: Law.JursidictionCode,
 ) : Promise<Law.Case[]> => {
   const { name } = targetCaseName
@@ -74,7 +68,7 @@ const getCaseByName = Memoize((
 })
 
 const getLegislation = Memoize((
-  targetLegislation: LegislationFinderResult,
+  targetLegislation: Finder.LegislationFinderResult,
   inputJurisdiction: Law.JursidictionCode,
 ): Promise<Law.Legislation[]> => {
   const targetJurisdiction = jurisdictionMap[inputJurisdiction]

@@ -65,7 +65,6 @@ module.exports = {
       `never`,
     ],
     "sonarjs/no-nested-template-literals": `warn`,
-    "unicorn/prefer-dom-node-text-content": `off`,
     "sort-keys-fix/sort-keys-fix": `warn`,
     "unicorn/consistent-function-scoping": `off`,
     "unicorn/filename-case": [
@@ -85,6 +84,8 @@ module.exports = {
     "unicorn/no-await-expression-member": `off`,
     "unicorn/no-null": 0,
     "unicorn/prefer-code-point": `warn`,
+    "unicorn/prefer-dom-node-text-content": `off`,
+    "unicorn/prefer-logical-operator-over-ternary": `warn`,
     "unicorn/prefer-module": `off`,
     "unicorn/prefer-node-protocol": `off`,
     "unicorn/prevent-abbreviations": [

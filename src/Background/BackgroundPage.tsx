@@ -1,19 +1,11 @@
 import React, { useEffect } from 'react'
-
 import { browser } from 'webextension-polyfill-ts'
 import type { Downloads , Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'
 import Finder from '../utils/Finder'
 import Storage from '../utils/Storage'
-import type { Message, OtherProperties} from '../utils/Messenger'
 import Scraper from '../utils/scraper'
 import Logger from '../utils/Logger'
-import type {
-  CaseCitationFinderResult,
-  CaseNameFinderResult,
-  FinderResult,
-} from '../utils/Finder'
-import Law from '../types/Law'
 import { Helpers } from '../utils'
 
 const workingMemory = {
@@ -22,23 +14,23 @@ const workingMemory = {
 }
 
 const getScraperResult = (
-  targets: FinderResult[],
+  targets: Finder.FinderResult[],
   jurisdiction: Law.JursidictionCode,
 ): Promise<Law.Legislation[] | Law.Case[]> => {
   const { type } = targets[0]
   switch (type) {
     case `case-citation`: {
-      return Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult, jurisdiction)
+      return Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult, jurisdiction)
     }
     case `case-name`: {
-      return Scraper.getCaseByName(targets[0] as CaseNameFinderResult, jurisdiction)
+      return Scraper.getCaseByName(targets[0] as Finder.CaseNameFinderResult, jurisdiction)
     }
   }
   return Promise.resolve([])
 }
 
 // used by ContentScript/Highlighter for citation hover
-const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties) => {
+const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.OtherProperties) => {
   const { citation, source } = otherProperties
   workingMemory.currentHighlightedCitation = citation
 
@@ -54,7 +46,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties
     return port.postMessage(noResultMessage)
   }
   
-  const result = await Scraper.getCaseByCitation(targets[0] as CaseCitationFinderResult)
+  const result = await Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult)
 
   if(result.length === 0){
     return port.postMessage(noResultMessage)
@@ -75,7 +67,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: OtherProperties
 }
 
 // Used by Popup
-const search = async (port: Runtime.Port, otherProperties: OtherProperties) => {
+const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProperties) => {
   const { citation, source, jurisdiction } = otherProperties
   workingMemory.currentHighlightedCitation = citation
   const targets = Finder.findCase(citation)
@@ -150,7 +142,7 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
   }
 }
 
-const onReceiveMessage = (port: Runtime.Port) => (message: Message) => {
+const onReceiveMessage = (port: Runtime.Port) => (message: Messenger.Message) => {
   Logger.log(`background received`, message)
   if (message.target === Messenger.TARGETS.popup) {
     return

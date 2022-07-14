@@ -1,5 +1,4 @@
 import Constants from '../../Constants'
-import type { CaseCitationFinderResult } from './types'
 
 const ECtHRApplicationRegex = new RegExp(/\b\d{5}\/\d{2}/)
 const ECtHROSCOLARegex = new RegExp(/[12[]\d{3}] ECHR \d{1,3}/)
@@ -17,7 +16,7 @@ export const sortECHRCitations = (
 
 export const findECHRCaseCitation = (
   query: string,
-): CaseCitationFinderResult[] => {
+): Finder.CaseCitationFinderResult[] => {
   const matches = [...query.matchAll(ECtHRRegex)]
   return matches.map((match) => ({
     citation: match[0],

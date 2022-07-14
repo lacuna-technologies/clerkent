@@ -1,6 +1,5 @@
 import austlii from './austlii'
 import Common from '../common'
-import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortAUCitations } from '../../Finder/CaseCitationFinder/AU'

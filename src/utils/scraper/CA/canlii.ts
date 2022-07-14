@@ -1,7 +1,6 @@
-import cheerio from 'cheerio'
+import * as cheerio from 'cheerio'
 import qs from 'qs'
 import Request from '../../Request'
-import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import { findCACaseCitation } from '../../Finder/CaseCitationFinder/CA'

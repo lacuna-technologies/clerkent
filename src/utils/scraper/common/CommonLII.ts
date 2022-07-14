@@ -1,6 +1,5 @@
-import cheerio from 'cheerio'
+import * as cheerio from 'cheerio'
 import Request from '../../Request'
-import type Law from '../../../types/Law'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
 import CaseCitationFinder from '../../Finder/CaseCitationFinder'

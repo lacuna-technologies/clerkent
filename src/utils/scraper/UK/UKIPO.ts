@@ -1,6 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import cheerio from 'cheerio'
-import type Law from 'types/Law'
+import * as cheerio from 'cheerio'
 import Constants from 'utils/Constants'
 import Helpers from 'utils/Helpers'
 import Logger from 'utils/Logger'

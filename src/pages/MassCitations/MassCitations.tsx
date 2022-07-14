@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Constants, Finder, Storage, Logger } from '../../utils'
-import type { CaseCitationFinderResult } from '../../utils/Finder/CaseCitationFinder'
 import './MassCitations.scss'
 
 const keys = {

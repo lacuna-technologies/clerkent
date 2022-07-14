@@ -1,6 +1,5 @@
 import canlii from './canlii'
 import Common from '../common'
-import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortCACitations } from '../../Finder/CaseCitationFinder/CA'

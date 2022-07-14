@@ -6,7 +6,6 @@ import {
   Constants,
   Finder,
 } from 'utils'
-import type Law from 'types/Law'
 
 const keys = {
   QUERY: `POPUP_QUERY`,

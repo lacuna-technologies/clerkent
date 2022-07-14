@@ -2,7 +2,6 @@
 import HKLIIORG from './HKLIIORG'
 import LRS from './LRS'
 import Common from '../common'
-import type Law from '../../../types/Law'
 import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortHKCitations } from '../../Finder/CaseCitationFinder/HK'

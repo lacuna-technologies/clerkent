@@ -11,7 +11,6 @@ import OpenLaw from './OpenLaw'
 import SLW from './SLW'
 import SSO from './SSO'
 import STB from './STB'
-import type Law from 'types/Law'
 
 const getLegislation = SSO.getLegislation
 

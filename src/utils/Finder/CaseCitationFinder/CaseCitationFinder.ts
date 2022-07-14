@@ -1,4 +1,3 @@
-import type { CaseCitationFinderResult } from './types'
 import { findUKCaseCitation, sortUKCitations } from './UK'
 import { findSGCaseCitation , sortSGCitations } from './SG'
 import { findNZCaseCitation, sortNZCitations } from './NZ'
@@ -10,7 +9,7 @@ import { findMYCaseCitation, sortMYCitations } from './MY'
 import { findECHRCaseCitation, sortECHRCitations } from './ECHR'
 import { findUNCaseCitation, sortUNCitations } from './UN'
 
-const findCaseCitation = (query: string): CaseCitationFinderResult[] => {
+const findCaseCitation = (query: string): Finder.CaseCitationFinderResult[] => {
   return [
     ...findSGCaseCitation(query),
     ...findUKCaseCitation(query),

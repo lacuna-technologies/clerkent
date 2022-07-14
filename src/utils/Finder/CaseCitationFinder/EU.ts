@@ -1,5 +1,4 @@
 import Constants from '../../Constants'
-import type { CaseCitationFinderResult } from './types'
 
 export const epoRegex = new RegExp(/\b[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/\b[CT]-\d{1,3}\/\d{1,2}/)
@@ -12,7 +11,7 @@ export const sortEUCitations = (
 
 export const findEUCaseCitation = (
   query: string,
-): CaseCitationFinderResult[] => {
+): Finder.CaseCitationFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
   const cleanedQuery = query
     .replace(new RegExp(`[${String.fromCharCode(8209)}]`, `g`), `-`)

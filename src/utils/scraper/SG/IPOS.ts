@@ -1,6 +1,5 @@
 import Fuse from 'fuse.js'
-import cheerio from 'cheerio'
-import type Law from 'types/Law'
+import * as cheerio from 'cheerio'
 import Logger from 'utils/Logger'
 import Request from 'utils/Request'
 import Constants from 'utils/Constants'

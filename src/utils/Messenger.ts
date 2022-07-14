@@ -14,19 +14,6 @@ const TARGETS = {
   popup: `popup`,
 }
 
-type ValueOf<T> = T[keyof T]
-
-export interface Message {
-  action: ValueOf<typeof ACTION_TYPES>
-  source: ValueOf<typeof TARGETS>
-  target: ValueOf<typeof TARGETS>
-  data?: unknown
-}
-
-export interface OtherProperties {
-  [x: string]: any
-}
-
 const Messenger = {
   ACTION_TYPES,
   TARGETS,

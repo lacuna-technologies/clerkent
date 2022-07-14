@@ -1,6 +1,5 @@
 import React from 'react'
 import Helpers from '../utils/Helpers'
-import type Law from '../types/Law'
 import ResultLink from './ResultLink'
 import type { downloadPDFType } from './QueryResult'
 

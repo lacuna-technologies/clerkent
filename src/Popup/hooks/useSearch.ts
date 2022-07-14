@@ -1,5 +1,4 @@
 import { useState } from "react"
-import type Law from 'types/Law'
 
 type SearchResult = Law.Case | Law.Legislation
 

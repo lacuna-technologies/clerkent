@@ -1,5 +1,4 @@
 import Finder from "./Finder"
-import type Law from '../types/Law'
 
 // eslint-disable-next-line unicorn/better-regex, no-useless-escape
 const sanitiseFilename = (fileName: string) => fileName.replace(/[^\d --\.\[\]a-z]/gi, ``)

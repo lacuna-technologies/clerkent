@@ -1,5 +1,4 @@
 import Leven from '../Leven'
-import type Law from 'types/Law'
 
 const longestCommonSubstring = (stringA: string, stringB: string) => {
   if (!stringA || !stringB) {
