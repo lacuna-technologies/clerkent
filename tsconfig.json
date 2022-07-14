@@ -25,7 +25,6 @@
   "include": [
     "src",
     "jest.config.ts.ts",
-    "src/types/Filetypes.d.ts",
     "tailwind.config.js"
   ],
   "exclude": [
