@@ -17,18 +17,20 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       Custom.getCaseByName(caseName),
       BAILII.getCaseByName(caseName),
       Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.UK.name),
-      UKIPO.getCaseByName(caseName),
+      // UKIPO.getCaseByName(caseName)
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.UK.id)
 
+    const uniqueResults = sortUKCitations(
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
+    )
+
     return sortByNameSimilarity(
       caseName,
-      sortUKCitations(
-        Helpers.uniqueBy(results, `citation`),
-        `citation`,
-      ),
+      uniqueResults,
     )
   } catch (error) {
     Logger.error(error)
