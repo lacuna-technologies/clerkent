@@ -60,11 +60,12 @@ const WebpackConfig = {
   entry: {
     background: path.join(sourcePath, `Background`, `index.tsx`),
     contentScript: path.join(sourcePath, `ContentScript`, `index.tsx`),
-    guide: path.join(sourcePath, `pages`, `Guide`, `index.tsx`),
+    guide: path.join(sourcePath, `pages`, `Guide.tsx`),
     manifest: path.join(sourcePath, `manifest.json`),
     massCitations: path.join(sourcePath, `pages`, `MassCitations`, `index.tsx`),
     options: path.join(sourcePath, `Options`, `index.tsx`),
     popup: path.join(sourcePath, `Popup`, `index.tsx`),
+    updates: path.join(sourcePath, `pages`, `Updates.tsx`),
   },
 
   
@@ -209,6 +210,13 @@ const WebpackConfig = {
       hash: true,
       inject: `body`,
       template: path.join(viewsPath, `options.html`),
+    }),
+    new HtmlWebpackPlugin({
+      chunks: [`updates`],
+      filename: `updates.html`,
+      hash: true,
+      inject: `body`,
+      template: path.join(viewsPath, `updates.html`),
     }),
     new HtmlWebpackPlugin({
       chunks: [`massCitations`],
