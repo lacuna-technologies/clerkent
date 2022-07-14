@@ -164,15 +164,19 @@ const onConnect = (port: Runtime.Port) => {
 
 const onInstall = async (details: Runtime.OnInstalledDetailsType): Promise<void> => {
   Logger.log(`onInstall`, details)
-  if(details?.previousVersion){
-    // just an update, do nothing
-    return
-  }
-
+  // if(details?.previousVersion){
+  //   // just an update, do nothing
+  //   return
+  // }
   const GUIDE_SHOWN_KEY = `GUIDE_SHOWN`
   const guideShown = await Storage.get(GUIDE_SHOWN_KEY)
   if(guideShown === true){
     // shown before, don't show again
+    // but try showing the subscribe page
+    const subscribeShown = await Storage.get(`DO_NOT_REMIND_SUBSCRIBE`)
+    if(subscribeShown !== true){
+      await browser.tabs.create({ url: `updates.html` })
+    }
     return
   }
   // otherwise open the guide

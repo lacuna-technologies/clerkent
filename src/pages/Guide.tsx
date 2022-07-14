@@ -1,5 +1,6 @@
 import React from 'react'
-import Browser from '../../utils/Browser'
+import { createRoot } from 'react-dom/client'
+import Browser from '../utils/Browser'
 import 'styles/tailwind.css'
 
 const Guide = () => {
@@ -67,4 +68,7 @@ const Guide = () => {
   )
 }
 
-export default Guide
+const container = document.querySelector(`#clerkent-guide-root`)
+const root = createRoot(container)
+
+root.render(<Guide /> )
