@@ -6,8 +6,8 @@ import Logger from '../../Logger'
 const DOMAIN = `https://www.supremecourt.gov.sg`
 const getSearchResults = (citation: string) => `${DOMAIN}/search-judgment?q=${citation}&y=All`
 
-const parseCase = ($: cheerio.Root, cheerioElement: cheerio.Element): Law.Case => {
-  const name = $(`.text`, cheerioElement).contents().get(2).data.trim()
+const parseCase = ($: cheerio.CheerioAPI, cheerioElement: cheerio.Element): Law.Case => {
+  const name = ($(`.text`, cheerioElement).contents().get(2) as unknown as cheerio.CheerioAPI).text().trim()
   const link = $(`.doc-download`, cheerioElement).attr(`href`)
   const pdf = `${DOMAIN}${$(`.pdf-download`, cheerioElement).attr(`href`)}`
   const citation = $(`.text ul.decision li`, cheerioElement).eq(0).text().trim()

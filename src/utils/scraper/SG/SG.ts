@@ -18,10 +18,10 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
       eLitigation.getCaseByName(caseName),
-      OpenLaw.getCaseByName(caseName),
-      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
-      IPOS.getCaseByName(caseName),
-      STB.getCaseByName(caseName),
+      // OpenLaw.getCaseByName(caseName),
+      // Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
+      // IPOS.getCaseByName(caseName),
+      // STB.getCaseByName(caseName),
     ]))
       .filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

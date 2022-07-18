@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio'
+import { load } from 'cheerio'
 import Request from '../../Request'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
@@ -6,8 +6,8 @@ import Logger from '../../Logger'
 const DOMAIN = `https://www.elitigation.sg`
 
 const parseCaseResults = (data: string): Law.Case[] => {
-  const $ = cheerio.load(data)
-  return $(`#listview > .row:nth-of-type(3) > .card.col-12`).map((_, element) => {
+  const $ = load(data)
+  return $(`#listview > .row > .card.col-12`).map((_, element) => {
     const card = $(`> .card-body > .row`, element)
     const name = $(`a.gd-card-title,a.gd-heardertext`, card).text().trim()
     const link = $(`a.gd-card-title,a.gd-heardertext`, card).attr(`href`)
@@ -16,14 +16,14 @@ const parseCaseResults = (data: string): Law.Case[] => {
     const citation = $(`span.gd-addinfo-text`, card).first().text().trim().replace(`|`, ``).trim()
 
     const summaryLink = link
-      ? { doctype: `Summary`, filetype: `HTML`, url: `${DOMAIN}${link}` }
+      ? { doctype: `Summary`, filetype: `HTML`, url: `${DOMAIN}${link}` } as Law.Link
       : null
 
     const pdfLink = pdf
-      ? { doctype: `Judgment`, filetype: `PDF`, url: `${DOMAIN}${pdf}` }
+      ? { doctype: `Judgment`, filetype: `PDF`, url: `${DOMAIN}${pdf}` } as Law.Link
       : null
 
-    const results = {
+    return {
       citation,
       database: Constants.DATABASES.SG_elitigation,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
@@ -33,9 +33,6 @@ const parseCaseResults = (data: string): Law.Case[] => {
       ],
       name,
     }
-    Logger.log(`eLitigation results`, results)
-
-    return results
 
   }).get()
 }
@@ -64,7 +61,8 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
 }
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  const { data } = await Request.get(`${DOMAIN}/gdviewer/Home/Index`,
+  try {
+    const { data } = await Request.get(`${DOMAIN}/gdviewer/Home/Index`,
     {
       params: {
         currentPage: `1`,
@@ -75,8 +73,11 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         yearOfDecision: `All`,
       },
     })
-
-  return parseCaseResults(data)
+    return parseCaseResults(data)
+  } catch (error){
+    Logger.error(error)
+    throw error
+  }
 }
 
 const eLitigation = {

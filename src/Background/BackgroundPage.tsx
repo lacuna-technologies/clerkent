@@ -72,7 +72,7 @@ const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProper
   workingMemory.currentHighlightedCitation = citation
   const targets = Finder.findCase(citation)
 
-  const noResultMessage = {
+  const noResultMessage: Messenger.Message = {
     action: Messenger.ACTION_TYPES.search,
     data: [],
     source: Messenger.TARGETS.background,
