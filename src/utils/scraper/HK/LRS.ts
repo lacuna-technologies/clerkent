@@ -71,7 +71,7 @@ export const getCaseByCitation = async (citation: string): Promise<Law.Case[]> =
   return []
 }
 
-const parseResultsTable = ($: cheerio.Root): Law.Case[] => {
+const parseResultsTable = ($: cheerio.CheerioAPI): Law.Case[] => {
   const results: Law.Case[] = []
   let currentResult: Law.Case
   $(`form > table.tablestyle1 > tbody > tr > td > table > tbody > tr:nth-of-type(5) > td > table > tbody > tr:nth-of-type(2) > td > table > tbody > tr:nth-of-type(1) > td > table > tbody > tr`).each((_, element) => {
@@ -80,7 +80,10 @@ const parseResultsTable = ($: cheerio.Root): Law.Case[] => {
         findHKCaseCitation,
         $(`td:nth-of-type(2) > table tr td:nth-of-type(1)`, element).text(),
       )
-      const js = $(`td:nth-of-type(2) > table tr td:nth-of-type(1) > script`, element).get()[0].children[0].data
+      const js = (
+        $(`td:nth-of-type(2) > table tr td:nth-of-type(1) > script`, element)
+          .get()[0].children[0] as unknown as cheerio.CheerioAPI
+      ).text()
       const queryString = [...js.matchAll(new RegExp(/var temp\d+='(DIS=.+TP=JU)'/g))][0][1]
       currentResult = {
         citation,

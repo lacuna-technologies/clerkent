@@ -35,7 +35,7 @@ const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => 
 
 const fixURL = (url: string) => url.replace(/scc\.lexum\.umontreal\.ca/, `scc-csc.lexum.com`)
 
-const parseMultipleCase = ($: cheerio.Root): Law.Case[] => {
+const parseMultipleCase = ($: cheerio.CheerioAPI): Law.Case[] => {
   const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element): Law.Case => {
     const name = $(`td.case-cited > a`, element).text().trim()
     const relativeLawCiteURL = $(`td.case-cited > a`, element).attr(`href`)

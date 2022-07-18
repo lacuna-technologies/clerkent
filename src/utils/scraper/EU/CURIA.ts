@@ -33,12 +33,12 @@ const scrapeDocumentsPage = async (caseResult: Law.Case): Promise<Law.Link[]> =>
             doctype: match,
             filetype: `HTML`,
             url: rowCuriaLink,
-          },
+          } as Law.Link,
           {
             doctype: match,
             filetype: `PDF`,
             url: getEurlexPDF(rowEurlexLink),
-          },
+          } as Law.Link,
         ]
       }
     return []
