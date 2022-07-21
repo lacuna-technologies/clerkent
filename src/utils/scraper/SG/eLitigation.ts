@@ -47,7 +47,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     {
       params: {
         currentPage: `1`,
-        searchPhrase: citation,
+        searchPhrase: `"${citation}"`,
         sortAscending: `False`,
         sortBy: `Score`,
         verbose: `False`,
