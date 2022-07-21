@@ -68,12 +68,16 @@ const downloadInterceptor = () => {
   const { hostname, pathname } = window.location
   if(hostname === `www.elitigation.sg` && new RegExp(`^/gdviewer/s/[0-9]{4}.+$`).test(pathname)){
     const downloadButton = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
+    const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink`)
+    const caseNameElement: HTMLElement = document.querySelector(`.HN-CaseName`) || document.querySelector(`h2.title > span.caseTitle`)
     const law: Law.Case = {
-      citation: document.querySelector(`.HN-NeutralCit`).textContent.trim(),
+      citation: citationElement.textContent.trim(),
       database: Constants.DATABASES.SG_elitigation,
       jurisdiction: Constants.JURISDICTIONS.SG.id,
       links: [],
-      name: (document.querySelector(`.HN-CaseName`) as HTMLElement).innerText.replaceAll(/\n+/g, ` `),
+      name: Helpers.removeCommonAppends(
+        caseNameElement.innerText.replaceAll(/\n+/g, ` `),
+      ),
       type: `case-citation`,
     }
     const fileName = Helpers.getFileName(law, `Judgment`)

@@ -62,6 +62,9 @@ const getFileName = (law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype
   }
 }
 
+const commonAppendsRegex = / ?(\(?pte\.?\)?|private|ltd|limited|llp|sdn|bhd|co|company|corp|\(s\)|inc|gmbh|and others|and (another|other)( (suits?|appeals?|matters?))?|& \d{1,2} ors|& anor|\(interim judicial managers appointed\)|\(in liquidation\)|, singapore branch)\b$/gi
+const removeCommonAppends = (caseName: string) => (caseName+``).replaceAll(commonAppendsRegex, ``)
+
 const Helpers = {
   classnames,
   debounce,
@@ -77,6 +80,7 @@ const Helpers = {
   getRandomInteger,
   getSummaryLink,
   isCitationValid,
+  removeCommonAppends,
   sanitiseFilename,
   uniqueBy,
 }
