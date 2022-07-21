@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'preact/hooks'
 import Toggle from 'components/Toggle'
 import { OptionsSettings } from 'utils/OptionsStorage'
 import { updateOptionsType } from '../Options'
+import type { FunctionComponent } from 'preact'
 
 interface Props {
   value: OptionsSettings[`OPTIONS_CLIPBOARD_PASTE_ENABLED`],
   updateOptions: updateOptionsType
 }
 
-const ClipboardPaste: React.FC<Props> = ({ value, updateOptions }) => {
+const ClipboardPaste: FunctionComponent<Props> = ({ value, updateOptions }) => {
 
   const onChangeClipboardPaste = useCallback(
     (value: boolean) => updateOptions(`clipboardPaste`, value),

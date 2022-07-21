@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'preact/hooks'
 import CaseResult from './CaseResult'
 import LegislationResult from './LegislationResult'
 import ShowMore from './ShowMore'
 import AnimatedLoading from '../components/AnimatedLoading'
+import type { FunctionComponent } from 'preact'
 
 interface Props {
   searchResult: (Law.Case | Law.Legislation)[],
@@ -13,7 +14,7 @@ interface Props {
 const maxResults = 3
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const QueryResult: React.FC<Props> = ({ searchResult, downloadPDF, isSearching }) => {
+const QueryResult: FunctionComponent<Props> = ({ searchResult, downloadPDF, isSearching }) => {
   const [morePressed, setMorePressed] = useState(false)
   const onShowMore = useCallback(() => setMorePressed(true), [])
 

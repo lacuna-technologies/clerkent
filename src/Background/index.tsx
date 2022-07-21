@@ -1,8 +1,5 @@
-import * as React from 'react'
-import { createRoot } from 'react-dom/client'
-
+import { render } from 'preact'
 import BackgroundPage from './BackgroundPage'
 
 const container = document.querySelector(`#background-root`)
-const root = createRoot(container)
-root.render(<BackgroundPage />)
+render(<BackgroundPage />, container)

@@ -1,5 +1,4 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
+import { render } from '@testing-library/preact'
 import Constants from '../../utils/Constants'
 import QueryResult from '../QueryResult'
 
@@ -28,35 +27,35 @@ const mockCases: Law.Case[] = [
 
 describe(`QueryResult`, () => {
   it(`renders no cases found`, () => {
-    const tree = renderer.create(
+    const tree = render(
       <QueryResult
         searchResult={[]}
         downloadPDF={mockDownloadPDF}
         isSearching={false}
       />,
-    ).toJSON()
+    )
     expect(tree).toMatchSnapshot()
   })
 
   it(`renders loading`, () => {
-    const treeCase = renderer.create(
+    const treeCase = render(
       <QueryResult
         searchResult={[]}
         downloadPDF={mockDownloadPDF}
         isSearching={true}
       />,
-    ).toJSON()
+    )
     expect(treeCase).toMatchSnapshot()
   })
 
   it(`renders list of UK cases`, () => {
-    const tree = renderer.create(
+    const tree = render(
       <QueryResult
         searchResult={mockCases}
         downloadPDF={mockDownloadPDF}
         isSearching={false}
       />,
-    ).toJSON()
+    )
     expect(tree).toMatchSnapshot()
   })
 })

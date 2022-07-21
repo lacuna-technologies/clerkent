@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import type { MouseEvent } from 'react'
+import { useCallback } from 'preact/hooks'
+import type { FunctionComponent } from 'preact'
 import Helpers from '../utils/Helpers'
 import PDFSvg from '../assets/icons/pdf.svg'
 
@@ -20,12 +20,12 @@ const PDFLink = ({
   )
 }
 
-const ResultLink: React.FC<Props> = ({
+const ResultLink: FunctionComponent<Props> = ({
   empty = false,
   link,
   onDownloadPDF,
 }) => {
-  const onClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+  const onClick = useCallback((event) => {
     event.preventDefault()
     event.stopPropagation()
     onDownloadPDF()

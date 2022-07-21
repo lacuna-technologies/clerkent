@@ -1,4 +1,5 @@
-import React, { useEffect, useState , useCallback } from 'react'
+import type { FunctionComponent, ComponentChildren } from 'preact'
+import { useEffect, useState , useCallback } from 'preact/hooks'
 import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
 import type { OptionsSettings } from '../utils/OptionsStorage'
@@ -24,9 +25,8 @@ const getLawNetURL = (
   },
 })[institution])
 
-const ExternalButton: React.FC<{
+const ExternalButton: FunctionComponent<{
   href: string,
-  children: React.ReactNode,
   onClick?: () => void
 }> = ({ href, children, onClick = () => {} }) => {
   return (
@@ -39,7 +39,7 @@ const ExternalButton: React.FC<{
   )
 }
 
-const ExternalLinks: React.FC<Props> = ({
+const ExternalLinks: FunctionComponent<Props> = ({
   jurisdiction,
   query,
   type,

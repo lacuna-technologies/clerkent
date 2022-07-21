@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import type { FunctionComponent } from 'preact'
+import { useCallback } from 'preact/hooks'
 import SelectInput from '../../components/SelectInput'
 import Constants from '../../utils/Constants'
 import type { OptionsSettings } from '../../utils/OptionsStorage'
@@ -13,7 +14,7 @@ interface Props {
   updateOptions: updateOptionsType
 }
 
-const Institution: React.FC<Props> = ({ value, updateOptions }) => {
+const Institution: FunctionComponent<Props> = ({ value, updateOptions }) => {
   const onChange = useCallback((value) => updateOptions(`institutionalLogin`, value), [updateOptions])
 
   return (

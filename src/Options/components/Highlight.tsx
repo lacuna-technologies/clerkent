@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'preact/hooks'
 import Toggle from 'components/Toggle'
 import { OptionsSettings } from 'utils/OptionsStorage'
 import { updateOptionsType } from '../Options'
+import type { FunctionComponent } from 'preact'
 
 interface Props {
   value: OptionsSettings[`OPTIONS_HIGHLIGHT_ENABLED`],
   updateOptions: updateOptionsType
 }
 
-const Highlight: React.FC<Props> = ({ value, updateOptions }) => {
+const Highlight: FunctionComponent<Props> = ({ value, updateOptions }) => {
 
   const onChangeHighlight = useCallback(
     (value: boolean) => updateOptions(`highlight`, value),

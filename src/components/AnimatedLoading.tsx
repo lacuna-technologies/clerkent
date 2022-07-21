@@ -1,5 +1,3 @@
-import React from 'react'
-
 const AnimatedLoading = () => {
   return (
     <div className="inline-flex flex-row items-center">

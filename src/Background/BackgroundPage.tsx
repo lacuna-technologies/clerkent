@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'preact/hooks'
 import { browser } from 'webextension-polyfill-ts'
 import type { Downloads , Runtime } from 'webextension-polyfill-ts'
 import Messenger from '../utils/Messenger'

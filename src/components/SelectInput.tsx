@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'preact/hooks'
+import type { FunctionComponent } from 'preact'
 import { Helpers } from 'utils'
 
 interface Props {
@@ -12,11 +13,11 @@ interface Props {
   defaultValue?: string,
 }
 
-const SelectInput: React.FC<Props> = ({
+const SelectInput: FunctionComponent<Props> = ({
   className = ``,
   options,
   value,
-  onChange = () => {},
+  onChange = (v) => {},
   defaultValue,
 }) => {
   const onSelect = useCallback(({ target: { value } }) => onChange(value), [onChange])

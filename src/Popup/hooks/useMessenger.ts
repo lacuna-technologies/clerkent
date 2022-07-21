@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react'
+import { useRef, useCallback, useEffect } from 'preact/hooks'
 import type { Runtime } from 'webextension-polyfill-ts'
 import { browser } from 'webextension-polyfill-ts'
 import { Logger, Messenger } from 'utils'

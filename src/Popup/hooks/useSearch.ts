@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "preact/hooks"
 
 type SearchResult = Law.Case | Law.Legislation
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'preact/compat'
 import Admonition from '../components/Admonition'
 import Clipboard from '../utils/Clipboard'
 import OptionsStorage from '../utils/OptionsStorage'
