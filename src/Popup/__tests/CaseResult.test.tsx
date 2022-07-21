@@ -1,5 +1,4 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
+import { render } from '@testing-library/preact'
 import Constants from '../../utils/Constants'
 import CaseResult from '../CaseResult'
 
@@ -21,12 +20,12 @@ const mockDownloadPDF = () => () => {}
 
 describe(`CaseResult`, () => {
   it(`renders without error`, () => {
-    const tree = renderer.create(
+    const tree = render(
       <CaseResult
         downloadPDF={mockDownloadPDF}
         case={mockCase}
       />,
-    ).toJSON()
+    )
     expect(tree).toMatchSnapshot()
   })
 })

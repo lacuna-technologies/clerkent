@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'preact/hooks'
 
 const useFocusInput = () => {
   const inputReference = useRef(null)

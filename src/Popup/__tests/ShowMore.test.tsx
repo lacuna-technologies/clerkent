@@ -1,14 +1,13 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
+import { render } from '@testing-library/preact'
 import ShowMore from '../ShowMore'
 
 describe(`ShowMore`, () => {
   it(`renders without error`, () => {
-    const tree = renderer.create(
+    const tree = render(
       <ShowMore
         onClick={() => {}}
       />,
-    ).toJSON()
+    )
     expect(tree).toMatchSnapshot()
   })
 })

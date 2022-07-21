@@ -1,8 +1,5 @@
-import * as React from 'react'
-import { createRoot } from 'react-dom/client'
+import { render } from 'preact'
 import Options from './Options'
 
 const container = document.querySelector(`#options-root`)
-const root = createRoot(container)
-
-root.render(<Options />)
+render(<Options />, container)

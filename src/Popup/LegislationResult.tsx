@@ -1,4 +1,4 @@
-import React from 'react'
+import type { FunctionComponent } from 'preact'
 import Constants from '../utils/Constants'
 import Helpers from '../utils/Helpers'
 import ResultLink from './ResultLink'
@@ -8,7 +8,7 @@ interface Props {
   downloadPDF: downloadPDFType,
 }
 
-const LegislationResult: React.FC<Props> = ({
+const LegislationResult: FunctionComponent<Props> = ({
   legislation,
   downloadPDF,
 }) => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { browser } from 'webextension-polyfill-ts'
 import QueryResult from './QueryResult'
 import { Constants } from '../utils'
@@ -9,10 +8,11 @@ import useMessenger from './hooks/useMessenger'
 import usePopup from './hooks/usePopup'
 import useSearch from './hooks/useSearch'
 import useFocusInput from './hooks/useFocusInput'
+import type { FunctionComponent } from 'preact'
 
 import 'styles/tailwind.css'
 
-const Popup: React.FC = () => {
+const Popup: FunctionComponent = () => {
   const {
     isSearching,
     onSearchDone,

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'preact/hooks'
 import { browser } from 'webextension-polyfill-ts'
 import OptionsStorage from '../utils/OptionsStorage'
 import type { OptionShortName, OptionStorageContentType } from '../utils/OptionsStorage'
@@ -7,13 +7,14 @@ import Institution from './components/Institution'
 import ClipboardPaste from './components/ClipboardPaste'
 import 'styles/tailwind.css'
 import KeyboardShortcut from './components/KeyboardShortcut'
+import type { FunctionComponent } from 'preact'
 
 export type updateOptionsType = <K extends OptionShortName>(
   key: K,
   value: ThenArgument<ReturnType<OptionStorageContentType[K][`get`]>>
 ) => void
 
-const Options: React.FC = () => {
+const Options: FunctionComponent = () => {
   const [optionsState, setOptionsState] = useState(OptionsStorage.defaultOptions)
   const {
     OPTIONS_HIGHLIGHT_ENABLED,

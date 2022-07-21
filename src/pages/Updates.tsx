@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react'
-import { createRoot } from 'react-dom/client'
+import type { FunctionComponent } from 'preact'
+import { render } from 'preact'
+import { useCallback } from 'preact/hooks'
 import 'styles/tailwind.css'
 import { Storage } from 'utils'
 import { browser } from 'webextension-polyfill-ts'
 
-const Updates: React.FC = () => {
+const Updates: FunctionComponent = () => {
 
   const setDoNotRemind = useCallback(async () => {
     Storage.set(`DO_NOT_REMIND_SUBSCRIBE`, true)
@@ -52,6 +53,4 @@ const Updates: React.FC = () => {
 }
 
 const container = document.querySelector(`#clerkent-updates-root`)
-const root = createRoot(container)
-
-root.render(<Updates /> )
+render(<Updates />, container)

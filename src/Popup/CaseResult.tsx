@@ -1,4 +1,4 @@
-import React from 'react'
+import type { FunctionComponent } from 'preact'
 import Helpers from '../utils/Helpers'
 import ResultLink from './ResultLink'
 
@@ -7,7 +7,7 @@ interface Props {
   downloadPDF: downloadPDFType
 }
 
-const CaseResult: React.FC<Props> = ({
+const CaseResult: FunctionComponent<Props> = ({
   case: currentCase,
   downloadPDF,
 }) => {

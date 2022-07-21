@@ -251,11 +251,17 @@ const WebpackConfig = {
 
   
   resolve: {
+    /* eslint-disable sort-keys-fix/sort-keys-fix */
     alias: {
+      "react": `preact/compat`,
+      "react-dom/test-utils": `preact/test-utils`,
+      "react-dom": `preact/compat`,
+      "react/jsx-runtime": `preact/jsx-runtime`,
       'webextension-polyfill-ts': path.resolve(
         path.join(__dirname, `node_modules`, `webextension-polyfill-ts`),
       ),
     },
+    /* eslint-enable sort-keys-fix/sort-keys-fix */
     extensions: [`.ts`, `.tsx`, `.js`, `.json`],
     modules: [
       path.resolve(__dirname, `src`),

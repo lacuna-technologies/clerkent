@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'preact/hooks'
 import Helpers from '../utils/Helpers'
 
 const { classnames } = Helpers

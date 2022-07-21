@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, ClipboardEvent } from 'react'
+import { useState, useCallback, useEffect } from 'preact/hooks'
 import {
   Storage,
   Helpers,
@@ -46,7 +46,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedAutosetJurisdiction = useCallback(Helpers.debounce(autosetJurisdiction, 250), [])
 
-  const onPaste = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
+  const onPaste = useCallback((event) => {
     const value = event.clipboardData.getData(`text/plain`)
     // no debouncing if citation is pasted
     autosetJurisdiction(value)
