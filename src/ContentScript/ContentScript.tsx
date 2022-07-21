@@ -64,10 +64,26 @@ const highlightBlacklist = new Set([
   `www8.austlii.edu.au`,
 ])
 
+const augmentDownloadButton = (button: HTMLAnchorElement, fileName: string): void => {
+  button.addEventListener(`click`, (event: MouseEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
+    port.postMessage({
+      action: Messenger.ACTION_TYPES.downloadFile,
+      fileName,
+      source: Messenger.TARGETS.contentScript,
+      target: Messenger.TARGETS.background,
+      url: button.href,
+    })
+  })
+}
+
 const downloadInterceptor = () => {
   const { hostname, pathname } = window.location
-  if(hostname === `www.elitigation.sg` && new RegExp(`^/gdviewer/s/[0-9]{4}.+$`).test(pathname)){
-    const downloadButton = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
+  const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/gdviewer/s/[0-9]{4}.+$`)).test(pathname))
+
+  if(iseLitigation){
+    const downloadButton: HTMLAnchorElement = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
     const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink`)
     const caseNameElement: HTMLElement = document.querySelector(`.HN-CaseName`) || document.querySelector(`h2.title > span.caseTitle`)
     const law: Law.Case = {
@@ -81,17 +97,27 @@ const downloadInterceptor = () => {
       type: `case-citation`,
     }
     const fileName = Helpers.getFileName(law, `Judgment`)
-    downloadButton.addEventListener(`click`, (event) => {
-      event.preventDefault()
-      event.stopPropagation()
-      port.postMessage({
-        action: Messenger.ACTION_TYPES.downloadFile,
-        fileName,
-        source: Messenger.TARGETS.contentScript,
-        target: Messenger.TARGETS.background,
-        url: (downloadButton as HTMLAnchorElement).href,
-      })
-    })
+    return augmentDownloadButton(downloadButton, fileName)
+  }
+  
+  const isLawNet = (hostname === `www.lawnet.sg` && pathname === `/lawnet/group/lawnet/page-content`)
+  const isLawNetCase = document.querySelector(`div.case-reference > ul.statusInfo`) !== null
+  if (isLawNet && isLawNetCase){
+    const downloadButton: HTMLAnchorElement = document.querySelector(`li.iconPDF > a`)
+    const citationElement = [...document.querySelectorAll(`span.Citation.offhyperlink`)].slice(-1)[0]
+    const caseNameLement = document.querySelector(`span.caseTitle`)
+    const law: Law.Case = {
+      citation: citationElement.textContent.trim(),
+      database: Constants.DATABASES.SG_lawnetsg,
+      jurisdiction: Constants.JURISDICTIONS.SG.id,
+      links: [],
+      name: Helpers.removeCommonAppends(
+        caseNameLement.textContent.trim(),
+      ),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    return augmentDownloadButton(downloadButton, fileName)
   }
 }
 
