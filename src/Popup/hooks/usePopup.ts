@@ -68,7 +68,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
     if(!doNotStore){
       debouncedStoreQuery(value)
     }
-  }, [debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResult])
+  }, [autosetJurisdiction, debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResult])
 
   const doSearch = useCallback((
     {

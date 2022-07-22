@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useSearch correctly sets search results 1`] = `
+Array [
+  Object {
+    "citation": "[2022] EWHC 160",
+    "database": Object {
+      "icon": "",
+      "id": "UK_bailii",
+      "name": "BAILII",
+      "url": "https://bailii.org/",
+    },
+    "jurisdiction": "UK",
+    "links": Array [],
+    "name": "Stadler v Currys Group",
+    "type": "case-citation",
+  },
+  Object {
+    "citation": "[2022] EWHC 1379 (IPEC)",
+    "database": Object {
+      "icon": "",
+      "id": "UK_bailii",
+      "name": "BAILII",
+      "url": "https://bailii.org/",
+    },
+    "jurisdiction": "UK",
+    "links": Array [],
+    "name": "Shazam Productions v Only Fools the Dining Experience",
+    "type": "case-citation",
+  },
+]
+`;
