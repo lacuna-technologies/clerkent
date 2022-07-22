@@ -1,4 +1,4 @@
-import type { FunctionComponent, ComponentChildren } from 'preact'
+import type { FunctionComponent } from 'preact'
 import { useEffect, useState , useCallback } from 'preact/hooks'
 import Constants from '../utils/Constants'
 import OptionsStorage from '../utils/OptionsStorage'
