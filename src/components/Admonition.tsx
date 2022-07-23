@@ -5,7 +5,7 @@ const Admonition = ({
   className = ``,
   title = ``,
   children = null,
-  onClick = null,
+  onClick = () => null,
 }) => {
   const [shouldHide, setShouldHide] = useState(false)
   const dismissAdmonition = useCallback((event) => {
@@ -20,7 +20,7 @@ const Admonition = ({
         className,
         onClick ? `cursor-pointer hover:bg-100` : ``,
       )}
-      onClick={onClick ? onClick : () => {}}
+      onClick={onClick}
     >
       <div className="grow">
         <div className="inline-flex flex-row">
