@@ -38,6 +38,7 @@ module.exports = {
   root: true,
   rules: {
     "@typescript-eslint/no-duplicate-imports": `warn`,
+    "@typescript-eslint/no-empty-function": `warn`,
     "@typescript-eslint/no-unused-vars": [
       `warn`,
       { ignoreRestSiblings: true },
@@ -49,6 +50,7 @@ module.exports = {
     "import/no-named-as-default": `off`,
     "jsx-a11y/accessible-emoji": `off`,
     "no-duplicate-imports": `off`,
+    "no-empty-function": `off`,
     "no-secrets/no-secrets": [
       `error`,
       {

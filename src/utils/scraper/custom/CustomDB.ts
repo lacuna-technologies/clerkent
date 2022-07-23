@@ -4,7 +4,7 @@ const CustomDBCases: RawCase[] = [
   {
     citations: [
       `[1957] 1 WLR 582`,
-      `[1957] 2 All ER 118​`,
+      `[1957] 2 All ER 118`,
     ],
     database: Constants.DATABASES.custom,
     jurisdiction: Constants.JURISDICTIONS.UK.id,
