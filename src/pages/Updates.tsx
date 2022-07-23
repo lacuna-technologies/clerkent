@@ -25,7 +25,7 @@ const Updates: FunctionComponent = () => {
       
       <form
         className="my-4 flex items-center"
-        action="http://updates.clerkent.huey.xyz/add_subscriber"
+        action="https://www.getrevue.co/profile/clerkent/add_subscriber"
         method="post"
         id="revue-form"
         name="revue-form"
