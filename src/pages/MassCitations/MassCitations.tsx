@@ -1,5 +1,3 @@
-import './MassCitations.scss'
-
 const keys = {
   MASS_CITATION_INPUT: `MASS_CITATION_INPUT`,
 }

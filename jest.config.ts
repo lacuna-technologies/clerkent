@@ -25,7 +25,6 @@ const config = {
   ],
   transform: {
     "^.+\\.(tsx|jsx|js|ts|mjs)?$": `<rootDir>/node_modules/babel-jest`,
-    "^.+\\.scss$": `<rootDir>/tests/styleMock.js`,
     "^.+\\.svg$": `<rootDir>/tests/svgTransform.js`,
   },
   transformIgnorePatterns: [

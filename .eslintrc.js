@@ -1,15 +1,16 @@
 module.exports = {
-  "env": {
-    "webextensions": true,
+  env: {
+    webextensions: true,
   },
   extends: [
-    `react-app`,
+    `preact`,
     `plugin:sonarjs/recommended`,
     `plugin:unicorn/recommended`,
     `plugin:import/errors`,
     `plugin:import/warnings`,
     `plugin:import/typescript`,
     `plugin:react-hooks/recommended`,
+    `plugin:@typescript-eslint/recommended`,
   ],
   globals: {
     __PATH_PREFIX__: true,
@@ -24,6 +25,7 @@ module.exports = {
   ],
   parser: `@typescript-eslint/parser`,
   plugins: [
+    `@typescript-eslint`,
     `json-format`,
     `disable`,
     `no-secrets`,
@@ -33,10 +35,12 @@ module.exports = {
     `react-hooks`,
   ],
   processor: `disable/disable`,
+  root: true,
   rules: {
+    "@typescript-eslint/no-duplicate-imports": `warn`,
     "@typescript-eslint/no-unused-vars": [
       `warn`,
-      { "ignoreRestSiblings": true },
+      { ignoreRestSiblings: true },
     ],
     "comma-dangle": [
       `warn`,
@@ -44,6 +48,7 @@ module.exports = {
     ],
     "import/no-named-as-default": `off`,
     "jsx-a11y/accessible-emoji": `off`,
+    "no-duplicate-imports": `off`,
     "no-secrets/no-secrets": [
       `error`,
       {
@@ -105,8 +110,8 @@ module.exports = {
         paths: [`src`],
       },
     },
-    "node": {
-      "tryExtensions": [`.tsx`], // append tsx to the list as well
+    node: {
+      tryExtensions: [`.tsx`], // append tsx to the list as well
     },
   },
 }
