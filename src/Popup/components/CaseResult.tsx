@@ -1,5 +1,5 @@
 import type { FunctionComponent } from 'preact'
-import Helpers from '../utils/Helpers'
+import Helpers from 'utils/Helpers'
 import ResultLink from './ResultLink'
 
 interface Props {

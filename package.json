@@ -43,11 +43,13 @@
   "dependencies": {
     "@babel/runtime": "^7.18.9",
     "axios": "^0.27.2",
+    "axios-cache-interceptor": "^0.10.6",
     "cheerio": "^1.0.0-rc.12",
     "fuse.js": "^6.6.2",
     "leven": "^4.0.0",
     "memoizee": "^0.4.15",
     "preact": "^10.10.0",
+    "preact-router": "^4.1.0",
     "qs": "^6.11.0"
   },
   "devDependencies": {
@@ -68,7 +70,6 @@
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "autoprefixer": "^10.4.7",
-    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "codecov": "^3.8.3",

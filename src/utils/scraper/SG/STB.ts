@@ -68,7 +68,7 @@ const getAllCases = async (): Promise<Law.Case[]> => {
     getHistoricalCases,
   ])).filter(({ status }) => status === `fulfilled`)
 
-  return results.flatMap(({ value }: PromiseFulfilledResult<AxiosResponse<any, any>>) => {
+  return results.flatMap(({ value }: any) => {
     const { data } = value
     return parseCasesPage(data)
   })

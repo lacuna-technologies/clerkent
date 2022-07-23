@@ -2,7 +2,7 @@ import { useCallback, useState } from 'preact/hooks'
 import CaseResult from './CaseResult'
 import LegislationResult from './LegislationResult'
 import ShowMore from './ShowMore'
-import AnimatedLoading from '../components/AnimatedLoading'
+import AnimatedLoading from '../../components/AnimatedLoading'
 import type { FunctionComponent } from 'preact'
 
 interface Props {

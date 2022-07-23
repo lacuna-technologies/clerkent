@@ -1,7 +1,7 @@
 import { useCallback } from 'preact/hooks'
 import type { FunctionComponent } from 'preact'
-import Helpers from '../utils/Helpers'
-import PDFSvg from '../assets/icons/pdf.svg'
+import Helpers from 'utils/Helpers'
+import PDFSvg from 'assets/icons/pdf.svg'
 
 interface Props {
   empty?: boolean,

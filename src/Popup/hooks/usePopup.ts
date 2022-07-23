@@ -22,7 +22,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   const storeQuery = useCallback((value: string) => Storage.set(keys.QUERY, value), [])
   const onChangeJurisdiction = useCallback((
     value,
-    doNotStore: boolean = false,
+    doNotStore = false,
   ): void => {
     setSelectedJurisdiction(value)
     if(!doNotStore){

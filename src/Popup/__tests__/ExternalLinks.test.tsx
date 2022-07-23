@@ -1,5 +1,5 @@
 import { render } from '@testing-library/preact'
-import ExternalLinks from 'Popup/ExternalLinks'
+import ExternalLinks from 'Popup/components/ExternalLinks'
 import { Constants } from 'utils'
 import OptionsStorage from 'utils/OptionsStorage'
 import SearcherStorage from 'ContentScript/Searcher/SearcherStorage'

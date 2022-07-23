@@ -4,13 +4,13 @@ import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortCACitations } from '../../Finder/CaseCitationFinder/CA'
 import Helpers from '../../Helpers'
-import { sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByNameSimilarity } from '../utils'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      canlii.getCaseByName(caseName),
-      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name),
+      databaseUse(`CA`, `canlii`, () => canlii.getCaseByName(caseName)),
+      databaseUse(`CA`, `commonlii`, () => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

@@ -28,7 +28,7 @@ const jurisdictionMap = {
   [Constants.JURISDICTIONS.UN.id]: UN,
 }
 
-const getCaseByCitation = Memoize((
+const getCaseByCitation = (
   targetCase: Finder.CaseCitationFinderResult,
   inputJurisdiction: Law.JursidictionCode = null,
 ): Promise<Law.Case[]> => {
@@ -41,14 +41,9 @@ const getCaseByCitation = Memoize((
   Logger.log(`Scraper: getByCaseCitation`, citation, targetJurisdiction)
 
   return targetJurisdiction.getCaseByCitation(citation, court)
-}, {
-  normalizer: ([
-    targetCase,
-    inputJurisdiction,
-  ]) => `${targetCase.citation.toLowerCase()} - ${inputJurisdiction}`,
-})
+}
 
-const getCaseByName = Memoize((
+const getCaseByName = (
   targetCaseName: Finder.CaseNameFinderResult,
   inputJurisdiction: Law.JursidictionCode,
 ) : Promise<Law.Case[]> => {
@@ -60,12 +55,7 @@ const getCaseByName = Memoize((
   }
 
   return targetJurisdiction.getCaseByName(name)
-}, {
-  normalizer: ([
-    targetCaseName,
-    inputJurisdiction,
-  ]) => `${targetCaseName.name.toLowerCase()}-${inputJurisdiction}`,
-})
+}
 
 const getLegislation = Memoize((
   targetLegislation: Finder.LegislationFinderResult,

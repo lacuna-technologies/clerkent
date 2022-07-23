@@ -1,4 +1,4 @@
-import { sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByNameSimilarity } from '../utils'
 import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
 import Common from '../common'
 import Constants from 'utils/Constants'
@@ -17,11 +17,11 @@ const getLegislation = SSO.getLegislation
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      eLitigation.getCaseByName(caseName),
-      OpenLaw.getCaseByName(caseName),
-      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name),
-      IPOS.getCaseByName(caseName),
-      STB.getCaseByName(caseName),
+      databaseUse(`SG`, `elitigation`, () => eLitigation.getCaseByName(caseName)),
+      databaseUse(`SG`, `openlaw`, () => OpenLaw.getCaseByName(caseName)),
+      databaseUse(`SG`, `commonlii`, () => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name)),
+      databaseUse(`SG`, `ipos`, () => IPOS.getCaseByName(caseName)),
+      databaseUse(`SG`, `stb`, () => STB.getCaseByName(caseName)),
     ]))
       .filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

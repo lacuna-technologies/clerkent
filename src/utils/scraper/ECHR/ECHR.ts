@@ -3,14 +3,14 @@ import HUDOC from './HUDOC'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
-import { sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByNameSimilarity } from '../utils'
 
-const getLegislation = () => {}
+const getLegislation = () => null
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      HUDOC.getCaseByName(caseName),
+      databaseUse(`ECHR`, `hudoc`, () => HUDOC.getCaseByName(caseName)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

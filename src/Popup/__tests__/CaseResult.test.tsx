@@ -1,6 +1,6 @@
 import { render } from '@testing-library/preact'
-import Constants from '../../utils/Constants'
-import CaseResult from '../CaseResult'
+import Constants from 'utils/Constants'
+import CaseResult from '../components/CaseResult'
 
 const mockCase: Law.Case = {
   citation: `[2006] EWCA Civ 145`,
@@ -16,7 +16,7 @@ const mockCase: Law.Case = {
   name: `IDA v University of Southampton`,
   type: `case-name`,
 }
-const mockDownloadPDF = () => () => {}
+const mockDownloadPDF = () => () => null
 
 describe(`CaseResult`, () => {
   it(`renders without error`, () => {

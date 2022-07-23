@@ -6,14 +6,14 @@ import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortHKCitations } from '../../Finder/CaseCitationFinder/HK'
 import Helpers from '../../Helpers'
-import { sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByNameSimilarity } from '../utils'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      LRS.getCaseByName(caseName),
-      HKLIIORG.getCaseByName(caseName),
-      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.HK.name),
+      databaseUse(`HK`, `lrs`, () => LRS.getCaseByName(caseName)),
+      databaseUse(`HK`, `hkliiorg`, () => HKLIIORG.getCaseByName(caseName)),
+      databaseUse(`HK`, `commonlii`, () => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.HK.name)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
