@@ -17,11 +17,11 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     `${DOMAIN}/search/api/v2/search`, 
     {
       count:100,
-      "exclude_available_properties_and_facets":true,
-      "max_page_count":1000,
-      "order_direction":`DESCENDING`,
-      "orderby":`mes:relevance`,
-      "properties":[
+      exclude_available_properties_and_facets:true,
+      max_page_count:1000,
+      order_direction:`DESCENDING`,
+      orderby:`mes:relevance`,
+      properties:[
           {formats:[`HTML`],name:`title`},
           {formats:[ `HTML` ],name:`content`},
           {formats:[`VALUE`],name:`url`},
@@ -40,49 +40,49 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       user:{
           constraints:[
               {
-                "filter_base":[
+                filter_base:[
                     {
-                      "description":`BoA`,
-                      "id":`BoA`,
-                      "label":`collection`,
-                      "regex":`^\\QBoA\\E$`,
-                      "value":{
-                          "str":`BoA`,
+                      description:`BoA`,
+                      id:`BoA`,
+                      label:`collection`,
+                      regex:`^\\QBoA\\E$`,
+                      value:{
+                          str:`BoA`,
                       },
                     },
                 ],
-                "filtered_name":`collection`,
-                "id":`filter_collection`,
-                "label":`collection`,
+                filtered_name:`collection`,
+                id:`filter_collection`,
+                label:`collection`,
               },
               {
-                "filter_base":[
+                filter_base:[
                   {
-                    "and":[
+                    and:[
                       {
-                          "description":prepend,
-                          "id": prepend,
-                          "label":`dg3CSNCase`,
-                          "regex":`\\Q${prepend}\\E`,
-                          "value":{
-                              "str": prepend,
+                          description:prepend,
+                          id: prepend,
+                          label:`dg3CSNCase`,
+                          regex:`\\Q${prepend}\\E`,
+                          value:{
+                              str: prepend,
                           },
                       },
                       {
-                          "description": append,
-                          "id":append,
-                          "label":`dg3CSNCase`,
-                          "regex":`\\Q${append}\\E`,
-                          "value":{
-                              "str": append,
+                          description: append,
+                          id:append,
+                          label:`dg3CSNCase`,
+                          regex:`\\Q${append}\\E`,
+                          value:{
+                              str: append,
                           },
                       },
                     ],
                   },
                 ],
-                "filtered_name":`dg3CSNCase`,
-                "id":`filter_dg3CSNCase`,
-                "label":`dg3CSNCase`,
+                filtered_name:`dg3CSNCase`,
+                id:`filter_dg3CSNCase`,
+                label:`dg3CSNCase`,
               },
           ],
           query:{
