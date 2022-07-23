@@ -47,11 +47,20 @@ const makeFullURL = (path: string, responseURL: string): string => {
   return `${baseURL}/${path}`
 }
 
+const getDDbyDT = (
+  $: cheerio.CheerioAPI,
+  container: cheerio.Cheerio<cheerio.Element>,
+  text: string,
+) => container.children(`dt,dd`).filter((_, element) => $(element).text().trim() === text).next().text().trim()
+
 const parseSingleCase = (html: string, responseURL: string): Law.Case => {
   const $ = cheerio.load(html)
-  const mark = $(`.template > dl`).eq(0).children(`dd`).eq(7).text().trim()
-  const parties = $(`.template > dl`).eq(0).children(`dd`).eq(9).text().trim()
-  const name = isPatentURL(responseURL) ? parties : mark
+  const attributeContainer = $(`.template > dl`).eq(0)
+  const parties = getDDbyDT($, attributeContainer, `Person(s) or Company(s) involved`)
+  const mark = getDDbyDT($, attributeContainer, `Mark`)
+  const date = getDDbyDT($, attributeContainer, `Decision date`)
+  const name = `${isPatentURL(responseURL) ? parties : mark} (${date})`
+  const citation = getDDbyDT($, attributeContainer, `BL number`)
   const judgmentLink: Law.Link = {
     doctype: `Judgment`,
     filetype: `HTML`,
@@ -63,7 +72,7 @@ const parseSingleCase = (html: string, responseURL: string): Law.Case => {
     url: responseURL,
   }
   return {
-    citation: $(`.template > dl`).eq(1).children(`dd`).eq(1).text().trim(),
+    citation,
     database: Constants.DATABASES.UK_ipo,
     jurisdiction: Constants.JURISDICTIONS.UK.id,
     links: [
