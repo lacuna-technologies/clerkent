@@ -1,4 +1,6 @@
-const AnimatedLoading = () => {
+import type { FunctionComponent } from "preact"
+
+const AnimatedLoading: FunctionComponent = () => {
   return (
     <div className="inline-flex flex-row items-center">
       <div className="ml-[0.2rem]">Loading...</div>
