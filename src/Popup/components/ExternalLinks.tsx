@@ -1,9 +1,9 @@
 import type { FunctionComponent } from 'preact'
 import { useEffect, useState , useCallback } from 'preact/hooks'
-import Constants from '../utils/Constants'
-import OptionsStorage from '../utils/OptionsStorage'
-import type { OptionsSettings } from '../utils/OptionsStorage'
-import SearcherStorage from '../ContentScript/Searcher/SearcherStorage'
+import Constants from 'utils/Constants'
+import OptionsStorage from 'utils/OptionsStorage'
+import type { OptionsSettings } from 'utils/OptionsStorage'
+import SearcherStorage from 'ContentScript/Searcher/SearcherStorage'
 
 interface Props {
   jurisdiction: Law.JursidictionCode
@@ -28,7 +28,7 @@ const getLawNetURL = (
 const ExternalButton: FunctionComponent<{
   href: string,
   onClick?: () => void
-}> = ({ href, children, onClick = () => {} }) => {
+}> = ({ href, children, onClick = () => null }) => {
   return (
     <a
       className="py-1 px-2 border border-solid border-gray-400 rounded hover:bg-gray-200"

@@ -3,7 +3,6 @@ import * as cheerio from 'cheerio'
 import Logger from 'utils/Logger'
 import Request from 'utils/Request'
 import Constants from 'utils/Constants'
-import type { AxiosResponse } from 'axios'
 import Finder from 'utils/Finder'
 
 // IPOS's search functionality is buggy
@@ -33,19 +32,19 @@ const parseCasesPage = (html: string): Law.Case[] => {
     // ignore header which for some reason is located in tbody
     return $(`tbody tr`, table).map((rowIndex, row) => {
       try {
-        const isHeaderRow = $(`td:nth-child(1)`, row).text().trim() === `Citation`
+        const isHeaderRow = $(`td`, row).first().text().trim() === `Citation`
         const isAppealRow = $(row).children().length === 2
         if(isHeaderRow || isAppealRow){
           return null
         }
-        const fullCitation = $(`td:nth-child(1)`, row).text()
+        const fullCitation = $(`td`, row).first().text()
         const { citation } = Finder.findCaseCitation(fullCitation)[0]
-        const markPatent = $(`td:nth-child(3)`, row).text().trim()
+        const markPatent = $(`td`, row).eq(2).text().trim()
         const name = fullCitation.replace(citation, ``).trim() +
           (markPatent && markPatent.length > 0
             ? ` (${markPatent})`
             : ``)
-        const links = $(`td:nth-child(6) a`, row)
+        const links = $(`td`, row).eq(5).children(`a`)
 
         const judgmentURL = links.filter((_, link) => 
           $(link).text().includes(`Full Decision`),
@@ -75,7 +74,7 @@ const parseCasesPage = (html: string): Law.Case[] => {
           name,
         }
       } catch (error){
-        Logger.error(error, $(`td:nth-child(1)`, row).text())
+        Logger.error(error, $(`td`, row).first().text())
         return null
       }
     }).get().filter(c => c !== null)
@@ -85,15 +84,20 @@ const parseCasesPage = (html: string): Law.Case[] => {
 const getAllCases = async (): Promise<Law.Case[]> => {
   const getCurrentCases = Request.get(CURRENT_DECISIONS)
   const getHistoricalCases = Request.get(HISTORICAL_DECISIONS)
-  const results = (await Promise.allSettled([
-    getCurrentCases,
-    getHistoricalCases,
-  ])).filter(({ status }) => status === `fulfilled`)
+  try {
+    const results = (await Promise.allSettled([
+      getCurrentCases,
+      getHistoricalCases,
+    ])).filter(({ status }) => status === `fulfilled`)
 
-  return results.flatMap(({ value }: PromiseFulfilledResult<AxiosResponse<any, any>>) => {
-    const { data } = value
-    return parseCasesPage(data)
-  })
+    return results.flatMap(({ value }: any) => {
+      const { data } = value
+      return parseCasesPage(data)
+    })
+  } catch (error){
+    Logger.error(error)
+  }
+  
 }
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {

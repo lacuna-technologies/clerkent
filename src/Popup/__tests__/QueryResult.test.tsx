@@ -1,8 +1,8 @@
 import { render } from '@testing-library/preact'
 import Constants from '../../utils/Constants'
-import QueryResult from '../QueryResult'
+import QueryResult from '../components/QueryResult'
 
-const mockDownloadPDF = () => () => {}
+const mockDownloadPDF = () => () => null
 const mockCases: Law.Case[] = [
   {
     citation: `[1884] EWHC 2 (QB)`,

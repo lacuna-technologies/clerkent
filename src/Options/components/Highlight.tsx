@@ -1,7 +1,7 @@
 import { useCallback } from 'preact/hooks'
 import Toggle from 'components/Toggle'
-import { OptionsSettings } from 'utils/OptionsStorage'
-import { updateOptionsType } from '../Options'
+import type { OptionsSettings } from 'utils/OptionsStorage'
+import type { updateOptionsType } from '../Options'
 import type { FunctionComponent } from 'preact'
 
 interface Props {

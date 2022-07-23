@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'preact/compat'
-import Admonition from '../components/Admonition'
-import Clipboard from '../utils/Clipboard'
-import OptionsStorage from '../utils/OptionsStorage'
+import Admonition from 'components/Admonition'
+import Clipboard from 'utils/Clipboard'
+import OptionsStorage from 'utils/OptionsStorage'
 
 const ClipboardSuggestion = ({ query, applyClipboardText }) => {
   const [clipboardText, setClipboardText] = useState(``)

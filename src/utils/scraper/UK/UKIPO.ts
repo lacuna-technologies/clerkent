@@ -49,8 +49,8 @@ const makeFullURL = (path: string, responseURL: string): string => {
 
 const parseSingleCase = (html: string, responseURL: string): Law.Case => {
   const $ = cheerio.load(html)
-  const mark = $(`.template > dl:nth-child(2) > dd:nth-child(8)`).text().trim()
-  const parties = $(`.template > dl:nth-child(2) > dd:nth-child(10)`).text().trim()
+  const mark = $(`.template > dl`).eq(0).children(`dd`).eq(7).text().trim()
+  const parties = $(`.template > dl`).eq(0).children(`dd`).eq(9).text().trim()
   const name = isPatentURL(responseURL) ? parties : mark
   const judgmentLink: Law.Link = {
     doctype: `Judgment`,
@@ -63,7 +63,7 @@ const parseSingleCase = (html: string, responseURL: string): Law.Case => {
     url: responseURL,
   }
   return {
-    citation: $(`.template > dl:nth-child(2) > dd:nth-child(2)`).text().trim(),
+    citation: $(`.template > dl`).eq(1).children(`dd`).eq(1).text().trim(),
     database: Constants.DATABASES.UK_ipo,
     jurisdiction: Constants.JURISDICTIONS.UK.id,
     links: [
@@ -79,7 +79,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     PATENT_DETAIL_URL,
     {
       params: {
-        "BL_Number": citation,
+        BL_Number: citation,
       },
     },
   )
@@ -87,12 +87,12 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     TM_DETAIL_URL,
     {
       params: {
-        "BL_Number": citation,
+        BL_Number: citation,
       },
     },
   )
   const result = (await Promise.allSettled([patentSearch, tmSearch]))
-    .find(({ status,  value: { request }  }: PromiseFulfilledResult<AxiosResponse<any, any>>) =>
+    .find(({ status,  value: { request }  }: any) =>
       status === `fulfilled` && !request.responseURL.includes(`Err=BLNUMNotExist`),
     )
 
@@ -137,15 +137,15 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     tmSearchParty,
     tmSearchMark,
   ]))
-    .filter(({ status,  value: { request }  }: PromiseFulfilledResult<AxiosResponse<any, any>>) =>
+    .filter(({ status,  value: { request }  }: any) =>
       status === `fulfilled` && !request.responseURL.includes(`Err=BLNUMNotExist`),
     )
-    .map(({ value: { data, request } }: PromiseFulfilledResult<AxiosResponse<any, any>>) => {
+    .map(({ value: { data, request } }: any) => {
       const $ = cheerio.load(data)
       const matches: Law.Case[] = $(`#mainCol div.template table tbody tr`).map((_, element) => {
-        const hyperlink = $(`td:nth-child(1) > a`, element)
+        const hyperlink = $(`td`, element).first().children(`a`)
         const citation = hyperlink.text().trim()
-        const name = $(`td:nth-child(3)`, element).text().trim()
+        const name = $(`td`, element).eq(2).text().trim()
         const summaryLink: Law.Link = {
           doctype: `Summary`,
           filetype: `HTML`,

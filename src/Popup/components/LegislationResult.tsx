@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'preact'
-import Constants from '../utils/Constants'
-import Helpers from '../utils/Helpers'
+import Constants from 'utils/Constants'
+import Helpers from 'utils/Helpers'
 import ResultLink from './ResultLink'
 
 interface Props {
@@ -38,8 +38,7 @@ const LegislationResult: FunctionComponent<Props> = ({
             )
           }
         </div>
-        <div className="right">
-        </div>
+        <div className="right" />
       </div>
       <a
         className="legislation-name link"

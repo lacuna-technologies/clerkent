@@ -56,14 +56,13 @@ const getFileName = (law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype
   if([`case-name`, `case-citation`].includes(law.type)){
     const { name, citation } = law as Law.Case
     return `${sanitiseFilename(name)} ${sanitiseCaseCitation(citation)} - ${doctype}.pdf`
-  } else {
+  } 
     const { statute } = law as Law.Legislation
     return `${sanitiseFilename(statute)}.pdf`
-  }
 }
 
 const commonAppendsRegex = / ?(\(?pte\.?\)?|private|ltd|limited|llp|sdn|bhd|co|company|corp|\(s\)|inc|gmbh|and others|and (another|other)( (suits?|appeals?|matters?))?|& \d{1,2} ors|& anor|\(interim judicial managers appointed\)|\(in liquidation\)|, singapore branch)\b$/gi
-const removeCommonAppends = (caseName: string) => (caseName+``).replaceAll(commonAppendsRegex, ``)
+const removeCommonAppends = (caseName: string) => (`${caseName}`).replaceAll(commonAppendsRegex, ``)
 
 const Helpers = {
   classnames,

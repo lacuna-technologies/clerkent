@@ -1,4 +1,4 @@
-const JURISDICTIONS = {
+const JURISDICTIONS: Record<Law.JursidictionCode, Law.Jurisdiction> = {
   AU: {
     emoji: `🇦🇺`,
     id: `AU` as Law.JursidictionCode,
@@ -109,7 +109,7 @@ const SG_DATABASES: CountryDatabases = {
     name: `Westlaw Asia`,
     url: `https://www.westlawasia.com/singapore/`,
   },
-}
+} as const
 
 const UK_DATABASES: CountryDatabases = {
   bailii: {
@@ -137,7 +137,7 @@ const UK_DATABASES: CountryDatabases = {
     name: `Westlaw`,
     url: `https://uk.westlaw.com/Browse/Home/WestlawUK`,
   },
-}
+} as const
 
 const EU_DATABASES: CountryDatabases = {
   curia: {
@@ -173,7 +173,7 @@ const HK_DATABASES: CountryDatabases = {
     name: `Legal Reference System`,
     url: `https://www.judiciary.hk/en/legal_ref/judgments.htm`,
   },
-}
+} as const
 
 const CA_DATABASES: CountryDatabases = {
   canlii: {
@@ -181,7 +181,7 @@ const CA_DATABASES: CountryDatabases = {
     name: `CanLII`,
     url: `https://www.canlii.org/en`,
   },
-}
+} as const
 
 const AU_DATABASES: CountryDatabases = {
   austlii: {
@@ -189,7 +189,7 @@ const AU_DATABASES: CountryDatabases = {
     name: `AustLII`,
     url: `https://www8.austlii.edu.au`,
   },
-}
+} as const
 
 const NZ_DATABASES: CountryDatabases = {
   nzlii: {
@@ -197,7 +197,7 @@ const NZ_DATABASES: CountryDatabases = {
     name: `NZLII`,
     url: `https://www.nzlii.org`,
   },
-}
+} as const
 
 const MY_DATABASES: CountryDatabases = {
   kehakiman: {
@@ -205,7 +205,7 @@ const MY_DATABASES: CountryDatabases = {
     name: `Kehakiman`,
     url: `https://ejudgment.kehakiman.gov.my/portal/ap_list_all.php`,
   },
-}
+} as const
 
 const ECHR_DATABASES: CountryDatabases = {
   hudoc: {
@@ -213,7 +213,7 @@ const ECHR_DATABASES: CountryDatabases = {
     name: `HUDOC`,
     url: `https://hudoc.echr.coe.int/eng`,
   },
-}
+} as const
 
 const UN_DATABASES: CountryDatabases = {
   icjcij: {
@@ -221,7 +221,7 @@ const UN_DATABASES: CountryDatabases = {
     name: `ICJ`,
     url: `https://www.icj-cij.org/en/decisions`,
   },
-}
+} as const
 
 const MISC_DATABASES: Record<string, Law.Database> = {
   commonlii: {
@@ -236,7 +236,7 @@ const MISC_DATABASES: Record<string, Law.Database> = {
     name: `Clerkent`,
     url: `#`,
   },
-}
+} as const
 
 const INSTITUTIONAL_LOGINS = {
   KCL: `King's College London`,
@@ -246,7 +246,7 @@ const INSTITUTIONAL_LOGINS = {
   NUS: `National University of Singapore`,
   SMU: `Singapore Management University`,
   UCL: `University College London`,
-}
+} as const
 
 const dedupeObjects = (inputObject: Record<string, Record<string, string>>, jurisdictionCode: Law.JursidictionCode) =>
   Object.fromEntries(Object.entries(inputObject)
@@ -278,7 +278,7 @@ const SG_COURTS = {
     id: `SGHC`,
     name: `High Court`,
   },
-}
+} as const
 
 const EU_COURTS = {
   cjeu: {
@@ -289,16 +289,64 @@ const EU_COURTS = {
     id: `EPO`,
     name: `European Patent Office`,
   },
-}
+} as const
 
 const COURTS: Record<string, Record<string, string>> = {
   ...dedupeObjects(SG_COURTS, `SG`),
   ...dedupeObjects(EU_COURTS, `EU`),
 }
 
+const DEFAULT_DATABASES_STATUS= {
+  AU: {
+    austlii: true,
+    commonlii: true,
+  },
+  CA: {
+    canlii: true,
+    commonlii: true,
+  },
+  ECHR: {
+    hudoc: true,
+  },
+  EU: {
+    curia: true,
+    epo: true,
+  },
+  HK: {
+    commonlii: true,
+    hkliihk: true,
+    hkliiorg: true,
+    lrs: true,
+  },
+  MY: {
+    commonlii: true,
+    kehakiman: true,
+  },
+  NZ: {
+    commonlii: true,
+    nzlii: true,
+  },
+  SG: {
+    commonlii: true,
+    elitigation: true,
+    ipos: false,
+    openlaw: true,
+    stb: false,
+  },
+  UK: {
+    bailii: true,
+    commonlii: true,
+    ipo: false,
+  },
+  UN: {
+    icjcij: true,
+  },
+}
+
 const Constants = {
   COURTS,
   DATABASES,
+  DEFAULT_DATABASES_STATUS,
   INSTITUTIONAL_LOGINS,
   JURISDICTIONS,
 }

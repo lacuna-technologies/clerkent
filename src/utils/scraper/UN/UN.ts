@@ -2,13 +2,14 @@
 import ICJCIJ from './ICJCIJ'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
+import { databaseUse } from '../utils'
 
-const getLegislation = () => {}
+const getLegislation = () => null
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     return (await Promise.allSettled([
-      ICJCIJ.getCaseByName(caseName),
+      databaseUse(`UN`, `icjcij`, () => ICJCIJ.getCaseByName(caseName)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

@@ -1,6 +1,8 @@
 import Fuse from 'fuse.js'
 import Leven from '../Leven'
 import Helpers from '../Helpers'
+import Constants from 'utils/Constants'
+import Storage from 'utils/Storage'
 
 const longestCommonSubstring = (stringA: string, stringB: string) => {
   if (!stringA || !stringB) {
@@ -69,15 +71,14 @@ export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.
     if (wholeWordA === wholeWordB || lengthScoreA !== lengthScoreB) {
       return lengthScoreA > lengthScoreB ? -1
         : (lengthScoreA === lengthScoreB ? 0 : 1)
-    } else {
+    } 
       return wholeWordA ? -1 : 1
-    }
-  } else {
+  } 
     const levenScoreA = Leven(query, cleanAName)
     const levenScoreB = Leven(query, cleanBName)
     return levenScoreA > levenScoreB ? 1
       : (levenScoreA === levenScoreB ? 0 : -1)
-  }
+  
 })
 
 export const sortByName = (query: string, cases: Law.Case[]) => {
@@ -85,4 +86,12 @@ export const sortByName = (query: string, cases: Law.Case[]) => {
   return fuse
     .search(query)
     .map(({ refIndex }) => cases[refIndex])
+}
+
+export const databaseUse = async (jurisdictionId: Law.JursidictionCode, databaseId: string, function_: () => Promise<Law.Case[]>): Promise<Law.Case[]> => {
+  const databasesStatus: typeof Constants.DEFAULT_DATABASES_STATUS = await Storage.get(`DATABASES_STATUS`) || Constants.DEFAULT_DATABASES_STATUS
+  if(databasesStatus[jurisdictionId][databaseId]){
+    return function_()
+  } 
+  return []
 }

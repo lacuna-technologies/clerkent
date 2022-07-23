@@ -1,29 +1,29 @@
 module.exports = {
-  "exclude": [
+  exclude: [
     `/node_modules/`,
   ],
-  "plugins": [
+  plugins: [
     [
       `@babel/plugin-transform-react-jsx`,
       {
-        "importSource": `preact`,
-        "runtime": `automatic`,
+        importSource: `preact`,
+        runtime: `automatic`,
       },
     ],
     [
       // Polyfills the runtime needed for async/await and generators
       `@babel/plugin-transform-runtime`,
       {
-        "helpers": false,
-        "regenerator": true,
+        helpers: false,
+        regenerator: true,
       },
     ],
   ],
-  "presets": [
+  presets: [
     [
       `@babel/preset-env`,
       {
-        "targets": `> 0.25%, not dead`,
+        targets: `> 0.25%, not dead`,
       },
     ],
     [`@babel/typescript`, { jsxPragma: `h` }],

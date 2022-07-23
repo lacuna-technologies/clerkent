@@ -4,7 +4,7 @@ declare module '*.svg' {
   export default content
 }
 
-declare module Law {
+declare namespace Law {
   type Database = {
     icon: string,
     name: string, 
@@ -38,7 +38,12 @@ declare module Law {
 
   // ISO 3166-1 alpha-2
   // except for ECHR
-  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `IN` | `ECHR` | `UN`
+  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `ECHR` | `UN` // `IN`
+  type Jurisdiction = {
+    emoji: string,
+    id: JursidictionCode,
+    name: string
+  }
 
   type SearchMode = `case` | `legislation`
   type Type = `case-citation` | `case-name` | `legislation`
@@ -50,7 +55,7 @@ interface RawCase extends Omit<Law.Case, `citation`> {
 
 type ValueOf<T> = T[keyof T]
 
-declare module Messenger {
+declare namespace Messenger {
   type Message = {
     action: ValueOf<typeof ACTION_TYPES>
     source: ValueOf<typeof TARGETS>
@@ -63,7 +68,7 @@ declare module Messenger {
   }
 }
 
-declare module Finder {
+declare namespace Finder {
   type CaseNameFinderResult = {
     name: string,
     type: `case-name`

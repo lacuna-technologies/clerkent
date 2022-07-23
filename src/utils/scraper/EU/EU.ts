@@ -4,14 +4,14 @@ import EURLex from './EURLex'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
-import { sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByNameSimilarity } from '../utils'
 
 const getLegislation = EURLex.getLegislation
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      CURIA.getCaseByName(caseName),
+      databaseUse(`EU`, `curia`, () => CURIA.getCaseByName(caseName)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)

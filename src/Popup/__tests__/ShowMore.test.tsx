@@ -1,11 +1,11 @@
 import { render } from '@testing-library/preact'
-import ShowMore from '../ShowMore'
+import ShowMore from '../components/ShowMore'
 
 describe(`ShowMore`, () => {
   it(`renders without error`, () => {
     const tree = render(
       <ShowMore
-        onClick={() => {}}
+        onClick={() => null}
       />,
     )
     expect(tree).toMatchSnapshot()

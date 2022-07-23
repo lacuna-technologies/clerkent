@@ -4,13 +4,14 @@ import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortAUCitations } from '../../Finder/CaseCitationFinder/AU'
 import Helpers from '../../Helpers'
-import { sortByNameSimilarity } from '../utils'
+import { sortByNameSimilarity, databaseUse } from '../utils'
+import CommonLII from '../common/CommonLII'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      austlii.getCaseByName(caseName),
-      Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.AU.name),
+      databaseUse(`AU`, `austlii`, () => austlii.getCaseByName(caseName)),
+      databaseUse(`AU`, `commonlii`, () => CommonLII.getCaseByName(caseName)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
