@@ -5,7 +5,7 @@ import Tooltip from './Tooltip'
 import Highlighter from './Highlighter'
 import Searcher from './Searcher'
 import OptionsStorage, { OptionsSettings } from '../utils/OptionsStorage'
-import './ContentScript.scss'
+import './ContentScript.css'
 
 let port: Runtime.Port
 

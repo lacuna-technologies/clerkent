@@ -118,7 +118,6 @@ const WebpackConfig = {
             },
           },
           `resolve-url-loader`, // Rewrites relative paths in url() statements
-          `sass-loader`, // Takes the Sass/SCSS file and compiles to the CSS
         ],
       },
       {
@@ -253,7 +252,7 @@ const WebpackConfig = {
   resolve: {
     /* eslint-disable sort-keys-fix/sort-keys-fix */
     alias: {
-      "react": `preact/compat`,
+      react: `preact/compat`,
       "react-dom/test-utils": `preact/test-utils`,
       "react-dom": `preact/compat`,
       "react/jsx-runtime": `preact/jsx-runtime`,

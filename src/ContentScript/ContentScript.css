@@ -1,0 +1,66 @@
+html {
+  --clerkent-font: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Segoe UI", "Calibri", Helvetica, sans-serif;
+}
+
+.clerkent.case {
+  text-decoration: underline dotted;
+  cursor: pointer;
+}
+.clerkent >.clerkent-tooltip {
+  display: none;
+}
+
+.clerkent:hover>.clerkent-tooltip {
+  display: block;
+}
+
+#clerkent-tooltip {
+  font-family: var(--clerkent-font);
+  display: none;
+  position: fixed;
+  background: white;
+  color: black;
+  padding: 0.5rem 0.8rem;
+  max-width: 15rem;
+  z-index: 999;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+#clerkent-tooltip >.clerkent-meta {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+#clerkent-tooltip > .clerkent-meta > span {
+  margin-right: 0.5rem;
+}
+
+#clerkent-tooltip a {
+  color: black !important;
+  text-decoration: none !important;
+}
+
+#clerkent-tooltip a[href]{
+  color: blue !important;
+    cursor: pointer;
+}
+
+#clerkent-tooltip a[href]:hover {
+  text-decoration: underline !important;
+}
+
+
+#clerkent-tooltip > .clerkent-links a.clerkent-pdf > img {
+  height: 1rem;
+  margin-left: 0.25rem;
+  margin-bottom: -0.15rem;
+  filter: invert(14%) sepia(89%) saturate(2676%) hue-rotate(350deg) brightness(84%) contrast(122%);
+}
+
+#clerkent-tooltip > .clerkent-links a.clerkent-pdf + a {
+  margin-left: 1rem;
+}
