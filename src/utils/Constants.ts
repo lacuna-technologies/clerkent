@@ -115,7 +115,7 @@ const UK_DATABASES: CountryDatabases = {
   bailii: {
     icon: ``,
     name: `BAILII`,
-    url: `https://bailii.org/`,
+    url: `https://www.bailii.org/`,
   },
   ipo: {
     icon: ``,
