@@ -3,8 +3,11 @@ import { formatAbbrs, sortCitationsByVolume } from './utils'
 
 export const CAAbbrs = [
   { abbr: `SCR` },
+  { abbr: `SCC` },
   { abbr: `WWR` },
   { abbr: `EXP` },
+  { abbr: `DLR`, appendum: `( \\(3d\\))?` },
+  { abbr: `OR`, appendum: `( \\(3d\\))?` },
   { abbr: `CarswellAlta` },
   { abbr: `SCJ No` },
 ]
