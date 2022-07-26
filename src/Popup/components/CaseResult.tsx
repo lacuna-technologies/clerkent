@@ -25,7 +25,7 @@ const CaseResult: FunctionComponent<Props> = ({
   const caseNameClass = summaryURL ? `text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900 hover:underline` : ``
 
   return (
-    <div className="w-full">
+    <div className="w-full outline-none">
       <div className="flex flex-row justify-start items-center mb-0.5">
         {
           database && (

@@ -6,14 +6,14 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="w-full"
+        class="w-full outline-none"
       >
         <div
           class="flex flex-row justify-start items-center mb-0.5"
         >
           <a
             class="text-xs"
-            href="https://bailii.org/"
+            href="https://www.bailii.org/"
             rel="noreferrer"
             target="_blank"
           >
@@ -62,14 +62,14 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="w-full"
+      class="w-full outline-none"
     >
       <div
         class="flex flex-row justify-start items-center mb-0.5"
       >
         <a
           class="text-xs"
-          href="https://bailii.org/"
+          href="https://www.bailii.org/"
           rel="noreferrer"
           target="_blank"
         >
