@@ -151,6 +151,16 @@ const mouseOverCitation = (event: MouseEvent) => {
 
 const mouseOutCitation = () => Tooltip.startTimer()
 
+const isAnchorLink = (node: Node) => {
+  if(node.nodeName === `A`) {
+    return true
+  }
+  if(node.parentElement){
+    return isAnchorLink(node.parentNode)
+  } 
+  return false
+}
+
 const highlightNode = async (node: Text, { citation, index }) => {
   const mark = document.createElement(`span`)
   mark.className = `clerkent case`
@@ -175,7 +185,9 @@ const handleNode = (node: Node) => {
 
     for (const match of matches) {
       Logger.log(`highlighting`, node)
-      highlightNode(node as Text, match)
+      if(!isAnchorLink(node)){ // do not highlight existing links
+        highlightNode(node as Text, match)
+      }
     }
   }
 }
@@ -190,9 +202,7 @@ const isHiddenNode = (node: Node) => {
     const isComputedStyleHidden = [`none`, `hidden`].includes(window.getComputedStyle(parentElement).getPropertyValue(`display`).toLowerCase())
     if (isStyleHidden || isComputedStyleHidden) {
       return true
-    } else {
-      continue
-    }
+    }     
   }
   return false
 }

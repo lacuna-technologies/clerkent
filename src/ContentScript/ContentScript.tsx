@@ -26,44 +26,6 @@ const onMessage = (message: Messenger.Message) => {
   }
 }
 
-const highlightBlacklist = new Set([
-  `advance.lexis.com`,
-  `app.justis.com`,
-  `www.elitigation.sg`,
-  `curia.europa.eu`,
-  `ejudgment.kehakiman.gov.my`,
-  `eur-lex.europa.eu`,
-  `hudoc.echr.coe.int`,
-  `lawcite.org`,
-  `legalref.judiciary.hk`,
-  `legislation.gov.uk`,
-  `login.westlawasia.com`,
-  `scc-csc.lexum.com`,
-  `sso.agc.gov.sg`,
-  `uk.westlaw.com`,
-  `westlawasia.com`,
-  `www-lawnet-sg.lawproxy1.nus.edu.sg`,
-  `www-lawnet-sg.libproxy.smu.edu.sg`,
-  `www-lexisnexis-com.gate2.library.lse.ac.uk`,
-  `www-lexisnexis-com.libproxy.kcl.ac.uk`,
-  `www-lexisnexis-com.libproxy.ucl.ac.uk`,
-  `www.austlii.edu.au`,
-  `www.bailii.org`,
-  `www.canlii.org`,
-  `www.commonlii.org`,
-  `www.epo.org`,
-  `www.hklii.hk`,
-  `www.hklii.org`,
-  `www.lawnet.sg.remotexs.ntu.edu.sg`,
-  `www.lawnet.sg`,
-  `www.lexisnexis.com`,
-  `www.lexread.lexisnexis.com`,
-  `www.nzlii.org`,
-  `www.worldlii.org`,
-  `www6.austlii.edu.au`,
-  `www8.austlii.edu.au`,
-])
-
 const augmentDownloadButton = (button: HTMLAnchorElement, fileName: string): void => {
   button.addEventListener(`click`, (event: MouseEvent) => {
     event.preventDefault()
@@ -126,8 +88,7 @@ const init = async () => {
   port.onMessage.addListener(onMessage)
 
   highlightEnabled = (
-    await OptionsStorage.highlight.get() &&
-    !highlightBlacklist.has(window.location.hostname)
+    await OptionsStorage.highlight.get() as boolean
   )
 
   if(highlightEnabled){
