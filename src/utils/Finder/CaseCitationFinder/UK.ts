@@ -25,6 +25,7 @@ const UKAbbrs = [
     { abbr: `WLR`, appendum: `( ?\\(D\\))?` },
     { abbr: `All ER`, appendum: `( \\((D|Comm.?)\\))?` },
     { abbr: `UKIPTrib` },
+    { abbr: `ECDR` },
     { abbr: `HRLR` },
     { abbr: `BCLC` },
     { abbr: `BCC` },

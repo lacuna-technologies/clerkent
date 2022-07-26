@@ -46,6 +46,8 @@ export const AUAbbrs = [
   { abbr: `SR \\(NSW\\)`},
   { abbr: `FCR` },
   { abbr: `ALR` },
+  { abbr: `ALJ` },
+  { abbr: `ALJR` },
 
   { abbr: `NSWCIMC` },
   { abbr: `NSWCC` },
@@ -59,11 +61,13 @@ export const AUAbbrs = [
   { abbr: `ICQ` },
   { abbr: `QIC` },
   { abbr: `QLC` },
+  { abbr: `VR` },
   { abbr: `VicCorC` },
   { abbr: `VCC` },
   { abbr: `VMC` },
   { abbr: `VicRp` },
   { abbr: `VicLawRp` },
+  { abbr: `VLR` },
   { abbr: `TASFC` },
   { abbr: `WADC` },
   { abbr: `FCWAM` },
@@ -77,7 +81,9 @@ export const AUAbbrs = [
   { abbr: `TASRp` },
   { abbr: `TASADT` },
   { abbr: `TASFPT` },
+  { abbr: `Tas SR` },
   { abbr: `SASCFC` },
+  { abbr: `SASR` },
   { abbr: `SADC` },
   { abbr: `SAERDC` },
   { abbr: `SALC` },
@@ -98,6 +104,9 @@ export const AUAbbrs = [
   { abbr: `ACAT` },
   { abbr: `ADO` },
   { abbr: `AUDND` },
+  { abbr: `ACSR` },
+  { abbr: `ACLC` },
+  { abbr: `ATC` }, // Australian Tax Cases
 ]
 
 export const sortAUCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(AUAbbrs, citationsArray, attribute)
@@ -105,7 +114,7 @@ export const sortAUCitations = (citationsArray: any[], attribute = null) => sort
 export const findAUCaseCitationMatches = (query: string) => {
    // eslint-disable-next-line unicorn/better-regex
   const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
-  const volumeRegex = new RegExp(/( \d{1,2})?/)
+  const volumeRegex = new RegExp(/( \d{1,3})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
   const abbrs = formatAbbrs(AUAbbrs)
   const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)

@@ -3,9 +3,8 @@ import { formatAbbrs, sortCitationsByVolume } from './utils'
 import { SGSTBlongFormatRegex } from 'utils/scraper/SG/STB'
 
 export const SGSCAbbrs = [
-  { abbr: `SGCA`, appendum: `(I)?` },
-  { abbr: `SGHC`, appendum: `(F|\\(I\\))?` },
-  { abbr: `SGHCR` },
+  { abbr: `SGCA`, appendum: `(\\(I\\))?` },
+  { abbr: `SGHC`, appendum: `(R|F|\\(I\\)|\\(A\\))?` },
 ]
 
 export const neutralSGAbbrs = [
@@ -16,6 +15,7 @@ export const neutralSGAbbrs = [
   { abbr: `SGCCS` },
   { abbr: `SGCRT` },
   { abbr: `SGDC` },
+  { abbr: `SGDSC` },
   { abbr: `SGIAC` },
   { abbr: `SGIPOS` },
   { abbr: `SGITBR` },
