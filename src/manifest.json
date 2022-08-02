@@ -14,7 +14,8 @@
   "permissions": [
     "storage",
     "downloads",
-    "clipboardRead",
+    "webRequest",
+    "webRequestBlocking",
     "*://caselaw.nationalarchives.gov.uk/*",
     "*://lawcite.org/*",
     "*://www.austlii.edu.au/*",
@@ -44,6 +45,9 @@
     "https://www.singaporelawwatch.sg/*",
     "https://www.stratatb.gov.sg/*",
     "https://www.supremecourt.gov.sg/*"
+  ],
+  "optional_permissions": [
+    "clipboardRead"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "__chrome__minimum_chrome_version": "49",

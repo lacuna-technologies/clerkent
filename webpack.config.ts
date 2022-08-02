@@ -58,7 +58,7 @@ const WebpackConfig = {
   devtool: `source-map`, 
 
   entry: {
-    background: path.join(sourcePath, `Background`, `index.tsx`),
+    background: path.join(sourcePath, `Background.tsx`),
     contentScript: path.join(sourcePath, `ContentScript`, `index.tsx`),
     guide: path.join(sourcePath, `pages`, `Guide.tsx`),
     manifest: path.join(sourcePath, `manifest.json`),

@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio'
+import qs from 'qs'
 import Request from '../../Request'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
@@ -72,7 +73,7 @@ const parseMultipleCase = ($: cheerio.CheerioAPI): Law.Case[] => {
 const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
   try {
 
-    const { data, request } = result
+    const { data, config } = result
 
     const $ = cheerio.load(data)
 
@@ -118,7 +119,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
     const summaryURL: Law.Link = {
       doctype: `Summary`,
       filetype: `HTML`,
-      url: request.responseURL,
+      url: `${config.url}?${qs.stringify(config.params)}`,
     }
     
     
@@ -168,7 +169,6 @@ const getCaseByName = async (citation: string, jurisdiction: string = null): Pro
         party1: citation,
       },
     })
-
     return parseCase(result)
   } catch (error){
     Logger.error(error)
