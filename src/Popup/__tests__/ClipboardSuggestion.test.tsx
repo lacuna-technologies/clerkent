@@ -2,6 +2,13 @@ import { render } from '@testing-library/preact'
 import ClipboardSuggestion from 'Popup/components/ClipboardSuggestion'
 import Clipboard from 'utils/Clipboard'
 import OptionsStorage from 'utils/OptionsStorage'
+import { browser } from 'webextension-polyfill-ts'
+
+jest.mock(`webextension-polyfill-ts`)
+browser.permissions = {
+  contains: jest.fn(() => true),
+  request: jest.fn(() => true),
+} as any
 
 jest.mock(`utils/Clipboard`)
 const getPopupSearchText = Clipboard.getPopupSearchText as jest.Mock
