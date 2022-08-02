@@ -1,4 +1,14 @@
-const readText = () => navigator.clipboard.readText()
+import { browser } from 'webextension-polyfill-ts'
+
+const readText = async () => {
+  const permissionsRequest = await browser.permissions.request({
+    permissions: [`clipboardRead`],
+  })
+  if(permissionsRequest){
+    return navigator.clipboard.readText()
+  }
+  return ``
+}
 
 const isURI = (string: string) => (new RegExp(/.*(:\/\/|about:|chrome:).*/, `gi`)).test(string)
 const hasTooLongWord = (string: string) => {

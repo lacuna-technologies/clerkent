@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Clerkent - quick legal search",
   "icons": {
     "16": "assets/favicon-16.png",
@@ -12,9 +12,13 @@
   "homepage_url": "https://clerkent.huey.xyz",
   "short_name": "Clerkent",
   "permissions": [
-    "storage",
+    "storage"
+  ],
+  "optional_permissions": [
     "downloads",
-    "clipboardRead",
+    "clipboardRead"
+  ],
+  "host_permissions": [
     "*://caselaw.nationalarchives.gov.uk/*",
     "*://lawcite.org/*",
     "*://www.austlii.edu.au/*",
@@ -45,7 +49,9 @@
     "https://www.stratatb.gov.sg/*",
     "https://www.supremecourt.gov.sg/*"
   ],
-  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "__chrome__minimum_chrome_version": "49",
   "__chrome|opera__options_page": "options.html",
   "options_ui": {
@@ -54,8 +60,8 @@
     "__chrome__chrome_style": false
   },
   "background": {
-    "page": "background.html",
-    "__chrome|opera__persistent": false
+    "service_worker": "js/background.bundle.js",
+    "type": "module"
   },
   "content_scripts": [
     {
@@ -269,7 +275,7 @@
       "run_at": "document_idle"
     }
   ],
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "assets/favicon-16.png",
       "32": "assets/favicon-32.png"

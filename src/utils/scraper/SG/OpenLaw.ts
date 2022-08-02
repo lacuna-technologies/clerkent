@@ -49,6 +49,7 @@ const defaultPDFConfig = {
 const defaultRequestOptions = {
   headers: {
     'Auth-Type': `Public`,
+    Origin: `https://www.lawnet.com`,
   },
 }
 

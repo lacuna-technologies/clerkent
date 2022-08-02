@@ -1,17 +1,11 @@
-import { useEffect } from 'preact/hooks'
 import { browser } from 'webextension-polyfill-ts'
 import type { Downloads , Runtime } from 'webextension-polyfill-ts'
-import Messenger from '../utils/Messenger'
-import Finder from '../utils/Finder'
-import Storage from '../utils/Storage'
-import Scraper from '../utils/scraper'
-import Logger from '../utils/Logger'
-import { Helpers } from '../utils'
-
-const workingMemory = {
-  currentHighlightedCitation: null,
-  downloadCitation: null,
-}
+import Messenger from './utils/Messenger'
+import Finder from './utils/Finder'
+import Storage from './utils/Storage'
+import Scraper from './utils/scraper'
+import Logger from './utils/Logger'
+import { Helpers } from './utils'
 
 const getScraperResult = (
   targets: Finder.FinderResult[],
@@ -32,7 +26,7 @@ const getScraperResult = (
 // used by ContentScript/Highlighter for citation hover
 const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.OtherProperties) => {
   const { citation, source } = otherProperties
-  workingMemory.currentHighlightedCitation = citation
+  await Storage.set(`CURRENT_HIGHLIGHTED_CITATION`, citation)
 
   const targets = Finder.findCase(citation)
 
@@ -52,7 +46,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.Other
     return port.postMessage(noResultMessage)
   }
 
-  if(citation === workingMemory.currentHighlightedCitation){ // ignore outdated results
+  if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
     const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
 
     const message = {
@@ -69,7 +63,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.Other
 // Used by Popup
 const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProperties) => {
   const { citation, source, jurisdiction } = otherProperties
-  workingMemory.currentHighlightedCitation = citation
+  await Storage.set(`CURRENT_HIGHLIGHTED_CITATION`, citation)
   const targets = Finder.findCase(citation)
 
   const noResultMessage: Messenger.Message = {
@@ -86,7 +80,7 @@ const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProper
     return port.postMessage(noResultMessage)
   }
 
-  if(citation === workingMemory.currentHighlightedCitation){ // ignore outdated results
+  if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
     const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
 
     const message = {
@@ -101,15 +95,23 @@ const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProper
 }
 
 const downloadFile = async (url: string, fileName: string) => {
-  if(url && url.length > 0){
-    await browser.downloads.download({
-      filename: fileName,
-      saveAs: true,
-      url,
-    })
-  } else {
-    Logger.error(`Failed to downloadFile: url is empty`)
+  const permission = await browser.permissions.request({
+    permissions: [`downloads`],
+  })
+  if(permission){
+    if(url && url.length > 0){
+      await browser.downloads.download({
+        filename: fileName,
+        saveAs: true,
+        url,
+      })
+      return
+    } 
+      Logger.error(`Failed to downloadFile: url is empty`)
   }
+
+  // fallback
+  window.open(url, `_blank`)
 }
 
 const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties }) => {
@@ -150,10 +152,10 @@ const onReceiveMessage = (port: Runtime.Port) => (message: Messenger.Message) =>
     if (typeof message.action === `string`) {
       Logger.log(`background handling action`, message.action)
       return handleAction(port)(message)
-    } else {
+    } 
       Logger.log(`unknown action`, message.action)
       return
-    }
+    
   }
 }
 
@@ -201,28 +203,16 @@ const onDownload = (download: Downloads.DownloadItem) => {
   // }
 }
 
-const DEBUG_MODE = process.env.NODE_ENV === `development`
-
-const synchronousInit = () => {
-  browser.runtime.onInstalled.addListener(onInstall)
-}
-
 const init = () => {
+  browser.runtime.onInstalled.addListener(onInstall)
+
   browser.runtime.onConnect.addListener(onConnect)
   browser.downloads.onCreated.addListener(onDownload)
-
+  
+  const DEBUG_MODE = process.env.NODE_ENV === `development`
   if(DEBUG_MODE){
     browser.tabs.create({ url: `popup.html` })
   }
 }
 
-const BackgroundPage = () => {
-  useEffect(() => init(), [])
-  return (
-    <h1>Background Page</h1>
-  )
-}
-
-synchronousInit()
-
-export default BackgroundPage
+init()
