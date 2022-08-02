@@ -8,6 +8,7 @@ import Storage from './utils/Storage'
 import Scraper from './utils/scraper'
 import Logger from './utils/Logger'
 import { Helpers } from './utils'
+import Browser from 'utils/Browser'
 
 const getScraperResult = (
   targets: Finder.FinderResult[],
@@ -198,6 +199,20 @@ const onDownload = (download: Downloads.DownloadItem) => {
   // }
 }
 
+const onBeforeSendHeaders = (details) => {
+  const { requestHeaders } = details
+  const originIndex = requestHeaders.findIndex(header => header.name === `Origin`)
+  if(originIndex === -1){
+    return requestHeaders
+  }
+  return {
+    requestHeaders: [
+      ...requestHeaders.slice(0, originIndex),
+      { name: `Origin`, value: `https://www.lawnet.com` },
+      ...requestHeaders.slice(originIndex + 1),
+    ],
+  }
+}
 
 const DEBUG_MODE = process.env.NODE_ENV === `development`
 
@@ -208,6 +223,14 @@ const synchronousInit = () => {
 const init = () => {
   browser.runtime.onConnect.addListener(onConnect)
   browser.downloads.onCreated.addListener(onDownload)
+
+  browser.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
+    urls: [`*://api.lawnet.sg/lawnet/search-service/api/lawnetcore/*`],
+  }, [
+    `requestHeaders`,
+    ...(Browser.isChrome() ? [`extraHeaders`] as const : []),
+    `blocking`,
+  ])
 
   if(DEBUG_MODE){
     browser.tabs.create({ url: `popup.html` })

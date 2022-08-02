@@ -59,7 +59,7 @@
   },
   "background": {
     "page": "background.html",
-    "__chrome|opera__persistent": false
+    "__chrome|opera__persistent": true
   },
   "content_scripts": [
     {
