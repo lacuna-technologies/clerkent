@@ -1,6 +1,10 @@
 import { render } from '@testing-library/preact'
 import Constants from '../../utils/Constants'
 import QueryResult from '../components/QueryResult'
+import useClipboard from 'Popup/hooks/useClipboard'
+
+jest.mock(`Popup/hooks/useClipboard`)
+const useClipboardMock = useClipboard as jest.Mock
 
 const mockDownloadPDF = () => () => null
 const mockCases: Law.Case[] = [
@@ -26,6 +30,12 @@ const mockCases: Law.Case[] = [
 ]
 
 describe(`QueryResult`, () => {
+  beforeAll(() => {
+    useClipboardMock.mockImplementation(() => ({
+      permissionGranted: true,
+      promptGrant: jest.fn(),
+    }))
+  })
   it(`renders no cases found`, () => {
     const tree = render(
       <QueryResult

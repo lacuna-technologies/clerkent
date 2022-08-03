@@ -1,4 +1,6 @@
+import useClipboard from 'Popup/hooks/useClipboard'
 import type { FunctionComponent } from 'preact'
+import { useCallback } from 'preact/hooks'
 import Helpers from 'utils/Helpers'
 import ResultLink from './ResultLink'
 
@@ -23,6 +25,16 @@ const CaseResult: FunctionComponent<Props> = ({
   const orderLink = Helpers.getOrderLink(links)
 
   const caseNameClass = summaryURL ? `text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900 hover:underline` : ``
+  const {
+    permissionGranted,
+    promptGrant,
+  } = useClipboard()
+  const onClickCitation = useCallback(async () => {
+    if(!permissionGranted){
+      await promptGrant()
+    }
+    await navigator.clipboard.writeText(citation)
+  }, [permissionGranted, promptGrant, citation])
 
   return (
     <div className="w-full outline-none">
@@ -45,7 +57,13 @@ const CaseResult: FunctionComponent<Props> = ({
         {name}
       </a>
       <div className="flex flex-row mt-0.5 gap-4">
-        <span>{citation}</span>
+        <span
+          className="cursor-pointer"
+          onClick={onClickCitation}
+          title="Click to copy citation"
+        >
+          {citation}
+        </span>
         <ResultLink
           link={judgmentLink}
           onDownloadPDF={downloadPDF({ doctype: `Judgment`, law: currentCase })}
