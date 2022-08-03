@@ -90,7 +90,6 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     return augmentDownloadButton(port, downloadButton, fileName)
   }
 
-  // https://www.lawnet.com/openlaw/cases/citation
   const isOpenLaw = (hostname === `www.lawnet.com` && pathname.match(new RegExp(`^/openlaw/cases/citation`)) !== null)
   if(isOpenLaw){
     const downloadButtonSelector = `li.document-action.download`
