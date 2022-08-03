@@ -146,7 +146,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 const getPDF = async (
   inputCase: Law.Case,
   inputDocumentType: Law.Link[`doctype`],
-): Promise<void> => {
+): Promise<Downloads.DownloadOptionsType> => {
   Logger.log(`OpenLaw: getPDF`, inputCase, inputDocumentType)
   const options: Downloads.DownloadOptionsType = {
     body: JSON.stringify({
@@ -174,8 +174,7 @@ const getPDF = async (
     saveAs: true,
     url: PDF_DOWNLOAD_URL,
   }
-  Logger.log(options)
-  await browser.downloads.download(options)
+  return options
 }
 
 const OpenLaw = {

@@ -123,11 +123,21 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
 
     case Messenger.ACTION_TYPES.downloadPDF: {
       const { law, doctype } = otherProperties
-      const url = await Scraper.getPDF(law as Law.Case, doctype)
-      const fileName = Helpers.getFileName(law, doctype)
-      Logger.log(`downloadPDF fileName: `, fileName)
-      Logger.log(`downloadPDF url: ${url}`)
-      await downloadFile(url, fileName)
+      try {
+        const pdfResult = await Scraper.getPDF(law as Law.Case, doctype)
+        if(typeof pdfResult === `string`){
+          const fileName = Helpers.getFileName(law, doctype)
+          Logger.log(`downloadPDF fileName: `, fileName)
+          Logger.log(`downloadPDF url: ${pdfResult}`)
+          await downloadFile(pdfResult, fileName)
+        } else { // downloadOptions
+          await browser.downloads.download(pdfResult)
+        }
+        
+      } catch (error) {
+        Logger.error(`Failed to downloadPDF`, error)
+      }
+      
     break
     }
 

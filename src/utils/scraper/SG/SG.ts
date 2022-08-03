@@ -11,6 +11,7 @@ import OpenLaw from './OpenLaw'
 import SLW from './SLW'
 import SSO from './SSO'
 import STB from './STB'
+import { Downloads } from 'webextension-polyfill-ts'
 
 const getLegislation = SSO.getLegislation
 
@@ -93,7 +94,7 @@ const databaseMap = {
 const getPDF = async (
   inputCase: Law.Case,
   inputDocumentType: Law.Link[`doctype`],
-): Promise<string | void> => {
+): Promise<string | Downloads.DownloadOptionsType> => {
   Logger.log(`SG: getPDF`, inputCase, inputDocumentType)
   const { database } = inputCase
   return databaseMap[database.id].getPDF(inputCase, inputDocumentType)
