@@ -54,7 +54,7 @@ const downloadInterceptor = async (port: Runtime.Port) => {
 
   if(iseLitigation){
     const downloadButton: HTMLAnchorElement = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
-    const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink`)
+    const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink,span.NCitation.offhyperlink`)
     const caseNameElement: HTMLElement = document.querySelector(`.HN-CaseName`) || document.querySelector(`h2.title > span.caseTitle`)
     const law: Law.Case = {
       citation: citationElement.textContent.trim(),

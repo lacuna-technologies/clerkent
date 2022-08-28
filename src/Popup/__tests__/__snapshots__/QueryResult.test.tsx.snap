@@ -34,7 +34,7 @@ Object {
             class="flex flex-row mt-0.5 gap-4"
           >
             <span
-              class="cursor-pointer"
+              class="cursor-pointer select-all"
               title="Click to copy citation"
             >
               [1884] EWHC 2 (QB)
@@ -97,7 +97,7 @@ Object {
           class="flex flex-row mt-0.5 gap-4"
         >
           <span
-            class="cursor-pointer"
+            class="cursor-pointer select-all"
             title="Click to copy citation"
           >
             [1884] EWHC 2 (QB)
