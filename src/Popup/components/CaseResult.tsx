@@ -58,7 +58,7 @@ const CaseResult: FunctionComponent<Props> = ({
       </a>
       <div className="flex flex-row mt-0.5 gap-4">
         <span
-          className="cursor-pointer"
+          className="cursor-pointer select-all"
           onClick={onClickCitation}
           title="Click to copy citation"
         >
