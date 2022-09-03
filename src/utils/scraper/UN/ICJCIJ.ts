@@ -1,7 +1,7 @@
 import request from '../../Request'
 import * as cheerio from 'cheerio'
 import Constants from '../../Constants'
-import { sortByNameSimilarity } from '../utils'
+import { sortByName } from '../utils'
 
 const BASE_URL = `https://www.icj-cij.org`
 
@@ -67,7 +67,7 @@ const getAllCases = async () => {
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   const cases = await getAllCases()
-  return sortByNameSimilarity(caseName, cases).slice(0, 20)
+  return sortByName(caseName, cases).slice(0, 20)
 }
 
 const getPDF = (inputCase, inputDocumentType) => null

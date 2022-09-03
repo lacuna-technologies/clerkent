@@ -1,4 +1,4 @@
-import { databaseUse, sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByName } from '../utils'
 import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
 import Common from '../common'
 import Constants from 'utils/Constants'
@@ -28,7 +28,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
       .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
 
-    return sortByNameSimilarity(
+    return sortByName(
       caseName,
       sortSGCitations(
         Helpers.uniqueBy(results, `citation`),

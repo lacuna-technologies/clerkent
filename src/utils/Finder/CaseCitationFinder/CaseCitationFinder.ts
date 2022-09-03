@@ -24,7 +24,7 @@ const findCaseCitation = (query: string): Finder.CaseCitationFinderResult[] => {
   ]
 }
 
-const CaseFinder = {
+const CaseCitationFinder = {
   findAUCaseCitation,
   findCACaseCitation,
   findCaseCitation,
@@ -47,4 +47,4 @@ const CaseFinder = {
   sortUNCitations,
 }
 
-export default CaseFinder
+export default CaseCitationFinder

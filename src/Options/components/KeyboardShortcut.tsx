@@ -10,7 +10,7 @@ const KeyboardShortcut = () => {
           <kbd>Ctrl</kbd><kbd>Space</kbd>
           . To customise it,&nbsp;
           {
-            Browser.isChrome ?
+            Browser.isChrome() ?
               (
                 <>
                   click&nbsp;

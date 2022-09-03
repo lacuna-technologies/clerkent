@@ -97,21 +97,31 @@ const DefaultSearch: FunctionComponent = () => {
       }
       <div className="mt-4 pt-2 border-t border-solid border-gray-400 flex flex-row justify-between select-none">
         <a
-          className="text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900"
+          className="text-slate-600 border-0 bg-none outline-none p-0 hover:underline cursor-pointer select-text hover:text-blue-900"
           href={browser.runtime.getURL(`/options.html`)}
           target="_blank"
           rel="noreferrer"
         >
           Options
         </a>
-        <a 
-          className="text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900"
-          href="https://clerkent.huey.xyz/help"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Help
-        </a>
+        <div className="flex flex-row gap-4">
+          <a
+            className="text-slate-600 border-0 bg-none outline-none p-0 hover:underline cursor-pointer select-text hover:text-blue-900"
+            href="https://clerkent.huey.xyz/feedback/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Feedback
+          </a>
+          <a 
+            className="text-slate-600 border-0 bg-none outline-none p-0 hover:underline cursor-pointer select-text hover:text-blue-900"
+            href="https://clerkent.huey.xyz/help"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Help
+          </a>
+        </div>
       </div>
     </PopupContainer>
   )

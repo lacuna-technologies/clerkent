@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js'
+import Helpers from 'utils/Helpers'
 import CustomDB from './CustomDB'
 
 const { cases: CustomCases } = CustomDB
@@ -17,7 +18,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 }
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  const escapedCitation = citation.replaceAll(`[`, `\\[`)
+  const escapedCitation = Helpers.escapeRegExp(citation)
   return CustomCases
   .filter(({ citations }) =>
     citations.some((cit) => (new RegExp(`${escapedCitation}`, `i`)).test(cit)),

@@ -4,6 +4,7 @@ import Logger from 'utils/Logger'
 import Request from 'utils/Request'
 import Constants from 'utils/Constants'
 import Finder from 'utils/Finder'
+import Helpers from 'utils/Helpers'
 
 // IPOS's search functionality is buggy
 // - CaseActionDecisions sometimes does not contain a link to the judgment
@@ -102,7 +103,7 @@ const getAllCases = async (): Promise<Law.Case[]> => {
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const allCases = await getAllCases()
-  const escapedCitation = citation.replaceAll(`[`, `\\[`)
+  const escapedCitation = Helpers.escapeRegExp(citation)
   return allCases.filter(({ citation: c }) => {
     return (new RegExp(`${escapedCitation}`, `i`).test(c))
   })

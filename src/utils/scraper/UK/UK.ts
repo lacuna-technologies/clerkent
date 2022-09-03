@@ -6,7 +6,7 @@ import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import { sortUKCitations } from '../../Finder/CaseCitationFinder/UK'
 import Constants from '../../Constants'
-import { databaseUse, sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByName } from '../utils'
 import Finder from 'utils/Finder'
 import UKIPO from './UKIPO'
 
@@ -28,7 +28,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       `citation`,
     )
 
-    return sortByNameSimilarity(
+    return sortByName(
       caseName,
       uniqueResults,
     )

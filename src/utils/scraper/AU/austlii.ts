@@ -5,6 +5,7 @@ import Helpers from '../../Helpers'
 import { findAUCaseCitation } from '../../Finder/CaseCitationFinder/AU'
 import type { AxiosResponse } from 'axios'
 import Logger from '../../Logger'
+import { findCitation } from '../utils'
 
 const DOMAIN = `http://www8.austlii.edu.au`
 
@@ -13,7 +14,7 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   return $(`#page-main > .card > ul > li`).map((_, element): Law.Case => {
     const name = $(`> a:first-of-type`, element).text().trim()
     const link = `${DOMAIN}${$(`> a:first-of-type`, element).attr(`href`)}`
-    const citation = Helpers.findCitation(findAUCaseCitation, name)
+    const citation = findCitation(findAUCaseCitation, name)
     return {
       citation,
       database: Constants.DATABASES.AU_austlii,

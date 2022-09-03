@@ -7,6 +7,7 @@ import CaseCitationFinder from '../../Finder/CaseCitationFinder'
 import Helpers from '../../Helpers'
 import type { AxiosResponse } from 'axios'
 import PDF from '../../PDF'
+import { findCitation } from '../utils'
 
 const DOMAIN = `https://www.bailii.org`
 
@@ -17,7 +18,7 @@ const parseSingleCase = (data: AxiosResponse[`data`], request: AxiosResponse[`re
   const pdfPath = $(`a[href$=".pdf"]`).eq(0).attr(`href`)
 
   return {
-    citation: Helpers.findCitation(
+    citation: findCitation(
       CaseCitationFinder.findUKCaseCitation,
       $(`title`).text().trim(),
     ),
@@ -74,7 +75,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 
     const matches: Law.Case[] = $(`body ol[start="1"] > li`).map((_, element): Law.Case => {
       const name = $(`a`, element).eq(0).text().trim().split(`[`)[0]
-      const citation = Helpers.findCitation(
+      const citation = findCitation(
         CaseCitationFinder.findUKCaseCitation,
         $(`small`, element).text().trim(),
       )

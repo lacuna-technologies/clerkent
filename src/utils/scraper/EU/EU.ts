@@ -4,7 +4,7 @@ import EURLex from './EURLex'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
-import { databaseUse, sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByName } from '../utils'
 
 const getLegislation = EURLex.getLegislation
 
@@ -17,7 +17,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.EU.id)
 
-    return sortByNameSimilarity(
+    return sortByName(
       caseName,
       Helpers.uniqueBy(results, `citation`),
     ) 

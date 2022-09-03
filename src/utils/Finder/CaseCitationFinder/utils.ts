@@ -1,17 +1,20 @@
-export const formatAbbr = ({ abbr, appendum = null }) => `${abbr
+export const formatAbbr = ({ abbr, appendum = null }) => {
+  const end = appendum || ``
+  return `${abbr
     .split(``)
     .map((letter: string) =>
       /[a-z]/i.test(letter)
-        ? letter+`\\.?`
+        ? `${letter}\\.?`
         : letter,
     ).join(``)
-    }${appendum ? appendum : ``}`
+    }${end}`
+}
 
 export const formatAbbrs = (abbrArray) => abbrArray.map(({ abbr, appendum }) => formatAbbr({ abbr, appendum})).join(`|`)
 
 export const cleanVolume = (volumeString: string) => volumeString.replace(/\./g, ``).toLowerCase().trim()
 
-export const sortCitationsByVolume = (abbrsList, citationsArray: any[], attribute = null) => {
+export const sortCitationsByVolume = (abbrsList, citationsArray: string[], attribute = null) => {
   const lastIfNotFound = (index: number) => index === -1 ? citationsArray.length + 1 : index
   if(attribute === null){
     return citationsArray.sort((a, b) => {

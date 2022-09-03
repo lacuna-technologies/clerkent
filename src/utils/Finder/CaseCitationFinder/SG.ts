@@ -36,7 +36,7 @@ export const SGAbbrs = [
   { abbr: `MLJ` },
 ]
 
-export const sortSGCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+export const sortSGCitations = (citationsArray: string[], attribute = null) => sortCitationsByVolume(
   SGAbbrs, 
   citationsArray, 
   attribute,

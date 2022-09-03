@@ -5,6 +5,7 @@ import Helpers from '../../Helpers'
 import { findHKCaseCitation } from '../../Finder/CaseCitationFinder/HK'
 import type { AxiosResponse } from 'axios'
 import PDF from '../../PDF'
+import { findCitation } from '../utils'
 
 const DOMAIN = `https://www.hklii.org`
 
@@ -15,7 +16,7 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
     const nameText = $(`a:first-of-type`, element).eq(0).text().trim()
     const name = nameText.split(`[`)[0]
     const link = `${DOMAIN}${$(`a:nth-of-type(2)`, element).attr(`href`)}`
-    const citation = Helpers.findCitation(
+    const citation = findCitation(
       findHKCaseCitation,
       nameText,
     )
