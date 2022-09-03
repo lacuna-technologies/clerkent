@@ -6,6 +6,7 @@ import Logger from '../../Logger'
 import Helpers from '../../Helpers'
 import { findHKCaseCitation } from '../../Finder/CaseCitationFinder/HK'
 import PDF from '../../PDF'
+import { findCitation } from '../utils'
 
 
 const DOMAIN = `https://legalref.judiciary.hk`
@@ -76,7 +77,7 @@ const parseResultsTable = ($: cheerio.CheerioAPI): Law.Case[] => {
   let currentResult: Law.Case
   $(`form > table.tablestyle1 > tbody > tr > td > table > tbody > tr:nth-of-type(5) > td > table > tbody > tr:nth-of-type(2) > td > table > tbody > tr:nth-of-type(1) > td > table > tbody > tr`).each((_, element) => {
     if($(`td.smalltxt`, element).text()){
-      const citation = Helpers.findCitation(
+      const citation = findCitation(
         findHKCaseCitation,
         $(`td:nth-of-type(2) > table tr td:nth-of-type(1)`, element).text(),
       )
@@ -102,7 +103,7 @@ const parseResultsTable = ($: cheerio.CheerioAPI): Law.Case[] => {
       const name = $(`td[colspan="3"]:nth-of-type(2)`, element).text().trim()
       currentResult = {
         ...currentResult,
-        citation: currentResult.citation || Helpers.findCitation(
+        citation: currentResult.citation || findCitation(
           findHKCaseCitation,
           name,
         ),

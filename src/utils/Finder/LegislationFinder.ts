@@ -1,7 +1,11 @@
+import Helpers from 'utils/Helpers'
 import StatuteAbbrs from './StatuteAbbrs'
 
 const unabbreviateStatute = (abbrStatute: string) => {
-  const makeRegex = (string: string) => (new RegExp(`\\b${string}\\b`, `i`))
+  const makeRegex = (string: string) => {
+    const escapedString = Helpers.escapeRegExp(string)
+    return (new RegExp(`\\b${escapedString}\\b`, `i`))
+  }
   const isMatch = StatuteAbbrs
     .map(abbr => ({ ...abbr, match: abbr.abbrs.find((currentAbbr) => makeRegex(currentAbbr).test(abbrStatute)) }))
     .filter(({ match }) => match)

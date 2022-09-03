@@ -1,9 +1,9 @@
 import Fuse from 'fuse.js'
-import type { AxiosResponse } from 'axios'
 import * as cheerio from 'cheerio'
 import Constants from 'utils/Constants'
 import Logger from 'utils/Logger'
 import Request from 'utils/Request'
+import Helpers from 'utils/Helpers'
 
 const BASE_URL = `https://www.stratatb.gov.sg`
 const CURRENT_DECISIONS = `${BASE_URL}/resources-judgments.html`
@@ -83,8 +83,7 @@ const makeSTBCitation = (citation: string): string => {
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const allCases = await getAllCases()
-  // // convert case citations to square bracket format purely for comparison purposes only
-  const escapedCitation = makeSTBCitation(citation).replaceAll(`[`, `\\[`)
+  const escapedCitation = Helpers.escapeRegExp(makeSTBCitation(citation))
   return allCases.filter(({ citation: c }) => {
     return (new RegExp(`${escapedCitation}`, `i`).test(makeSTBCitation(c)))
   })

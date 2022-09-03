@@ -1,5 +1,3 @@
-import Finder from "./Finder"
-
 // eslint-disable-next-line unicorn/better-regex, no-useless-escape
 const sanitiseFilename = (fileName: string) => fileName.replace(/[^\d --\.\[\]a-z]/gi, ``)
 const sanitiseCaseCitation = (citation: string) => citation.replace(/[^\d --[\]a-z]/gi, ` `)
@@ -14,14 +12,6 @@ const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) =
 const classnames = (...arguments_: string[]) => [...new Set(arguments_)].filter(item => item && item.length > 0).join(` `)
 
 const escapeRegExp = (string: string) => string.replace(/[$()*+.?[\\\]^{|}]/g, `\\$&`)
-
-const findCitation = (function_ = Finder.findCaseCitation, inputText: string) => {
-  const results = function_(inputText)
-  if(results.length > 0){
-    return results[0].citation
-  }
-  return null
-}
 
 const isCitationValid = (citation: string) => (
   typeof citation === `string` && citation.length > 0
@@ -61,14 +51,36 @@ const getFileName = (law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype
     return `${sanitiseFilename(statute)}.pdf`
 }
 
-const commonAppendsRegex = / ?(\(?pte\.?\)?|private|ltd|limited|llp|sdn|bhd|co|company|corp|\(s\)|inc|gmbh|and others|and (another|other)( (suits?|appeals?|matters?))?|& \d{1,2} ors|& anor|\(interim judicial managers appointed\)|\(in liquidation\)|, singapore branch)\b$/gi
-const removeCommonAppends = (caseName: string) => (`${caseName}`).replaceAll(commonAppendsRegex, ``)
+const commonAppends = [
+  /\(?pte\.?\)?/,
+  /private/,
+  /ltd|limited/,
+  /llp/,
+  /sdn|bhd/,
+  /company|co/,
+  /nv|gmbh/,
+  /inc/,
+  /\(s\)|\(m\)|\(singapore\)/,
+  /(and|&) others|(and|&) (another|other)( (suits?|appeals?|matters?))?|(and|&) \d{1,2} ors|& anor/,
+  /\(interim judicial managers appointed\)|\(in liquidation\)|\(under judicial management\)/,
+  /, singapore branch/,
+]
+const commonAppendsPartialRegex = commonAppends.map(append => append.source).join(`|`)
+const commonAppendsRegex = new RegExp(`(\\b|\\s)(${commonAppendsPartialRegex})(\\b|\\s)`, `gi`)
+const removeCommonAppends = (caseName: string) => (
+  (`${caseName}`)
+    .replaceAll(commonAppendsRegex, ` `)
+    .replaceAll(/ {2,}/g, ` `)
+    .replaceAll(/([\da-z])\s\)/g, `$1)`)
+    .trim()
+)
+
+const randomSort = (array) => array.slice(0, array.length).sort(() => (Math.random() - 0.5))
 
 const Helpers = {
   classnames,
   debounce,
   escapeRegExp,
-  findCitation,
   getBestLink,
   getFileName,
   getJudgmentLink,
@@ -79,6 +91,7 @@ const Helpers = {
   getRandomInteger,
   getSummaryLink,
   isCitationValid,
+  randomSort,
   removeCommonAppends,
   sanitiseFilename,
   uniqueBy,

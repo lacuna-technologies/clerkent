@@ -6,6 +6,7 @@ import Logger from '../../Logger'
 import { findNZCaseCitation } from '../../Finder/CaseCitationFinder/NZ'
 import type { AxiosResponse } from 'axios'
 import PDF from '../../PDF'
+import { findCitation } from '../utils'
 
 const DOMAIN = `http://www.nzlii.org`
 
@@ -15,7 +16,7 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   return $(`body ol[start="1"] > li`).map((_, element): Law.Case => {
     const name = $(`a:first-of-type`, element).eq(0).text().trim()
     const link = $(`a:first-of-type`, element).attr(`href`).replace(/\?.*/i, ``)
-    const citation = Helpers.findCitation(findNZCaseCitation, name)
+    const citation = findCitation(findNZCaseCitation, name)
     return {
       citation,
       database: Constants.DATABASES.NZ_nzlii,

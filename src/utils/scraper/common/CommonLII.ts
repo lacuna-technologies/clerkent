@@ -13,6 +13,7 @@ import canlii from '../CA/canlii'
 import scclexum from '../CA/scclexum'
 import austlii from '../AU/austlii'
 import PDF from '../../PDF'
+import { findCitation } from '../utils'
 
 // Available judgments
 //  Singapore
@@ -27,7 +28,8 @@ const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
 const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => {
   for(const jurisdiction of Object.values(Constants.JURISDICTIONS)){
-    if((new RegExp(jurisdiction.name, `i`).test(jurisdictionString))){
+    const escapedJurisdictionName = Helpers.escapeRegExp(jurisdiction.name)
+    if((new RegExp(escapedJurisdictionName, `i`).test(jurisdictionString))){
       return jurisdiction.id
     }
   }
@@ -43,7 +45,7 @@ const parseMultipleCase = ($: cheerio.CheerioAPI): Law.Case[] => {
     const lawCiteURL = `${LAWCITE_DOMAIN}${relativeLawCiteURL}`
     const judgmentURL = $(`td.service > a`, element).attr(`href`)
     const jurisdiction = matchJurisdiction($(`td.jurisdiction`, element).text().trim())
-    const citation = Helpers.findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
+    const citation = findCitation(CaseCitationFinder.findCaseCitation, $(`td.citation`, element).text().trim())
     const lawCiteLink: Law.Link | null = lawCiteURL && lawCiteURL.length > 0 ? {
       doctype: `Summary`,
       filetype: `HTML`,
@@ -97,7 +99,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
       url: fixURL(link),
     } : null
     const jurisdiction = matchJurisdiction($(`.jurisdiction`).eq(0).text().trim())
-    const citationText = Helpers.findCitation(
+    const citationText = findCitation(
       CaseCitationFinder.findCaseCitation,
       $(`div.citation`).text().trim(),
     )

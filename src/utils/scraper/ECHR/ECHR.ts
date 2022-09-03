@@ -3,7 +3,7 @@ import HUDOC from './HUDOC'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
-import { databaseUse, sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByName } from '../utils'
 
 const getLegislation = () => null
 
@@ -20,7 +20,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       jurisdiction === Constants.JURISDICTIONS.ECHR.id
     ))
 
-    return sortByNameSimilarity(
+    return sortByName(
       caseName,
       Helpers.uniqueBy(results, `citation`),
     ) 

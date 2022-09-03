@@ -4,7 +4,7 @@ import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortAUCitations } from '../../Finder/CaseCitationFinder/AU'
 import Helpers from '../../Helpers'
-import { sortByNameSimilarity, databaseUse } from '../utils'
+import { sortByName, databaseUse } from '../utils'
 import CommonLII from '../common/CommonLII'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
@@ -17,7 +17,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.AU.id)
 
-    return sortByNameSimilarity(
+    return sortByName(
       caseName,
       sortAUCitations(
         Helpers.uniqueBy(results, `citation`),

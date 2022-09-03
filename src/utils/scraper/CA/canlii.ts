@@ -7,6 +7,7 @@ import { findCACaseCitation } from '../../Finder/CaseCitationFinder/CA'
 import type { AxiosResponse } from 'axios'
 import Logger from '../../Logger'
 import PDF from '../../PDF'
+import { findCitation } from '../utils'
 
 const DOMAIN = `https://www.canlii.org`
 
@@ -18,7 +19,7 @@ const parseCase = (data: AxiosResponse[`data`]): Law.Case[] => {
     reference,
   }): Law.Case => {
     const cleanReference = typeof reference === `string`
-      ? Helpers.findCitation(
+      ? findCitation(
           findCACaseCitation,
           cheerio.load(reference)(`html`).text().trim(),
       ) : ``

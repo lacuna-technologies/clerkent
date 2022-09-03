@@ -3,7 +3,7 @@ import Common from '../common'
 import Constants from '../../Constants'
 import { sortMYCitations } from '../../Finder/CaseCitationFinder/MY'
 import Helpers from '../../Helpers'
-import { databaseUse, sortByNameSimilarity } from '../utils'
+import { databaseUse, sortByName } from '../utils'
 import Logger from '../../Logger'
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
@@ -16,7 +16,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.MY.id)
   
-    return sortByNameSimilarity(
+    return sortByName(
       caseName,
       sortMYCitations(
         Helpers.uniqueBy(results, `citation`),

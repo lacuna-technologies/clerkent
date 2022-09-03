@@ -5,6 +5,7 @@ import type { AxiosResponse } from 'axios'
 import { findEUCaseCitation } from '../../Finder/CaseCitationFinder/EU'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
+import { findCitation } from '../utils'
 
 const DOMAIN = `https://curia.europa.eu`
 
@@ -51,7 +52,7 @@ const parseCaseData = async (data: AxiosResponse[`data`]): Promise<Law.Case[]> =
 
   const results: Law.Case[] = $(`#listeAffaires > ul.rich-datalist > li.rich-list-item`).map((_, element): Law.Case => {
     const name = $(`.affaire .affaire_header .affaire_title`, element).text().trim()
-    const citation = Helpers.findCitation(findEUCaseCitation, name)
+    const citation = findCitation(findEUCaseCitation, name)
     
     const judgmentContainer = $(`.procedure > ul.rich-datalist > li.rich-list-item:last-of-type`, element)
     const summaryLink = $(`td.decision > span.decision_links > a`, judgmentContainer).attr(`href`)

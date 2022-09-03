@@ -1,8 +1,16 @@
 import Fuse from 'fuse.js'
-import Leven from '../Leven'
 import Helpers from '../Helpers'
 import Constants from 'utils/Constants'
 import Storage from 'utils/Storage'
+import Finder from "../Finder"
+
+export const findCitation = (function_ = Finder.findCaseCitation, inputText: string) => {
+  const results = function_(inputText)
+  if(results.length > 0){
+    return results[0].citation
+  }
+  return null
+}
 
 const longestCommonSubstring = (stringA: string, stringB: string) => {
   if (!stringA || !stringB) {
@@ -43,48 +51,11 @@ const probablySameCase = (caseNameA: string, caseNameB: string) => {
   return sameCaseProbability >= 0.8
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
-export const sortByNameSimilarity = (query: string, cases: Law.Case[]) => cases.sort((a, b) => {
-  const cleanQuery = Helpers.removeCommonAppends(query.toLowerCase())
-  const cleanAName = Helpers.removeCommonAppends(a.name.toLowerCase())
-  const cleanBName = Helpers.removeCommonAppends(b.name.toLowerCase())
-
-  if (probablySameCase(cleanAName, cleanBName)) {
-    // probably the same case
-    // keep sort order
-    return 0
-  }
-
-  const {
-    str: longestSubstrA,
-    length: lengthScoreA,
-  } = longestCommonSubstring(cleanQuery, cleanAName)
-  const {
-    str: longestSubstrB,
-    length: lengthScoreB,
-  } = longestCommonSubstring(cleanQuery, cleanBName)
-
-  if (Math.max(lengthScoreA, lengthScoreB) >= 0.8 * query.length) {
-    const wholeWordA = (new RegExp(`\\b${longestSubstrA}\\b`, `i`)).test(cleanAName)
-    const wholeWordB = (new RegExp(`\\b${longestSubstrB}\\b`, `i`)).test(cleanBName)
-
-    if (wholeWordA === wholeWordB || lengthScoreA !== lengthScoreB) {
-      return lengthScoreA > lengthScoreB ? -1
-        : (lengthScoreA === lengthScoreB ? 0 : 1)
-    } 
-      return wholeWordA ? -1 : 1
-  } 
-    const levenScoreA = Leven(query, cleanAName)
-    const levenScoreB = Leven(query, cleanBName)
-    return levenScoreA > levenScoreB ? 1
-      : (levenScoreA === levenScoreB ? 0 : -1)
-  
-})
-
 export const sortByName = (query: string, cases: Law.Case[]) => {
-  const fuse = new Fuse(cases.map(({ name }) => name), { ignoreLocation: true })
+  const cleanQuery = Helpers.removeCommonAppends(query.toLowerCase())
+  const fuse = new Fuse(cases.map(({ name }) => Helpers.removeCommonAppends(name.toLowerCase())), { ignoreLocation: true })
   return fuse
-    .search(query)
+    .search(cleanQuery)
     .map(({ refIndex }) => cases[refIndex])
 }
 
