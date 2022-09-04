@@ -26,7 +26,7 @@ const LAWCITE_DOMAIN = `http://lawcite.org`
 // const COMMONLII_DOMAIN = `http://www.commonlii.org`
 const NotFoundMessage = `Sorry, no cases or law journal articles found.`
 
-const matchJurisdiction = (jurisdictionString: string): Law.JursidictionCode => {
+const matchJurisdiction = (jurisdictionString: string): Law.JurisdictionCode => {
   for(const jurisdiction of Object.values(Constants.JURISDICTIONS)){
     const escapedJurisdictionName = Helpers.escapeRegExp(jurisdiction.name)
     if((new RegExp(escapedJurisdictionName, `i`).test(jurisdictionString))){
@@ -59,7 +59,7 @@ const parseMultipleCase = ($: cheerio.CheerioAPI): Law.Case[] => {
     return {
       citation,
       database: Constants.DATABASES.commonlii,
-      ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
+      ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JurisdictionCode } : {}),
       links: [
         ...(lawCiteLink ? [lawCiteLink] : []),
         ...(judgmentLink ? [judgmentLink] : []),
@@ -128,7 +128,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
     const results: Law.Case[] = [{
       citation: citationText,
       database: Constants.DATABASES.commonlii,
-      ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JursidictionCode } : {}),
+      ...(jurisdiction ? { jurisdiction: jurisdiction as Law.JurisdictionCode } : {}),
       links: [
         ...(judgmentLink ? [judgmentLink] : []),
         ...(summaryURL ? [summaryURL] : []),

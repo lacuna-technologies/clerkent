@@ -12,7 +12,7 @@ import Browser from 'utils/Browser'
 
 const getScraperResult = (
   targets: Finder.FinderResult[],
-  jurisdiction: Law.JursidictionCode,
+  jurisdiction: Law.JurisdictionCode,
 ): Promise<Law.Legislation[] | Law.Case[]> => {
   const { type } = targets[0]
   switch (type) {
@@ -166,7 +166,7 @@ const onReceiveMessage = (port: Runtime.Port) => (message: Messenger.Message) =>
 }
 
 const onConnect = (port: Runtime.Port) => {
-  port.postMessage({ hello: `world` })
+  // port.postMessage({ hello: `world` })
   port.onMessage.addListener(onReceiveMessage(port))
 }
 

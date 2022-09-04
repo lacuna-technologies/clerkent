@@ -91,7 +91,8 @@ const WebpackConfig = {
         test: /\.(js|ts)x?$/,
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        exclude: /node_modules/,
+        test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader, // It creates a CSS file per JS file which contains CSS
@@ -134,18 +135,9 @@ const WebpackConfig = {
         ],
       },
       {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: `file-loader`,
-            options: {
-              esModule: false,
-              name: `[name].[ext]`,
-              outputPath: `assets/icons/`,
-              publicPath: `/assets/icons/`,
-            },
-          },
-        ],
+        exclude: /node_modules/,
+        test: /assets\/icons\/.*\.svg$/,
+        type: `asset/inline`,
       },
       {
         test: /\.png$/,
@@ -154,7 +146,7 @@ const WebpackConfig = {
             loader: `file-loader`,
             options: {
               esModule: false,
-              name: `[name].[ext]`,
+              name: `[path][name].[ext]`,
               outputPath: `assets/`,
               publicPath: `/assets/`,
             },
@@ -238,6 +230,8 @@ const WebpackConfig = {
       patterns: [
         { from: `${generatedAssetsPath}`, to: `assets` },
         { from: path.join(__dirname, `assets`, `clerkent.png`), to: `assets` },
+        { from: path.join(__dirname, `assets`, `icj.png`), to: `assets` },
+        { from: path.join(__dirname, `assets`, `ecthr.png`), to: `assets` },
         { from: path.join(__dirname, `assets`, `chrome_toolbar_screenshot.png`), to: `assets` },
       ],
     }),

@@ -1,7 +1,5 @@
 import { browser } from 'webextension-polyfill-ts'
 import QueryResult from '../components/QueryResult'
-import { Constants } from '../../utils'
-import SelectInput from '../../components/SelectInput'
 import ExternalLinks from '../components/ExternalLinks'
 import ClipboardSuggestion from '../components/ClipboardSuggestion'
 import useMessenger from '../hooks/useMessenger'
@@ -13,8 +11,7 @@ import type { FunctionComponent } from 'preact'
 import 'styles/tailwind.css'
 import PopupContainer from 'Popup/components/PopupContainer'
 import DatabaseStatus from 'Popup/components/DatabaseStatus'
-
-const supportedJurisdictions = Constants.JURISDICTIONS
+import JurisdictionSelect from 'Popup/components/JurisdictionSelect'
 
 const DefaultSearch: FunctionComponent = () => {
   const {
@@ -33,7 +30,7 @@ const DefaultSearch: FunctionComponent = () => {
     lastSearchQuery,
     onChangeJurisdiction,
     onEnter,
-    onSearchQueryChange,
+    onSearchQueryInput,
     query,
     selectedJurisdiction,
     onPaste,
@@ -47,14 +44,9 @@ const DefaultSearch: FunctionComponent = () => {
   return (
     <PopupContainer>
       <div className="flex flex-row justify-between content-center items-stretch gap-2">
-        <SelectInput
-          className="flex-1"
-          options={Object.values(supportedJurisdictions).map(({ id, emoji, name }) => ({
-            content: `${emoji}  ${name}`,
-            value: id,
-          }))}
+        <JurisdictionSelect
           value={selectedJurisdiction}
-          onChange={onChangeJurisdiction}
+          onChangeJurisdiction={onChangeJurisdiction}
         />
         <DatabaseStatus
           selectedJurisdiction={selectedJurisdiction}
@@ -65,7 +57,7 @@ const DefaultSearch: FunctionComponent = () => {
         className="w-full p-2 my-4 outline-none rounded border border-solid border-gray-400"
         type="search"
         placeholder="case citation, party name, or legislation"
-        onChange={onSearchQueryChange}
+        onInput={onSearchQueryInput}
         onKeyDown={onEnter}
         value={query}
         onPaste={onPaste}
@@ -77,7 +69,7 @@ const DefaultSearch: FunctionComponent = () => {
       }
       {
         (!isSearching && query.length > 0 && searchResult.length === 0 && lastSearchQuery !== query) ? (
-          <span>Press enter to search</span>
+          <div className="flex-grow">Press enter to search</div>
         ) : (
           <QueryResult
             searchResult={searchResult}

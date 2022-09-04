@@ -8,7 +8,7 @@ const keys = {
 }
 
 type Props = {
-  selectedJurisdiction: Law.JursidictionCode,
+  selectedJurisdiction: Law.JurisdictionCode,
 }
 
 const DatabaseStatus: FunctionComponent<Props> = ({ selectedJurisdiction }) => {

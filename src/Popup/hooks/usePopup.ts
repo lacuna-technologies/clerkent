@@ -52,8 +52,9 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
     autosetJurisdiction(value)
   }, [autosetJurisdiction])
 
+  
   const onSearchQueryChange = useCallback((
-    { target: { value }},
+    value: string,
     doNotStore = false,
     debounceAutosetJurisdiction = true,
   ) => {
@@ -69,6 +70,13 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
       debouncedStoreQuery(value)
     }
   }, [autosetJurisdiction, debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResult])
+
+  const onSearchQueryInput = useCallback((event: Event) => {
+    const { target } = event
+    if(target instanceof HTMLInputElement){
+      onSearchQueryChange(target.value)
+    }
+  }, [onSearchQueryChange])
 
   const doSearch = useCallback((
     {
@@ -103,7 +111,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   // }, [])
 
   const applyClipboardText = useCallback((clipboardText) => {
-    onSearchQueryChange({target: { value: clipboardText }})
+    onSearchQueryChange(clipboardText)
     doSearch({ inputQuery: clipboardText })
   }, [doSearch, onSearchQueryChange])
 
@@ -114,7 +122,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   
       const storedQuery = await Storage.get(keys.QUERY)
       if(query.length === 0 && storedQuery !== null && storedQuery.length > 0){
-        onSearchQueryChange({target: { value: storedQuery }}, true, false)
+        onSearchQueryChange(storedQuery, true, false)
         shouldDoSearch = true
       }
       const storedJurisdiction = await Storage.get(keys.SELECTED_JURISDICTION)
@@ -140,7 +148,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
     onChangeJurisdiction,
     onEnter,
     onPaste,
-    onSearchQueryChange,
+    onSearchQueryInput,
     query,
     selectedJurisdiction,
   }

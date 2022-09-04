@@ -6,7 +6,7 @@ import type { OptionsSettings } from 'utils/OptionsStorage'
 import SearcherStorage from 'ContentScript/Searcher/SearcherStorage'
 
 interface Props {
-  jurisdiction: Law.JursidictionCode
+  jurisdiction: Law.JurisdictionCode
   type: Law.Type
   query: string
 }
