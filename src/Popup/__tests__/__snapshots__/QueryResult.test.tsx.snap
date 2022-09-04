@@ -285,15 +285,19 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <span>
+      <div
+        class="flex-grow"
+      >
         No cases found
-      </span>
+      </div>
     </div>
   </body>,
   "container": <div>
-    <span>
+    <div
+      class="flex-grow"
+    >
       No cases found
-    </span>
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

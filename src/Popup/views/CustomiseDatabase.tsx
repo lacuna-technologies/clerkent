@@ -5,7 +5,7 @@ import DatabaseOption from 'Popup/components/DatabaseOption'
 import useCustomiseDatabase from 'Popup/hooks/useCustomiseDatabase'
 import { Constants } from 'utils'
 
-const getName = (jurisdictionCode: Law.JursidictionCode, databaseId: string): string => {
+const getName = (jurisdictionCode: Law.JurisdictionCode, databaseId: string): string => {
   if(databaseId === `commonlii`){
     return Constants.DATABASES.commonlii.name
   }

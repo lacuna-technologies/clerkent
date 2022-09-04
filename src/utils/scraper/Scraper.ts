@@ -30,7 +30,7 @@ const jurisdictionMap = {
 
 const getCaseByCitation = (
   targetCase: Finder.CaseCitationFinderResult,
-  inputJurisdiction: Law.JursidictionCode = null,
+  inputJurisdiction: Law.JurisdictionCode = null,
 ): Promise<Law.Case[]> => {
   const { jurisdiction, citation, court } = targetCase
 
@@ -45,7 +45,7 @@ const getCaseByCitation = (
 
 const getCaseByName = (
   targetCaseName: Finder.CaseNameFinderResult,
-  inputJurisdiction: Law.JursidictionCode,
+  inputJurisdiction: Law.JurisdictionCode,
 ) : Promise<Law.Case[]> => {
   const { name } = targetCaseName
   const targetJurisdiction = jurisdictionMap[inputJurisdiction]
@@ -59,7 +59,7 @@ const getCaseByName = (
 
 const getLegislation = Memoize((
   targetLegislation: Finder.LegislationFinderResult,
-  inputJurisdiction: Law.JursidictionCode,
+  inputJurisdiction: Law.JurisdictionCode,
 ): Promise<Law.Legislation[]> => {
   const targetJurisdiction = jurisdictionMap[inputJurisdiction]
 

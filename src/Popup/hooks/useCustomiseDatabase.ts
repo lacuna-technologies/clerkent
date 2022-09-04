@@ -7,7 +7,7 @@ const keys = {
 }
 
 const useCustomiseDatabase = () => {
-  const [selectedJurisdictionCode, setSelectedJurisdictionCode] = useState<Law.JursidictionCode>(Constants.JURISDICTIONS.UK.id)
+  const [selectedJurisdictionCode, setSelectedJurisdictionCode] = useState<Law.JurisdictionCode>(Constants.JURISDICTIONS.UK.id)
   const [databasesStatus, setDatabasesStatus] = useState<typeof Constants.DEFAULT_DATABASES_STATUS>(Constants.DEFAULT_DATABASES_STATUS)
 
   const toggleDatabase = useCallback(async (id: string) => {

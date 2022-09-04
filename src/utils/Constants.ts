@@ -1,57 +1,57 @@
-const JURISDICTIONS: Record<Law.JursidictionCode, Law.Jurisdiction> = {
+const JURISDICTIONS: Record<Law.JurisdictionCode, Law.Jurisdiction> = {
   AU: {
     emoji: `🇦🇺`,
-    id: `AU` as Law.JursidictionCode,
+    id: `AU` as Law.JurisdictionCode,
     name: `Australia`,
   },
   CA: {
     emoji: `🇨🇦`,
-    id: `CA` as Law.JursidictionCode,
+    id: `CA` as Law.JurisdictionCode,
     name: `Canada`,
   },
   ECHR: {
     emoji: `🇪🇺`,
-    id: `ECHR` as Law.JursidictionCode,
+    id: `ECHR` as Law.JurisdictionCode,
     name: `ECHR`,
   },
   EU: {
     emoji: `🇪🇺`,
-    id: `EU` as Law.JursidictionCode,
+    id: `EU` as Law.JurisdictionCode,
     name: `European Union`,
   },
   HK: {
     emoji: `🇭🇰`,
-    id: `HK` as Law.JursidictionCode,
+    id: `HK` as Law.JurisdictionCode,
     name: `Hong Kong`,
   },
   // ID: {
   //   emoji: ``,
-  //   id: `IN` as Law.JursidictionCode,
+  //   id: `IN` as Law.JurisdictionCode,
   //   name: `India`
   // },
   MY: {
     emoji: `🇲🇾`,
-    id: `MY` as Law.JursidictionCode,
+    id: `MY` as Law.JurisdictionCode,
     name: `Malaysia`,
   },
   NZ: {
     emoji: `🇳🇿`,
-    id: `NZ` as Law.JursidictionCode,
+    id: `NZ` as Law.JurisdictionCode,
     name: `New Zealand`,
   },
   SG: {
     emoji: `🇸🇬`,
-    id: `SG` as Law.JursidictionCode,
+    id: `SG` as Law.JurisdictionCode,
     name: `Singapore`,
   },
   UK: {
     emoji: `🇬🇧`,
-    id: `UK` as Law.JursidictionCode,
+    id: `UK` as Law.JurisdictionCode,
     name: `United Kingdom`,
   },
   UN: {
     emoji: `🌐`,
-    id: `UN` as Law.JursidictionCode,
+    id: `UN` as Law.JurisdictionCode,
     name: `United Nations (ICJ)`,
   },
 }
@@ -248,7 +248,7 @@ const INSTITUTIONAL_LOGINS = {
   UCL: `University College London`,
 } as const
 
-const dedupeObjects = (inputObject: Record<string, Record<string, string>>, jurisdictionCode: Law.JursidictionCode) =>
+const dedupeObjects = (inputObject: Record<string, Record<string, string>>, jurisdictionCode: Law.JurisdictionCode) =>
   Object.fromEntries(Object.entries(inputObject)
   .map(( [id, object]: [string, Record<string, string>]) => [`${jurisdictionCode}_${id}`, {
       id: `${jurisdictionCode}_${id}`,

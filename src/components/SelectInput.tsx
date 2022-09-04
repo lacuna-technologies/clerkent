@@ -1,5 +1,5 @@
 import { useCallback } from 'preact/hooks'
-import type { FunctionComponent } from 'preact'
+import type { FunctionComponent, JSX } from 'preact'
 import { Helpers } from 'utils'
 
 interface Props {
@@ -20,7 +20,11 @@ const SelectInput: FunctionComponent<Props> = ({
   onChange = (v) => {},
   defaultValue,
 }) => {
-  const onSelect = useCallback(({ target: { value } }) => onChange(value), [onChange])
+  const onSelect = useCallback(({ target }: Event) => {
+    if(target instanceof HTMLSelectElement){
+      onChange(target.value)
+    }
+  }, [onChange])
   const valueWithDefault = (((!value || !options.map(({ value }) => value).includes(value)) && defaultValue)
     ? defaultValue
     : value

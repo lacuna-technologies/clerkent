@@ -21,7 +21,7 @@ declare namespace Law {
     name: string,
     citation: string,
     links: Link[]
-    jurisdiction?: JursidictionCode
+    jurisdiction?: JurisdictionCode
     database: Database
     type?: Type
   }
@@ -30,7 +30,7 @@ declare namespace Law {
     provisionNumber: string,
     statute: string,
     links: Link[],
-    jurisdiction?: JursidictionCode,
+    jurisdiction?: JurisdictionCode,
     content?: string,
     database: Database
     type?: Type
@@ -38,10 +38,10 @@ declare namespace Law {
 
   // ISO 3166-1 alpha-2
   // except for ECHR
-  type JursidictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `ECHR` | `UN` // `IN`
+  type JurisdictionCode = `SG` | `UK` | `EU` | `HK` | `CA` | `AU` | `NZ` | `MY` | `ECHR` | `UN` // `IN`
   type Jurisdiction = {
     emoji: string,
-    id: JursidictionCode,
+    id: JurisdictionCode,
     name: string
   }
 
@@ -77,7 +77,7 @@ declare namespace Finder {
   type FinderResult = CaseCitationFinderResult | LegislationFinderResult | CaseNameFinderResult
 
   type CaseCitationFinderResult = {
-    jurisdiction: Law.JursidictionCode
+    jurisdiction: Law.JurisdictionCode
     citation: string,
     index: number,
     year?: string,
@@ -91,7 +91,7 @@ declare namespace Finder {
     provisionNumber: string,
     statute: string,
     type: `legislation`,
-    jurisdiction: Law.JursidictionCode
+    jurisdiction: Law.JurisdictionCode
   }
 }
 

@@ -23,7 +23,7 @@ const QueryResult: FunctionComponent<Props> = ({ searchResult, downloadPDF, isSe
   }
 
   if(searchResult.length === 0){
-    return <span>No cases found</span>
+    return <div className="flex-grow">No cases found</div>
   }
 
   const showMore = morePressed || searchResult.length <= maxResults
