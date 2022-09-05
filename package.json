@@ -1,6 +1,6 @@
 {
   "name": "clerkent",
-  "version": "3.3.8",
+  "version": "3.3.9",
   "private": true,
   "description": "quick search legal search",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
@@ -52,7 +52,7 @@
     "preact-router": "^4.1.0",
     "qs": "^6.11.0",
     "react-select": "^5.4.0",
-    "react-world-flags": "^1.5.1"
+    "svg-country-flags": "^1.2.10"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",

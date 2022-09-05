@@ -116,42 +116,37 @@ const WebpackConfig = {
                   ],
                 ],
               },
+              sourceMap: true,
             },
           },
-          `resolve-url-loader`, // Rewrites relative paths in url() statements
+          {
+            loader: `resolve-url-loader`, // Rewrites relative paths in url() statements
+            options: {
+              sourceMap: true,
+            },
+          }, 
         ],
       },
       {
+        generator: {
+          filename: `assets/fonts/[hash][ext][query]`,
+        },
         test: /\.ttf$/,
-        use: [
-          {
-            loader: `file-loader`,
-            options: {
-              esModule: false,
-              name: `[name].[ext]`,
-              outputPath: `fonts/`,
-            },
-          },
-        ],
+        type: `asset/resource`,
       },
       {
-        exclude: /node_modules/,
-        test: /assets\/icons\/.*\.svg$/,
-        type: `asset/inline`,
+        generator: {
+          filename: `assets/icons/[hash][ext][query]`,
+        },
+        test: /\.svg$/,
+        type: `asset/resource`,
       },
       {
+        generator: {
+          filename: `assets/[hash][ext][query]`,
+        },
         test: /\.png$/,
-        use: [
-          {
-            loader: `file-loader`,
-            options: {
-              esModule: false,
-              name: `[path][name].[ext]`,
-              outputPath: `assets/`,
-              publicPath: `/assets/`,
-            },
-          },
-        ],
+        type: `asset/resource`,
       },
     ],
   },
@@ -262,7 +257,6 @@ const WebpackConfig = {
     ],
   },
 
-  // https://github.com/webpack/webpack/issues/1194#issuecomment-560382342
   stats: {
     all: false,
     builtAt: true,
