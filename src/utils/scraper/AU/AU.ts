@@ -7,11 +7,13 @@ import Helpers from '../../Helpers'
 import { sortByName, databaseUseJurisdiction, databaseUseDatabase } from '../utils'
 import CommonLII from '../common/CommonLII'
 import QueenslandJudgments from './QueenslandJudgments'
+import QueenslandSCL from './QueenslandSCL'
 
 const databaseUseAU = databaseUseJurisdiction(`AU`)
 const databaseUseAustLII = databaseUseDatabase(`austlii`, databaseUseAU)
 const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseAU)
 const databaseUseQueenslandJudgments = databaseUseDatabase(`queensland_judgments`, databaseUseAU)
+const databaseUseQueenslandSCL = databaseUseDatabase(`queensland_scl`, databaseUseAU)
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
@@ -64,6 +66,7 @@ const getApplicableDatabases = (citation: string) => {
     case `QHPT`:
       return [
         databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByCitation(citation)),
+        databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
     default: {

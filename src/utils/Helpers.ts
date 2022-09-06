@@ -13,6 +13,11 @@ const classnames = (...arguments_: string[]) => [...new Set(arguments_)].filter(
 
 const escapeRegExp = (string: string) => string.replace(/[$()*+.?[\\\]^{|}]/g, `\\$&`)
 
+const htmlDecode = (input: string) => {
+  const document_ = new DOMParser().parseFromString(input, `text/html`)
+  return document_.documentElement.textContent
+}
+
 const isCitationValid = (citation: string) => (
   typeof citation === `string` && citation.length > 0
 )
@@ -90,6 +95,7 @@ const Helpers = {
   getRandomElement,
   getRandomInteger,
   getSummaryLink,
+  htmlDecode,
   isCitationValid,
   randomSort,
   removeCommonAppends,

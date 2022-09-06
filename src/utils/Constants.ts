@@ -311,6 +311,7 @@ const DEFAULT_DATABASES_STATUS= {
     austlii: true,
     commonlii: true,
     queensland_judgments: true,
+    queensland_scl: true,
   },
   CA: {
     canlii: true,
