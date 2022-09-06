@@ -6,7 +6,6 @@ import Logger from '../../Logger'
 
 const DOMAIN = `https://www.singaporelawwatch.sg`
 
-// eslint-disable-next-line no-secrets/no-secrets
 const getSearchResults = (citation: string) => `${DOMAIN}/DesktopModules/EasyDNNNewsSearch/SearchAutoComplete.ashx?nsw=a&mid=479&TabId=21&portal_id=0&acat=1&ModToOpenResults=426&TabToOpenResults=48&evl=0&q=${citation}`
 
 const parseCase = (name: string, link: string) => ({

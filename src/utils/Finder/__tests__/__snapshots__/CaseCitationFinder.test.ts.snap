@@ -396,10 +396,12 @@ Array [
 exports[` 31`] = `
 Array [
   Object {
+    "abbr": "FCA",
     "citation": "[2010] FCA 984",
     "index": 0,
     "jurisdiction": "AU",
     "type": "case-citation",
+    "year": "[2010]",
   },
 ]
 `;
@@ -407,10 +409,12 @@ Array [
 exports[` 32`] = `
 Array [
   Object {
+    "abbr": "CLR",
     "citation": "(1990) 171 CLR 30",
     "index": 0,
     "jurisdiction": "AU",
     "type": "case-citation",
+    "year": "(1990)",
   },
 ]
 `;
@@ -418,10 +422,12 @@ Array [
 exports[` 33`] = `
 Array [
   Object {
+    "abbr": "ACSR",
     "citation": "(1992) 7 ACSR 759",
     "index": 0,
     "jurisdiction": "AU",
     "type": "case-citation",
+    "year": "(1992)",
   },
 ]
 `;
@@ -429,10 +435,12 @@ Array [
 exports[` 34`] = `
 Array [
   Object {
+    "abbr": "ALJ",
     "citation": "(2003) 200 ALJ 1",
     "index": 0,
     "jurisdiction": "AU",
     "type": "case-citation",
+    "year": "(2003)",
   },
 ]
 `;
@@ -440,10 +448,12 @@ Array [
 exports[` 35`] = `
 Array [
   Object {
+    "abbr": "HCA",
     "citation": "[1989] HCA 9",
     "index": 0,
     "jurisdiction": "AU",
     "type": "case-citation",
+    "year": "[1989]",
   },
 ]
 `;

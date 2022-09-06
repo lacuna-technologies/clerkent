@@ -13,7 +13,8 @@ const parseCaseData = (data: AxiosResponse[`data`]): Law.Case[] => {
   const $ = cheerio.load(data)
   return $(`#page-main > .card > ul > li`).map((_, element): Law.Case => {
     const name = $(`> a:first-of-type`, element).text().trim()
-    const link = `${DOMAIN}${$(`> a:first-of-type`, element).attr(`href`)}`
+    const path = $(`> a:first-of-type`, element).attr(`href`)
+    const link = `${DOMAIN}${path}`
     const citation = findCitation(findAUCaseCitation, name)
     return {
       citation,
