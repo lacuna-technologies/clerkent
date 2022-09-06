@@ -1,4 +1,4 @@
-import { databaseUse, sortByName } from '../utils'
+import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
 import { sortSGCitations } from 'utils/Finder/CaseCitationFinder/SG'
 import Common from '../common'
 import Constants from 'utils/Constants'
@@ -15,14 +15,22 @@ import { Downloads } from 'webextension-polyfill-ts'
 
 const getLegislation = SSO.getLegislation
 
+const databaseUseSG = databaseUseJurisdiction(`SG`)
+const databaseUseeLitigation = databaseUseDatabase(`elitigation`, databaseUseSG)
+const databaseUseOpenLaw = databaseUseDatabase(`openlaw`, databaseUseSG)
+const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseSG)
+const databaseUseIPOS = databaseUseDatabase(`ipos`, databaseUseSG)
+const databaseUseSTB = databaseUseDatabase(`stb`, databaseUseSG)
+const databaseUseSLW = databaseUseDatabase(`slw`, databaseUseSG)
+
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      databaseUse(`SG`, `elitigation`, () => eLitigation.getCaseByName(caseName)),
-      databaseUse(`SG`, `openlaw`, () => OpenLaw.getCaseByName(caseName)),
-      databaseUse(`SG`, `commonlii`, () => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name)),
-      databaseUse(`SG`, `ipos`, () => IPOS.getCaseByName(caseName)),
-      databaseUse(`SG`, `stb`, () => STB.getCaseByName(caseName)),
+      databaseUseeLitigation(() => eLitigation.getCaseByName(caseName)),
+      databaseUseOpenLaw(() => OpenLaw.getCaseByName(caseName)),
+      databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name)),
+      databaseUseIPOS(() => IPOS.getCaseByName(caseName)),
+      databaseUseSTB(() => STB.getCaseByName(caseName)),
     ]))
       .filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
@@ -45,24 +53,24 @@ const getApplicableDatabases = (citation: string) => {
   const [{ year, abbr }] = Finder.findCaseCitation(citation)
   switch (abbr) {
     case `SGIPOS`: {
-      return [IPOS.getCaseByCitation(citation)]
+      return [databaseUseIPOS(() => IPOS.getCaseByCitation(citation))]
     }
     case `SGPDPC`: 
     case `SGPDPCR`: {
       // SLW is best source for now
       // PDPC's website does not include citations
-      return [SLW.getCaseByCitation(citation)]
+      return [databaseUseSLW(() => SLW.getCaseByCitation(citation))]
     }
     case `SGSTB`: {
-      return [STB.getCaseByCitation(citation)]
+      return [databaseUseSTB(() => STB.getCaseByCitation(citation))]
     }
     default: {
-      return Number.parseInt(year) >= 2000 ? [
-          eLitigation.getCaseByCitation(citation),
-          Common.CommonLII.getCaseByCitation(citation),
+      return Number.parseInt(year, 10) >= 2000 ? [
+          databaseUseeLitigation(() => eLitigation.getCaseByCitation(citation)),
+          databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
         ] : [
-          OpenLaw.getCaseByCitation(citation),
-          Common.CommonLII.getCaseByCitation(citation),
+          databaseUseOpenLaw(() => OpenLaw.getCaseByCitation(citation)),
+          databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
         ]
     }
   }

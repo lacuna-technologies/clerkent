@@ -59,10 +59,14 @@ export const sortByName = (query: string, cases: Law.Case[]) => {
     .map(({ refIndex }) => cases[refIndex])
 }
 
-export const databaseUse = async (jurisdictionId: Law.JurisdictionCode, databaseId: string, function_: () => Promise<Law.Case[]>): Promise<Law.Case[]> => {
+type DatabaseUseFunction = () => Promise<Law.Case[]>
+export const databaseUse = async (jurisdictionId: Law.JurisdictionCode, databaseId: string, function_: DatabaseUseFunction): Promise<Law.Case[]> => {
   const databasesStatus: typeof Constants.DEFAULT_DATABASES_STATUS = await Storage.get(`DATABASES_STATUS`) || Constants.DEFAULT_DATABASES_STATUS
   if(databasesStatus[jurisdictionId][databaseId]){
     return function_()
   } 
   return []
 }
+
+export const databaseUseJurisdiction = (jurisdictionId: Law.JurisdictionCode) => (...arguments_: [string, DatabaseUseFunction]) => databaseUse(jurisdictionId, ...arguments_)
+export const databaseUseDatabase = (databaseId: string, databaseUseJurisdictionFunction) => (_function: DatabaseUseFunction) => databaseUseJurisdictionFunction(databaseId, _function)

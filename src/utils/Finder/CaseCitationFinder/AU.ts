@@ -1,3 +1,4 @@
+import Logger from 'utils/Logger'
 import Constants from '../../Constants'
 import { formatAbbrs, sortCitationsByVolume } from './utils'
 
@@ -12,19 +13,6 @@ export const AUAbbrs = [
   { abbr: `FamCA` },
   { abbr: `HCASum` },
 
-  { abbr: `NSWSC` },
-  { abbr: `QSC` },
-  { abbr: `VicSC` },
-  { abbr: `VSC` },
-  { abbr: `SASC` },
-  { abbr: `WASC` },
-  { abbr: `WASupC` },
-  { abbr: `TASSC` },
-  { abbr: `TASSupC` },
-  { abbr: `NTSC` },
-  { abbr: `ACTSC` },
-  { abbr: `NFSC` },
-
   { abbr: `NSWCA` },
   { abbr: `VSCA` },
   { abbr: `QCA` },
@@ -38,6 +26,21 @@ export const AUAbbrs = [
   { abbr: `NTCA` },
   { abbr: `NTCCA` },
   { abbr: `ACTCA` },
+
+  { abbr: `NSWSC` },
+  { abbr: `QSC` },
+  { abbr: `QSCPR` },
+  { abbr: `QSCFC` },
+  { abbr: `VicSC` },
+  { abbr: `VSC` },
+  { abbr: `SASC` },
+  { abbr: `WASC` },
+  { abbr: `WASupC` },
+  { abbr: `TASSC` },
+  { abbr: `TASSupC` },
+  { abbr: `NTSC` },
+  { abbr: `ACTSC` },
+  { abbr: `NFSC` },
 
   { abbr: `NSWLR` },
   { abbr: `NSWR` },
@@ -56,11 +59,21 @@ export const AUAbbrs = [
   { abbr: `NSWIC` },
   { abbr: `NSWKnoxRp` },
   { abbr: `QDC` },
+  { abbr: `QDCPR` },
+  { abbr: `QMC` },
+  { abbr: `QCATA` },
+  { abbr: `QCAT` },
+  { abbr: `QPEC` },
+  { abbr: `QLAC` },
+  { abbr: `QLC` },
+  { abbr: `ICQ` },
+  { abbr: `QIRC` },
   { abbr: `QChC` },
   { abbr: `QChCM` },
-  { abbr: `ICQ` },
+  { abbr: `QMHC` },
   { abbr: `QIC` },
   { abbr: `QLC` },
+  { abbr: `QHPT` },
   { abbr: `VR` },
   { abbr: `VicCorC` },
   { abbr: `VCC` },
@@ -117,7 +130,11 @@ export const findAUCaseCitationMatches = (query: string) => {
   const volumeRegex = new RegExp(/( \d{1,3})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
   const abbrs = formatAbbrs(AUAbbrs)
-  const regex = new RegExp(`${yearRegex.source}${volumeRegex.source} (${abbrs}) ${pageRegex.source}`, `gi`)
+  const regex = new RegExp(
+    `(?<year>${yearRegex.source})`+
+    `(?<volume>${volumeRegex.source}) `+
+    `(?<abbr>${abbrs}) `+
+    `${pageRegex.source}`, `gi`)
 
   return [...query.matchAll(regex)]
 }
@@ -126,9 +143,11 @@ export const findAUCaseCitation = (query: string): Finder.CaseCitationFinderResu
   const matches = findAUCaseCitationMatches(query)
   if (matches.length > 0) {
     return matches.map((match) => ({
+      abbr: match.groups.abbr,
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.AU.id,
+      year: match.groups.year,
     })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []
