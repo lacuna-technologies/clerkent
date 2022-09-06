@@ -189,6 +189,16 @@ const AU_DATABASES: CountryDatabases = {
     name: `AustLII`,
     url: `https://www8.austlii.edu.au`,
   },
+  queensland_judgments: {
+    icon: ``,
+    name: `Queensland Judgments`,
+    url: `https://www.queenslandjudgments.com.au`,
+  },
+  queensland_scl: {
+    icon: ``,
+    name: `Queensland Supreme Court Library`,
+    url: `https://www.sclqld.org.au`,
+  },
 } as const
 
 const NZ_DATABASES: CountryDatabases = {
@@ -300,6 +310,7 @@ const DEFAULT_DATABASES_STATUS= {
   AU: {
     austlii: true,
     commonlii: true,
+    queensland_judgments: true,
   },
   CA: {
     canlii: true,
