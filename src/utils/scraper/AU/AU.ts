@@ -8,12 +8,14 @@ import { sortByName, databaseUseJurisdiction, databaseUseDatabase } from '../uti
 import CommonLII from '../common/CommonLII'
 import QueenslandJudgments from './QueenslandJudgments'
 import QueenslandSCL from './QueenslandSCL'
+import NSWCaseLaw from './NSWCaseLaw'
 
 const databaseUseAU = databaseUseJurisdiction(`AU`)
 const databaseUseAustLII = databaseUseDatabase(`austlii`, databaseUseAU)
 const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseAU)
 const databaseUseQueenslandJudgments = databaseUseDatabase(`queensland_judgments`, databaseUseAU)
 const databaseUseQueenslandSCL = databaseUseDatabase(`queensland_scl`, databaseUseAU)
+const databaseUseNSWCaseLaw = databaseUseDatabase(`nsw_caselaw`, databaseUseAU)
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
@@ -46,6 +48,33 @@ const getApplicableDatabases = (citation: string) => {
     databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
   ]
   switch(abbr){
+    case `NSWSC`:
+    case `NSWCA`:
+    case `NSWCCA`:
+    case `NSWDC`:
+    case `NSWLEC`:
+    case `NSWLC`:
+    case `NSWIRComm`:
+    case `NSWDRGC`:
+    case `NSWCC`:
+    case `NSWChC`:
+    case `NSWADTAP`:
+    case `NSWADT`:
+    case `NSWCATAP`:
+    case `NSWCATAD`:
+    case `NSWCATCD`:
+    case `NSWCATGD`:
+    case `NSWCATOD`:
+    case `NSWDDT`:
+    case `NSWEOT`:
+    case `NSWFTT`:
+    case `NSWLST`:
+    case `NSWMT`:
+    case `NSWTAB`:
+      return [
+        databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByCitation(citation)),
+        ...defaultDatabases,
+      ]
     case `QR`:
     case `QCA`:
     case `QSC`:

@@ -14,7 +14,7 @@ declare namespace Law {
 
   type Link = {
     doctype: `Summary` | `Judgment` | `Opinion` | `Legislation` | `Order`,
-    filetype: `PDF` | `HTML`,
+    filetype: `PDF` | `HTML` | `DOCX` | `RTF`,
     url: string,
   }
   type Case = {

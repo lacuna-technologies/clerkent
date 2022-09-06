@@ -2,10 +2,27 @@ import * as cheerio from 'cheerio'
 import Request from 'utils/Request'
 import Constants from 'utils/Constants'
 import Helpers from 'utils/Helpers'
-import Logger from 'utils/Logger'
 
 const API_DOMAIN = `https://api.sclqld.org.au`
 const DOMAIN = `https://www.sclqld.org.au`
+
+const defaultParameters = {
+  c: ``,
+  court: 0,
+  cw: ``,
+  fn: ``,
+  form_id: `caselaw_advanced_search_form`,
+  format: `results`,
+  j: ``,
+  lg: ``,
+  lpp: 25,
+  op: `Search`,
+  p: 0,
+  pt: ``,
+  q: ``,
+  reported: 0,
+  sort: `score:desc`,
+}
 
 const parseCaseResults = (htmlResponse: string): Law.Case[] => {
   const $ = cheerio.load(htmlResponse)
@@ -22,7 +39,7 @@ const parseCaseResults = (htmlResponse: string): Law.Case[] => {
       jurisdiction: Constants.JURISDICTIONS.AU.id,
       links: [
         {
-          doctype: `Judgment`,
+          doctype: `Summary`,
           filetype: `HTML`,
           url: link,
         },
@@ -43,21 +60,8 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     `${API_DOMAIN}/v1/caselaw/search`,
     {
       params: {
+        ...defaultParameters,
         c: citation,
-        court: 0,
-        cw: ``,
-        fn: ``,
-        form_id: `caselaw_advanced_search_form`,
-        format: `results`,
-        j: ``,
-        lg: ``,
-        lpp: 25,
-        op: `Search`,
-        p: 0,
-        pt: ``,
-        q: ``,
-        reported: 0,
-        sort: `score:desc`,
       },
     },
   )
@@ -69,21 +73,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     `${API_DOMAIN}/v1/caselaw/search`,
     {
       params: {
-        c: ``,
-        court: 0,
-        cw: ``,
-        fn: ``,
-        form_id: `caselaw_advanced_search_form`,
-        format: `results`,
-        j: ``,
-        lg: ``,
-        lpp: 25,
-        op: `Search`,
-        p: 0,
+        ...defaultParameters,
         pt: caseName,
-        q: ``,
-        reported: 0,
-        sort: `score:desc`,
       },
     },
   )

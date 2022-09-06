@@ -189,6 +189,11 @@ const AU_DATABASES: CountryDatabases = {
     name: `AustLII`,
     url: `https://www8.austlii.edu.au`,
   },
+  nsw_caselaw: {
+    icon: ``,
+    name: `New South Wales Caselaw`,
+    url: `https://www.caselaw.nsw.gov.au`,
+  },
   queensland_judgments: {
     icon: ``,
     name: `Queensland Judgments`,
@@ -310,6 +315,7 @@ const DEFAULT_DATABASES_STATUS= {
   AU: {
     austlii: true,
     commonlii: true,
+    nsw_caselaw: true,
     queensland_judgments: true,
     queensland_scl: true,
   },

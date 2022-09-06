@@ -21,7 +21,7 @@ const parseCaseResults = (htmlResponse: string): Law.Case[] => {
       jurisdiction: Constants.JURISDICTIONS.AU.id,
       links: [
         {
-          doctype: `Judgment`,
+          doctype: `Summary`,
           filetype: `HTML`,
           url: link,
         },
