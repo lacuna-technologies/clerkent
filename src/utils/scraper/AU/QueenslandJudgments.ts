@@ -4,7 +4,6 @@ import Constants from 'utils/Constants'
 import Helpers from 'utils/Helpers'
 import { findCitation } from '../utils'
 import { findAUCaseCitation } from 'utils/Finder/CaseCitationFinder/AU'
-import Logger from 'utils/Logger'
 
 const DOMAIN = `https://www.queenslandjudgments.com.au`
 
