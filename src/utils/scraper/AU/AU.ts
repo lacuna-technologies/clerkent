@@ -21,6 +21,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
       databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByCitation(caseName)),
+      databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByCitation(caseName)),
+      databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByCitation(caseName)),
       databaseUseAustLII(() => austlii.getCaseByName(caseName)),
       databaseUseCommonLII(() => CommonLII.getCaseByName(caseName)),
     ]))
