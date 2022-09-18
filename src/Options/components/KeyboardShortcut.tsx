@@ -1,6 +1,11 @@
+import { useCallback } from 'preact/hooks'
 import Browser from 'utils/Browser'
+import { browser } from 'webextension-polyfill-ts'
 
 const KeyboardShortcut = () => {
+  const openChromeShortcuts = useCallback(() => {
+    browser.tabs.create({ url: `chrome://extensions/shortcuts `})
+  }, [])
   return (
     <section className="flex flex-row justify-between items-center gap-8">
       <div className="flex flex-col">
@@ -13,16 +18,16 @@ const KeyboardShortcut = () => {
             Browser.isChrome() ?
               (
                 <>
-                  click&nbsp;
+                  visit&nbsp;
                   <a
                     className="text-blue-700 border-0 bg-none outline-none p-0 underline cursor-pointer select-text hover:text-blue-900"
-                    href="chrome://extensions/shortcuts"
+                    onClick={openChromeShortcuts}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    here
+                    chrome://extensions/shortcuts
                   </a>
-                  .
+                  . Due to Chrome's quirks, you will need to delete and add this shortcut once in order for it to work.
                 </>
               ) : (
                 <>

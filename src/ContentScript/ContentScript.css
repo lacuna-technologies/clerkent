@@ -35,18 +35,18 @@ html {
   margin-bottom: 0.4rem;
 }
 
-#clerkent-tooltip > .clerkent-meta > span {
-  margin-right: 0.5rem;
-}
-
 #clerkent-tooltip a {
   color: black !important;
   text-decoration: none !important;
 }
 
+#clerkent-tooltip > a {
+  font-weight: bold;
+}
+
 #clerkent-tooltip a[href]{
   color: blue !important;
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #clerkent-tooltip a[href]:hover {

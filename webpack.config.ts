@@ -155,6 +155,7 @@ const WebpackConfig = {
   output: {
     filename: `js/[name].bundle.js`,
     path: path.join(destinationPath, targetBrowser),
+    publicPath: ``,
   },
 
   

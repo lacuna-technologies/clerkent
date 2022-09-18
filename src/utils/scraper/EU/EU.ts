@@ -4,14 +4,19 @@ import EURLex from './EURLex'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
-import { databaseUse, sortByName } from '../utils'
+import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
+import { sortEUCitations } from 'utils/Finder/CaseCitationFinder/EU'
+
+const databaseUseEU = databaseUseJurisdiction(`EU`)
+const databaseUseCURIA = databaseUseDatabase(`curia`, databaseUseEU)
+const databaseUseEPO = databaseUseDatabase(`epo`, databaseUseEU)
 
 const getLegislation = EURLex.getLegislation
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      databaseUse(`EU`, `curia`, () => CURIA.getCaseByName(caseName)),
+      databaseUseCURIA(() => CURIA.getCaseByName(caseName)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
@@ -28,13 +33,25 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 }
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  const options = court === `EPO` ? [EPO] : [CURIA]
-  for (const option of options){
-    try {
-      return await option.getCaseByCitation(citation)
-    } catch (error) {
-      Logger.error(error)
-    }
+  let applicableDatabases = []
+  applicableDatabases = court === `EPO` ? [
+      databaseUseEPO(() => EPO.getCaseByCitation(citation)),
+    ] : [
+      databaseUseCURIA(() => CURIA.getCaseByCitation(citation)),
+    ]
+
+  try {
+    const results = (await Promise.allSettled(applicableDatabases))
+      .filter(({ status }) => status === `fulfilled`)
+      .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
+      .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
+
+    return sortEUCitations(
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
+    )
+  } catch (error) {
+    Logger.error(error)
   }
   return []
 }

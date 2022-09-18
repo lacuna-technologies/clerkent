@@ -2,7 +2,8 @@ import { Messenger, Helpers, Finder, Constants, Logger } from '../utils'
 import type { Runtime } from 'webextension-polyfill-ts'
 import { browser } from 'webextension-polyfill-ts'
 import Tooltip from './Tooltip'
-import PDFSvg from '../assets/icons/pdf.svg'
+import PDFSvg from 'assets/icons/pdf.svg'
+import { getFlagSource } from 'utils/Flag'
 
 let port: Runtime.Port
 
@@ -31,6 +32,14 @@ const setOpenInNewTab = (element: HTMLElement): HTMLElement => {
   return element
 }
 
+const makeJurisdictionIcon = (jurisdictionId: Law.Jurisdiction[`id`]) => {
+  const icon = document.createElement(`img`)
+  const source = getFlagSource(jurisdictionId)
+  icon.setAttribute(`src`, source)
+  icon.setAttribute(`style`, `height: 20px; margin-right: 10px;`)
+  return icon
+}
+
 const handleViewCitation = (message: Messenger.Message) => {
   const data = message.data as Law.Case[]
   const tooltip: HTMLElement = document.querySelector(`#clerkent-tooltip`)
@@ -45,9 +54,8 @@ const handleViewCitation = (message: Messenger.Message) => {
     // meta
     const metaDiv = document.createElement(`div`)
     metaDiv.classList.add(`clerkent-meta`)
-    const jurisSpan = document.createElement(`span`)
-    jurisSpan.textContent = Constants.JURISDICTIONS[jurisdiction].emoji
-    metaDiv.append(jurisSpan)
+    const jurisdictionIcon = makeJurisdictionIcon(Constants.JURISDICTIONS[jurisdiction].id)
+    metaDiv.append(jurisdictionIcon)
 
     const databaseSpan = document.createElement(`span`)
     databaseSpan.textContent = database.name
@@ -69,6 +77,7 @@ const handleViewCitation = (message: Messenger.Message) => {
 
     const linksDiv = document.createElement(`div`)
     linksDiv.className = `clerkent-links`
+    linksDiv.setAttribute(`style`, `margin-top: 5px;`)
     if(judgmentLink){
       const judgmentLinkElement = document.createElement(`a`)
       judgmentLinkElement.href = judgmentLink?.url

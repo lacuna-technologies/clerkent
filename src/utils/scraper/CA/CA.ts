@@ -4,13 +4,17 @@ import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortCACitations } from '../../Finder/CaseCitationFinder/CA'
 import Helpers from '../../Helpers'
-import { databaseUse, sortByName } from '../utils'
+import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
+
+const databaseUseCA = databaseUseJurisdiction(`CA`)
+const databaseUseCanlii = databaseUseDatabase(`canlii`, databaseUseCA)
+const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseCA)
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      databaseUse(`CA`, `canlii`, () => canlii.getCaseByName(caseName)),
-      databaseUse(`CA`, `commonlii`, () => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name)),
+      databaseUseCanlii(() => canlii.getCaseByName(caseName)),
+      databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
@@ -32,8 +36,8 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      canlii.getCaseByCitation(citation),
-      Common.CommonLII.getCaseByCitation(citation),
+      databaseUseCanlii(() => canlii.getCaseByCitation(citation)),
+      databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
     ])).filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.CA.id)

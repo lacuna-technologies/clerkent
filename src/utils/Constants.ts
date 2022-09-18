@@ -347,9 +347,9 @@ const DEFAULT_DATABASES_STATUS= {
   SG: {
     commonlii: true,
     elitigation: true,
-    ipos: false,
+    ipos: true,
     openlaw: true,
-    stb: false,
+    stb: true,
   },
   UK: {
     bailii: true,
