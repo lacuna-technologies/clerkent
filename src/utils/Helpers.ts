@@ -1,6 +1,6 @@
 // eslint-disable-next-line unicorn/better-regex, no-useless-escape
-const sanitiseFilename = (fileName: string) => fileName.replace(/[^\d --\.\[\]a-z]/gi, ``)
-const sanitiseCaseCitation = (citation: string) => citation.replace(/[^\d --[\]a-z]/gi, ` `)
+const sanitiseFilename = (fileName: string) => fileName.replace(/[^\d --\.\[\]a-z]|"/gi, ``)
+const sanitiseCaseCitation = (citation: string) => citation.replace(/[^\d --[\]a-z]|"/gi, ` `)
 const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) => {
   let timer: NodeJS.Timer
   return (...arguments_: any[]) => {
