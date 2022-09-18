@@ -6,14 +6,19 @@ import Logger from '../../Logger'
 import Constants from '../../Constants'
 import { sortHKCitations } from '../../Finder/CaseCitationFinder/HK'
 import Helpers from '../../Helpers'
-import { databaseUse, sortByName } from '../utils'
+import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
+
+const databaseUseHK = databaseUseJurisdiction(`HK`)
+const databaseUseLRS = databaseUseDatabase(`lrs`, databaseUseHK)
+const databaseUseHKLIIIORG = databaseUseDatabase(`hkliiorg`, databaseUseHK)
+const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseHK)
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      databaseUse(`HK`, `lrs`, () => LRS.getCaseByName(caseName)),
-      databaseUse(`HK`, `hkliiorg`, () => HKLIIORG.getCaseByName(caseName)),
-      databaseUse(`HK`, `commonlii`, () => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.HK.name)),
+      databaseUseLRS(() => LRS.getCaseByName(caseName)),
+      databaseUseHKLIIIORG(() => HKLIIORG.getCaseByName(caseName)),
+      databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.HK.name)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
@@ -35,10 +40,9 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      LRS.getCaseByCitation(citation),
-      HKLIIORG.getCaseByCitation(citation),
-      // HKLIIHK.getCaseByCitation(citation),
-      Common.CommonLII.getCaseByCitation(citation),
+      databaseUseLRS(() => LRS.getCaseByCitation(citation)),
+      databaseUseHKLIIIORG(() => HKLIIORG.getCaseByCitation(citation)),
+      databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
     ])).filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
     .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.HK.id)

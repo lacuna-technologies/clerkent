@@ -104,6 +104,7 @@ const getAllCases = async (): Promise<Law.Case[]> => {
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   const allCases = await getAllCases()
   const escapedCitation = Helpers.escapeRegExp(citation)
+  Logger.log(`IPOS`, allCases)
   return allCases.filter(({ citation: c }) => {
     return (new RegExp(`${escapedCitation}`, `i`).test(c))
   })

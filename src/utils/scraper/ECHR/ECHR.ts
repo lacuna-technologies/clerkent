@@ -3,14 +3,18 @@ import HUDOC from './HUDOC'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
-import { databaseUse, sortByName } from '../utils'
+import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
+import { sortECHRCitations } from 'utils/Finder/CaseCitationFinder/ECHR'
+
+const databaseUseECHR = databaseUseJurisdiction(`ECHR`)
+const databaseUseHUDOC = databaseUseDatabase(`hudoc`, databaseUseECHR)
 
 const getLegislation = () => null
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      databaseUse(`ECHR`, `hudoc`, () => HUDOC.getCaseByName(caseName)),
+      databaseUseHUDOC(() => HUDOC.getCaseByName(caseName)),
     ]))
     .filter(({ status }) => status === `fulfilled`)
     .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
@@ -34,13 +38,22 @@ const getCaseByCitation = async (
   citation: string,
   court: string,
 ): Promise<Law.Case[]> => {
-  const options = [HUDOC]
-  for (const option of options){
-    try {
-      return await option.getCaseByCitation(citation)
-    } catch (error) {
-      Logger.error(error)
-    }
+  const applicableDatabases = [
+    databaseUseHUDOC(() => HUDOC.getCaseByCitation(citation)),
+  ]
+
+  try {
+    const results = (await Promise.allSettled(applicableDatabases))
+      .filter(({ status }) => status === `fulfilled`)
+      .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
+      .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
+
+    return sortECHRCitations(
+      Helpers.uniqueBy(results, `citation`),
+      `citation`,
+    )
+  } catch (error) {
+    Logger.error(error)
   }
   return []
 }

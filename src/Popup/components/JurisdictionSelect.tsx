@@ -36,20 +36,6 @@ const JurisdictionSelect = ({ value, onChangeJurisdiction }: Props) => {
       value={optionValue}
       onChange={onChange}
     />
-    // <SelectInput
-    //       className="flex-1"
-    //       options={Object.values(supportedJurisdictions).map(({ id, name }) => ({
-    //         content: (
-    //           <>
-    //             <JurisdictionFlag country={id} />
-    //             <span>{name}</span>
-    //           </>
-    //         ),
-    //         value: id,
-    //       }))}
-    //       value={selectedJurisdiction}
-    //       onChange={onChangeJurisdiction}
-    //     />
   )
 }
 

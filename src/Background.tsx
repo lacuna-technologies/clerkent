@@ -50,7 +50,7 @@ const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.Other
   }
 
   if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
-    const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
+    const data = result.map((r: Law.Case) => ({...targets[0], ...r}))
 
     const message = {
       action: Messenger.ACTION_TYPES.viewCitation,
