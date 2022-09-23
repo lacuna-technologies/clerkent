@@ -34,6 +34,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
 
 const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
   let applicableDatabases = []
+  Logger.log(`EU getCaseByCitation`, citation, court)
   applicableDatabases = court === `EPO` ? [
       databaseUseEPO(() => EPO.getCaseByCitation(citation)),
     ] : [
@@ -44,7 +45,7 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
     const results = (await Promise.allSettled(applicableDatabases))
       .filter(({ status }) => status === `fulfilled`)
       .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-      .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
+      .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.EU.id)
 
     return sortEUCitations(
       Helpers.uniqueBy(results, `citation`),
