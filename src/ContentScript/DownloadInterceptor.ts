@@ -95,7 +95,7 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const downloadButtonSelector = `li.document-action.download`
     await waitForElement(downloadButtonSelector)
     const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
-    const citationElement = document.querySelector(`span.NCitation.offhyperlink`)
+    const citationElement = document.querySelector(`span.NCitation.offhyperlink`) || document.querySelector(`div.lr_citation_link`)
     const caseNameElement = document.querySelector(`span.caseTitle`)
     const citation = citationElement.textContent.trim()
     const encodedCitation = citation.replaceAll(` `, `+`)
