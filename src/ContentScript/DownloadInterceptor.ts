@@ -117,6 +117,27 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const listener = downloadPDF(port, { doctype: `Judgment`, law })
     downloadButton.addEventListener(`click`, listener)
   }
+
+  const isAustlii = ([`www.austlii.edu.au`, `www6.austlii.edu.au`, `www8.austlii.edu.au`].includes(hostname) && pathname.match(new RegExp(``)) !== null)
+  if(isAustlii){
+    const downloadButtonSelector = `div.side-element.side-download a[href^="/cgi-bin/sign.cgi"]`
+    await waitForElement(downloadButtonSelector)
+    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
+    const citationElement = document.querySelector(`.ribbon-citation span`)
+    const caseName = document.querySelector(`title`).textContent.replace(/ \[.*$/, ``).trim()
+    const law: Law.Case = {
+      citation: citationElement.textContent.trim(),
+      database: Constants.DATABASES.AU_austlii,
+      jurisdiction: Constants.JURISDICTIONS.AU.id,
+      links: [],
+      name: Helpers.removeCommonAppends(
+        caseName,
+      ),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    return augmentDownloadButton(port, downloadButton, fileName)
+  }
 }
 
 export default downloadInterceptor
