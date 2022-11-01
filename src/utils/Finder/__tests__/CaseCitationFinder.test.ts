@@ -46,6 +46,7 @@ describe(`Finder`, () => {
     `(1992) 7 ACSR 759`,
     `(2003) 200 ALJ 1`,
     `[1989] HCA 9`,
+    `(1982) 7 ACLR 171`,
   ]
 
   const CACitations = [
