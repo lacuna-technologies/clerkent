@@ -1,5 +1,5 @@
 import type { Runtime } from 'webextension-polyfill-ts'
-import { Messenger, Constants, Helpers } from '../utils'
+import { Messenger, Constants, Helpers, Logger } from '../utils'
 
 const augmentDownloadButton = (port: Runtime.Port, button: HTMLAnchorElement, fileName: string): void => {
   button.addEventListener(`click`, (event: MouseEvent) => {
@@ -48,9 +48,7 @@ const waitForElement = (selector: string) => new Promise(resolve => {
   })
 })
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
-const downloadInterceptor = async (port: Runtime.Port) => {
-  const { hostname, pathname } = window.location
+const intercepteLitigationDownloads = (hostname: string, pathname: string, port: Runtime.Port) => {
   const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/gdviewer/s/[0-9]{4}.+$`)).test(pathname))
   if(iseLitigation){
     const downloadButton: HTMLAnchorElement = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
@@ -69,7 +67,9 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const fileName = Helpers.getFileName(law, `Judgment`)
     return augmentDownloadButton(port, downloadButton, fileName)
   }
-  
+}
+
+const interceptLawNetDownloads = (hostname: string, pathname: string, port: Runtime.Port) => {
   const isLawNet = (hostname === `www.lawnet.sg` && pathname === `/lawnet/group/lawnet/page-content`)
   const isLawNetCase = document.querySelector(`div.case-reference > ul.statusInfo`) !== null
   if (isLawNet && isLawNetCase){
@@ -89,7 +89,9 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const fileName = Helpers.getFileName(law, `Judgment`)
     return augmentDownloadButton(port, downloadButton, fileName)
   }
+}
 
+const interceptOpenLawDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
   const isOpenLaw = (hostname === `www.lawnet.com` && pathname.match(new RegExp(`^/openlaw/cases/citation`)) !== null)
   if(isOpenLaw){
     const downloadButtonSelector = `li.document-action.download`
@@ -117,7 +119,9 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const listener = downloadPDF(port, { doctype: `Judgment`, law })
     downloadButton.addEventListener(`click`, listener)
   }
+}
 
+const interceptAustliiDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
   const isAustlii = ([`www.austlii.edu.au`, `www6.austlii.edu.au`, `www8.austlii.edu.au`].includes(hostname) && pathname.match(new RegExp(``)) !== null)
   if(isAustlii){
     const downloadButtonSelector = `div.side-element.side-download a[href^="/cgi-bin/sign.cgi"]`
@@ -138,7 +142,9 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const fileName = Helpers.getFileName(law, `Judgment`)
     return augmentDownloadButton(port, downloadButton, fileName)
   }
+}
 
+const interceptSSODownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
   const isSSO = (hostname === `sso.agc.gov.sg`)
   if(isSSO){
     const isDetail = (pathname.match(new RegExp(/^\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
@@ -166,15 +172,77 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     const isBrowse = (pathname.match(new RegExp(/^\/Browse\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
     if (isBrowse){
       const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
-      for(const downloadButton_ of downloadButtons){
-        const downloadButton = downloadButton_ as HTMLAnchorElement
+      for(const downloadButton of downloadButtons){
         const legislationName = downloadButton.parentElement.parentElement.children[1].querySelector(`a.non-ajax`).textContent.trim()
         const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
-        augmentDownloadButton(port, downloadButton, fileName)
+        augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
       }
       return
     }
   }
+}
+
+const interceptWestlawDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+  const isWestLaw = (hostname === `uk.westlaw.com`)
+  if(isWestLaw){
+    const isDetail = (pathname.match(new RegExp(/^\/Document\/[\dA-Z]+\/View\/FullText\.html/)) !== null)
+    if(isDetail){
+      await waitForElement(`#co_docContentWhereReported,#co_docContentMetaInfo`)
+      const caseName = document.title.replace(` | Westlaw UK`, ``)
+      const downloadButtons = document.querySelectorAll(`#co_docContentWhereReported a[type="application/pdf"], #co_docContentMetaInfo a[type="application/pdf"]`)
+      for(const downloadButton of downloadButtons){
+        const citation = downloadButton.parentElement.parentElement.textContent.trim()
+        const law: Law.Case = {
+          citation,
+          database: Constants.DATABASES.UK_westlaw,
+          jurisdiction: Constants.JURISDICTIONS.UK.id,
+          links: [],
+          name: Helpers.removeCommonAppends(
+            caseName,
+          ),
+          type: `case-citation`,
+        }
+        const fileName = Helpers.getFileName(law, `Judgment`)
+        augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+        // TODO: Westlaw will return a HTML page if PDF is not within subscription
+        // in such situations, should throw error instead of downloading invalid PDF file
+      }      
+    }
+    const isSearch = (pathname.match(new RegExp(/^\/Search\/Results\.html/)) !== null)
+    if(isSearch){
+      await waitForElement(`#co_search_results_inner`)
+      const downloadButtons = [...document.querySelectorAll(`.icon_colour_pdf`)].map(element => element.parentElement)
+      for(const downloadButton of downloadButtons){
+        const citation = downloadButton.previousElementSibling.textContent.trim()
+        const caseName = downloadButton.parentElement.parentElement.querySelector(`.co_accessibilityLabel`).textContent.trim()
+        const law: Law.Case = {
+          citation,
+          database: Constants.DATABASES.UK_westlaw,
+          jurisdiction: Constants.JURISDICTIONS.UK.id,
+          links: [],
+          name: Helpers.removeCommonAppends(
+            caseName,
+          ),
+          type: `case-citation`,
+        }
+        const fileName = Helpers.getFileName(law, `Judgment`)
+        augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+        // TODO: Westlaw will return a HTML page if PDF is not within subscription
+        // in such situations, should throw error instead of downloading invalid PDF file
+      }
+    }
+  }
+}
+
+const downloadInterceptor = async (port: Runtime.Port) => {
+  const { hostname, pathname } = window.location
+
+  intercepteLitigationDownloads(hostname, pathname, port)
+  interceptLawNetDownloads(hostname, pathname, port)
+  await interceptOpenLawDownloads(hostname, pathname, port)
+  await interceptAustliiDownloads(hostname, pathname, port)
+  interceptSSODownloads(hostname, pathname, port)
+  await interceptWestlawDownloads(hostname, pathname, port)
 }
 
 export default downloadInterceptor
