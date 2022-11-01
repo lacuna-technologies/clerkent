@@ -48,10 +48,10 @@ const waitForElement = (selector: string) => new Promise(resolve => {
   })
 })
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const downloadInterceptor = async (port: Runtime.Port) => {
   const { hostname, pathname } = window.location
   const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/gdviewer/s/[0-9]{4}.+$`)).test(pathname))
-
   if(iseLitigation){
     const downloadButton: HTMLAnchorElement = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
     const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink,span.NCitation.offhyperlink`)
@@ -137,6 +137,43 @@ const downloadInterceptor = async (port: Runtime.Port) => {
     }
     const fileName = Helpers.getFileName(law, `Judgment`)
     return augmentDownloadButton(port, downloadButton, fileName)
+  }
+
+  const isSSO = (hostname === `sso.agc.gov.sg`)
+  if(isSSO){
+    const isDetail = (pathname.match(new RegExp(/^\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
+    if(isDetail){
+      // there are 4, but we are only concerned with desktop
+      const downloadButton: HTMLAnchorElement = document.querySelector(`.file-download`)
+      // there are also 4, but it doesn't matter which one we pick
+      const legislationName = document.querySelector(`.legis-title`).textContent.trim()
+      const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
+      return augmentDownloadButton(port, downloadButton, fileName)
+    }
+    
+    const isSearch = (pathname.match(new RegExp(/^\/Search\/Content/)) !== null)
+    if(isSearch){
+      const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
+      for(const downloadButton_ of downloadButtons){
+        const downloadButton = downloadButton_ as HTMLAnchorElement
+        const legislationName = downloadButton.parentElement.parentElement.children[0].querySelector(`a.title`).textContent.trim()
+        const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
+        augmentDownloadButton(port, downloadButton, fileName)
+      }
+      return
+    }
+    
+    const isBrowse = (pathname.match(new RegExp(/^\/Browse\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
+    if (isBrowse){
+      const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
+      for(const downloadButton_ of downloadButtons){
+        const downloadButton = downloadButton_ as HTMLAnchorElement
+        const legislationName = downloadButton.parentElement.parentElement.children[1].querySelector(`a.non-ajax`).textContent.trim()
+        const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
+        augmentDownloadButton(port, downloadButton, fileName)
+      }
+      return
+    }
   }
 }
 
