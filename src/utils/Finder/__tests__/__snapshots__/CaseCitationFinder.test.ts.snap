@@ -461,10 +461,12 @@ Array [
 exports[` 36`] = `
 Array [
   Object {
-    "citation": "[1999] 2 SCR 534",
+    "abbr": "ACLR",
+    "citation": "(1982) 7 ACLR 171",
     "index": 0,
-    "jurisdiction": "CA",
+    "jurisdiction": "AU",
     "type": "case-citation",
+    "year": "(1982)",
   },
 ]
 `;
@@ -472,7 +474,7 @@ Array [
 exports[` 37`] = `
 Array [
   Object {
-    "citation": "(2008) 91 OR (3d) 353",
+    "citation": "[1999] 2 SCR 534",
     "index": 0,
     "jurisdiction": "CA",
     "type": "case-citation",
@@ -483,7 +485,7 @@ Array [
 exports[` 38`] = `
 Array [
   Object {
-    "citation": "(1973) 40 DLR (3d) 371",
+    "citation": "(2008) 91 OR (3d) 353",
     "index": 0,
     "jurisdiction": "CA",
     "type": "case-citation",
@@ -494,7 +496,7 @@ Array [
 exports[` 39`] = `
 Array [
   Object {
-    "citation": "[1983] 4 WWR 762",
+    "citation": "(1973) 40 DLR (3d) 371",
     "index": 0,
     "jurisdiction": "CA",
     "type": "case-citation",
@@ -505,7 +507,7 @@ Array [
 exports[` 40`] = `
 Array [
   Object {
-    "citation": "[2006] SCC 39",
+    "citation": "[1983] 4 WWR 762",
     "index": 0,
     "jurisdiction": "CA",
     "type": "case-citation",
@@ -516,9 +518,9 @@ Array [
 exports[`Finder [2021] SGCA 34 1`] = `
 Array [
   Object {
-    "citation": "(2013) 16 HKCFAR 366",
+    "citation": "[2006] SCC 39",
     "index": 0,
-    "jurisdiction": "HK",
+    "jurisdiction": "CA",
     "type": "case-citation",
   },
 ]
@@ -527,7 +529,7 @@ Array [
 exports[`Finder [2021] SGCA 34 2`] = `
 Array [
   Object {
-    "citation": "[2015] HKCFI 1856",
+    "citation": "(2013) 16 HKCFAR 366",
     "index": 0,
     "jurisdiction": "HK",
     "type": "case-citation",
@@ -538,7 +540,7 @@ Array [
 exports[`Finder [2021] SGCA 34 3`] = `
 Array [
   Object {
-    "citation": "[1999] HKCA 585",
+    "citation": "[2015] HKCFI 1856",
     "index": 0,
     "jurisdiction": "HK",
     "type": "case-citation",
@@ -549,7 +551,7 @@ Array [
 exports[`Finder [2021] SGCA 34 4`] = `
 Array [
   Object {
-    "citation": "[2000] 1 HKLRD 595",
+    "citation": "[1999] HKCA 585",
     "index": 0,
     "jurisdiction": "HK",
     "type": "case-citation",
@@ -558,6 +560,17 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 5`] = `
+Array [
+  Object {
+    "citation": "[2000] 1 HKLRD 595",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2021] SGCA 34 6`] = `
 Array [
   Object {
     "citation": "[2012] HKDC 911",

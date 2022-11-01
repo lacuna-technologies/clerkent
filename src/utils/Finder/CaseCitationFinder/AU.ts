@@ -138,6 +138,7 @@ export const AUAbbrs = [
   { abbr: `ACSR` },
   { abbr: `ACLC` },
   { abbr: `ATC` }, // Australian Tax Cases
+  { abbr: `ACLR` },
 ]
 
 export const sortAUCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(AUAbbrs, citationsArray, attribute)
