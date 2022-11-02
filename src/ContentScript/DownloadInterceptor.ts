@@ -48,10 +48,12 @@ const waitForElement = (selector: string) => new Promise(resolve => {
   })
 })
 
-const intercepteLitigationDownloads = (hostname: string, pathname: string, port: Runtime.Port) => {
+const intercepteLitigationDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
   const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/gdviewer/s/[0-9]{4}.+$`)).test(pathname))
   if(iseLitigation){
-    const downloadButton: HTMLAnchorElement = document.querySelector(`.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`)
+    const downloadButtonSelector = `.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`
+    await waitForElement(downloadButtonSelector)
+    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
     const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink,span.NCitation.offhyperlink`)
     const caseNameElement: HTMLElement = document.querySelector(`.HN-CaseName`) || document.querySelector(`h2.title > span.caseTitle`)
     const law: Law.Case = {
@@ -69,11 +71,13 @@ const intercepteLitigationDownloads = (hostname: string, pathname: string, port:
   }
 }
 
-const interceptLawNetDownloads = (hostname: string, pathname: string, port: Runtime.Port) => {
+const interceptLawNetDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
   const isLawNet = (hostname === `www.lawnet.sg` && pathname === `/lawnet/group/lawnet/page-content`)
   const isLawNetCase = document.querySelector(`div.case-reference > ul.statusInfo`) !== null
   if (isLawNet && isLawNetCase){
-    const downloadButton: HTMLAnchorElement = document.querySelector(`li.iconPDF > a`)
+    const downloadButtonSelector = `li.iconPDF > a`
+    await waitForElement(downloadButtonSelector)
+    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
     const citationElement = [...document.querySelectorAll(`span.Citation.offhyperlink`)].slice(-1)[0]
     const caseNameElement = document.querySelector(`span.caseTitle`)
     const law: Law.Case = {
@@ -147,8 +151,10 @@ const interceptAustliiDownloads = async (hostname: string, pathname: string, por
 const interceptSSODownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
   const isSSO = (hostname === `sso.agc.gov.sg`)
   if(isSSO){
-    const isDetail = (pathname.match(new RegExp(/^\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
+    // extra optional "/" because SSO sometimes adds a double slash in the the path
+    const isDetail = (pathname.match(new RegExp(/^\/\/?(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
     if(isDetail){
+      await waitForElement(`.legis-title .file-download`)
       // there are 4, but we are only concerned with desktop
       const downloadButton: HTMLAnchorElement = document.querySelector(`.file-download`)
       // there are also 4, but it doesn't matter which one we pick
@@ -159,6 +165,7 @@ const interceptSSODownloads = async (hostname: string, pathname: string, port: R
     
     const isSearch = (pathname.match(new RegExp(/^\/Search\/Content/)) !== null)
     if(isSearch){
+      await waitForElement(`td.hidden-xs a.file-download`)
       const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
       for(const downloadButton_ of downloadButtons){
         const downloadButton = downloadButton_ as HTMLAnchorElement
@@ -171,6 +178,7 @@ const interceptSSODownloads = async (hostname: string, pathname: string, port: R
     
     const isBrowse = (pathname.match(new RegExp(/^\/Browse\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
     if (isBrowse){
+      await waitForElement(`td.hidden-xs a.file-download`)
       const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
       for(const downloadButton of downloadButtons){
         const legislationName = downloadButton.parentElement.parentElement.children[1].querySelector(`a.non-ajax`).textContent.trim()
@@ -237,11 +245,11 @@ const interceptWestlawDownloads = async (hostname: string, pathname: string, por
 const downloadInterceptor = async (port: Runtime.Port) => {
   const { hostname, pathname } = window.location
 
-  intercepteLitigationDownloads(hostname, pathname, port)
-  interceptLawNetDownloads(hostname, pathname, port)
+  await intercepteLitigationDownloads(hostname, pathname, port)
+  await interceptLawNetDownloads(hostname, pathname, port)
   await interceptOpenLawDownloads(hostname, pathname, port)
   await interceptAustliiDownloads(hostname, pathname, port)
-  interceptSSODownloads(hostname, pathname, port)
+  await interceptSSODownloads(hostname, pathname, port)
   await interceptWestlawDownloads(hostname, pathname, port)
 }
 
