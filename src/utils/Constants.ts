@@ -209,6 +209,11 @@ const AU_DATABASES: CountryDatabases = {
     name: `Law Library Victoria`,
     url: `https://www.lawlibrary.vic.gov.au/`,
   },
+  wa_ecourts: {
+    icon: ``,
+    name: `eCourts Portal of Western Australia`,
+    url: `https://ecourts.justice.wa.gov.au/eCourtsPortal/Decisions`,
+  },
 } as const
 
 const NZ_DATABASES: CountryDatabases = {
