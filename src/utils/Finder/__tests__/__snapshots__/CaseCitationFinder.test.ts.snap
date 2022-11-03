@@ -529,9 +529,9 @@ Array [
 exports[`Finder [2021] SGCA 34 2`] = `
 Array [
   Object {
-    "citation": "(2013) 16 HKCFAR 366",
+    "citation": "2022 SCC 38",
     "index": 0,
-    "jurisdiction": "HK",
+    "jurisdiction": "CA",
     "type": "case-citation",
   },
 ]
@@ -540,9 +540,9 @@ Array [
 exports[`Finder [2021] SGCA 34 3`] = `
 Array [
   Object {
-    "citation": "[2015] HKCFI 1856",
+    "citation": "2008 ONCA 506",
     "index": 0,
-    "jurisdiction": "HK",
+    "jurisdiction": "CA",
     "type": "case-citation",
   },
 ]
@@ -551,7 +551,7 @@ Array [
 exports[`Finder [2021] SGCA 34 4`] = `
 Array [
   Object {
-    "citation": "[1999] HKCA 585",
+    "citation": "(2013) 16 HKCFAR 366",
     "index": 0,
     "jurisdiction": "HK",
     "type": "case-citation",
@@ -562,7 +562,7 @@ Array [
 exports[`Finder [2021] SGCA 34 5`] = `
 Array [
   Object {
-    "citation": "[2000] 1 HKLRD 595",
+    "citation": "[2015] HKCFI 1856",
     "index": 0,
     "jurisdiction": "HK",
     "type": "case-citation",
@@ -571,6 +571,28 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 6`] = `
+Array [
+  Object {
+    "citation": "[1999] HKCA 585",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2021] SGCA 34 7`] = `
+Array [
+  Object {
+    "citation": "[2000] 1 HKLRD 595",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2021] SGCA 34 8`] = `
 Array [
   Object {
     "citation": "[2012] HKDC 911",

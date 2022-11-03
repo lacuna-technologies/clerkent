@@ -55,6 +55,8 @@ describe(`Finder`, () => {
     `(1973) 40 DLR (3d) 371`,
     `[1983] 4 WWR 762`,
     `[2006] SCC 39`,
+    `2022 SCC 38 (CanLII)`,
+    `2008 ONCA 506 (CanLII)`,
   ]
 
   const HKCitations = [
