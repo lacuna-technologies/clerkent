@@ -9,6 +9,13 @@ Case law at your fingertips
 
 See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 
+[![Man Hours](https://img.shields.io/endpoint?url=https%3A%2F%2Fmh.jessemillar.com%2Fhours%3Frepo%3Dhttps%3A%2F%2Fgithub.com%2Flacuna-technologies%2Fclerkent.git)](https://jessemillar.com/r/man-hours)
+![GitHub](https://img.shields.io/github/license/lacuna-technologies/clerkent)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ogjefnociaddjemkkajgmfpmhmpokmhj?label=Google%20Chrome%20users)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ogjefnociaddjemkkajgmfpmhmpokmhj)
+![Mozilla Add-on](https://img.shields.io/amo/users/clerkent?label=Mozilla%20Firefox%20users)
+![Mozilla Add-on](https://img.shields.io/amo/v/clerkent)
+
 ## Install
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox.svg" width="64" />](https://addons.mozilla.org/en-GB/firefox/addon/clerkent/)
