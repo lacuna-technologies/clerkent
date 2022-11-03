@@ -67,7 +67,6 @@ const WebpackConfig = {
     popup: path.join(sourcePath, `Popup`, `index.tsx`),
     updates: path.join(sourcePath, `pages`, `Updates.tsx`),
   },
-
   
   mode: nodeEnvironment,
 
@@ -252,6 +251,12 @@ const WebpackConfig = {
     },
     /* eslint-enable sort-keys-fix/sort-keys-fix */
     extensions: [`.ts`, `.tsx`, `.js`, `.json`],
+    fallback: {
+      http: false,
+      https: false,
+      timers: false,
+      url: false,
+    },
     modules: [
       path.resolve(__dirname, `src`),
       `node_modules`,

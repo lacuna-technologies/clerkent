@@ -12,6 +12,7 @@ import SLW from './SLW'
 import SSO from './SSO'
 import STB from './STB'
 import { Downloads } from 'webextension-polyfill-ts'
+import LawNet from './LawNet'
 
 const getLegislation = SSO.getLegislation
 
@@ -22,6 +23,7 @@ const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseSG)
 const databaseUseIPOS = databaseUseDatabase(`ipos`, databaseUseSG)
 const databaseUseSTB = databaseUseDatabase(`stb`, databaseUseSG)
 const databaseUseSLW = databaseUseDatabase(`slw`, databaseUseSG)
+const databaseUseLawNet = databaseUseDatabase(`lawnetsg`, databaseUseSG)
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
@@ -29,6 +31,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       databaseUseeLitigation(() => eLitigation.getCaseByName(caseName)),
       databaseUseOpenLaw(() => OpenLaw.getCaseByName(caseName)),
       databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.SG.name)),
+      databaseUseLawNet(() => LawNet.getCaseByName(caseName)),
       databaseUseIPOS(() => IPOS.getCaseByName(caseName)),
       databaseUseSTB(() => STB.getCaseByName(caseName)),
     ]))
@@ -68,6 +71,7 @@ const getApplicableDatabases = (citation: string) => {
       return Number.parseInt(year, 10) >= 2000 ? [
           databaseUseeLitigation(() => eLitigation.getCaseByCitation(citation)),
           databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
+          databaseUseLawNet(() => LawNet.getCaseByCitation(citation)),
         ] : [
           databaseUseOpenLaw(() => OpenLaw.getCaseByCitation(citation)),
           databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
@@ -97,6 +101,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
 const databaseMap = {
   [Constants.DATABASES.commonlii.id]: Common.CommonLII,
   [Constants.DATABASES.SG_openlaw.id]: OpenLaw,
+  [Constants.DATABASES.SG_lawnetsg.id]: LawNet,
 }
 
 const getPDF = async (

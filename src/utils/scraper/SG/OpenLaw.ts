@@ -1,7 +1,7 @@
 import Request from 'utils/Request'
 import Logger from 'utils/Logger'
 import Constants from 'utils/Constants'
-import { browser, Downloads } from 'webextension-polyfill-ts'
+import { Downloads } from 'webextension-polyfill-ts'
 import Helpers from 'utils/Helpers'
 
 const SEARCH_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/search/supreme-court`

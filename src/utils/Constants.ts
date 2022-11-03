@@ -348,6 +348,7 @@ const DEFAULT_DATABASES_STATUS= {
     commonlii: true,
     elitigation: true,
     ipos: true,
+    lawnetsg: true,
     openlaw: true,
     stb: true,
   },

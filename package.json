@@ -52,6 +52,7 @@
     "preact-router": "^4.1.0",
     "qs": "^6.11.0",
     "react-select": "^5.4.0",
+    "rss-parser": "^3.12.0",
     "svg-country-flags": "^1.2.10"
   },
   "devDependencies": {
