@@ -1,5 +1,5 @@
 import type { Runtime } from 'webextension-polyfill-ts'
-import { Messenger, Constants, Helpers, Logger } from '../utils'
+import { Messenger, Constants, Helpers, Logger, Finder } from '../utils'
 
 const augmentDownloadButton = (port: Runtime.Port, button: HTMLAnchorElement, fileName: string): void => {
   button.addEventListener(`click`, (event: MouseEvent) => {
@@ -242,6 +242,28 @@ const interceptWestlawDownloads = async (hostname: string, pathname: string, por
   }
 }
 
+const interceptCanLIIDownloads = async (hostname, pathname, port) => {
+  const isCanLII = (hostname === `www.canlii.org`)
+  if(isCanLII){
+    const selector = `#metas .subTab a[href$=".pdf"]`
+    const downloadButton: HTMLAnchorElement = document.querySelector(selector)
+    const title = document.querySelector(`.mainTitle`).textContent
+    const caseName = title.replace(/, \d{4}.*$/, ``)
+    Logger.log(title, Finder.findCaseCitation(title))
+    const citation = Finder.findCaseCitation(title)[0].citation
+    const law: Law.Case = {
+      citation,
+      database: Constants.DATABASES.CA_canlii,
+      jurisdiction: Constants.JURISDICTIONS.CA.id,
+      links: [],
+      name: Helpers.removeCommonAppends(caseName),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    return augmentDownloadButton(port, downloadButton, fileName)
+  }
+}
+
 const downloadInterceptor = async (port: Runtime.Port) => {
   const { hostname, pathname } = window.location
 
@@ -251,6 +273,7 @@ const downloadInterceptor = async (port: Runtime.Port) => {
   await interceptAustliiDownloads(hostname, pathname, port)
   await interceptSSODownloads(hostname, pathname, port)
   await interceptWestlawDownloads(hostname, pathname, port)
+  await interceptCanLIIDownloads(hostname, pathname, port)
 }
 
 export default downloadInterceptor

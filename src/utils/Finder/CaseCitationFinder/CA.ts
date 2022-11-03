@@ -9,14 +9,53 @@ export const CAAbbrs = [
   { abbr: `DLR`, appendum: `( \\(3d\\))?` },
   { abbr: `OR`, appendum: `( \\(3d\\))?` },
   { abbr: `CarswellAlta` },
+  { abbr: `CarswellOnt` },
+  { abbr: `OAC` },
+  { abbr: `ABQB` },
+  { abbr: `ABCA` },
+  { abbr: `ABPC` },
+  { abbr: `ABSC` },
+  { abbr: `MBQB` },
+  { abbr: `MBCA` },
+  { abbr: `MBPC` },
+  { abbr: `MBSC` },
+  { abbr: `ONQB` },
+  { abbr: `ONCA` },
+  { abbr: `ONPC` },
+  { abbr: `ONSC` },
+  { abbr: `ONCJ` },
+  { abbr: `BCQB` },
+  { abbr: `BCPC`},
+  { abbr: `BCCA` },
+  { abbr: `BCSC` },
+  { abbr: `LSBC` },
+  { abbr: `SKQB` },
+  { abbr: `SKCA` },
+  { abbr: `SKPC` },
+  { abbr: `SKSC` },
+  { abbr: `NBQB` },
+  { abbr: `NSQB` },
+  { abbr: `NSCA` },
+  { abbr: `NSPC` },
+  { abbr: `NSSC` },
+  { abbr: `BCQB` },
+  { abbr: `BCPC` },
+  { abbr: `BCCA` },
+  { abbr: `BCSC` },
+  { abbr: `QCQB`},
+  { abbr: `QCCA` },
+  { abbr: `QCCM` },
+  { abbr: `QCCS` },
+  { abbr: `QCCQ` },
   { abbr: `SCJ No` },
+  { abbr: `CanLII` },
 ]
 
 export const sortCACitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(CAAbbrs, citationsArray, attribute)
 
 export const findCACaseCitationMatches = (query: string) => {
   // eslint-disable-next-line unicorn/better-regex
-  const yearRegex = new RegExp(/(([([])[12]\d{3}(-[12]\d{3})?[)\]])/)
+  const yearRegex = new RegExp(/(([([])?[12]\d{3}(-[12]\d{3})?[)\]]?)/)
   const volumeRegex = new RegExp(/( \d{1,2})?/)
   const pageRegex = new RegExp(/\d{1,4}/)
   const abbrs = formatAbbrs(CAAbbrs)
