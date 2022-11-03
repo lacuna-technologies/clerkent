@@ -248,8 +248,7 @@ const interceptCanLIIDownloads = async (hostname, pathname, port) => {
     const selector = `#metas .subTab a[href$=".pdf"]`
     const downloadButton: HTMLAnchorElement = document.querySelector(selector)
     const title = document.querySelector(`.mainTitle`).textContent
-    const caseName = title.replace(/, \d{4}.*$/, ``)
-    Logger.log(title, Finder.findCaseCitation(title))
+    const caseName = title.replace(/, \d{4}.*$/, ``).trim()
     const citation = Finder.findCaseCitation(title)[0].citation
     const law: Law.Case = {
       citation,

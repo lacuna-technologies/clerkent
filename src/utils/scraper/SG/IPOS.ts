@@ -5,6 +5,7 @@ import Request from 'utils/Request'
 import Constants from 'utils/Constants'
 import Finder from 'utils/Finder'
 import Helpers from 'utils/Helpers'
+import { CacheAxiosResponse } from 'axios-cache-interceptor'
 
 // IPOS's search functionality is buggy
 // - CaseActionDecisions sometimes does not contain a link to the judgment
@@ -91,14 +92,14 @@ const getAllCases = async (): Promise<Law.Case[]> => {
       getHistoricalCases,
     ])).filter(({ status }) => status === `fulfilled`)
 
-    return results.flatMap(({ value }: any) => {
+    return results.flatMap(({ value }: PromiseFulfilledResult<CacheAxiosResponse>) => {
       const { data } = value
       return parseCasesPage(data)
     })
   } catch (error){
     Logger.error(error)
   }
-  
+  return []
 }
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
