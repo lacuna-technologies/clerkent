@@ -204,6 +204,11 @@ const AU_DATABASES: CountryDatabases = {
     name: `Queensland Supreme Court Library`,
     url: `https://www.sclqld.org.au`,
   },
+  victoria_lawlibrary: {
+    icon: ``,
+    name: `Law Library Victoria`,
+    url: `https://www.lawlibrary.vic.gov.au/`,
+  },
 } as const
 
 const NZ_DATABASES: CountryDatabases = {
@@ -318,6 +323,7 @@ const DEFAULT_DATABASES_STATUS= {
     nsw_caselaw: true,
     queensland_judgments: true,
     queensland_scl: true,
+    victoria_lawlibrary: true,
   },
   CA: {
     canlii: true,

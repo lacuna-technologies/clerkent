@@ -9,6 +9,7 @@ import CommonLII from '../common/CommonLII'
 import QueenslandJudgments from './QueenslandJudgments'
 import QueenslandSCL from './QueenslandSCL'
 import NSWCaseLaw from './NSWCaseLaw'
+import VictoriaLawLibrary from './VictoriaLawLibrary'
 
 const databaseUseAU = databaseUseJurisdiction(`AU`)
 const databaseUseAustLII = databaseUseDatabase(`austlii`, databaseUseAU)
@@ -16,13 +17,15 @@ const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseAU)
 const databaseUseQueenslandJudgments = databaseUseDatabase(`queensland_judgments`, databaseUseAU)
 const databaseUseQueenslandSCL = databaseUseDatabase(`queensland_scl`, databaseUseAU)
 const databaseUseNSWCaseLaw = databaseUseDatabase(`nsw_caselaw`, databaseUseAU)
+const databaseUseVictoriaLawLibrary = databaseUseDatabase(`victoria_lawlibrary`, databaseUseAU)
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   try {
     const results = (await Promise.allSettled([
-      databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByCitation(caseName)),
-      databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByCitation(caseName)),
-      databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByCitation(caseName)),
+      databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByName(caseName)),
+      databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByName(caseName)),
+      databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByName(caseName)),
+      databaseUseVictoriaLawLibrary(() => VictoriaLawLibrary.getCaseByName(caseName)),
       databaseUseAustLII(() => austlii.getCaseByName(caseName)),
       databaseUseCommonLII(() => CommonLII.getCaseByName(caseName)),
     ]))
@@ -50,6 +53,7 @@ const getApplicableDatabases = (citation: string) => {
     databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
   ]
   switch(abbr){
+    // New South Wales
     case `NSWSC`:
     case `NSWCA`:
     case `NSWCCA`:
@@ -77,6 +81,7 @@ const getApplicableDatabases = (citation: string) => {
         databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
+    // Queensland
     case `QR`:
     case `QCA`:
     case `QSC`:
@@ -98,6 +103,21 @@ const getApplicableDatabases = (citation: string) => {
       return [
         databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByCitation(citation)),
         databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByCitation(citation)),
+        ...defaultDatabases,
+      ]
+    // Victoria
+    case `VSCA`:
+    case `VicSC`:
+    case `VSC`:
+    case `VR`:
+    case `VicCorC`:
+    case `VCC`:
+    case `VMC`:
+    case `VicRp`:
+    case `VicLawRp`:
+    case `VLR`:
+      return [
+        databaseUseVictoriaLawLibrary(() => VictoriaLawLibrary.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
     default: {
@@ -127,6 +147,7 @@ const getCaseByCitation = async (citation: string, court: string): Promise<Law.C
 const databaseMap = {
   [Constants.DATABASES.AU_austlii.id]: austlii,
   [Constants.DATABASES.commonlii.id]: Common.CommonLII,
+  [Constants.DATABASES.AU_victoria_lawlibrary.id]: VictoriaLawLibrary,
 }
 
 const getPDF = async (inputCase: Law.Case, inputDocumentType: Law.Link[`doctype`]): Promise<string> => {
