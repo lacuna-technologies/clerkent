@@ -46,7 +46,7 @@ const parseCasesPage = (html: string): Law.Case[] => {
           (markPatent && markPatent.length > 0
             ? ` (${markPatent})`
             : ``)
-        const links = $(`td`, row).eq(5).children(`a`)
+        const links = $(`a`, $(`td`, row).eq(5))
 
         const judgmentURL = links.filter((_, link) => 
           $(link).text().includes(`Full Decision`),
