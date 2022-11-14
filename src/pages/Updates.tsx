@@ -19,32 +19,17 @@ const Updates: FunctionComponent = () => {
       <p className="my-4">
         I hope Clerkent has been useful for you.
         If you'd like to receive an email once in a
-        few weeks about the latest changes and upcoming features,
-        just pop your email address into the box below.
+        few weeks about the latest changes and upcoming features,&nbsp;
+        <a
+          className="text-slate-600 underline decoration-dotted hover:blue-600 hover:no-underline"
+          href="https://updates.clerkent.huey.xyz/#/portal/"
+        >click here to subscribe to Clerkent Updates</a>.&nbsp;
+        Alternatively, you can subscribe to&nbsp;
+        <a
+          className="text-slate-600 underline decoration-dotted hover:blue-600 hover:no-underline"
+          href="https://updates.clerkent.huey.xyz/rss/">this RSS feed</a>.
       </p>
-      
-      <form
-        className="my-4 flex items-center"
-        action="https://www.getrevue.co/profile/clerkent/add_subscriber"
-        method="post"
-        id="revue-form"
-        name="revue-form"
-        target="_blank"
-      >
-        <input className="p-2 grow border border-solid border-slate-600 rounded-l" placeholder="Your email address..." type="email" name="member[email]" id="member_email" />
-        <input
-          className="py-2 px-4 my-4 bg-slate-800 border border-solid border-slate-800 text-white rounded-r outline-none cursor-pointer"
-          type="submit" value="Subscribe" name="member[subscribe]" id="member_submit"
-          onClick={setDoNotRemind}
-        />
-      </form>
-      <div className="text-sm self-start my-4">
-        By subscribing, you agree with Revue's&nbsp;
-        <a target="_blank" href="https://www.getrevue.co/terms" rel="noreferrer">Terms of Service</a>
-        &nbsp;and&nbsp;
-        <a target="_blank" href="https://www.getrevue.co/privacy" rel="noreferrer">Privacy Policy</a>.&nbsp;
-        Your email address will only be used for this purpose and will be deleted if you unsubscribe (which you can do at any time).
-      </div>
+
       <div className="mt-6 text-slate-600 cursor-pointer underline decoration-dotted" onClick={setDoNotRemind}>
         Don't ask me to subscribe again
       </div>
