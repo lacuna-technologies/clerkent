@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SG OpenLaw should parse getCaseByCitation result correctly 1`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[1999] SGHC 283",
-    "database": Object {
+    "database": {
       "icon": "",
       "id": "SG_openlaw",
       "name": "OpenLaw",
       "url": "https://www.lawnet.com/openlaw",
     },
     "jurisdiction": "SG",
-    "links": Array [
-      Object {
+    "links": [
+      {
         "doctype": "Summary",
         "filetype": "HTML",
         "url": "https://www.lawnet.com/openlaw/cases/citation/[1999]+SGHC+283",
       },
-      Object {
+      {
         "doctype": "Judgment",
         "filetype": "HTML",
         "url": "https://www.lawnet.com/openlaw/cases/citation/[1999]+SGHC+283",
@@ -29,25 +29,25 @@ Array [
 `;
 
 exports[`SG OpenLaw should send valid request for getCaseByCitation 1`] = `
-Array [
-  Array [
+[
+  [
     "https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/document/citation",
-    Object {
-      "data": Object {
+    {
+      "data": {
         "citation": "[1999] SGHC 283",
       },
-      "info": Object {
+      "info": {
         "appId": "APP_LAWNET_ONE",
         "sessionId": null,
-        "userDevice": Object {
+        "userDevice": {
           "isBot": false,
         },
         "userId": 0,
         "userName": null,
       },
     },
-    Object {
-      "headers": Object {
+    {
+      "headers": {
         "Auth-Type": "Public",
       },
     },

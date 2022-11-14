@@ -152,10 +152,12 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         txtselectopt9: `4`,
         year: ``,
       },
-      paramsSerializer: parameters => qs.stringify(
-        parameters,
-        { arrayFormat: `repeat`, format : `RFC1738` },
-      ),
+      paramsSerializer: {
+        serialize: parameters => qs.stringify(
+          parameters,
+          { arrayFormat: `repeat`, format : `RFC1738` },
+        ),
+      },
     },
   )
 

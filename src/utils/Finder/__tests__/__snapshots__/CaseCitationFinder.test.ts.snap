@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[` 1`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGCA",
     "citation": "[2021] SGCA 34",
     "index": 0,
@@ -14,8 +14,8 @@ Array [
 `;
 
 exports[` 2`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGHC",
     "citation": "[2020] SGHC 228",
     "index": 0,
@@ -27,8 +27,8 @@ Array [
 `;
 
 exports[` 3`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGHC",
     "citation": "[2020] SGHC 100",
     "index": 0,
@@ -40,8 +40,8 @@ Array [
 `;
 
 exports[` 4`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SLR",
     "citation": "[2011] 2 SLR 47",
     "index": 0,
@@ -53,8 +53,8 @@ Array [
 `;
 
 exports[` 5`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGDC",
     "citation": "[2020] SGDC 95",
     "index": 0,
@@ -66,8 +66,8 @@ Array [
 `;
 
 exports[` 6`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGCA",
     "citation": "[1994] SGCA 128",
     "index": 0,
@@ -79,8 +79,8 @@ Array [
 `;
 
 exports[` 7`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGCA",
     "citation": "[1988] SGCA 16",
     "index": 0,
@@ -92,8 +92,8 @@ Array [
 `;
 
 exports[` 8`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SLR",
     "citation": "[2001] 2 SLR 253",
     "index": 0,
@@ -105,8 +105,8 @@ Array [
 `;
 
 exports[` 9`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SLR",
     "citation": "[2001] 2 SLR 253",
     "index": 0,
@@ -118,8 +118,8 @@ Array [
 `;
 
 exports[` 10`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGIPOS",
     "citation": "[2022] SGIPOS 4",
     "index": 0,
@@ -131,8 +131,8 @@ Array [
 `;
 
 exports[` 11`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGHCR",
     "citation": "[2022] SGHCR 1",
     "index": 0,
@@ -144,8 +144,8 @@ Array [
 `;
 
 exports[` 12`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGHCF",
     "citation": "[2020] SGHCF 18",
     "index": 0,
@@ -157,8 +157,8 @@ Array [
 `;
 
 exports[` 13`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGHC(A)",
     "citation": "[2022] SGHC(A) 17",
     "index": 0,
@@ -170,8 +170,8 @@ Array [
 `;
 
 exports[` 14`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "SGCA(I)",
     "citation": "[2020] SGCA(I) 2",
     "index": 0,
@@ -183,8 +183,8 @@ Array [
 `;
 
 exports[` 15`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "Ves Sen",
     "citation": "(1754) 2 Ves Sen 547",
     "index": 0,
@@ -196,8 +196,8 @@ Array [
 `;
 
 exports[` 16`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "All ER",
     "citation": "[1843-60] All ER 249",
     "index": 0,
@@ -209,8 +209,8 @@ Array [
 `;
 
 exports[` 17`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "KB",
     "citation": "[1948] 1 KB 223",
     "index": 0,
@@ -222,8 +222,8 @@ Array [
 `;
 
 exports[` 18`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "QB",
     "citation": "[1965] 1 QB 456",
     "index": 0,
@@ -235,8 +235,8 @@ Array [
 `;
 
 exports[` 19`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "Cr App R",
     "citation": "(1951) 35 Cr App R 164",
     "index": 0,
@@ -248,8 +248,8 @@ Array [
 `;
 
 exports[` 20`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "UKHL",
     "citation": "[2007] UKHL 17",
     "index": 0,
@@ -261,8 +261,8 @@ Array [
 `;
 
 exports[` 21`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "UKIPO",
     "citation": "O/328/22",
     "index": 0,
@@ -274,8 +274,8 @@ Array [
 `;
 
 exports[` 22`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "UKIPO",
     "citation": "O/002/22",
     "index": 0,
@@ -287,8 +287,8 @@ Array [
 `;
 
 exports[` 23`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "UKIPO",
     "citation": "O01422",
     "index": 0,
@@ -300,8 +300,8 @@ Array [
 `;
 
 exports[` 24`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "EWHC",
     "citation": "[2021] EWHC 2168",
     "index": 0,
@@ -313,8 +313,8 @@ Array [
 `;
 
 exports[` 25`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "EWHC",
     "citation": "[2016] EWHC 3151",
     "index": 0,
@@ -326,8 +326,8 @@ Array [
 `;
 
 exports[` 26`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "ECDR",
     "citation": "[2001] ECDR 5",
     "index": 0,
@@ -339,8 +339,8 @@ Array [
 `;
 
 exports[` 27`] = `
-Array [
-  Object {
+[
+  {
     "citation": "C-40/17",
     "court": "CJEU",
     "index": 0,
@@ -351,15 +351,15 @@ Array [
 `;
 
 exports[` 28`] = `
-Array [
-  Object {
+[
+  {
     "citation": "C-403/08",
     "court": "CJEU",
     "index": 6,
     "jurisdiction": "EU",
     "type": "case-citation",
   },
-  Object {
+  {
     "citation": "C-429/08",
     "court": "CJEU",
     "index": 19,
@@ -370,8 +370,8 @@ Array [
 `;
 
 exports[` 29`] = `
-Array [
-  Object {
+[
+  {
     "citation": "C-145/10",
     "court": "CJEU",
     "index": 2,
@@ -382,8 +382,8 @@ Array [
 `;
 
 exports[` 30`] = `
-Array [
-  Object {
+[
+  {
     "citation": "C-5/08",
     "court": "CJEU",
     "index": 2,
@@ -394,8 +394,8 @@ Array [
 `;
 
 exports[` 31`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "FCA",
     "citation": "[2010] FCA 984",
     "index": 0,
@@ -407,8 +407,8 @@ Array [
 `;
 
 exports[` 32`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "CLR",
     "citation": "(1990) 171 CLR 30",
     "index": 0,
@@ -420,8 +420,8 @@ Array [
 `;
 
 exports[` 33`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "ACSR",
     "citation": "(1992) 7 ACSR 759",
     "index": 0,
@@ -433,8 +433,8 @@ Array [
 `;
 
 exports[` 34`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "ALJ",
     "citation": "(2003) 200 ALJ 1",
     "index": 0,
@@ -446,8 +446,8 @@ Array [
 `;
 
 exports[` 35`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "HCA",
     "citation": "[1989] HCA 9",
     "index": 0,
@@ -459,8 +459,8 @@ Array [
 `;
 
 exports[` 36`] = `
-Array [
-  Object {
+[
+  {
     "abbr": "ACLR",
     "citation": "(1982) 7 ACLR 171",
     "index": 0,
@@ -472,8 +472,8 @@ Array [
 `;
 
 exports[` 37`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[1999] 2 SCR 534",
     "index": 0,
     "jurisdiction": "CA",
@@ -483,8 +483,8 @@ Array [
 `;
 
 exports[` 38`] = `
-Array [
-  Object {
+[
+  {
     "citation": "(2008) 91 OR (3d) 353",
     "index": 0,
     "jurisdiction": "CA",
@@ -494,8 +494,8 @@ Array [
 `;
 
 exports[` 39`] = `
-Array [
-  Object {
+[
+  {
     "citation": "(1973) 40 DLR (3d) 371",
     "index": 0,
     "jurisdiction": "CA",
@@ -505,8 +505,8 @@ Array [
 `;
 
 exports[` 40`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[1983] 4 WWR 762",
     "index": 0,
     "jurisdiction": "CA",
@@ -516,8 +516,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 1`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[2006] SCC 39",
     "index": 0,
     "jurisdiction": "CA",
@@ -527,8 +527,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 2`] = `
-Array [
-  Object {
+[
+  {
     "citation": "2022 SCC 38",
     "index": 0,
     "jurisdiction": "CA",
@@ -538,8 +538,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 3`] = `
-Array [
-  Object {
+[
+  {
     "citation": "2008 ONCA 506",
     "index": 0,
     "jurisdiction": "CA",
@@ -549,8 +549,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 4`] = `
-Array [
-  Object {
+[
+  {
     "citation": "(2013) 16 HKCFAR 366",
     "index": 0,
     "jurisdiction": "HK",
@@ -560,8 +560,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 5`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[2015] HKCFI 1856",
     "index": 0,
     "jurisdiction": "HK",
@@ -571,8 +571,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 6`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[1999] HKCA 585",
     "index": 0,
     "jurisdiction": "HK",
@@ -582,8 +582,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 7`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[2000] 1 HKLRD 595",
     "index": 0,
     "jurisdiction": "HK",
@@ -593,8 +593,8 @@ Array [
 `;
 
 exports[`Finder [2021] SGCA 34 8`] = `
-Array [
-  Object {
+[
+  {
     "citation": "[2012] HKDC 911",
     "index": 0,
     "jurisdiction": "HK",

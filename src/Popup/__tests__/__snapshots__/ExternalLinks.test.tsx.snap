@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ExternalLinks renders without error for EU 1`] = `
-Object {
+{
   "asFragment": [Function],
   "baseElement": <body>
     <div>
@@ -118,7 +118,7 @@ Object {
 `;
 
 exports[`ExternalLinks renders without error for Singapore 1`] = `
-Object {
+{
   "asFragment": [Function],
   "baseElement": <body>
     <div>
@@ -235,7 +235,7 @@ Object {
 `;
 
 exports[`ExternalLinks renders without error for UK 1`] = `
-Object {
+{
   "asFragment": [Function],
   "baseElement": <body>
     <div>
