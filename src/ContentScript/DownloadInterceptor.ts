@@ -49,7 +49,7 @@ const waitForElement = (selector: string) => new Promise(resolve => {
 })
 
 const intercepteLitigationDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
-  const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/gdviewer/s/[0-9]{4}.+$`)).test(pathname))
+  const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/(gdviewer|gd)/s/[0-9]{4}.+$`)).test(pathname))
   if(iseLitigation){
     const downloadButtonSelector = `.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`
     await waitForElement(downloadButtonSelector)
