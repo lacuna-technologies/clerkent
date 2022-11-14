@@ -79,14 +79,16 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         ...defaultParameters,
         mnc: citation,
       },
-      paramsSerializer: parameters => qs.stringify(
-        parameters,
-        {
-          arrayFormat: `repeat`,
-          format: `RFC3986`,
-          indices: false,
-        },
-      ),
+      paramsSerializer: {
+        serialize: parameters => qs.stringify(
+          parameters,
+          {
+            arrayFormat: `repeat`,
+            format: `RFC3986`,
+            indices: false,
+          },
+        ),
+      },
     },
   )
   return parseCaseResults(data)
@@ -100,14 +102,16 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         ...defaultParameters,
         party: caseName,
       },
-      paramsSerializer: parameters => qs.stringify(
-        parameters,
-        {
-          arrayFormat: `repeat`,
-          format: `RFC3986`,
-          indices: false,
-        },
-      ),
+      paramsSerializer: {
+        serialize: parameters => qs.stringify(
+          parameters,
+          {
+            arrayFormat: `repeat`,
+            format: `RFC3986`,
+            indices: false,
+          },
+        ),
+      },
     },
   )
   return parseCaseResults(data)

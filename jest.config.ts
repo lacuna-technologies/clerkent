@@ -18,7 +18,6 @@ const config = {
     "^react/jsx-runtime$": `preact/jsx-runtime`,
   },
   /* eslint-enable sort-keys-fix/sort-keys-fix */
-  projects: [`<rootDir>/src`],
   testEnvironment: `jsdom`,
   testPathIgnorePatterns: [
     `<rootDir>/node_modules/`,
@@ -30,7 +29,6 @@ const config = {
   transformIgnorePatterns: [
     `node_modules/(?!(leven|@testing-library/preact|preact)/)`,
   ],
-  verbose: true,
 }
 
 export default config
