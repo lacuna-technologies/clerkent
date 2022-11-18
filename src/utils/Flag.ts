@@ -52,9 +52,10 @@ export const getFlagSource = (id: Law.Jurisdiction[`id`]) => {
       source = `/assets/icj.png`
       break
     }
-    default:
+    default: {
       source = ``
       break
+    }
   }
   return browser.runtime.getURL(source)
 }

@@ -76,11 +76,12 @@ const getApplicableDatabases = (citation: string) => {
     case `NSWFTT`:
     case `NSWLST`:
     case `NSWMT`:
-    case `NSWTAB`:
+    case `NSWTAB`: {
       return [
         databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
+    }
     // Queensland
     case `QR`:
     case `QCA`:
@@ -99,12 +100,13 @@ const getApplicableDatabases = (citation: string) => {
     case `QIRC`:
     case `QChC`:
     case `QChCM`:
-    case `QHPT`:
+    case `QHPT`: {
       return [
         databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByCitation(citation)),
         databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
+    }
     // Victoria
     case `VSCA`:
     case `VicSC`:
@@ -115,11 +117,12 @@ const getApplicableDatabases = (citation: string) => {
     case `VMC`:
     case `VicRp`:
     case `VicLawRp`:
-    case `VLR`:
+    case `VLR`: {
       return [
         databaseUseVictoriaLawLibrary(() => VictoriaLawLibrary.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
+    }
     default: {
       return defaultDatabases
     }
