@@ -1,5 +1,5 @@
 import type { Runtime } from 'webextension-polyfill-ts'
-import { Messenger, Constants, Helpers, Logger, Finder } from '../utils'
+import { Messenger, Constants, Helpers, Finder } from '../utils'
 
 const augmentDownloadButton = (port: Runtime.Port, button: HTMLAnchorElement, fileName: string): void => {
   button.addEventListener(`click`, (event: MouseEvent) => {
@@ -30,14 +30,19 @@ const downloadPDF = (
   })
 }
 
-const waitForElement = (selector: string) => new Promise(resolve => {
-  if (document.querySelector(selector)) {
-    return resolve(document.querySelector(selector))
+const waitForElement = (selector: string, multiple: boolean): Promise<Element | NodeListOf<Element>> => new Promise(resolve => {
+  const getElement = () => multiple
+    ? document.querySelectorAll(selector)
+    : document.querySelector(selector)
+  const initialAttempt = getElement()
+  if (initialAttempt) {
+    return resolve(initialAttempt)
   }
 
   const observer = new MutationObserver(() => {
-    if (document.querySelector(selector)) {
-      resolve(document.querySelector(selector))
+    const attempt = getElement()
+    if (attempt) {
+      resolve(attempt)
       observer.disconnect()
     }
   })
@@ -48,12 +53,12 @@ const waitForElement = (selector: string) => new Promise(resolve => {
   })
 })
 
-const intercepteLitigationDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+const intercepteLitigationDownloads = async (port: Runtime.Port) => {
+  const { hostname, pathname } = window.location
   const iseLitigation = (hostname === `www.elitigation.sg` && (new RegExp(`^/(gdviewer|gd)/s/[0-9]{4}.+$`)).test(pathname))
   if(iseLitigation){
     const downloadButtonSelector = `.container.body-content > nav a.nav-item.nav-link[href$="/pdf"]`
-    await waitForElement(downloadButtonSelector)
-    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
+    const downloadButton = await waitForElement(downloadButtonSelector, false)
     const citationElement = document.querySelector(`.HN-NeutralCit`) || document.querySelector(`span.Citation.offhyperlink,span.NCitation.offhyperlink`)
     const caseNameElement: HTMLElement = document.querySelector(`.HN-CaseName`) || document.querySelector(`h2.title > span.caseTitle`)
     const law: Law.Case = {
@@ -67,17 +72,17 @@ const intercepteLitigationDownloads = async (hostname: string, pathname: string,
       type: `case-citation`,
     }
     const fileName = Helpers.getFileName(law, `Judgment`)
-    return augmentDownloadButton(port, downloadButton, fileName)
+    return augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
   }
 }
 
-const interceptLawNetDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+const interceptLawNetDownloads = async (port: Runtime.Port) => {
+  const { hostname, pathname } = window.location
   const isLawNet = (hostname === `www.lawnet.sg` && pathname === `/lawnet/group/lawnet/page-content`)
   const isLawNetCase = document.querySelector(`div.case-reference > ul.statusInfo`) !== null
   if (isLawNet && isLawNetCase){
     const downloadButtonSelector = `li.iconPDF > a`
-    await waitForElement(downloadButtonSelector)
-    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
+    const downloadButton = await waitForElement(downloadButtonSelector, false)
     const citationElement = [...document.querySelectorAll(`span.Citation.offhyperlink`)].slice(-1)[0]
     const caseNameElement = document.querySelector(`span.caseTitle`)
     const law: Law.Case = {
@@ -91,16 +96,16 @@ const interceptLawNetDownloads = async (hostname: string, pathname: string, port
       type: `case-citation`,
     }
     const fileName = Helpers.getFileName(law, `Judgment`)
-    return augmentDownloadButton(port, downloadButton, fileName)
+    return augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
   }
 }
 
-const interceptOpenLawDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+const interceptOpenLawDownloads = async (port: Runtime.Port) => {
+  const { hostname, pathname } = window.location
   const isOpenLaw = (hostname === `www.lawnet.com` && pathname.match(new RegExp(`^/openlaw/cases/citation`)) !== null)
   if(isOpenLaw){
     const downloadButtonSelector = `li.document-action.download`
-    await waitForElement(downloadButtonSelector)
-    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
+    const downloadButton = await waitForElement(downloadButtonSelector, false)
     const citationElement = document.querySelector(`span.NCitation.offhyperlink`) || document.querySelector(`div.lr_citation_link`)
     const caseNameElement = document.querySelector(`span.caseTitle`)
     const citation = citationElement.textContent.trim()
@@ -120,17 +125,17 @@ const interceptOpenLawDownloads = async (hostname: string, pathname: string, por
       ),
       type: `case-citation`,
     }
-    const listener = downloadPDF(port, { doctype: `Judgment`, law })
-    downloadButton.addEventListener(`click`, listener)
+    const listener = downloadPDF(port, { doctype: `Judgment`, law });
+    (downloadButton as HTMLAnchorElement).addEventListener(`click`, listener)
   }
 }
 
-const interceptAustliiDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+const interceptAustliiDownloads = async (port: Runtime.Port) => {
+  const { hostname, pathname } = window.location
   const isAustlii = ([`www.austlii.edu.au`, `www6.austlii.edu.au`, `www8.austlii.edu.au`].includes(hostname) && pathname.match(new RegExp(``)) !== null)
   if(isAustlii){
     const downloadButtonSelector = `div.side-element.side-download a[href^="/cgi-bin/sign.cgi"]`
-    await waitForElement(downloadButtonSelector)
-    const downloadButton: HTMLAnchorElement = document.querySelector(downloadButtonSelector)
+    const downloadButton = await waitForElement(downloadButtonSelector, true)
     const citationElement = document.querySelector(`.ribbon-citation span`)
     const caseName = document.querySelector(`title`).textContent.replace(/ \[.*$/, ``).trim()
     const law: Law.Case = {
@@ -144,17 +149,31 @@ const interceptAustliiDownloads = async (hostname: string, pathname: string, por
       type: `case-citation`,
     }
     const fileName = Helpers.getFileName(law, `Judgment`)
-    return augmentDownloadButton(port, downloadButton, fileName)
+    return augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
   }
 }
 
-const interceptSSODownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+// eslint-disable-next-line sonarjs/cognitive-complexity
+const interceptSSODownloads = async (port: Runtime.Port) => {
+  const { hostname, pathname, search } = window.location
   const isSSO = (hostname === `sso.agc.gov.sg`)
   if(isSSO){
+
+    const isSubsidiaryLegislationView = (pathname.match(new RegExp(/^\/Act\//)) !== null) && (search === `?ViewType=Sl`)
+    if (isSubsidiaryLegislationView){
+      const downloadButtons = (await waitForElement(`td.hidden-xs a.file-download`, true) as NodeListOf<Element>)
+      for(const downloadButton of downloadButtons){
+        const legislationName = downloadButton.parentElement.parentElement.children[0].querySelector(`a.non-ajax`).textContent.trim()
+        const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
+        augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+      }
+      return
+    }
+
     // extra optional "/" because SSO sometimes adds a double slash in the the path
     const isDetail = (pathname.match(new RegExp(/^\/\/?(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
     if(isDetail){
-      await waitForElement(`.legis-title .file-download`)
+      await waitForElement(`.legis-title .file-download`, true)
       // there are 4, but we are only concerned with desktop
       const downloadButton: HTMLAnchorElement = document.querySelector(`.file-download`)
       // there are also 4, but it doesn't matter which one we pick
@@ -165,8 +184,7 @@ const interceptSSODownloads = async (hostname: string, pathname: string, port: R
     
     const isSearch = (pathname.match(new RegExp(/^\/Search\/Content/)) !== null)
     if(isSearch){
-      await waitForElement(`td.hidden-xs a.file-download`)
-      const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
+      const downloadButtons = (await waitForElement(`td.hidden-xs a.file-download`, true)) as NodeListOf<Element>
       for(const downloadButton_ of downloadButtons){
         const downloadButton = downloadButton_ as HTMLAnchorElement
         const legislationName = downloadButton.parentElement.parentElement.children[0].querySelector(`a.title`).textContent.trim()
@@ -178,8 +196,7 @@ const interceptSSODownloads = async (hostname: string, pathname: string, port: R
     
     const isBrowse = (pathname.match(new RegExp(/^\/Browse\/(Act|SL|SL-Supp|Acts-Supp|Bills-Supp|Act-Rev|SL-Rev)\//)) !== null)
     if (isBrowse){
-      await waitForElement(`td.hidden-xs a.file-download`)
-      const downloadButtons = document.querySelectorAll(`td.hidden-xs a.file-download`)
+      const downloadButtons = (await waitForElement(`td.hidden-xs a.file-download`, true) as NodeListOf<Element>)
       for(const downloadButton of downloadButtons){
         const legislationName = downloadButton.parentElement.parentElement.children[1].querySelector(`a.non-ajax`).textContent.trim()
         const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
@@ -190,12 +207,13 @@ const interceptSSODownloads = async (hostname: string, pathname: string, port: R
   }
 }
 
-const interceptWestlawDownloads = async (hostname: string, pathname: string, port: Runtime.Port) => {
+const interceptWestlawDownloads = async (port: Runtime.Port) => {
+  const { hostname, pathname } = window.location
   const isWestLaw = (hostname === `uk.westlaw.com`)
   if(isWestLaw){
     const isDetail = (pathname.match(new RegExp(/^\/Document\/[\dA-Z]+\/View\/FullText\.html/)) !== null)
     if(isDetail){
-      await waitForElement(`#co_docContentWhereReported,#co_docContentMetaInfo`)
+      await waitForElement(`#co_docContentWhereReported,#co_docContentMetaInfo`, false)
       const caseName = document.title.replace(` | Westlaw UK`, ``)
       const downloadButtons = document.querySelectorAll(`#co_docContentWhereReported a[type="application/pdf"], #co_docContentMetaInfo a[type="application/pdf"]`)
       for(const downloadButton of downloadButtons){
@@ -218,7 +236,7 @@ const interceptWestlawDownloads = async (hostname: string, pathname: string, por
     }
     const isSearch = (pathname.match(new RegExp(/^\/Search\/Results\.html/)) !== null)
     if(isSearch){
-      await waitForElement(`#co_search_results_inner`)
+      await waitForElement(`#co_search_results_inner`, false)
       const downloadButtons = [...document.querySelectorAll(`.icon_colour_pdf`)].map(element => element.parentElement)
       for(const downloadButton of downloadButtons){
         const citation = downloadButton.previousElementSibling.textContent.trim()
@@ -242,7 +260,8 @@ const interceptWestlawDownloads = async (hostname: string, pathname: string, por
   }
 }
 
-const interceptCanLIIDownloads = async (hostname, pathname, port) => {
+const interceptCanLIIDownloads = async (port: Runtime.Port) => {
+  const { hostname } = window.location
   const isCanLII = (hostname === `www.canlii.org`)
   if(isCanLII){
     const selector = `#metas .subTab a[href$=".pdf"]`
@@ -264,15 +283,13 @@ const interceptCanLIIDownloads = async (hostname, pathname, port) => {
 }
 
 const downloadInterceptor = async (port: Runtime.Port) => {
-  const { hostname, pathname } = window.location
-
-  await intercepteLitigationDownloads(hostname, pathname, port)
-  await interceptLawNetDownloads(hostname, pathname, port)
-  await interceptOpenLawDownloads(hostname, pathname, port)
-  await interceptAustliiDownloads(hostname, pathname, port)
-  await interceptSSODownloads(hostname, pathname, port)
-  await interceptWestlawDownloads(hostname, pathname, port)
-  await interceptCanLIIDownloads(hostname, pathname, port)
+  await intercepteLitigationDownloads(port)
+  await interceptLawNetDownloads(port)
+  await interceptOpenLawDownloads(port)
+  await interceptAustliiDownloads(port)
+  await interceptSSODownloads(port)
+  await interceptWestlawDownloads(port)
+  await interceptCanLIIDownloads(port)
 }
 
 export default downloadInterceptor
