@@ -4,7 +4,7 @@
   "private": true,
   "description": "quick search legal search",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
-  "license": "GPL-3",
+  "license": "Parity-7.0.0",
   "author": {
     "name": "Huey",
     "email": "hello@huey.xyz"
