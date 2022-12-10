@@ -1,14 +1,10 @@
 {
   "name": "clerkent",
-<<<<<<< HEAD
-  "version": "3.4.7",
-=======
   "version": "3.4.8",
->>>>>>> bf90716 (fix: linting issues and bump to v3.4.7)
   "private": true,
   "description": "quick search legal search",
   "repository": "https://github.com/lacuna-technologies/clerkent.git",
-  "license": "GPL-3",
+  "license": "EUPL-1.2",
   "author": {
     "name": "Huey",
     "email": "hello@huey.xyz"
