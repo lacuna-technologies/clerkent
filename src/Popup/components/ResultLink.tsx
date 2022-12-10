@@ -56,7 +56,7 @@ const ResultLink: FunctionComponent<Props> = ({
           href={link?.url}
           target="_blank"
           rel="noreferrer"
-          {...(link.filetype !== `HTML` ? { onClick } : {})}
+          {...(link.filetype === `HTML` ? {} : { onClick })}
         >
           {link.doctype}
         </a>

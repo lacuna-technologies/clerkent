@@ -1,5 +1,6 @@
 import type { Runtime } from 'webextension-polyfill-ts'
 import { Messenger, Constants, Helpers, Finder } from '../utils'
+import qs from 'qs'
 
 const augmentDownloadButton = (port: Runtime.Port, button: HTMLAnchorElement, fileName: string): void => {
   button.addEventListener(`click`, (event: MouseEvent) => {
@@ -159,7 +160,7 @@ const interceptSSODownloads = async (port: Runtime.Port) => {
   const isSSO = (hostname === `sso.agc.gov.sg`)
   if(isSSO){
 
-    const isSubsidiaryLegislationView = (pathname.match(new RegExp(/^\/Act\//)) !== null) && (search === `?ViewType=Sl`)
+    const isSubsidiaryLegislationView = (pathname.match(new RegExp(/^\/Act\//)) !== null) && (qs.parse(search)[`ViewType`] === `Sl`)
     if (isSubsidiaryLegislationView){
       const downloadButtons = (await waitForElement(`td.hidden-xs a.file-download`, true) as NodeListOf<Element>)
       for(const downloadButton of downloadButtons){
