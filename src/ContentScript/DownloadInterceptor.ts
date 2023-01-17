@@ -160,7 +160,10 @@ const interceptSSODownloads = async (port: Runtime.Port) => {
   const isSSO = (hostname === `sso.agc.gov.sg`)
   if(isSSO){
 
-    const isSubsidiaryLegislationView = (pathname.match(new RegExp(/^\/Act\//)) !== null) && (qs.parse(search)[`ViewType`] === `Sl`)
+    const isSubsidiaryLegislationView = (
+      (pathname.match(new RegExp(/^\/Act\//)) !== null) &&
+      (qs.parse(search, { ignoreQueryPrefix: true })[`ViewType`] === `Sl`)
+    )
     if (isSubsidiaryLegislationView){
       const downloadButtons = (await waitForElement(`td.hidden-xs a.file-download`, true) as NodeListOf<Element>)
       for(const downloadButton of downloadButtons){
