@@ -9,7 +9,7 @@ Case law at your fingertips
 
 See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 
-![GitHub](https://img.shields.io/github/license/lacuna-technologies/clerkent)
+![GitHub](https://img.shields.io/badge/licence-EUPL--1.2-blue)
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ogjefnociaddjemkkajgmfpmhmpokmhj?label=Google%20Chrome%20users)
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ogjefnociaddjemkkajgmfpmhmpokmhj)
 ![Mozilla Add-on](https://img.shields.io/amo/users/clerkent?label=Mozilla%20Firefox%20users)
