@@ -302,6 +302,19 @@ exports[` 23`] = `
 exports[` 24`] = `
 [
   {
+    "abbr": "UKIPO",
+    "citation": "BLO/555/22",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
+exports[` 25`] = `
+[
+  {
     "abbr": "EWHC",
     "citation": "[2021] EWHC 2168",
     "index": 0,
@@ -312,7 +325,7 @@ exports[` 24`] = `
 ]
 `;
 
-exports[` 25`] = `
+exports[` 26`] = `
 [
   {
     "abbr": "EWHC",
@@ -325,7 +338,7 @@ exports[` 25`] = `
 ]
 `;
 
-exports[` 26`] = `
+exports[` 27`] = `
 [
   {
     "abbr": "ECDR",
@@ -338,7 +351,7 @@ exports[` 26`] = `
 ]
 `;
 
-exports[` 27`] = `
+exports[` 28`] = `
 [
   {
     "citation": "C-40/17",
@@ -350,7 +363,7 @@ exports[` 27`] = `
 ]
 `;
 
-exports[` 28`] = `
+exports[` 29`] = `
 [
   {
     "citation": "C-403/08",
@@ -369,7 +382,7 @@ exports[` 28`] = `
 ]
 `;
 
-exports[` 29`] = `
+exports[` 30`] = `
 [
   {
     "citation": "C-145/10",
@@ -381,7 +394,7 @@ exports[` 29`] = `
 ]
 `;
 
-exports[` 30`] = `
+exports[` 31`] = `
 [
   {
     "citation": "C-5/08",
@@ -393,7 +406,7 @@ exports[` 30`] = `
 ]
 `;
 
-exports[` 31`] = `
+exports[` 32`] = `
 [
   {
     "abbr": "FCA",
@@ -406,7 +419,7 @@ exports[` 31`] = `
 ]
 `;
 
-exports[` 32`] = `
+exports[` 33`] = `
 [
   {
     "abbr": "CLR",
@@ -419,7 +432,7 @@ exports[` 32`] = `
 ]
 `;
 
-exports[` 33`] = `
+exports[` 34`] = `
 [
   {
     "abbr": "ACSR",
@@ -432,7 +445,7 @@ exports[` 33`] = `
 ]
 `;
 
-exports[` 34`] = `
+exports[` 35`] = `
 [
   {
     "abbr": "ALJ",
@@ -445,7 +458,7 @@ exports[` 34`] = `
 ]
 `;
 
-exports[` 35`] = `
+exports[` 36`] = `
 [
   {
     "abbr": "HCA",
@@ -458,7 +471,7 @@ exports[` 35`] = `
 ]
 `;
 
-exports[` 36`] = `
+exports[` 37`] = `
 [
   {
     "abbr": "ACLR",
@@ -471,7 +484,7 @@ exports[` 36`] = `
 ]
 `;
 
-exports[` 37`] = `
+exports[` 38`] = `
 [
   {
     "citation": "[1999] 2 SCR 534",
@@ -482,7 +495,7 @@ exports[` 37`] = `
 ]
 `;
 
-exports[` 38`] = `
+exports[` 39`] = `
 [
   {
     "citation": "(2008) 91 OR (3d) 353",
@@ -493,7 +506,7 @@ exports[` 38`] = `
 ]
 `;
 
-exports[` 39`] = `
+exports[` 40`] = `
 [
   {
     "citation": "(1973) 40 DLR (3d) 371",
@@ -504,7 +517,7 @@ exports[` 39`] = `
 ]
 `;
 
-exports[` 40`] = `
+exports[`Finder [2021] SGCA 34 1`] = `
 [
   {
     "citation": "[1983] 4 WWR 762",
@@ -515,7 +528,7 @@ exports[` 40`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 1`] = `
+exports[`Finder [2021] SGCA 34 2`] = `
 [
   {
     "citation": "[2006] SCC 39",
@@ -526,7 +539,7 @@ exports[`Finder [2021] SGCA 34 1`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 2`] = `
+exports[`Finder [2021] SGCA 34 3`] = `
 [
   {
     "citation": "2022 SCC 38",
@@ -537,7 +550,7 @@ exports[`Finder [2021] SGCA 34 2`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 3`] = `
+exports[`Finder [2021] SGCA 34 4`] = `
 [
   {
     "citation": "2008 ONCA 506",
@@ -548,7 +561,7 @@ exports[`Finder [2021] SGCA 34 3`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 4`] = `
+exports[`Finder [2021] SGCA 34 5`] = `
 [
   {
     "citation": "(2013) 16 HKCFAR 366",
@@ -559,7 +572,7 @@ exports[`Finder [2021] SGCA 34 4`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 5`] = `
+exports[`Finder [2021] SGCA 34 6`] = `
 [
   {
     "citation": "[2015] HKCFI 1856",
@@ -570,7 +583,7 @@ exports[`Finder [2021] SGCA 34 5`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 6`] = `
+exports[`Finder [2021] SGCA 34 7`] = `
 [
   {
     "citation": "[1999] HKCA 585",
@@ -581,7 +594,7 @@ exports[`Finder [2021] SGCA 34 6`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 7`] = `
+exports[`Finder [2021] SGCA 34 8`] = `
 [
   {
     "citation": "[2000] 1 HKLRD 595",
@@ -592,7 +605,7 @@ exports[`Finder [2021] SGCA 34 7`] = `
 ]
 `;
 
-exports[`Finder [2021] SGCA 34 8`] = `
+exports[`Finder [2021] SGCA 34 9`] = `
 [
   {
     "citation": "[2012] HKDC 911",
