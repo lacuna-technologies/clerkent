@@ -28,46 +28,22 @@ const QueryResult: FunctionComponent<Props> = ({ searchResult, downloadPDF, isSe
 
   const showMore = morePressed || searchResult.length <= maxResults
 
-  const resultType: Law.Type = searchResult[0]?.type
-  if(resultType === `case-citation` || resultType === `case-name`){
-    return (
-      <div className="flex flex-col mt-2 items-start content-start gap-4">
-        {
-          (searchResult as Law.Case[])
-            .slice(0, showMore ? undefined : maxResults)
-            .map((result) => (
-              <CaseResult
-                case={result}
-                downloadPDF={downloadPDF}
-                key={`${result.name}-${result.citation}`}
-              />
-            ))
-        }
-        { showMore ? null : <ShowMore onClick={onShowMore} /> }
-      </div>
-    )
-  } else if (resultType === `legislation`){
-    return (
-      <div className="flex flex-col mt-2 items-start content-start gap-4">
-        {
-          (searchResult as Law.Legislation[])
-          .slice(0, showMore ? undefined: maxResults)
-          .map((legislation) => {
-            const { provisionType, provisionNumber, statute } = legislation
-            return (
-              <LegislationResult
-                legislation={legislation}
-                downloadPDF={downloadPDF}
-                key={`${provisionType}-${provisionNumber}-${statute}`}
-              />
-            )
-          })
-        }
-        { showMore ? null : <ShowMore onClick={onShowMore} /> }
-      </div>
-    )
-  }
-  return null
+  return (
+    <div className="flex flex-col mt-2 items-start content-start gap-4">
+      {
+        (searchResult as Law.Case[])
+          .slice(0, showMore ? undefined : maxResults)
+          .map((result) => (
+            <CaseResult
+              case={result}
+              downloadPDF={downloadPDF}
+              key={`${result.name}-${result.citation}`}
+            />
+          ))
+      }
+      { showMore ? null : <ShowMore onClick={onShowMore} /> }
+    </div>
+  )
 }
 
 export default QueryResult
