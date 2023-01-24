@@ -1,9 +1,9 @@
 import Constants from '../../Constants'
 
-export const sortUNCitations = (
-  citationsArray: any[],
-  attribute = null,
-) => citationsArray
+export const sortUNCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => citationsArray
 
 export const findUNCaseCitation = (
   query: string,

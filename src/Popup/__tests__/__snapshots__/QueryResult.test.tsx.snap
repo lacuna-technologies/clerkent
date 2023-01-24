@@ -189,6 +189,33 @@ exports[`QueryResult renders loading 1`] = `
   "baseElement": <body>
     <div>
       <div
+        class="flex flex-col mt-2 items-start content-start gap-4"
+      >
+        <div
+          class="inline-flex flex-row items-center"
+        >
+          <div
+            class="ml-[0.2rem]"
+          >
+            Loading...
+          </div>
+          <div
+            class="inline-block relative w-[80px] h-[10px] loading-container"
+          >
+            <div />
+            <div />
+            <div />
+            <div />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="flex flex-col mt-2 items-start content-start gap-4"
+    >
+      <div
         class="inline-flex flex-row items-center"
       >
         <div
@@ -204,25 +231,6 @@ exports[`QueryResult renders loading 1`] = `
           <div />
           <div />
         </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="inline-flex flex-row items-center"
-    >
-      <div
-        class="ml-[0.2rem]"
-      >
-        Loading...
-      </div>
-      <div
-        class="inline-block relative w-[80px] h-[10px] loading-container"
-      >
-        <div />
-        <div />
-        <div />
-        <div />
       </div>
     </div>
   </div>,

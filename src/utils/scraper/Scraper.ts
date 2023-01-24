@@ -12,9 +12,6 @@ import Constants from '../Constants'
 import Logger from '../Logger'
 import UN from './UN'
 
-// type JurisdictionType = typeof SG | typeof UK | typeof EU | typeof HK | typeof CA | typeof AU | typeof NZ
-type JurisdictionWithLegislationSearch = typeof SG | typeof UK | typeof EU
-
 const jurisdictionMap = {
   [Constants.JURISDICTIONS.AU.id]: AU,
   [Constants.JURISDICTIONS.EU.id]: EU,
@@ -31,7 +28,7 @@ const jurisdictionMap = {
 const getCaseByCitation = (
   targetCase: Finder.CaseCitationFinderResult,
   inputJurisdiction: Law.JurisdictionCode = null,
-): Promise<Law.Case[]> => {
+): EventTarget => {
   const { jurisdiction, citation, court } = targetCase
 
   const targetJurisdiction = inputJurisdiction === null
@@ -40,45 +37,25 @@ const getCaseByCitation = (
 
   Logger.log(`Scraper: getByCaseCitation`, citation, targetJurisdiction)
 
-  return targetJurisdiction.getCaseByCitation(citation, court)
+  return targetJurisdiction.getCaseByCitation(
+    citation,
+    court,
+  )
 }
 
 const getCaseByName = (
   targetCaseName: Finder.CaseNameFinderResult,
   inputJurisdiction: Law.JurisdictionCode,
-) : Promise<Law.Case[]> => {
+) : EventTarget => {
   const { name } = targetCaseName
   const targetJurisdiction = jurisdictionMap[inputJurisdiction]
 
   if(!targetJurisdiction || !targetJurisdiction?.getCaseByName){
-    return Promise.resolve([])
+    Logger.error(`targetJurisdiction or getCaseByName missing`)
   }
 
   return targetJurisdiction.getCaseByName(name)
 }
-
-const getLegislation = Memoize((
-  targetLegislation: Finder.LegislationFinderResult,
-  inputJurisdiction: Law.JurisdictionCode,
-): Promise<Law.Legislation[]> => {
-  const targetJurisdiction = jurisdictionMap[inputJurisdiction]
-
-  if(!targetJurisdiction || !(`getLegislation` in targetJurisdiction)){
-    return Promise.resolve([])
-  }
-
-  Logger.log(`Scraper: getLegislation`, targetLegislation, inputJurisdiction)
-
-  return (
-    targetJurisdiction as JurisdictionWithLegislationSearch
-  ).getLegislation(targetLegislation)
-}, {
-  normalizer: ([{
-    provisionType,
-    provisionNumber,
-    statute,
-  }, inputJurisdiction]) => `${provisionType}-${provisionNumber}-${statute}-${inputJurisdiction}`,
-})
 
 const getPDF = Memoize((
   inputCase: Law.Case,
@@ -117,7 +94,6 @@ const scraper = {
   UK,
   getCaseByCitation,
   getCaseByName,
-  getLegislation,
   getPDF,
 }
 

@@ -1,38 +1,31 @@
 
 import ICJCIJ from './ICJCIJ'
 import Constants from '../../Constants'
-import Logger from '../../Logger'
-import { databaseUseDatabase, databaseUseJurisdiction } from '../utils'
+import { databaseUseDatabase, databaseUseJurisdiction, makeEventTarget } from '../utils'
+import { sortUNCases } from 'utils/Finder/CaseCitationFinder/UN'
 
 const databaseUseUN = databaseUseJurisdiction(`UN`)
 const databaseUseICJCIJ = databaseUseDatabase(`icjcij`, databaseUseUN)
 
-const getLegislation = () => null
+const getCaseByName = (caseName: string): EventTarget => makeEventTarget(
+  caseName,
+  [
+    databaseUseICJCIJ(() => ICJCIJ.getCaseByName(caseName)),
+  ],
+  `UN`,
+  sortUNCases,
+  true,
+)
 
-const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  try {
-    return (await Promise.allSettled([
-      databaseUseICJCIJ(() => ICJCIJ.getCaseByName(caseName)),
-    ]))
-    .filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({
-      jurisdiction,
-    }) => (
-      jurisdiction === Constants.JURISDICTIONS.UN.id
-    ))
-  } catch (error) {
-    Logger.error(error)
-    return []
-  }
-}
-
-const getCaseByCitation = async (
+const getCaseByCitation = (
   citation: string,
-  court: string,
-): Promise<Law.Case[]> => {
-  return []
-}
+): EventTarget => makeEventTarget(
+  citation,
+  [],
+  `UN`,
+  sortUNCases,
+  false,
+)
 
 const databaseMap = {
   [Constants.DATABASES.UN_icjcij.id]: ICJCIJ,
@@ -49,7 +42,6 @@ const getPDF = async (
 const UN = {
   getCaseByCitation,
   getCaseByName,
-  getLegislation,
   getPDF,
 }
 

@@ -6,6 +6,7 @@ import { findEUCaseCitation } from '../../Finder/CaseCitationFinder/EU'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://curia.europa.eu`
 
@@ -134,13 +135,11 @@ const parseCaseData = async (data: AxiosResponse[`data`]): Promise<Law.Case[]> =
     if(caseResult.links.length === 1){ // only summary
       try {
         const additionalLinks = await scrapeDocumentsPage(caseResult)
-        console.log(`additionalLinks`, additionalLinks)
         if(additionalLinks.length > 0){
           results[index].links = [
             ...results[index].links,
             ...additionalLinks,
           ]
-          console.log(`added`, results[index].links)
         }
       } catch (error) {
         Logger.error(error)
@@ -158,7 +157,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       params: {
         num: citation, 
       },
-    })
+    } as CacheRequestConfig)
   
   return await parseCaseData(data)
 }
@@ -170,7 +169,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       params: {
         parties: caseName, 
       },
-    })
+    } as CacheRequestConfig)
   
   return await parseCaseData(data)
 }

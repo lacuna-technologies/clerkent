@@ -14,6 +14,7 @@ import scclexum from '../CA/scclexum'
 import austlii from '../AU/austlii'
 import PDF from '../../PDF'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 // Available judgments
 //  Singapore
@@ -39,7 +40,7 @@ const matchJurisdiction = (jurisdictionString: string): Law.JurisdictionCode => 
 const fixURL = (url: string) => url.replace(/scc\.lexum\.umontreal\.ca/, `scc-csc.lexum.com`)
 
 const parseMultipleCase = ($: cheerio.CheerioAPI): Law.Case[] => {
-  const results = $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element): Law.Case => {
+  return $(`a[name="cases"] table.search-results > tbody > tr`).map((_, element): Law.Case => {
     const name = $(`td.case-cited > a`, element).text().trim()
     const relativeLawCiteURL = $(`td.case-cited > a`, element).attr(`href`)
     const lawCiteURL = `${LAWCITE_DOMAIN}${relativeLawCiteURL}`
@@ -68,8 +69,6 @@ const parseMultipleCase = ($: cheerio.CheerioAPI): Law.Case[] => {
     }
   }).get()
   .filter(({ citation }) => Helpers.isCitationValid(citation))
-  Logger.log(`CommonLII scraper result`, results)
-  return results
 }
 
 const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
@@ -135,8 +134,7 @@ const parseCase = async (result: AxiosResponse): Promise<Law.Case[]> => {
         ...(pdfLink ? [pdfLink] : []),
       ],
       name,
-    }]
-    Logger.log(`CommonLII scraper result`, results)
+    }].filter(Boolean)
     return results
 
   } catch (error){
@@ -152,7 +150,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         cit: citation,
         filter: `on`,
       },
-    })
+    } as CacheRequestConfig)
     
     return parseCase(result)
     
@@ -170,7 +168,7 @@ const getCaseByName = async (citation: string, jurisdiction: string = null): Pro
         ...(jurisdiction ? { juris: jurisdiction } : {}),
         party1: citation,
       },
-    })
+    } as CacheRequestConfig)
     return parseCase(result)
   } catch (error){
     Logger.error(error)

@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio'
 import Request from 'utils/Request'
 import Constants from 'utils/Constants'
 import Helpers from 'utils/Helpers'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const API_DOMAIN = `https://api.sclqld.org.au`
 const DOMAIN = `https://www.sclqld.org.au`
@@ -63,7 +64,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         ...defaultParameters,
         c: citation,
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCaseResults(data)
 }
@@ -76,7 +77,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         ...defaultParameters,
         pt: caseName,
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCaseResults(data)
 }

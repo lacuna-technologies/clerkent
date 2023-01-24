@@ -1,4 +1,5 @@
 import type { AxiosResponse } from 'axios'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 import * as cheerio from 'cheerio'
 import Constants from 'utils/Constants'
 import Helpers from 'utils/Helpers'
@@ -90,7 +91,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       params: {
         BL_Number: citation,
       },
-    },
+    } as CacheRequestConfig,
   )
   const tmSearch = await Request.get(
     TM_DETAIL_URL,
@@ -98,7 +99,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       params: {
         BL_Number: citation,
       },
-    },
+    } as CacheRequestConfig,
   )
   const result = (await Promise.allSettled([patentSearch, tmSearch]))
     .find(({ status,  value: { request }  }: any) =>
@@ -114,31 +115,39 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   const patentSearchParty = await Request.get(
     PATENT_SEARCH_URL,
-    { params: {
-        ...defaultPatentSearchParameters,
-        party: caseName,
-    } },
+    {
+      params: {
+          ...defaultPatentSearchParameters,
+          party: caseName,
+      },
+    } as CacheRequestConfig,
   )
   const patentSearchNumber = await Request.get(
     PATENT_SEARCH_URL,
-    { params: {
-      ...defaultPatentSearchParameters,
-      number: caseName,
-    } },
+    {
+      params: {
+        ...defaultPatentSearchParameters,
+        number: caseName,
+      },
+    } as CacheRequestConfig,
   )
   const tmSearchParty = await Request.get(
     TM_SEARCH_URL,
-    { params: {
-      ...defaultTmSearchParameters,
-      party: caseName,
-    } },
+    {
+      params: {
+        ...defaultTmSearchParameters,
+        party: caseName,
+      },
+    } as CacheRequestConfig,
   )
   const tmSearchMark = await Request.get(
     TM_SEARCH_URL,
-    { params: {
-      ...defaultTmSearchParameters,
-      mark: caseName,
-    } },
+    {
+      params: {
+        ...defaultTmSearchParameters,
+        mark: caseName,
+      },
+    } as CacheRequestConfig,
   )
   const result = (await Promise.allSettled([
     patentSearchParty,

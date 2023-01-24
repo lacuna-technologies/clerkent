@@ -2,6 +2,7 @@ import { load } from 'cheerio'
 import Request from '../../Request'
 import Constants from '../../Constants'
 import Logger from '../../Logger'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://www.elitigation.sg`
 
@@ -53,7 +54,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         verbose: `False`,
         yearOfDecision: `All`,
       },
-    })
+    } as CacheRequestConfig)
 
   return parseCaseResults(data).filter(({ citation: scrapedCitation }) => (
     trimLeadingPageZeros(scrapedCitation).toLowerCase() === citation.toLowerCase()
@@ -72,7 +73,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         verbose: `False`,
         yearOfDecision: `All`,
       },
-    })
+    } as CacheRequestConfig)
     return parseCaseResults(data)
   } catch (error){
     Logger.error(error)

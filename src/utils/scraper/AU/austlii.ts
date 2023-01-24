@@ -6,6 +6,7 @@ import { findAUCaseCitation } from '../../Finder/CaseCitationFinder/AU'
 import type { AxiosResponse } from 'axios'
 import Logger from '../../Logger'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `http://www8.austlii.edu.au`
 
@@ -42,7 +43,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         method: `auto`,
         query: citation,
       },
-    },
+    } as CacheRequestConfig,
   )
 
   return parseCaseData(data)
@@ -57,7 +58,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         method: `auto`,
         query: caseName,
       },
-    },
+    } as CacheRequestConfig,
   )
 
   return parseCaseData(data)

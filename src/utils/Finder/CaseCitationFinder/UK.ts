@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbrs, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume } from './utils'
 
 const UKAbbrs = [
     { abbr: `UKSC` },
@@ -52,7 +52,10 @@ const UKAbbrs = [
     { abbr: `CLC` },
   ]
 
-export const sortUKCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+export const sortUKCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => sortCasesByVolume(
   UKAbbrs,
   citationsArray,
   attribute,
@@ -82,14 +85,14 @@ export const findUKCaseCitationMatches = (query: string) => {
 }
 
 const formatUKIPOYear = (shortYear: string) => {
-  const shortYearNumber = Number.parseInt(shortYear)
+  const shortYearNumber = Number.parseInt(shortYear, 10)
   return shortYearNumber > 90 ? `19${shortYear}` : `20${shortYear}`
 }
 
 export const findUKCaseCitation = (query:string): Finder.CaseCitationFinderResult[] => {
   const matches = findUKCaseCitationMatches(query)
   if (matches.length > 0) {
-    return sortUKCitations(
+    return sortUKCases(
       matches.map((match) => {
         const abbr = match.groups.ukipo
           ? `UKIPO`
@@ -102,14 +105,15 @@ export const findUKCaseCitation = (query:string): Finder.CaseCitationFinderResul
         return {
           abbr,
           citation: match[0],
+          court: abbr,
           index: match.index,
           jurisdiction: Constants.JURISDICTIONS.UK.id,
           type: `case-citation`,
           year,
-        }
+        } as unknown as Law.Case
       }),
       `abbr`,
-    )
+    ) as unknown as Finder.CaseCitationFinderResult[]
   }
   return []
 }

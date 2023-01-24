@@ -4,10 +4,10 @@ export const epoRegex = new RegExp(/\b[GJT][ _]?\d{1,4}\/\d{1,2}/)
 export const cjeuRegex = new RegExp(/\b[CT]-\d{1,3}\/\d{1,2}/)
 // TODO: parse ECLI
 
-export const sortEUCitations = (
-  citationsArray: any[],
-  attribute = null,
-) => citationsArray
+export const sortEUCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => citationsArray
 
 export const findEUCaseCitation = (
   query: string,

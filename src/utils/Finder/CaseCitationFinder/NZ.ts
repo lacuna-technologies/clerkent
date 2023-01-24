@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbrs, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume } from './utils'
 
 export const NZAbbrs = [
   { abbr: `NZSC` },
@@ -15,7 +15,10 @@ export const NZAbbrs = [
   { abbr: `NZDC` },
 ]
 
-export const sortNZCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+export const sortNZCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => sortCasesByVolume(
   NZAbbrs,
   citationsArray,
   attribute,

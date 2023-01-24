@@ -5,6 +5,7 @@ import Constants from 'utils/Constants'
 import Helpers from 'utils/Helpers'
 import { findCitation } from '../utils'
 import { findAUCaseCitation } from 'utils/Finder/CaseCitationFinder/AU'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://www.caselaw.nsw.gov.au`
 
@@ -89,7 +90,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
           },
         ),
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCaseResults(data)
 }
@@ -112,7 +113,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
           },
         ),
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCaseResults(data)
 }

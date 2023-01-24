@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio'
 import Request from '../../Request'
 import Constants from '../../Constants'
 import { AxiosResponse } from 'axios'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://ejudgment.kehakiman.gov.my`
 
@@ -41,7 +42,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         aph_court_category: ``,
         nama_hakim: ``,
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCases(data)
 }
@@ -57,7 +58,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         aph_court_category: ``,
         nama_hakim: ``,
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCases(data)
 }

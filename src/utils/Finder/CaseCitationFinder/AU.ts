@@ -1,6 +1,5 @@
-import Logger from 'utils/Logger'
 import Constants from '../../Constants'
-import { formatAbbrs, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume } from './utils'
 
 export const AUAbbrs = [
   // approximate order only
@@ -141,7 +140,10 @@ export const AUAbbrs = [
   { abbr: `ACLR` },
 ]
 
-export const sortAUCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(AUAbbrs, citationsArray, attribute)
+export const sortAUCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => sortCasesByVolume(AUAbbrs, citationsArray, attribute)
 
 export const findAUCaseCitationMatches = (query: string) => {
    // eslint-disable-next-line unicorn/better-regex

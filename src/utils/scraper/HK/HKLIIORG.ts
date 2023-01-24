@@ -6,6 +6,7 @@ import { findHKCaseCitation } from '../../Finder/CaseCitationFinder/HK'
 import type { AxiosResponse } from 'axios'
 import PDF from '../../PDF'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://www.hklii.org`
 
@@ -48,7 +49,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
         mode: `advanced`,
         results: 20,
       },
-    },
+    } as CacheRequestConfig,
   )
 
   return parseCaseData(data)
@@ -65,7 +66,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
         results: 20,
         titleall: caseName,
       },
-    },
+    } as CacheRequestConfig,
   )
 
   return parseCaseData(data)

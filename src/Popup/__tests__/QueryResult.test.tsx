@@ -7,6 +7,7 @@ jest.mock(`Popup/hooks/useClipboard`)
 const useClipboardMock = useClipboard as jest.Mock
 
 const mockDownloadPDF = () => () => null
+const mockUpdateResults = () => null
 const mockCases: Law.Case[] = [
   {
     citation: `[1884] EWHC 2 (QB)`,
@@ -39,9 +40,11 @@ describe(`QueryResult`, () => {
   it(`renders no cases found`, () => {
     const tree = render(
       <QueryResult
-        searchResult={[]}
+        searchResults={[]}
         downloadPDF={mockDownloadPDF}
         isSearching={false}
+        updatePending={false}
+        updateResults={mockUpdateResults}
       />,
     )
     expect(tree).toMatchSnapshot()
@@ -50,9 +53,11 @@ describe(`QueryResult`, () => {
   it(`renders loading`, () => {
     const treeCase = render(
       <QueryResult
-        searchResult={[]}
+        searchResults={[]}
         downloadPDF={mockDownloadPDF}
         isSearching={true}
+        updatePending={false}
+        updateResults={mockUpdateResults}
       />,
     )
     expect(treeCase).toMatchSnapshot()
@@ -61,9 +66,11 @@ describe(`QueryResult`, () => {
   it(`renders list of UK cases`, () => {
     const tree = render(
       <QueryResult
-        searchResult={mockCases}
+        searchResults={mockCases}
         downloadPDF={mockDownloadPDF}
         isSearching={false}
+        updatePending={false}
+        updateResults={mockUpdateResults}
       />,
     )
     expect(tree).toMatchSnapshot()

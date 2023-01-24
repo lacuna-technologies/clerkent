@@ -3,6 +3,7 @@ import Logger from 'utils/Logger'
 import Constants from 'utils/Constants'
 import { Downloads } from 'webextension-polyfill-ts'
 import Helpers from 'utils/Helpers'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const SEARCH_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/search/supreme-court`
 const CITATION_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/document/citation`
@@ -64,7 +65,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     const { data } = await Request.post(
       CITATION_API_URL,
       requestBody,
-      defaultRequestOptions,
+      defaultRequestOptions as unknown as CacheRequestConfig,
     )
     const encodedCitation = citation.replaceAll(` `, `+`)
     const judgmentLink: Law.Link = {
@@ -107,7 +108,7 @@ const getSearchResults = async (query: string): Promise<Law.Case[]>=> {
     const { data } = await Request.post(
       SEARCH_API_URL,
       requestBody,
-      defaultRequestOptions,
+      defaultRequestOptions as unknown as CacheRequestConfig,
     )
     const results: Law.Case[] = data.data.results.map((result): Law.Case => {
       const encodedCitation = result.ncitation.replaceAll(` `, `+`)

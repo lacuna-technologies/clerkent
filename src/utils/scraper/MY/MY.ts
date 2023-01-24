@@ -1,56 +1,34 @@
 import Kehakiman from './Kehakiman'
 import Common from '../common'
 import Constants from '../../Constants'
-import { sortMYCitations } from '../../Finder/CaseCitationFinder/MY'
-import Helpers from '../../Helpers'
-import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
-import Logger from '../../Logger'
+import { sortMYCases } from '../../Finder/CaseCitationFinder/MY'
+import { databaseUseDatabase, databaseUseJurisdiction, makeEventTarget } from '../utils'
 
 const databaseUseMY = databaseUseJurisdiction(`MY`)
 const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseMY)
 const databaseUseKehakiman = databaseUseDatabase(`kehakiman`, databaseUseMY)
 
-const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled([
-      databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.MY.name)),
-      databaseUseKehakiman(() => Kehakiman.getCaseByName(caseName)),
-    ]))
-    .filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.MY.id)
-  
-    return sortByName(
-      caseName,
-      sortMYCitations(
-        Helpers.uniqueBy(results, `citation`),
-        `citation`,
-      ),
-    )
-  } catch (error) {
-    Logger.error(error)
-  }
-  return []
-}
+const getCaseByName = (caseName: string): EventTarget => makeEventTarget(
+  caseName,
+  [
+    databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.MY.name)),
+    databaseUseKehakiman(() => Kehakiman.getCaseByName(caseName)),
+  ],
+  `MY`,
+  sortMYCases,
+  true,
+)
 
-const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled([
-      databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
-      databaseUseKehakiman(() => Kehakiman.getCaseByCitation(citation)),
-    ])).filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.MY.id)
-
-    return sortMYCitations(
-      Helpers.uniqueBy(results, `citation`),
-      `citation`,
-    )
-  } catch (error){
-    Logger.error(error)
-  }
-  return []
-}
+const getCaseByCitation = (citation: string): EventTarget => makeEventTarget(
+  citation,
+  [
+    databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
+    databaseUseKehakiman(() => Kehakiman.getCaseByCitation(citation)),
+  ],
+  `MY`,
+  sortMYCases,
+  false,
+)
 
 const databaseMap = {
   [Constants.DATABASES.commonlii.id]: Common.CommonLII,

@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbrs, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume } from './utils'
 
 export const HKAbbrs =[
   { abbr: `HKCFA` },
@@ -18,7 +18,10 @@ export const HKAbbrs =[
   { abbr: `HKMagC` },
 ]
 
-export const sortHKCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(HKAbbrs, citationsArray, attribute)
+export const sortHKCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => sortCasesByVolume(HKAbbrs, citationsArray, attribute)
 
 export const findHKCaseCitationMatches = (query: string) => {
   // eslint-disable-next-line unicorn/better-regex

@@ -20,7 +20,6 @@ const findCase = Memoize((citation: string): Finder.FinderResult[] => {
 const Finder = {
   findCase,
   findCaseCitation: CaseCitationFinder.findCaseCitation,
-  // findLegislation: LegislationFinder.findLegislation,
 }
 
 export default Finder

@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbrs, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume, sortCitationsByVolume } from './utils'
 import { SGSTBlongFormatRegex } from 'utils/scraper/SG/STB'
 
 export const SGSCAbbrs = [
@@ -15,6 +15,8 @@ export const neutralSGAbbrs = [
   { abbr: `SGCCS` },
   { abbr: `SGCRT` },
   { abbr: `SGDC` },
+  { abbr: `SGFC` },
+  { abbr: `SGYC` },
   { abbr: `SGDSC` },
   { abbr: `SGIAC` },
   { abbr: `SGIPOS` },
@@ -36,9 +38,12 @@ export const SGAbbrs = [
   { abbr: `MLJ` },
 ]
 
-export const sortSGCitations = (citationsArray: string[], attribute = null) => sortCitationsByVolume(
+export const sortSGCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => sortCasesByVolume(
   SGAbbrs, 
-  citationsArray, 
+  citationsArray,
   attribute,
 )
 

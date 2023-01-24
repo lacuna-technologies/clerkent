@@ -7,6 +7,7 @@ import { findNZCaseCitation } from '../../Finder/CaseCitationFinder/NZ'
 import type { AxiosResponse } from 'axios'
 import PDF from '../../PDF'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `http://www.nzlii.org`
 
@@ -46,7 +47,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
           method: `auto`,
           query: citation,
         },
-      },
+      } as CacheRequestConfig,
     )
 
     return parseCaseData(data)
@@ -69,7 +70,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
           query: caseName,
           rank: `on`,
         },
-      },
+      } as CacheRequestConfig,
     )
 
     return parseCaseData(data)

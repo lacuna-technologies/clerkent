@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbrs, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume } from './utils'
 
 export const MYAbbrs = [
   { abbr: `MYFC` },
@@ -12,7 +12,10 @@ export const MYAbbrs = [
   { abbr: `CLJ` },
 ]
 
-export const sortMYCitations = (citationsArray: any[], attribute = null) => sortCitationsByVolume(
+export const sortMYCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => sortCasesByVolume(
   MYAbbrs, 
   citationsArray, 
   attribute,

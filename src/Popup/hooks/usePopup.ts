@@ -14,7 +14,7 @@ const keys = {
 
 type SearchResult = Law.Case | Law.Legislation
 
-const usePopup = ({ search, setIsSearching, setSearchResult }) => {
+const usePopup = ({ search, setIsSearching, setSearchResults }) => {
   const [query, setQuery] = useState(``)
   const [lastSearchQuery, setLastSearchQuery] = useState(query)
   const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
@@ -29,8 +29,8 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
       Storage.set(keys.SELECTED_JURISDICTION, value)
     }
     setLastSearchQuery(``)
-    setSearchResult([] as SearchResult[])
-  }, [setSearchResult])
+    setSearchResults([] as SearchResult[])
+  }, [setSearchResults])
 
   const autosetJurisdiction = useCallback((value: string) => {
     const citations = Finder.findCaseCitation(value)
@@ -60,7 +60,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
   ) => {
     setQuery(value)
     setIsSearching(false)
-    setSearchResult([] as SearchResult[])
+    setSearchResults([] as SearchResult[])
     if(debounceAutosetJurisdiction){
       debouncedAutosetJurisdiction(value)
     } else {
@@ -69,7 +69,7 @@ const usePopup = ({ search, setIsSearching, setSearchResult }) => {
     if(!doNotStore){
       debouncedStoreQuery(value)
     }
-  }, [autosetJurisdiction, debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResult])
+  }, [autosetJurisdiction, debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResults])
 
   const onSearchQueryInput = useCallback((event: Event) => {
     const { target } = event

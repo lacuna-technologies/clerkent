@@ -8,10 +8,11 @@ import Helpers from '../../Helpers'
 import type { AxiosResponse } from 'axios'
 import PDF from '../../PDF'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://www.bailii.org`
 
-const parseSingleCase = (data: AxiosResponse[`data`], request: AxiosResponse[`request`]): Law.Case => {
+const parseSingleCase = (data: AxiosResponse[`data`], url: string): Law.Case => {
 
   const $ = cheerio.load(data)
 
@@ -28,7 +29,7 @@ const parseSingleCase = (data: AxiosResponse[`data`], request: AxiosResponse[`re
       {
         doctype: `Judgment`,
         filetype: `HTML`,
-        url: request.responseURL,
+        url,
       },
       ...(pdfPath
         ? [{ doctype: `Judgment`, filetype: `PDF`, url: `${DOMAIN}${pdfPath}` } as Law.Link]
@@ -40,19 +41,30 @@ const parseSingleCase = (data: AxiosResponse[`data`], request: AxiosResponse[`re
 }
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
-  const { data, request } = await Request.post(
+  const response = await Request.post(
     `${DOMAIN}/cgi-bin/find_by_citation.cgi`, 
     qs.stringify({ citation }, { format : `RFC1738` }),
     {
       validateStatus: status => (status >= 200 && status < 300) || status === 302,
-    },
+    } as CacheRequestConfig,
   )
 
-  if(request.responseURL === `${DOMAIN}/cgi-bin/find_by_citation.cgi`) {
+  // there is a bug in axios-cache-interceptor such that
+  // the original request is not returned, so we have to
+  // work around that
+  // if(request.responseURL === `${DOMAIN}/cgi-bin/find_by_citation.cgi`) {
+  //   return []
+  // }
+  const { data } = response
+  const $ = cheerio.load(data)
+  if($(`body > p:nth-child(6)`).text().includes(`No matching citations found.`)){
     return []
   }
 
-  const result = parseSingleCase(data, request)
+  const { config } = response
+  const url = `${config.url}?${config.data}`
+
+  const result = parseSingleCase(data, url)
 
   return [result]
 }
@@ -68,7 +80,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
           show: 20, // because BAILII sometimes doesn't do the best job of sorting
           sort: `rank`,
         },
-      },
+      }  as CacheRequestConfig,
     )
 
     const $ = cheerio.load(data)

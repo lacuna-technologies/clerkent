@@ -3,7 +3,7 @@ import type { Runtime } from 'webextension-polyfill-ts'
 import { browser } from 'webextension-polyfill-ts'
 import { Logger, Messenger } from 'utils'
 
-const useMessenger = ({ onSearchDone }) => {
+const useMessenger = ({ onReceiveSearchResults }) => {
   const port = useRef({} as Runtime.Port)
   const sendMessage = useCallback((message) => port.current.postMessage(message), [port])
   const onMessage = useCallback((message: Messenger.Message) => {
@@ -13,9 +13,9 @@ const useMessenger = ({ onSearchDone }) => {
     }
     if(message.action === Messenger.ACTION_TYPES.search){
       const { data } = message
-      onSearchDone(data)
+      onReceiveSearchResults(data)
     }
-  }, [onSearchDone])
+  }, [onReceiveSearchResults])
 
   const search = useCallback((citation, inputJurisdiction) => sendMessage({
     action: Messenger.ACTION_TYPES.search,

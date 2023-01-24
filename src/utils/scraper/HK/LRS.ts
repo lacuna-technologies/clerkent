@@ -7,6 +7,7 @@ import Helpers from '../../Helpers'
 import { findHKCaseCitation } from '../../Finder/CaseCitationFinder/HK'
 import PDF from '../../PDF'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 
 const DOMAIN = `https://legalref.judiciary.hk`
@@ -54,7 +55,7 @@ export const getCaseByCitation = async (citation: string): Promise<Law.Case[]> =
         txtSearch: citation,
         txtselectopt: `4`,
       },
-    })
+    } as CacheRequestConfig)
 
     const urlRegex = new RegExp(/window\.location\.href="(.+)"/gi)
     const caseURL = [...data.matchAll(urlRegex)][0][1]
@@ -158,7 +159,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
           { arrayFormat: `repeat`, format : `RFC1738` },
         ),
       },
-    },
+    } as CacheRequestConfig,
   )
 
   const $ = cheerio.load(data)

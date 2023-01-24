@@ -2,6 +2,8 @@ import Request from '../../Request'
 import Constants from '../../Constants'
 import Helpers from '../../Helpers'
 import Logger from '../../Logger'
+import { AxiosRequestHeaders } from 'axios'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://www.epo.org`
 
@@ -96,7 +98,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       headers: {
           'X-Requested-With': `XMLHttpRequest`,
         },
-    },
+    } as unknown as CacheRequestConfig,
   )
 
   const {

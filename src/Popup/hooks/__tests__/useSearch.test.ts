@@ -2,41 +2,44 @@ import { renderHook, act } from "@testing-library/preact"
 import { Constants } from "utils"
 import useSearch from "../useSearch"
 
-const SEARCH_RESULTS: Law.Case[] = [
-  {
-    citation: `[2022] EWHC 160`,
-    database: Constants.DATABASES.UK_bailii,
-    jurisdiction: Constants.JURISDICTIONS.UK.id,
-    links: [],
-    name: `Stadler v Currys Group`,
-    type: `case-citation`,
-  },
-  {
-    citation: `[2022] EWHC 1379 (IPEC)`,
-    database: Constants.DATABASES.UK_bailii,
-    jurisdiction: Constants.JURISDICTIONS.UK.id,
-    links: [],
-    name: `Shazam Productions v Only Fools the Dining Experience`,
-    type: `case-citation`,
-  },
-]
+const SEARCH_RESULTS = {
+  done: true,
+  results: [
+    {
+      citation: `[2022] EWHC 160`,
+      database: Constants.DATABASES.UK_bailii,
+      jurisdiction: Constants.JURISDICTIONS.UK.id,
+      links: [],
+      name: `Stadler v Currys Group`,
+      type: `case-citation`,
+    },
+    {
+      citation: `[2022] EWHC 1379 (IPEC)`,
+      database: Constants.DATABASES.UK_bailii,
+      jurisdiction: Constants.JURISDICTIONS.UK.id,
+      links: [],
+      name: `Shazam Productions v Only Fools the Dining Experience`,
+      type: `case-citation`,
+    },
+  ] as Law.Case[],
+}
 
 describe(`useSearch`, () => {
   it(`has correct initial state`, () => {
     const { result } = renderHook(() => useSearch())
-    const { current: { isSearching, searchResult } } = result
+    const { current: { isSearching, searchResults } } = result
     expect(isSearching).toBe(false)
-    expect(searchResult.length).toBe(0)
+    expect(searchResults.length).toBe(0)
   })
   it(`correctly sets search results`, () => {
     const { result } = renderHook(() => useSearch())
-    const { current: { onSearchDone } } = result
+    const { current: { onReceiveSearchResults } } = result
     
     act(() => {
-      onSearchDone(SEARCH_RESULTS)
+      onReceiveSearchResults(SEARCH_RESULTS)
     })
 
-    const { current: { searchResult } } = result
-    expect(searchResult).toMatchSnapshot()
+    const { current: { searchResults } } = result
+    expect(searchResults).toMatchSnapshot()
   })
 })

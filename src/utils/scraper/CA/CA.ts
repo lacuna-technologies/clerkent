@@ -1,56 +1,34 @@
 import canlii from './canlii'
 import Common from '../common'
-import Logger from '../../Logger'
 import Constants from '../../Constants'
-import { sortCACitations } from '../../Finder/CaseCitationFinder/CA'
-import Helpers from '../../Helpers'
-import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
+import { sortCACases } from '../../Finder/CaseCitationFinder/CA'
+import { databaseUseDatabase, databaseUseJurisdiction, makeEventTarget } from '../utils'
 
 const databaseUseCA = databaseUseJurisdiction(`CA`)
 const databaseUseCanlii = databaseUseDatabase(`canlii`, databaseUseCA)
 const databaseUseCommonLII = databaseUseDatabase(`commonlii`, databaseUseCA)
 
-const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled([
-      databaseUseCanlii(() => canlii.getCaseByName(caseName)),
-      databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name)),
-    ]))
-    .filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.CA.id)
+const getCaseByName = (caseName: string): EventTarget => makeEventTarget(
+  caseName,
+  [
+    databaseUseCanlii(() => canlii.getCaseByName(caseName)),
+    databaseUseCommonLII(() => Common.CommonLII.getCaseByName(caseName, Constants.JURISDICTIONS.CA.name)),
+  ],
+  `CA`,
+  sortCACases,
+  true,
+)
 
-    return sortByName(
-      caseName,
-      sortCACitations(
-        Helpers.uniqueBy(results, `citation`),
-        `citation`,
-      ),
-    ) 
-  } catch (error) {
-    Logger.error(error)
-  }
-  return []
-}
-
-const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled([
-      databaseUseCanlii(() => canlii.getCaseByCitation(citation)),
-      databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
-    ])).filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.CA.id)
-
-    return sortCACitations(
-      Helpers.uniqueBy(results, `citation`),
-      `citation`,
-    )
-  } catch (error){
-    Logger.error(error)
-  }
-  return []
-}
+const getCaseByCitation = (citation: string ): EventTarget => makeEventTarget(
+  citation,
+  [
+    databaseUseCanlii(() => canlii.getCaseByCitation(citation)),
+    databaseUseCommonLII(() => Common.CommonLII.getCaseByCitation(citation)),
+  ],
+  `CA`,
+  sortCACases,
+  false,
+)
 
 const databaseMap = {
   [Constants.DATABASES.CA_canlii.id]: canlii,

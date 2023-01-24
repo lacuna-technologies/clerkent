@@ -8,7 +8,6 @@ const request = setupCache(
     timeout: 10_000,
   }),
   {
-    interpretHeader: false,
     methods: [`get`, `post`],
     storage,
     ttl: 1000 * 60 * 60, // an hour

@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 import Constants from '../../Constants'
 import Request from '../../Request'
 
@@ -78,7 +79,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
     `${DOMAIN}/app/query/results`,
     {
       params: craftHUDOCParameters(citation),
-    },
+    } as CacheRequestConfig,
   )
   return await parseCaseData(data)
 }
@@ -88,7 +89,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
     `${DOMAIN}/app/query/results`,
     {
       params: craftHUDOCParameters(caseName),
-    },
+    } as CacheRequestConfig,
   )
   return await parseCaseData(data)
 }

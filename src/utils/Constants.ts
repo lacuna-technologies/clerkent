@@ -373,10 +373,16 @@ const DEFAULT_DATABASES_STATUS= {
   },
 }
 
+const EVENTS = {
+  CASE_RESULTS: `case-results`,
+  RAW_CASE_RESULT: `raw-case-result`,
+} as const
+
 const Constants = {
   COURTS,
   DATABASES,
   DEFAULT_DATABASES_STATUS,
+  EVENTS,
   INSTITUTIONAL_LOGINS,
   JURISDICTIONS,
 }

@@ -187,6 +187,7 @@ exports[` 15`] = `
   {
     "abbr": "Ves Sen",
     "citation": "(1754) 2 Ves Sen 547",
+    "court": "Ves Sen",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -200,6 +201,7 @@ exports[` 16`] = `
   {
     "abbr": "All ER",
     "citation": "[1843-60] All ER 249",
+    "court": "All ER",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -213,6 +215,7 @@ exports[` 17`] = `
   {
     "abbr": "KB",
     "citation": "[1948] 1 KB 223",
+    "court": "KB",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -226,6 +229,7 @@ exports[` 18`] = `
   {
     "abbr": "QB",
     "citation": "[1965] 1 QB 456",
+    "court": "QB",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -239,6 +243,7 @@ exports[` 19`] = `
   {
     "abbr": "Cr App R",
     "citation": "(1951) 35 Cr App R 164",
+    "court": "Cr App R",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -252,6 +257,7 @@ exports[` 20`] = `
   {
     "abbr": "UKHL",
     "citation": "[2007] UKHL 17",
+    "court": "UKHL",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -265,6 +271,7 @@ exports[` 21`] = `
   {
     "abbr": "UKIPO",
     "citation": "O/328/22",
+    "court": "UKIPO",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -278,6 +285,7 @@ exports[` 22`] = `
   {
     "abbr": "UKIPO",
     "citation": "O/002/22",
+    "court": "UKIPO",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -291,6 +299,7 @@ exports[` 23`] = `
   {
     "abbr": "UKIPO",
     "citation": "O01422",
+    "court": "UKIPO",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -304,6 +313,7 @@ exports[` 24`] = `
   {
     "abbr": "UKIPO",
     "citation": "BLO/555/22",
+    "court": "UKIPO",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -317,6 +327,7 @@ exports[` 25`] = `
   {
     "abbr": "EWHC",
     "citation": "[2021] EWHC 2168",
+    "court": "EWHC",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -330,6 +341,7 @@ exports[` 26`] = `
   {
     "abbr": "EWHC",
     "citation": "[2016] EWHC 3151",
+    "court": "EWHC",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",
@@ -343,6 +355,7 @@ exports[` 27`] = `
   {
     "abbr": "ECDR",
     "citation": "[2001] ECDR 5",
+    "court": "ECDR",
     "index": 0,
     "jurisdiction": "UK",
     "type": "case-citation",

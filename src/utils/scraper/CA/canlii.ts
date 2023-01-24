@@ -8,6 +8,7 @@ import type { AxiosResponse } from 'axios'
 import Logger from '../../Logger'
 import PDF from '../../PDF'
 import { findCitation } from '../utils'
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const DOMAIN = `https://www.canlii.org`
 
@@ -47,7 +48,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       headers: {
         'X-Requested-With': `XMLHttpRequest`,
       },
-    },
+    } as unknown as CacheRequestConfig,
   )
 
   return parseCase(data)
@@ -60,7 +61,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       headers: {
         'X-Requested-With': `XMLHttpRequest`,
       },
-    },
+    } as unknown as CacheRequestConfig,
   )
 
   return parseCase(data)

@@ -1,10 +1,8 @@
 import austlii from './austlii'
 import Common from '../common'
-import Logger from '../../Logger'
 import Constants from '../../Constants'
-import { findAUCaseCitation, sortAUCitations } from '../../Finder/CaseCitationFinder/AU'
-import Helpers from '../../Helpers'
-import { sortByName, databaseUseJurisdiction, databaseUseDatabase } from '../utils'
+import { findAUCaseCitation, sortAUCases } from '../../Finder/CaseCitationFinder/AU'
+import { databaseUseJurisdiction, databaseUseDatabase, makeEventTarget } from '../utils'
 import CommonLII from '../common/CommonLII'
 import QueenslandJudgments from './QueenslandJudgments'
 import QueenslandSCL from './QueenslandSCL'
@@ -19,32 +17,20 @@ const databaseUseQueenslandSCL = databaseUseDatabase(`queensland_scl`, databaseU
 const databaseUseNSWCaseLaw = databaseUseDatabase(`nsw_caselaw`, databaseUseAU)
 const databaseUseVictoriaLawLibrary = databaseUseDatabase(`victoria_lawlibrary`, databaseUseAU)
 
-const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled([
-      databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByName(caseName)),
-      databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByName(caseName)),
-      databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByName(caseName)),
-      databaseUseVictoriaLawLibrary(() => VictoriaLawLibrary.getCaseByName(caseName)),
-      databaseUseAustLII(() => austlii.getCaseByName(caseName)),
-      databaseUseCommonLII(() => CommonLII.getCaseByName(caseName)),
-    ]))
-    .filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.AU.id)
-
-    return sortByName(
-      caseName,
-      sortAUCitations(
-        Helpers.uniqueBy(results, `citation`),
-        `citation`,
-      ),
-    ) 
-  } catch (error) {
-    Logger.error(error)
-  }
-  return []
-}
+const getCaseByName = (caseName: string): EventTarget => makeEventTarget(
+  caseName,
+  [
+    databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByName(caseName)),
+    databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByName(caseName)),
+    databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByName(caseName)),
+    databaseUseVictoriaLawLibrary(() => VictoriaLawLibrary.getCaseByName(caseName)),
+    databaseUseAustLII(() => austlii.getCaseByName(caseName)),
+    databaseUseCommonLII(() => CommonLII.getCaseByName(caseName)),
+  ],
+  `AU`,
+  sortAUCases,
+  true,
+)
 
 const getApplicableDatabases = (citation: string) => {
   const [{ abbr }] = findAUCaseCitation(citation)
@@ -129,23 +115,13 @@ const getApplicableDatabases = (citation: string) => {
   }
 }
 
-const getCaseByCitation = async (citation: string, court: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled(
-      getApplicableDatabases(citation),
-    )).filter(({ status }) => status === `fulfilled`)
-      .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-      .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.AU.id)
-
-    return sortAUCitations(
-      Helpers.uniqueBy(results, `citation`),
-      `citation`,
-    )
-  } catch (error){
-    Logger.error(error)
-  }
-  return []
-}
+const getCaseByCitation = (citation: string): EventTarget => makeEventTarget(
+  citation,
+  getApplicableDatabases(citation),
+  `AU`,
+  sortAUCases,
+  false,
+)
 
 const databaseMap = {
   [Constants.DATABASES.AU_austlii.id]: austlii,

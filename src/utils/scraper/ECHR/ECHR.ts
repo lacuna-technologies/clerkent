@@ -1,62 +1,33 @@
 
 import HUDOC from './HUDOC'
 import Constants from '../../Constants'
-import Helpers from '../../Helpers'
-import Logger from '../../Logger'
-import { databaseUseDatabase, databaseUseJurisdiction, sortByName } from '../utils'
-import { sortECHRCitations } from 'utils/Finder/CaseCitationFinder/ECHR'
+import { databaseUseDatabase, databaseUseJurisdiction, makeEventTarget } from '../utils'
+import { sortECHRCases } from 'utils/Finder/CaseCitationFinder/ECHR'
 
 const databaseUseECHR = databaseUseJurisdiction(`ECHR`)
 const databaseUseHUDOC = databaseUseDatabase(`hudoc`, databaseUseECHR)
 
-const getLegislation = () => null
+const getCaseByName = (caseName: string): EventTarget => makeEventTarget(
+  caseName,
+  [
+    databaseUseHUDOC(() => HUDOC.getCaseByName(caseName)),
+  ],
+  `ECHR`,
+  sortECHRCases,
+  true,
+)
 
-const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
-  try {
-    const results = (await Promise.allSettled([
-      databaseUseHUDOC(() => HUDOC.getCaseByName(caseName)),
-    ]))
-    .filter(({ status }) => status === `fulfilled`)
-    .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-    .filter(({
-      jurisdiction,
-    }) => (
-      jurisdiction === Constants.JURISDICTIONS.ECHR.id
-    ))
-
-    return sortByName(
-      caseName,
-      Helpers.uniqueBy(results, `citation`),
-    ) 
-  } catch (error) {
-    Logger.error(error)
-  }
-  return []
-}
-
-const getCaseByCitation = async (
+const getCaseByCitation = (
   citation: string,
-  court: string,
-): Promise<Law.Case[]> => {
-  const applicableDatabases = [
+): EventTarget => makeEventTarget(
+  citation,
+  [
     databaseUseHUDOC(() => HUDOC.getCaseByCitation(citation)),
-  ]
-
-  try {
-    const results = (await Promise.allSettled(applicableDatabases))
-      .filter(({ status }) => status === `fulfilled`)
-      .flatMap(({ value }: PromiseFulfilledResult<Law.Case[]>) => value)
-      .filter(({ jurisdiction }) => jurisdiction === Constants.JURISDICTIONS.SG.id)
-
-    return sortECHRCitations(
-      Helpers.uniqueBy(results, `citation`),
-      `citation`,
-    )
-  } catch (error) {
-    Logger.error(error)
-  }
-  return []
-}
+  ],
+  `ECHR`,
+  sortECHRCases,
+  false,
+)
 
 const databaseMap = {
   [Constants.DATABASES.ECHR_hudoc.id]: HUDOC,
@@ -73,7 +44,6 @@ const getPDF = async (
 const ECHR = {
   getCaseByCitation,
   getCaseByName,
-  getLegislation,
   getPDF,
 }
 

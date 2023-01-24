@@ -1,13 +1,13 @@
-import { findUKCaseCitation, sortUKCitations } from './UK'
-import { findSGCaseCitation , sortSGCitations } from './SG'
-import { findNZCaseCitation, sortNZCitations } from './NZ'
-import { findHKCaseCitation, sortHKCitations } from './HK'
-import { findCACaseCitation, sortCACitations } from './CA'
-import { findAUCaseCitation, sortAUCitations } from './AU'
-import { findEUCaseCitation, sortEUCitations } from './EU'
-import { findMYCaseCitation, sortMYCitations } from './MY'
-import { findECHRCaseCitation, sortECHRCitations } from './ECHR'
-import { findUNCaseCitation, sortUNCitations } from './UN'
+import { findUKCaseCitation, sortUKCases } from './UK'
+import { findSGCaseCitation , sortSGCases } from './SG'
+import { findNZCaseCitation, sortNZCases } from './NZ'
+import { findHKCaseCitation, sortHKCases } from './HK'
+import { findCACaseCitation, sortCACases } from './CA'
+import { findAUCaseCitation, sortAUCases } from './AU'
+import { findEUCaseCitation, sortEUCases } from './EU'
+import { findMYCaseCitation, sortMYCases } from './MY'
+import { findECHRCaseCitation, sortECHRCases } from './ECHR'
+import { findUNCaseCitation, sortUNCases } from './UN'
 
 const findCaseCitation = (query: string): Finder.CaseCitationFinderResult[] => {
   return [
@@ -35,16 +35,16 @@ const CaseCitationFinder = {
   findSGCaseCitation,
   findUKCaseCitation,
   findUNCaseCitation,
-  sortAUCitations,
-  sortCACitations,
-  sortECHRCitations,
-  sortEUCitations,
-  sortHKCitations,
-  sortMYCitations,
-  sortNZCitations,
-  sortSGCitations,
-  sortUKCitations,
-  sortUNCitations,
+  sortAUCases,
+  sortCACases,
+  sortECHRCases,
+  sortEUCases,
+  sortHKCases,
+  sortMYCases,
+  sortNZCases,
+  sortSGCases,
+  sortUKCases,
+  sortUNCases,
 }
 
 export default CaseCitationFinder

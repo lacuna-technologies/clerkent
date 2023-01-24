@@ -1,3 +1,4 @@
+import { CacheRequestConfig } from 'axios-cache-interceptor'
 import * as cheerio from 'cheerio'
 import Constants from 'utils/Constants'
 import { findAUCaseCitation } from 'utils/Finder/CaseCitationFinder/AU'
@@ -40,7 +41,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
       params: {
         keywords: citation,
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCaseResults(data)
 }
@@ -52,7 +53,7 @@ const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
       params: {
         keywords: caseName,
       },
-    },
+    } as CacheRequestConfig,
   )
   return parseCaseResults(data)
 }

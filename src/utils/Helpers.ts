@@ -22,7 +22,7 @@ const isCitationValid = (citation: string) => (
   typeof citation === `string` && citation.length > 0
 )
 
-const uniqueBy = (array: any[], attribute: string) =>  [
+const uniqueBy = <T>(array: T[], attribute: string): T[] =>  [
   ...new Set(array.map(r => r[attribute])),
 ].map(((attribute_) => array.find((c) => c[attribute] === attribute_)))
 

@@ -7,24 +7,8 @@ import Finder from './utils/Finder'
 import Storage from './utils/Storage'
 import Scraper from './utils/scraper'
 import Logger from './utils/Logger'
-import { Helpers } from './utils'
+import { Constants, Helpers } from './utils'
 import Browser from 'utils/Browser'
-
-const getScraperResult = (
-  targets: Finder.FinderResult[],
-  jurisdiction: Law.JurisdictionCode,
-): Promise<Law.Legislation[] | Law.Case[]> => {
-  const { type } = targets[0]
-  switch (type) {
-    case `case-citation`: {
-      return Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult, jurisdiction)
-    }
-    case `case-name`: {
-      return Scraper.getCaseByName(targets[0] as Finder.CaseNameFinderResult, jurisdiction)
-    }
-  }
-  return Promise.resolve([])
-}
 
 // used by ContentScript/Highlighter for citation hover
 const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.OtherProperties) => {
@@ -39,28 +23,37 @@ const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.Other
     source: Messenger.TARGETS.background,
     target: source,
   }
+
   if(targets.length === 0){
     return port.postMessage(noResultMessage)
   }
   
-  const result = await Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult)
+  const eventTarget = await Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult)
+  const query = targets[0].type === `case-citation`
+    ? targets[0].citation
+    : (targets[0] as Finder.CaseNameFinderResult).name
 
-  if(result.length === 0){
-    return port.postMessage(noResultMessage)
-  }
+  eventTarget.addEventListener(`${Constants.EVENTS.CASE_RESULTS}-${query}`, async (event: CustomEvent) => {
+    const { detail: { done, results } }: { detail: { done: boolean, results: Law.Case[] } } = event
 
-  if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
-    const data = result.map((r: Law.Case) => ({...targets[0], ...r}))
+    if(done){
+      if(results.length === 0){
+        return port.postMessage(noResultMessage)
+      }
 
-    const message = {
-      action: Messenger.ACTION_TYPES.viewCitation,
-      data,
-      source: Messenger.TARGETS.background,
-      target: source,
+      if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
+        const data = results.map((r: Law.Case) => ({...targets[0], ...r}))
+
+        const message = {
+          action: Messenger.ACTION_TYPES.viewCitation,
+          data,
+          source: Messenger.TARGETS.background,
+          target: source,
+        }
+        port.postMessage(message)
+      }
     }
-    Logger.log(`sending viewCitation`, message)
-    port.postMessage(message)
-  }
+  })
 }
 
 // Used by Popup
@@ -68,33 +61,30 @@ const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProper
   const { citation, source, jurisdiction } = otherProperties
   await Storage.set(`CURRENT_HIGHLIGHTED_CITATION`, citation)
   const targets = Finder.findCase(citation)
+  const { type } = targets[0]
 
-  const noResultMessage: Messenger.Message = {
-    action: Messenger.ACTION_TYPES.search,
-    data: [],
-    source: Messenger.TARGETS.background,
-    target: source,
-  }
-  
-  const result = await getScraperResult(targets, jurisdiction)
-  Logger.log(`BackgroundPage scraper result`, jurisdiction, result)
+  const eventTarget: EventTarget = type === `case-citation`
+    ? Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult, jurisdiction)
+    : Scraper.getCaseByName(targets[0] as Finder.CaseNameFinderResult, jurisdiction)
 
-  if(result.length === 0){
-    return port.postMessage(noResultMessage)
-  }
+  const query = type === `case-citation`
+    ? targets[0].citation
+    : (targets[0] as Finder.CaseNameFinderResult).name
 
-  if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
-    const data = result.map((r: Law.Legislation | Law.Case) => ({...targets[0], ...r}))
+  eventTarget.addEventListener(`${Constants.EVENTS.CASE_RESULTS}-${query}`, async (event: CustomEvent) => {
+    const { detail: { done, results } }: { detail: { done: boolean, results: Law.Case[] } } = event
+    if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
+      const data = { done, results: results.map((r: Law.Case) => ({...targets[0], ...r})) }
 
-    const message = {
-      action: Messenger.ACTION_TYPES.search,
-      data,
-      source: Messenger.TARGETS.background,
-      target: source,
+      const message = {
+        action: Messenger.ACTION_TYPES.search,
+        data,
+        source: Messenger.TARGETS.background,
+        target: source,
+      }
+      port.postMessage(message)
     }
-    Logger.log(`sending search`, message)
-    port.postMessage(message)
-  }
+  })
 }
 
 const downloadFile = async (url: string, fileName: string) => {
@@ -127,8 +117,6 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
         const pdfResult = await Scraper.getPDF(law as Law.Case, doctype)
         if(typeof pdfResult === `string`){
           const fileName = Helpers.getFileName(law, doctype)
-          Logger.log(`downloadPDF fileName: `, fileName)
-          Logger.log(`downloadPDF url: ${pdfResult}`)
           await downloadFile(pdfResult, fileName)
         } else { // downloadOptions
           await browser.downloads.download(pdfResult)

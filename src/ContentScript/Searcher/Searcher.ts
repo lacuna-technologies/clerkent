@@ -1,7 +1,6 @@
 import LawNet from './LawNet'
 import LexisUK from './LexisUK'
 import WestlawUK from './WestlawUK'
-import { Logger } from '../../utils'
 import SearcherStorage from './SearcherStorage'
 
 const getClerkentQuery = (): string | null => {
@@ -26,13 +25,6 @@ const isQueryValid = (query: string) => (query && query.length > 0)
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const init = async () => {
-  Logger.log(`Searcher debug data`, {
-    host: window.location.host,
-    path: window.location.pathname,
-    query: getClerkentQuery(),
-    type: getClerkentType(),
-  })
-
   switch(window.location.hostname){
     case `www.lawnet.sg`:
     case `www-lawnet-sg.lawproxy1.nus.edu.sg`:
@@ -93,7 +85,6 @@ const init = async () => {
         }
 
         const query = getClerkentQuery() || (await SearcherStorage.getLexisUKQuery())
-        Logger.log(`Get query`, query)
         return LexisUK.init(query)
       }
 

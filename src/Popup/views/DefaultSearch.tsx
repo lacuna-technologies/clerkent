@@ -16,15 +16,17 @@ import JurisdictionSelect from 'Popup/components/JurisdictionSelect'
 const DefaultSearch: FunctionComponent = () => {
   const {
     isSearching,
-    onSearchDone,
-    searchResult,
+    onReceiveSearchResults,
+    searchResults,
     setIsSearching,
-    setSearchResult,
+    setSearchResults,
+    updatePending,
+    updateResults,
   } = useSearch()
   const {
     search,
     downloadPDF,
-  } = useMessenger( { onSearchDone })
+  } = useMessenger( { onReceiveSearchResults })
   const {
     applyClipboardText,
     lastSearchQuery,
@@ -37,7 +39,7 @@ const DefaultSearch: FunctionComponent = () => {
   } = usePopup({
     search,
     setIsSearching,
-    setSearchResult,
+    setSearchResults,
   })
   const inputReference = useFocusInput()
 
@@ -68,13 +70,15 @@ const DefaultSearch: FunctionComponent = () => {
         ) : null
       }
       {
-        (!isSearching && query.length > 0 && searchResult.length === 0 && lastSearchQuery !== query) ? (
+        (!isSearching && query.length > 0 && searchResults.length === 0 && lastSearchQuery !== query) ? (
           <div className="flex-grow">Press enter to search</div>
         ) : (
           <QueryResult
-            searchResult={searchResult}
+            searchResults={searchResults}
             downloadPDF={downloadPDF}
             isSearching={isSearching}
+            updatePending={updatePending}
+            updateResults={updateResults}
           />
         )
       }
@@ -82,7 +86,7 @@ const DefaultSearch: FunctionComponent = () => {
         (query.length > 0 && !isSearching) ? (
           <ExternalLinks
             jurisdiction={selectedJurisdiction}
-            type={searchResult[0]?.type}
+            type={searchResults[0]?.type}
             query={query}
           />
         ) : null

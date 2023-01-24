@@ -9,10 +9,10 @@ const ECtHRRegex = new RegExp(`${
 }`, `gi`)
 // TODO: parse ECLI
 
-export const sortECHRCitations = (
-  citationsArray: any[],
-  attribute = null,
-) => citationsArray
+export const sortECHRCases = (
+  citationsArray: Law.Case[],
+  attribute: string,
+): Law.Case[] => citationsArray
 
 export const findECHRCaseCitation = (
   query: string,
