@@ -57,7 +57,7 @@ const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   // }
   const { data } = response
   const $ = cheerio.load(data)
-  if($(`body > p:nth-child(6)`).text().includes(`No matching citations found.`)){
+  if($(`body > p`).eq(2).text().includes(`No matching citations found.`)){
     return []
   }
 

@@ -49,12 +49,17 @@ const useSearch = () => {
 
   const updatePending = useMemo(() => (newSearchResults.length > 0), [newSearchResults])
 
+  const resetSearchResults = useCallback(() => {
+    setSearchResults([])
+    setNewSearchResults([])
+  }, [])
+
   return {
     isSearching,
     onReceiveSearchResults,
+    resetSearchResults,
     searchResults,
     setIsSearching,
-    setSearchResults,
     updatePending,
     updateResults,
   }

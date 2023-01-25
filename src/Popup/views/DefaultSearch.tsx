@@ -19,7 +19,7 @@ const DefaultSearch: FunctionComponent = () => {
     onReceiveSearchResults,
     searchResults,
     setIsSearching,
-    setSearchResults,
+    resetSearchResults,
     updatePending,
     updateResults,
   } = useSearch()
@@ -37,9 +37,9 @@ const DefaultSearch: FunctionComponent = () => {
     selectedJurisdiction,
     onPaste,
   } = usePopup({
+    resetSearchResults,
     search,
     setIsSearching,
-    setSearchResults,
   })
   const inputReference = useFocusInput()
 

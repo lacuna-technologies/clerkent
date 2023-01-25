@@ -14,7 +14,7 @@ const keys = {
 
 type SearchResult = Law.Case | Law.Legislation
 
-const usePopup = ({ search, setIsSearching, setSearchResults }) => {
+const usePopup = ({ search, setIsSearching, resetSearchResults }) => {
   const [query, setQuery] = useState(``)
   const [lastSearchQuery, setLastSearchQuery] = useState(query)
   const [selectedJurisdiction, setSelectedJurisdiction] = useState(Constants.JURISDICTIONS.UK.id)
@@ -29,8 +29,8 @@ const usePopup = ({ search, setIsSearching, setSearchResults }) => {
       Storage.set(keys.SELECTED_JURISDICTION, value)
     }
     setLastSearchQuery(``)
-    setSearchResults([] as SearchResult[])
-  }, [setSearchResults])
+    resetSearchResults()
+  }, [resetSearchResults])
 
   const autosetJurisdiction = useCallback((value: string) => {
     const citations = Finder.findCaseCitation(value)
@@ -60,7 +60,7 @@ const usePopup = ({ search, setIsSearching, setSearchResults }) => {
   ) => {
     setQuery(value)
     setIsSearching(false)
-    setSearchResults([] as SearchResult[])
+    resetSearchResults()
     if(debounceAutosetJurisdiction){
       debouncedAutosetJurisdiction(value)
     } else {
@@ -69,7 +69,7 @@ const usePopup = ({ search, setIsSearching, setSearchResults }) => {
     if(!doNotStore){
       debouncedStoreQuery(value)
     }
-  }, [autosetJurisdiction, debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, setSearchResults])
+  }, [autosetJurisdiction, debouncedAutosetJurisdiction, debouncedStoreQuery, setIsSearching, resetSearchResults])
 
   const onSearchQueryInput = useCallback((event: Event) => {
     const { target } = event
@@ -88,10 +88,11 @@ const usePopup = ({ search, setIsSearching, setSearchResults }) => {
     if(inputQuery.length >= 3 || forceSearch){ // ignore anything that's too short
       Logger.log(`Doing search`, inputQuery)
       debouncedViewCitation(inputQuery, inputJurisdiction)
+      resetSearchResults()
       setIsSearching(true)
       setLastSearchQuery(inputQuery)
     }
-  },  [debouncedViewCitation, query, selectedJurisdiction, setIsSearching])
+  },  [debouncedViewCitation, query, selectedJurisdiction, setIsSearching, resetSearchResults])
 
   const onEnter = useCallback((event) => {
     if(event.key === `Enter`){
