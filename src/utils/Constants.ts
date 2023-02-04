@@ -189,6 +189,11 @@ const AU_DATABASES: CountryDatabases = {
     name: `AustLII`,
     url: `https://www8.austlii.edu.au`,
   },
+  fca: {
+    icon: ``,
+    name: `Federal Court of Australia Digital Law Library`,
+    url: `https://www.fedcourt.gov.au/digital-law-library/judgments`,
+  },
   hca: {
     icon: ``,
     name: `High Court of Australia Judgment Database`,
@@ -330,6 +335,7 @@ const DEFAULT_DATABASES_STATUS= {
   AU: {
     austlii: true,
     commonlii: true,
+    fca: true,
     hca: true,
     nsw_caselaw: true,
     queensland_judgments: true,

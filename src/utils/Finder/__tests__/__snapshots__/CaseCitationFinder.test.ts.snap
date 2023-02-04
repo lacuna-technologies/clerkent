@@ -428,7 +428,7 @@ exports[` 32`] = `
     "jurisdiction": "AU",
     "page": "984",
     "type": "case-citation",
-    "year": "[2010]",
+    "year": "2010",
   },
 ]
 `;
@@ -442,7 +442,7 @@ exports[` 33`] = `
     "jurisdiction": "AU",
     "page": "30",
     "type": "case-citation",
-    "year": "(1990)",
+    "year": "1990",
   },
 ]
 `;
@@ -456,7 +456,7 @@ exports[` 34`] = `
     "jurisdiction": "AU",
     "page": "759",
     "type": "case-citation",
-    "year": "(1992)",
+    "year": "1992",
   },
 ]
 `;
@@ -470,7 +470,7 @@ exports[` 35`] = `
     "jurisdiction": "AU",
     "page": "1",
     "type": "case-citation",
-    "year": "(2003)",
+    "year": "2003",
   },
 ]
 `;
@@ -484,7 +484,7 @@ exports[` 36`] = `
     "jurisdiction": "AU",
     "page": "9",
     "type": "case-citation",
-    "year": "[1989]",
+    "year": "1989",
   },
 ]
 `;
@@ -498,7 +498,7 @@ exports[` 37`] = `
     "jurisdiction": "AU",
     "page": "171",
     "type": "case-citation",
-    "year": "(1982)",
+    "year": "1982",
   },
 ]
 `;

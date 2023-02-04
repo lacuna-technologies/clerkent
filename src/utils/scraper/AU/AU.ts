@@ -9,7 +9,7 @@ import QueenslandSCL from './QueenslandSCL'
 import NSWCaseLaw from './NSWCaseLaw'
 import VictoriaLawLibrary from './VictoriaLawLibrary'
 import HCA from './HCA'
-import Logger from 'utils/Logger'
+import FCA from './FCA'
 
 const databaseUseAU = databaseUseJurisdiction(`AU`)
 const databaseUseAustLII = databaseUseDatabase(`austlii`, databaseUseAU)
@@ -19,11 +19,13 @@ const databaseUseQueenslandSCL = databaseUseDatabase(`queensland_scl`, databaseU
 const databaseUseNSWCaseLaw = databaseUseDatabase(`nsw_caselaw`, databaseUseAU)
 const databaseUseVictoriaLawLibrary = databaseUseDatabase(`victoria_lawlibrary`, databaseUseAU)
 const databaseUseHCA = databaseUseDatabase(`hca`, databaseUseAU)
+const databaseUseFCA = databaseUseDatabase(`fca`, databaseUseAU)
 
 const getCaseByName = (caseName: string): EventTarget => makeEventTarget(
   caseName,
   [
     databaseUseHCA(() => HCA.getCaseByName(caseName)),
+    databaseUseFCA(() => FCA.getCaseByName(caseName)),
     databaseUseQueenslandJudgments(() => QueenslandJudgments.getCaseByName(caseName)),
     databaseUseQueenslandSCL(() => QueenslandSCL.getCaseByName(caseName)),
     databaseUseNSWCaseLaw(() => NSWCaseLaw.getCaseByName(caseName)),
@@ -44,10 +46,16 @@ const getApplicableDatabases = (citation: string) => {
   ]
 
   switch(abbr){
-    // HCA
     case `HCA`: {
       return [
         databaseUseHCA(() => HCA.getCaseByCitation(citation)),
+        ...defaultDatabases,
+      ]
+    }
+
+    case `FCA`: {
+      return [
+        databaseUseFCA(() => FCA.getCaseByCitation(citation)),
         ...defaultDatabases,
       ]
     }
