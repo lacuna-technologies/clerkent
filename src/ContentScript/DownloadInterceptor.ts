@@ -160,8 +160,9 @@ const interceptSSODownloads = async (port: Runtime.Port) => {
   const isSSO = (hostname === `sso.agc.gov.sg`)
   if(isSSO){
 
+    // extra optional "/" because SSO sometimes adds a double slash in the the path
     const isSubsidiaryLegislationView = (
-      (pathname.match(new RegExp(/^\/Act\//)) !== null) &&
+      (pathname.match(new RegExp(/^\/\/?Act\//)) !== null) &&
       (qs.parse(search, { ignoreQueryPrefix: true })[`ViewType`] === `Sl`)
     )
     if (isSubsidiaryLegislationView){

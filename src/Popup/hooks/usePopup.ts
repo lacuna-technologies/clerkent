@@ -12,8 +12,6 @@ const keys = {
   SELECTED_JURISDICTION: `POPUP_SELECTED_JURISDICTION`,
 }
 
-type SearchResult = Law.Case | Law.Legislation
-
 const usePopup = ({ search, setIsSearching, resetSearchResults }) => {
   const [query, setQuery] = useState(``)
   const [lastSearchQuery, setLastSearchQuery] = useState(query)
