@@ -6,7 +6,6 @@ import Logger from '../Logger'
 const findCase = Memoize((citation: string): Finder.FinderResult[] => {
   const caseCitations = [...CaseCitationFinder.findCaseCitation(citation)]
   if(caseCitations.length > 0){
-    Logger.log(`Found case citations: `, caseCitations)
     return caseCitations
   }
 

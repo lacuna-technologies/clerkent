@@ -83,6 +83,7 @@ declare namespace Finder {
     year?: string,
     court? : string,
     abbr?: string,
+    page?: string,
     type: `case-citation`
   }
 

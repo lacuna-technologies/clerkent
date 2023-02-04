@@ -155,7 +155,7 @@ export const findAUCaseCitationMatches = (query: string) => {
     `(?<year>${yearRegex.source})`+
     `(?<volume>${volumeRegex.source}) `+
     `(?<abbr>${abbrs}) `+
-    `${pageRegex.source}`, `gi`)
+    `(?<page>${pageRegex.source})`, `gi`)
 
   return [...query.matchAll(regex)]
 }
@@ -168,7 +168,8 @@ export const findAUCaseCitation = (query: string): Finder.CaseCitationFinderResu
       citation: match[0],
       index: match.index,
       jurisdiction: Constants.JURISDICTIONS.AU.id,
-      year: match.groups.year,
+      page: match.groups.page,
+      year: match.groups.year.replaceAll(/\D/g, ``),
     })).map(c => ({ ...c, type: `case-citation` }))
   }
   return []

@@ -189,6 +189,11 @@ const AU_DATABASES: CountryDatabases = {
     name: `AustLII`,
     url: `https://www8.austlii.edu.au`,
   },
+  hca: {
+    icon: ``,
+    name: `High Court of Australia Judgment Database`,
+    url: `https://eresources.hcourt.gov.au/`,
+  },
   nsw_caselaw: {
     icon: ``,
     name: `New South Wales Caselaw`,
@@ -325,6 +330,7 @@ const DEFAULT_DATABASES_STATUS= {
   AU: {
     austlii: true,
     commonlii: true,
+    hca: true,
     nsw_caselaw: true,
     queensland_judgments: true,
     queensland_scl: true,

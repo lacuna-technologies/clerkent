@@ -201,7 +201,6 @@ const getPDF = async (
 
   try {
     const pdfURL = (`${judgmentURL}`).replace(/\?.*$/, ``).replace(/\.html$/i, `.pdf`)
-    Logger.log(pdfURL)
     const { request } = await Request.head(pdfURL)
     return request.responseURL
   } catch {

@@ -84,7 +84,6 @@ const usePopup = ({ search, setIsSearching, resetSearchResults }) => {
     } = {},
   ) => {
     if(inputQuery.length >= 3 || forceSearch){ // ignore anything that's too short
-      Logger.log(`Doing search`, inputQuery)
       debouncedViewCitation(inputQuery, inputJurisdiction)
       resetSearchResults()
       setIsSearching(true)
