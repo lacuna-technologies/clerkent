@@ -9,7 +9,7 @@ const BASE_URL = `https://www.stratatb.gov.sg`
 const CURRENT_DECISIONS = `${BASE_URL}/resources-judgments.html`
 const HISTORICAL_DECISIONS = `${BASE_URL}/resources-judgments-archives.html`
 
-export const SGSTBlongFormatRegex = /stb(\sno\.?)?\s?(?<number>\d{1,4}[a-z]?)((\s(and|&)\s\d{1,4}[a-z]?)|(\/\d{1,4}[a-z]?)+)?\sof\s(?<year>[12]\d{3})/gi
+export const SGSTBlongFormatRegex = /stb(\sno\.?)?\s?(?<stbnumber>\d{1,4}[a-z]?)((\s(and|&)\s\d{1,4}[a-z]?)|(\/\d{1,4}[a-z]?)+)?\sof\s(?<stbyear>[12]\d{3})/gi
 const SGSTBsquareBracketRegex = /\[(?<year>[12]\d{3})] sgstb (?<number>\d{1,4}[a-z]?)/gi
 export const SGSTBIsSquareBracketFormat = (citation: string): boolean => (new RegExp(SGSTBsquareBracketRegex, `i`)).test(citation)
 export const SGSTBIsLongFormat = (citation: string): boolean => (new RegExp(SGSTBlongFormatRegex, `i`)).test(citation)
@@ -17,7 +17,7 @@ export const SGSTBLongFormat = (squareBracketCitation: string) => {
   const [match] = [...squareBracketCitation.matchAll(
     SGSTBsquareBracketRegex,
   )]
-  return `STB ${match.groups.number} of ${match.groups.year}`
+  return `STB ${match.groups.stbnumber} of ${match.groups.stbyear}`
 }
 export const SGSTBSquareBracketFormat = (longCitation: string): string => {
   const [match] = [...longCitation.matchAll(

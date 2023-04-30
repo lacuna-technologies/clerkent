@@ -1,5 +1,5 @@
 import Constants from '../../Constants'
-import { formatAbbrs, sortCasesByVolume, sortCitationsByVolume } from './utils'
+import { formatAbbrs, sortCasesByVolume } from './utils'
 import { SGSTBlongFormatRegex } from 'utils/scraper/SG/STB'
 
 export const SGSCAbbrs = [

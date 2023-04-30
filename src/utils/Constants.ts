@@ -117,6 +117,11 @@ const UK_DATABASES: CountryDatabases = {
     name: `BAILII`,
     url: `https://www.bailii.org/`,
   },
+  findcaselaw: {
+    icon: ``,
+    name: `Find Case Law`,
+    url: `https://caselaw.nationalarchives.gov.uk`,
+  },
   ipo: {
     icon: ``,
     name: `IPO`,
@@ -378,6 +383,7 @@ const DEFAULT_DATABASES_STATUS= {
   UK: {
     bailii: true,
     commonlii: true,
+    findcaselaw: true,
     ipo: false,
   },
   UN: {
