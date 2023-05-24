@@ -2,15 +2,9 @@ import request from '../../Request'
 import * as cheerio from 'cheerio'
 import Constants from '../../Constants'
 import { sortByName } from '../utils'
+import Logger from 'utils/Logger'
 
 const BASE_URL = `https://www.icj-cij.org`
-
-type Document = {
-  casename: string,
-  caseurl: string,
-  docname: string,
-  docurl: string
-}
 
 const getDocumentTypeFromDocumentName = (docname: string): Law.Link[`doctype`] | null => {
   const cleanDocname = docname.toLowerCase()
@@ -24,23 +18,18 @@ const getDocumentTypeFromDocumentName = (docname: string): Law.Link[`doctype`] |
   return null
 }
 
-const getAllCases = async () => {
-  const { data } = await request.get(`${BASE_URL}/en/decisions/all/1946/2021/desc`)
+const getAllCases = async (): Promise<Law.Case[]> => {
+  const year = (new Date()).getFullYear()
+  const { data } = await request.get(`${BASE_URL}/en/decisions?type=1&from=1946&to=${year}&sort_bef_combine=order_DESC`)
   const $ = cheerio.load(data)
-  return $(`.row > .col-sm-12 > .docket-odd`).map((_, element): Document => {
-    return {
-      casename: $(`h5:nth-of-type(2)`, element).text().trim().replace(`\n`, ``),
-      caseurl: $(`h5:nth-of-type(2) > a`, element).attr(`href`),
-      docname: $(`h4.docket`, element).text().trim().replace(`\n`, ``),
-      docurl: `${BASE_URL}${$(`h4.docket > a`, element).attr(`href`)}`,
-    }
-  }).get().map(({
-    casename,
-    caseurl,
-    docname,
-    docurl,
-  }): Law.Case | null => {
+  return $(`.view-judgments-advisory-opinions-and-orders > .view-content.row > .views-row`).map((_, element): Law.Case | null => {
+    const name = $(`.views-field.views-field-field-case-long-title a`, element).text().trim().replace(`\n`, ``)
+    const details = $(`.views-field.views-field-field-icj-document-subtitle p`, element).text().trim()
+    const caseName = name + (details.length > 0 ? ` - ${details}` : ``)
+    const docname = $(`.views-field.views-field-field-document-long-title a`, element).text().trim().replace(`\n`, ``)
     const doctype = getDocumentTypeFromDocumentName(docname)
+    const summaryURL = BASE_URL + $(`.views-field.views-field-field-case-long-title a`, element).attr(`href`)
+    const documentURL = BASE_URL + $(`.views-field.views-field-field-document-long-title a`, element).attr(`href`)
     if(doctype === null){
       return null
     }
@@ -52,21 +41,23 @@ const getAllCases = async () => {
         {
           doctype: `Summary`,
           filetype: `HTML`,
-          url: caseurl,
+          url: summaryURL,
         },
         {
           doctype,
           filetype: `PDF`,
-          url: docurl,
+          url: documentURL,
         },
       ],
-      name: casename,
+      name: caseName,
     }
-  }).filter((c) => c !== null)
+
+  }).get().filter((c) => c !== null)
 }
 
 const getCaseByName = async (caseName: string): Promise<Law.Case[]> => {
   const cases = await getAllCases()
+  Logger.log(`Cases: `, cases)
   return sortByName(caseName, cases).slice(0, 20)
 }
 
