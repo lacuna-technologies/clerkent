@@ -59,19 +59,19 @@ const getFileName = (law: Law.Case | Law.Legislation, doctype: Law.Link[`doctype
 const commonAppends = [
   /\(?pte\.?\)?/,
   /private/,
-  /ltd|limited/,
-  /llp/,
+  /ltd\.?|limited/,
+  /l\.?l\.?p\.?/,
   /sdn|bhd/,
-  /company|co/,
-  /nv|gmbh/,
-  /inc/,
+  /company|co\.?|& co\.?/,
+  /n\.?v\.?|gmbh/,
+  /inc\.?/,
   /\(s\)|\(m\)|\(singapore\)/,
   /(and|&) others|(and|&) (another|other)( (suits?|appeals?|matters?))?|(and|&) \d{1,2} ors|& anor/,
   /\(interim judicial managers appointed\)|\(in liquidation\)|\(under judicial management\)/,
   /, singapore branch/,
 ]
 const commonAppendsPartialRegex = commonAppends.map(append => append.source).join(`|`)
-const commonAppendsRegex = new RegExp(`(\\b|\\s)(${commonAppendsPartialRegex})(\\b|\\s)`, `gi`)
+const commonAppendsRegex = new RegExp(`(\\b|\\s)(${commonAppendsPartialRegex})(\\b|\\s|$)`, `gi`)
 const removeCommonAppends = (caseName: string) => (
   (`${caseName}`)
     .replaceAll(commonAppendsRegex, ` `)
