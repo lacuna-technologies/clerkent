@@ -14,8 +14,8 @@ export const findEUCaseCitation = (
 ): Finder.CaseCitationFinderResult[] => {
   const regex = new RegExp(`(${epoRegex.source})|(${cjeuRegex.source})`, `gi`)
   const cleanedQuery = query
-    .replace(new RegExp(`[${String.fromCharCode(8209)}]`, `g`), `-`)
-    .replace(/case /gi, `C-`)
+    .replaceAll(new RegExp(`[${String.fromCharCode(8209)}]`, `g`), `-`)
+    .replaceAll(/case /gi, `C-`)
 
   const matches = [...cleanedQuery.matchAll(regex)]
 

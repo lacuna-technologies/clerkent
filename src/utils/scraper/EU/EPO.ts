@@ -12,7 +12,7 @@ const zeroPad = (number: string, length = 4) => (
 )
 
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
-  const [prepend, number] = [citation.slice(0,1), citation.slice(1)].map(a => a.replace(/_/g, ``).trim())
+  const [prepend, number] = [citation.slice(0,1), citation.slice(1)].map(a => a.replaceAll(`_`, ``).trim())
   const [caseNumber, year] = number.split(`/`)
   const append = `${zeroPad(caseNumber)}/${year}`
   const { data } = await Request.post(

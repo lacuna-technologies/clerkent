@@ -21,7 +21,7 @@ export const formatAbbrs = (
   ({ abbr, appendum }) => formatAbbr({ abbr, appendum}),
 ).join(`|`)
 
-export const cleanVolume = (volumeString: string) => volumeString.replace(/\./g, ``).toLowerCase().trim()
+export const cleanVolume = (volumeString: string) => volumeString.replaceAll(`.`, ``).toLowerCase().trim()
 
 export const sortCitationsByVolume = (
   abbrsList: { abbr: string, appendum?: string }[],

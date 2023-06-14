@@ -126,7 +126,7 @@ const parseCaseData = async (data: AxiosResponse[`data`]): Promise<Law.Case[]> =
         ...(judgmentPDFURL.length > 0 ? [judgmentPDFLink] : []),
         ...(opinionPDFURL.length > 0 ? [opinionPDFLink] : []),
       ],
-      name: name.replace(citation, ``).trim().slice(1).replace(/^[\s-]+/g, ``).trim(),
+      name: name.replace(citation, ``).trim().slice(1).replaceAll(/^[\s-]+/g, ``).trim(),
     }
   }).get()
   .filter(({ citation }) => Helpers.isCitationValid(citation))

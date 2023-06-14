@@ -84,7 +84,7 @@ const interceptLawNetDownloads = async (port: Runtime.Port) => {
   if (isLawNet && isLawNetCase){
     const downloadButtonSelector = `li.iconPDF > a`
     const downloadButton = await waitForElement(downloadButtonSelector, false)
-    const citationElement = [...document.querySelectorAll(`span.Citation.offhyperlink`)].slice(-1)[0]
+    const citationElement = [...document.querySelectorAll(`span.Citation.offhyperlink`)].at(-1)
     const caseNameElement = document.querySelector(`span.caseTitle`)
     const law: Law.Case = {
       citation: citationElement.textContent.trim(),
