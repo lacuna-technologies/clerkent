@@ -104,10 +104,15 @@ const SG_DATABASES: CountryDatabases = {
     name: `Strata Titles Board`,
     url: `https://www.stratatb.gov.sg/resources-judgments.html`,
   },
-  westlaw: {
+  westlawasia: {
     icon: ``,
-    name: `Westlaw Asia`,
-    url: `https://www.westlawasia.com/singapore/`,
+    name: `Westlaw UK`,
+    url: `https://launch.westlawasia.com/`,
+  },
+  westlawuk: {
+    icon: ``,
+    name: `Westlaw UK`,
+    url: `https://uk.westlaw.com/`,
   },
 } as const
 

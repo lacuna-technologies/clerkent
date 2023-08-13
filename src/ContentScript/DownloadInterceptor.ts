@@ -31,18 +31,27 @@ const downloadPDF = (
   })
 }
 
+const elementQuerySuccessful = (result: Element | NodeListOf<Element>): Element | NodeListOf<Element> | false => {
+  const isListResult = result instanceof NodeList && (result as NodeListOf<Element>).length > 0
+  const isSingleResult = !(result instanceof NodeList) && result !== null
+  if(isSingleResult || isListResult){
+    return result
+  }
+  return false
+}
+
 const waitForElement = (selector: string, multiple: boolean): Promise<Element | NodeListOf<Element>> => new Promise(resolve => {
   const getElement = () => multiple
     ? document.querySelectorAll(selector)
     : document.querySelector(selector)
   const initialAttempt = getElement()
-  if (initialAttempt) {
+  if (elementQuerySuccessful(initialAttempt)) {
     return resolve(initialAttempt)
   }
 
   const observer = new MutationObserver(() => {
     const attempt = getElement()
-    if (attempt) {
+    if (elementQuerySuccessful(attempt)) {
       resolve(attempt)
       observer.disconnect()
     }
@@ -219,56 +228,91 @@ const interceptSSODownloads = async (port: Runtime.Port) => {
   }
 }
 
-const interceptWestlawDownloads = async (port: Runtime.Port) => {
-  const { hostname, pathname } = window.location
-  const isWestLaw = (hostname === `uk.westlaw.com`)
-  if(isWestLaw){
-    const isDetail = (pathname.match(new RegExp(/^\/Document\/[\dA-Z]+\/View\/FullText\.html/)) !== null)
-    if(isDetail){
-      await waitForElement(`#co_docContentWhereReported,#co_docContentMetaInfo`, false)
-      const caseName = document.title.replace(` | Westlaw UK`, ``)
-      const downloadButtons = document.querySelectorAll(`#co_docContentWhereReported a[type="application/pdf"], #co_docContentMetaInfo a[type="application/pdf"]`)
-      for(const downloadButton of downloadButtons){
-        const citation = downloadButton.parentElement.parentElement.textContent.trim()
-        const law: Law.Case = {
-          citation,
-          database: Constants.DATABASES.UK_westlaw,
-          jurisdiction: Constants.JURISDICTIONS.UK.id,
-          links: [],
-          name: Helpers.removeCommonAppends(
-            caseName,
-          ),
-          type: `case-citation`,
-        }
-        const fileName = Helpers.getFileName(law, `Judgment`)
-        augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
-        // TODO: Westlaw will return a HTML page if PDF is not within subscription
-        // in such situations, should throw error instead of downloading invalid PDF file
-      }      
-    }
-    const isSearch = (pathname.match(new RegExp(/^\/Search\/Results\.html/)) !== null)
-    if(isSearch){
-      await waitForElement(`#co_search_results_inner`, false)
-      const downloadButtons = [...document.querySelectorAll(`.icon_colour_pdf`)].map(element => element.parentElement)
-      for(const downloadButton of downloadButtons){
-        const citation = downloadButton.previousElementSibling.textContent.trim()
-        const caseName = downloadButton.parentElement.parentElement.querySelector(`.co_accessibilityLabel`).textContent.trim()
-        const law: Law.Case = {
-          citation,
-          database: Constants.DATABASES.UK_westlaw,
-          jurisdiction: Constants.JURISDICTIONS.UK.id,
-          links: [],
-          name: Helpers.removeCommonAppends(
-            caseName,
-          ),
-          type: `case-citation`,
-        }
-        const fileName = Helpers.getFileName(law, `Judgment`)
-        augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
-        // TODO: Westlaw will return a HTML page if PDF is not within subscription
-        // in such situations, should throw error instead of downloading invalid PDF file
+const interceptWestlawUKDownloads = async (port: Runtime.Port) => {
+  const { pathname } = window.location
+  const isDetail = (pathname.match(new RegExp(/^\/Document\/[\dA-Z]+\/View\/FullText\.html/)) !== null)
+  if(isDetail){
+    await waitForElement(`#co_docContentWhereReported,#co_docContentMetaInfo`, false)
+    const caseName = document.title.replace(` | Westlaw UK`, ``)
+    const downloadButtons = document.querySelectorAll(`#co_docContentWhereReported a[type="application/pdf"], #co_docContentMetaInfo a[type="application/pdf"]`)
+    for(const downloadButton of downloadButtons){
+      const citation = downloadButton.parentElement.parentElement.textContent.trim()
+      const law: Law.Case = {
+        citation,
+        database: Constants.DATABASES.UK_westlawuk,
+        jurisdiction: Constants.JURISDICTIONS.UK.id,
+        links: [],
+        name: Helpers.removeCommonAppends(
+          caseName,
+        ),
+        type: `case-citation`,
       }
+      const fileName = Helpers.getFileName(law, `Judgment`)
+      augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+      // TODO: Westlaw will return a HTML page if PDF is not within subscription
+      // in such situations, should throw error instead of downloading invalid PDF file
+    }      
+  }
+  const isSearch = (pathname.match(new RegExp(/^\/Search\/Results\.html/)) !== null)
+  if(isSearch){
+    await waitForElement(`#co_search_results_inner`, false)
+    const downloadButtons = [...document.querySelectorAll(`.icon_colour_pdf`)].map(element => element.parentElement)
+    for(const downloadButton of downloadButtons){
+      const citation = downloadButton.previousElementSibling.textContent.trim()
+      const caseName = downloadButton.parentElement.parentElement.querySelector(`.co_accessibilityLabel`).textContent.trim()
+      const law: Law.Case = {
+        citation,
+        database: Constants.DATABASES.UK_westlawuk,
+        jurisdiction: Constants.JURISDICTIONS.UK.id,
+        links: [],
+        name: Helpers.removeCommonAppends(
+          caseName,
+        ),
+        type: `case-citation`,
+      }
+      const fileName = Helpers.getFileName(law, `Judgment`)
+      augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+      // TODO: Westlaw will return a HTML page if PDF is not within subscription
+      // in such situations, should throw error instead of downloading invalid PDF file
     }
+  }
+}
+
+const interceptWestlawAsiaDownloads = async (port: Runtime.Port) => {
+  const { pathname } = window.location
+  const isDocumentDetail = (pathname.match(new RegExp(/^\/document\//)) !== null)
+  if(isDocumentDetail){
+    const casePdfDownloadButtons = (await waitForElement(
+      `.document-container #case-container app-doc-downloader > a[title="View PDF of Case Report"]`,
+      true,
+    )) as NodeListOf<Element>
+    const citation = casePdfDownloadButtons[0].parentElement.parentElement.parentElement.querySelector(`h2`).textContent.trim()
+    const caseName = casePdfDownloadButtons[0].parentElement.parentElement.parentElement.querySelector(`h1`).childNodes[2].textContent.trim()
+    const law: Law.Case = {
+      citation,
+      database: Constants.DATABASES.UK_westlawasia,
+      jurisdiction: Constants.JURISDICTIONS.UK.id,
+      links: [],
+      name: Helpers.removeCommonAppends(caseName),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    // TODO: intercept download
+    // for(const button of casePdfDownloadButtons){
+    //   augmentDownloadButton(port, button as HTMLAnchorElement, fileName)
+    // }
+    // console.log(casePdfDownloadButtons, citation, caseName)
+  }
+}
+
+const interceptWestlawDownloads = async (port: Runtime.Port) => {
+  const { hostname } = window.location
+  const isWestLawUk = (hostname === `uk.westlaw.com`)
+  const isWestLawAsia = (hostname === `launch.westlawasia.com`)
+  if(isWestLawUk){
+    interceptWestlawUKDownloads(port)
+  } else if (isWestLawAsia) {
+    interceptWestlawAsiaDownloads(port)
   }
 }
 

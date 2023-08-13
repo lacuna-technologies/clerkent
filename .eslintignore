@@ -7,3 +7,4 @@ extension/
 assets/
 demo/
 package.json
+src/manifest.json
