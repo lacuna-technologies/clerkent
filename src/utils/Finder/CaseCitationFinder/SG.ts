@@ -7,7 +7,7 @@ export const SGSCAbbrs = [
   { abbr: `SGHC`, appendum: `(R|F|\\(I\\)|\\(A\\))?` },
 ]
 
-export const neutralSGAbbrs = [
+export const SGNeutralAbbs = [
   ...SGSCAbbrs,
   { abbr: `SDRP` },
   { abbr: `SGAB` },
@@ -31,11 +31,15 @@ export const neutralSGAbbrs = [
   { abbr: `SGSTB` },
 ]
 
-export const SGAbbrs = [
-  ...neutralSGAbbrs,
+const SGJournalAbbrs = [
   { abbr: `SLR`, appendum: `(\\(r\\))?` },
   { abbr: `MLR` },
   { abbr: `MLJ` },
+]
+
+export const SGAbbrs = [
+  ...SGNeutralAbbs,
+  ...SGJournalAbbrs,
 ]
 
 export const sortSGCases = (
@@ -47,7 +51,9 @@ export const sortSGCases = (
   attribute,
 )
 
-export const makeCaseCitationRegex = (abbrs: typeof SGAbbrs) => new RegExp(
+export const makeCaseCitationRegex = (
+  abbrs: typeof SGAbbrs,
+) => new RegExp(
   `(`+
     `\\[(?<year>[12]\\d{3})\\]( \\d{1,2})? (?<abbr>${
       formatAbbrs(abbrs)

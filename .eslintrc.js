@@ -28,8 +28,9 @@ module.exports = {
   processor: `disable/disable`,
   root: true,
   rules: {
-    "@typescript-eslint/no-duplicate-imports": `warn`,
+    "@typescript-eslint/ban-ts-comment": `warn`,
     "@typescript-eslint/no-empty-function": `warn`,
+    "@typescript-eslint/no-explicit-any": `warn`,
     "@typescript-eslint/no-unused-vars": [
       `warn`,
       { ignoreRestSiblings: true },
@@ -38,6 +39,7 @@ module.exports = {
       `warn`,
       `always-multiline`,
     ],
+    // "import/no-duplicate-imports": `warn`,
     "import/no-named-as-default": `off`,
     "jsx-a11y/accessible-emoji": `off`,
     "no-duplicate-imports": `off`,

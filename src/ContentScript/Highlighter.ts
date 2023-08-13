@@ -170,11 +170,13 @@ const isAnchorLink = (node: Node) => {
   return false
 }
 
-const highlightNode = async (node: Text, { citation, index }) => {
+const highlightNode = async (node: Text, { citation }) => {
   const mark = document.createElement(`span`)
   mark.className = `clerkent case`
   mark.addEventListener(`mouseover`, mouseOverCitation)
   mark.addEventListener(`mouseout`, mouseOutCitation)
+
+  const index = Helpers.cleanQueryPreserveLength(node.nodeValue).indexOf(citation)
 
   if(node.length >= index){
     const highlighted = node.splitText(index)

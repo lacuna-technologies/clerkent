@@ -1,188 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
+exports[`Finder  [2016] 1 SLR 373  1`] = `
 [
   {
-    "abbr": "SGCA",
-    "citation": "[2021] SGCA 34",
+    "abbr": "SLR",
+    "citation": "[2016] 1 SLR 373",
     "index": 0,
     "jurisdiction": "SG",
     "type": "case-citation",
-    "year": "2021",
+    "year": "2016",
   },
 ]
 `;
 
-exports[` 2`] = `
+exports[`Finder  [2018] SGHC 22 1`] = `
 [
   {
     "abbr": "SGHC",
-    "citation": "[2020] SGHC 228",
+    "citation": "[2018] SGHC 22",
     "index": 0,
     "jurisdiction": "SG",
     "type": "case-citation",
-    "year": "2020",
+    "year": "2018",
   },
 ]
 `;
 
-exports[` 3`] = `
-[
-  {
-    "abbr": "SGHC",
-    "citation": "[2020] SGHC 100",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2020",
-  },
-]
-`;
-
-exports[` 4`] = `
-[
-  {
-    "abbr": "SLR",
-    "citation": "[2011] 2 SLR 47",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2011",
-  },
-]
-`;
-
-exports[` 5`] = `
-[
-  {
-    "abbr": "SGDC",
-    "citation": "[2020] SGDC 95",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2020",
-  },
-]
-`;
-
-exports[` 6`] = `
-[
-  {
-    "abbr": "SGCA",
-    "citation": "[1994] SGCA 128",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "1994",
-  },
-]
-`;
-
-exports[` 7`] = `
-[
-  {
-    "abbr": "SGCA",
-    "citation": "[1988] SGCA 16",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "1988",
-  },
-]
-`;
-
-exports[` 8`] = `
-[
-  {
-    "abbr": "SLR",
-    "citation": "[2001] 2 SLR 253",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2001",
-  },
-]
-`;
-
-exports[` 9`] = `
-[
-  {
-    "abbr": "SLR",
-    "citation": "[2001] 2 SLR 253",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2001",
-  },
-]
-`;
-
-exports[` 10`] = `
-[
-  {
-    "abbr": "SGIPOS",
-    "citation": "[2022] SGIPOS 4",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2022",
-  },
-]
-`;
-
-exports[` 11`] = `
-[
-  {
-    "abbr": "SGHCR",
-    "citation": "[2022] SGHCR 1",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2022",
-  },
-]
-`;
-
-exports[` 12`] = `
-[
-  {
-    "abbr": "SGHCF",
-    "citation": "[2020] SGHCF 18",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2020",
-  },
-]
-`;
-
-exports[` 13`] = `
-[
-  {
-    "abbr": "SGHC(A)",
-    "citation": "[2022] SGHC(A) 17",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2022",
-  },
-]
-`;
-
-exports[` 14`] = `
-[
-  {
-    "abbr": "SGCA(I)",
-    "citation": "[2020] SGCA(I) 2",
-    "index": 0,
-    "jurisdiction": "SG",
-    "type": "case-citation",
-    "year": "2020",
-  },
-]
-`;
-
-exports[` 15`] = `
+exports[`Finder (1754) 2 Ves Sen 547 1`] = `
 [
   {
     "abbr": "Ves Sen",
@@ -196,49 +40,7 @@ exports[` 15`] = `
 ]
 `;
 
-exports[` 16`] = `
-[
-  {
-    "abbr": "All ER",
-    "citation": "[1843-60] All ER 249",
-    "court": "All ER",
-    "index": 0,
-    "jurisdiction": "UK",
-    "type": "case-citation",
-    "year": "1843",
-  },
-]
-`;
-
-exports[` 17`] = `
-[
-  {
-    "abbr": "KB",
-    "citation": "[1948] 1 KB 223",
-    "court": "KB",
-    "index": 0,
-    "jurisdiction": "UK",
-    "type": "case-citation",
-    "year": "1948",
-  },
-]
-`;
-
-exports[` 18`] = `
-[
-  {
-    "abbr": "QB",
-    "citation": "[1965] 1 QB 456",
-    "court": "QB",
-    "index": 0,
-    "jurisdiction": "UK",
-    "type": "case-citation",
-    "year": "1965",
-  },
-]
-`;
-
-exports[` 19`] = `
+exports[`Finder (1951) 35 Cr App R 164 1`] = `
 [
   {
     "abbr": "Cr App R",
@@ -252,105 +54,235 @@ exports[` 19`] = `
 ]
 `;
 
-exports[` 20`] = `
+exports[`Finder (1973) 40 DLR (3d) 371 1`] = `
 [
   {
-    "abbr": "UKHL",
-    "citation": "[2007] UKHL 17",
-    "court": "UKHL",
+    "citation": "(1973) 40 DLR (3d) 371",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "CA",
     "type": "case-citation",
-    "year": "2007",
   },
 ]
 `;
 
-exports[` 21`] = `
+exports[`Finder (1982) 7 ACLR 171 1`] = `
 [
   {
-    "abbr": "UKIPO",
-    "citation": "O/328/22",
-    "court": "UKIPO",
+    "abbr": "ACLR",
+    "citation": "(1982) 7 ACLR 171",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "AU",
+    "page": "171",
     "type": "case-citation",
-    "year": "2022",
+    "year": "1982",
   },
 ]
 `;
 
-exports[` 22`] = `
+exports[`Finder (1990) 171 CLR 30 1`] = `
 [
   {
-    "abbr": "UKIPO",
-    "citation": "O/002/22",
-    "court": "UKIPO",
+    "abbr": "CLR",
+    "citation": "(1990) 171 CLR 30",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "AU",
+    "page": "30",
     "type": "case-citation",
-    "year": "2022",
+    "year": "1990",
   },
 ]
 `;
 
-exports[` 23`] = `
+exports[`Finder (1992) 7 ACSR 759 1`] = `
 [
   {
-    "abbr": "UKIPO",
-    "citation": "O01422",
-    "court": "UKIPO",
+    "abbr": "ACSR",
+    "citation": "(1992) 7 ACSR 759",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "AU",
+    "page": "759",
     "type": "case-citation",
-    "year": "2022",
+    "year": "1992",
   },
 ]
 `;
 
-exports[` 24`] = `
+exports[`Finder (2003) 200 ALJ 1 1`] = `
 [
   {
-    "abbr": "UKIPO",
-    "citation": "BLO/555/22",
-    "court": "UKIPO",
+    "abbr": "ALJ",
+    "citation": "(2003) 200 ALJ 1",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "AU",
+    "page": "1",
     "type": "case-citation",
-    "year": "2022",
+    "year": "2003",
   },
 ]
 `;
 
-exports[` 25`] = `
+exports[`Finder (2008) 91 OR (3d) 353 1`] = `
 [
   {
-    "abbr": "EWHC",
-    "citation": "[2021] EWHC 2168",
-    "court": "EWHC",
+    "citation": "(2008) 91 OR (3d) 353",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "CA",
     "type": "case-citation",
-    "year": "2021",
   },
 ]
 `;
 
-exports[` 26`] = `
+exports[`Finder (2013) 16 HKCFAR 366 1`] = `
 [
   {
-    "abbr": "EWHC",
-    "citation": "[2016] EWHC 3151",
-    "court": "EWHC",
+    "citation": "(2013) 16 HKCFAR 366",
     "index": 0,
-    "jurisdiction": "UK",
+    "jurisdiction": "HK",
     "type": "case-citation",
-    "year": "2016",
   },
 ]
 `;
 
-exports[` 27`] = `
+exports[`Finder [1843-60] All ER 249 1`] = `
+[
+  {
+    "abbr": "All ER",
+    "citation": "[1843-60] All ER 249",
+    "court": "All ER",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "1843",
+  },
+]
+`;
+
+exports[`Finder [1948] 1 KB 223 1`] = `
+[
+  {
+    "abbr": "KB",
+    "citation": "[1948] 1 KB 223",
+    "court": "KB",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "1948",
+  },
+]
+`;
+
+exports[`Finder [1965] 1 QB 456 1`] = `
+[
+  {
+    "abbr": "QB",
+    "citation": "[1965] 1 QB 456",
+    "court": "QB",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "1965",
+  },
+]
+`;
+
+exports[`Finder [1983] 4 WWR 762 1`] = `
+[
+  {
+    "citation": "[1983] 4 WWR 762",
+    "index": 0,
+    "jurisdiction": "CA",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [1988] SGCA 16 1`] = `
+[
+  {
+    "abbr": "SGCA",
+    "citation": "[1988] SGCA 16",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "1988",
+  },
+]
+`;
+
+exports[`Finder [1989] HCA 9 1`] = `
+[
+  {
+    "abbr": "HCA",
+    "citation": "[1989] HCA 9",
+    "index": 0,
+    "jurisdiction": "AU",
+    "page": "9",
+    "type": "case-citation",
+    "year": "1989",
+  },
+]
+`;
+
+exports[`Finder [1994] SGCA 128 1`] = `
+[
+  {
+    "abbr": "SGCA",
+    "citation": "[1994] SGCA 128",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "1994",
+  },
+]
+`;
+
+exports[`Finder [1999] 2 SCR 534 1`] = `
+[
+  {
+    "citation": "[1999] 2 SCR 534",
+    "index": 0,
+    "jurisdiction": "CA",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [1999] HKCA 585 1`] = `
+[
+  {
+    "citation": "[1999] HKCA 585",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2000] 1 HKLRD 595 1`] = `
+[
+  {
+    "citation": "[2000] 1 HKLRD 595",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2001] 2 SLR 253 1`] = `
+[
+  {
+    "abbr": "SLR",
+    "citation": "[2001] 2 SLR 253",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2001",
+  },
+]
+`;
+
+exports[`Finder [2001] ECDR 5 1`] = `
 [
   {
     "abbr": "ECDR",
@@ -364,7 +296,262 @@ exports[` 27`] = `
 ]
 `;
 
-exports[` 28`] = `
+exports[`Finder [2006] SCC 39 1`] = `
+[
+  {
+    "citation": "[2006] SCC 39",
+    "index": 0,
+    "jurisdiction": "CA",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2007] UKHL 17 1`] = `
+[
+  {
+    "abbr": "UKHL",
+    "citation": "[2007] UKHL 17",
+    "court": "UKHL",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2007",
+  },
+]
+`;
+
+exports[`Finder [2010] FCA 984 1`] = `
+[
+  {
+    "abbr": "FCA",
+    "citation": "[2010] FCA 984",
+    "index": 0,
+    "jurisdiction": "AU",
+    "page": "984",
+    "type": "case-citation",
+    "year": "2010",
+  },
+]
+`;
+
+exports[`Finder [2011] 2 SLR 47 1`] = `
+[
+  {
+    "abbr": "SLR",
+    "citation": "[2011] 2 SLR 47",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2011",
+  },
+]
+`;
+
+exports[`Finder [2012] HKDC 911 1`] = `
+[
+  {
+    "citation": "[2012] HKDC 911",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2015] HKCFI 1856 1`] = `
+[
+  {
+    "citation": "[2015] HKCFI 1856",
+    "index": 0,
+    "jurisdiction": "HK",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder [2016] EWHC 3151 (IPEC) 1`] = `
+[
+  {
+    "abbr": "EWHC",
+    "citation": "[2016] EWHC 3151",
+    "court": "EWHC",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2016",
+  },
+]
+`;
+
+exports[`Finder [2020] SGCA(I) 2 1`] = `
+[
+  {
+    "abbr": "SGCA(I)",
+    "citation": "[2020] SGCA(I) 2",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2020",
+  },
+]
+`;
+
+exports[`Finder [2020] SGDC 95 1`] = `
+[
+  {
+    "abbr": "SGDC",
+    "citation": "[2020] SGDC 95",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2020",
+  },
+]
+`;
+
+exports[`Finder [2020] SGHC 100 (2010) 1`] = `
+[
+  {
+    "abbr": "SGHC",
+    "citation": "[2020] SGHC 100",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2020",
+  },
+]
+`;
+
+exports[`Finder [2020] SGHC 228 1`] = `
+[
+  {
+    "abbr": "SGHC",
+    "citation": "[2020] SGHC 228",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2020",
+  },
+]
+`;
+
+exports[`Finder [2020] SGHCF 18 1`] = `
+[
+  {
+    "abbr": "SGHCF",
+    "citation": "[2020] SGHCF 18",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2020",
+  },
+]
+`;
+
+exports[`Finder [2021] EWHC 2168 (QB) 1`] = `
+[
+  {
+    "abbr": "EWHC",
+    "citation": "[2021] EWHC 2168",
+    "court": "EWHC",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2021",
+  },
+]
+`;
+
+exports[`Finder [2021] SGCA 34 1`] = `
+[
+  {
+    "abbr": "SGCA",
+    "citation": "[2021] SGCA 34",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2021",
+  },
+]
+`;
+
+exports[`Finder [2022] SGHC(A) 17 1`] = `
+[
+  {
+    "abbr": "SGHC(A)",
+    "citation": "[2022] SGHC(A) 17",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
+exports[`Finder [2022] SGHCR 1 1`] = `
+[
+  {
+    "abbr": "SGHCR",
+    "citation": "[2022] SGHCR 1",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
+exports[`Finder [2022] SGIPOS 4 1`] = `
+[
+  {
+    "abbr": "SGIPOS",
+    "citation": "[2022] SGIPOS 4",
+    "index": 0,
+    "jurisdiction": "SG",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
+exports[`Finder 2008 ONCA 506 (CanLII) 1`] = `
+[
+  {
+    "citation": "2008 ONCA 506",
+    "index": 0,
+    "jurisdiction": "CA",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder 2022 SCC 38 (CanLII) 1`] = `
+[
+  {
+    "citation": "2022 SCC 38",
+    "index": 0,
+    "jurisdiction": "CA",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder BLO/555/22 1`] = `
+[
+  {
+    "abbr": "UKIPO",
+    "citation": "BLO/555/22",
+    "court": "UKIPO",
+    "index": 0,
+    "jurisdiction": "UK",
+    "type": "case-citation",
+    "year": "2022",
+  },
+]
+`;
+
+exports[`Finder C-40/17 1`] = `
 [
   {
     "citation": "C-40/17",
@@ -376,7 +563,31 @@ exports[` 28`] = `
 ]
 `;
 
-exports[` 29`] = `
+exports[`Finder Case C-5/08 1`] = `
+[
+  {
+    "citation": "C-5/08",
+    "court": "CJEU",
+    "index": 2,
+    "jurisdiction": "EU",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder Case C-145/10 1`] = `
+[
+  {
+    "citation": "C-145/10",
+    "court": "CJEU",
+    "index": 2,
+    "jurisdiction": "EU",
+    "type": "case-citation",
+  },
+]
+`;
+
+exports[`Finder Cases C-403/08 and C-429/08 1`] = `
 [
   {
     "citation": "C-403/08",
@@ -395,242 +606,44 @@ exports[` 29`] = `
 ]
 `;
 
-exports[` 30`] = `
+exports[`Finder O/002/22 1`] = `
 [
   {
-    "citation": "C-145/10",
-    "court": "CJEU",
-    "index": 2,
-    "jurisdiction": "EU",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[` 31`] = `
-[
-  {
-    "citation": "C-5/08",
-    "court": "CJEU",
-    "index": 2,
-    "jurisdiction": "EU",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[` 32`] = `
-[
-  {
-    "abbr": "FCA",
-    "citation": "[2010] FCA 984",
+    "abbr": "UKIPO",
+    "citation": "O/002/22",
+    "court": "UKIPO",
     "index": 0,
-    "jurisdiction": "AU",
-    "page": "984",
+    "jurisdiction": "UK",
     "type": "case-citation",
-    "year": "2010",
+    "year": "2022",
   },
 ]
 `;
 
-exports[` 33`] = `
+exports[`Finder O/328/22 1`] = `
 [
   {
-    "abbr": "CLR",
-    "citation": "(1990) 171 CLR 30",
+    "abbr": "UKIPO",
+    "citation": "O/328/22",
+    "court": "UKIPO",
     "index": 0,
-    "jurisdiction": "AU",
-    "page": "30",
+    "jurisdiction": "UK",
     "type": "case-citation",
-    "year": "1990",
+    "year": "2022",
   },
 ]
 `;
 
-exports[` 34`] = `
+exports[`Finder O01422 1`] = `
 [
   {
-    "abbr": "ACSR",
-    "citation": "(1992) 7 ACSR 759",
+    "abbr": "UKIPO",
+    "citation": "O01422",
+    "court": "UKIPO",
     "index": 0,
-    "jurisdiction": "AU",
-    "page": "759",
+    "jurisdiction": "UK",
     "type": "case-citation",
-    "year": "1992",
-  },
-]
-`;
-
-exports[` 35`] = `
-[
-  {
-    "abbr": "ALJ",
-    "citation": "(2003) 200 ALJ 1",
-    "index": 0,
-    "jurisdiction": "AU",
-    "page": "1",
-    "type": "case-citation",
-    "year": "2003",
-  },
-]
-`;
-
-exports[` 36`] = `
-[
-  {
-    "abbr": "HCA",
-    "citation": "[1989] HCA 9",
-    "index": 0,
-    "jurisdiction": "AU",
-    "page": "9",
-    "type": "case-citation",
-    "year": "1989",
-  },
-]
-`;
-
-exports[` 37`] = `
-[
-  {
-    "abbr": "ACLR",
-    "citation": "(1982) 7 ACLR 171",
-    "index": 0,
-    "jurisdiction": "AU",
-    "page": "171",
-    "type": "case-citation",
-    "year": "1982",
-  },
-]
-`;
-
-exports[` 38`] = `
-[
-  {
-    "citation": "[1999] 2 SCR 534",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[` 39`] = `
-[
-  {
-    "citation": "(2008) 91 OR (3d) 353",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[` 40`] = `
-[
-  {
-    "citation": "(1973) 40 DLR (3d) 371",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 1`] = `
-[
-  {
-    "citation": "[1983] 4 WWR 762",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 2`] = `
-[
-  {
-    "citation": "[2006] SCC 39",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 3`] = `
-[
-  {
-    "citation": "2022 SCC 38",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 4`] = `
-[
-  {
-    "citation": "2008 ONCA 506",
-    "index": 0,
-    "jurisdiction": "CA",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 5`] = `
-[
-  {
-    "citation": "(2013) 16 HKCFAR 366",
-    "index": 0,
-    "jurisdiction": "HK",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 6`] = `
-[
-  {
-    "citation": "[2015] HKCFI 1856",
-    "index": 0,
-    "jurisdiction": "HK",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 7`] = `
-[
-  {
-    "citation": "[1999] HKCA 585",
-    "index": 0,
-    "jurisdiction": "HK",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 8`] = `
-[
-  {
-    "citation": "[2000] 1 HKLRD 595",
-    "index": 0,
-    "jurisdiction": "HK",
-    "type": "case-citation",
-  },
-]
-`;
-
-exports[`Finder [2021] SGCA 34 9`] = `
-[
-  {
-    "citation": "[2012] HKDC 911",
-    "index": 0,
-    "jurisdiction": "HK",
-    "type": "case-citation",
+    "year": "2022",
   },
 ]
 `;

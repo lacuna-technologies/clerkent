@@ -31,9 +31,11 @@ See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 Run in development mode for your preferred browser:
 
 ```bash
-npm run dev:chrome
-npm run dev:firefox
-npm run dev:opera
+pnpm i
+
+pnpm run dev:chrome
+pnpm run dev:firefox
+pnpm run dev:opera
 ```
 
 Load it as an unpacked extension
@@ -43,7 +45,7 @@ Load it as an unpacked extension
 There are some tests, mostly snapshot tests.
 
 ```bash
-npm run test
+pnpm run test
 ```
 
 ### Roadmap

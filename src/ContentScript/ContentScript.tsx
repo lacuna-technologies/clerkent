@@ -15,14 +15,14 @@ let highlightEnabled: OptionsSettings[`OPTIONS_HIGHLIGHT_ENABLED`]
 const onMessage = (message: Messenger.Message) => {
   Logger.log(`content script received:`, message)
 
-  if(highlightEnabled && document.querySelector(`#clerkent-tooltip`) === null){
+  if (highlightEnabled && document.querySelector(`#clerkent-tooltip`) === null) {
     Tooltip.init()
   }
-  
-  if(message.target !== Messenger.TARGETS.contentScript){
+
+  if (message.target !== Messenger.TARGETS.contentScript) {
     return null // ignore
   }
-  if(message.action === Messenger.ACTION_TYPES.viewCitation){
+  if (message.action === Messenger.ACTION_TYPES.viewCitation) {
     Highlighter.handleViewCitation(message)
   }
 }
@@ -35,10 +35,10 @@ const init = async () => {
     await OptionsStorage.highlight.get() as boolean
   )
 
-  if(highlightEnabled){
+  if (highlightEnabled) {
     const hasHits = Highlighter.scanForCitations(port)
 
-    if(hasHits){
+    if (hasHits) {
       Tooltip.init()
     }
   }
@@ -48,7 +48,7 @@ const init = async () => {
   Searcher.init()
 }
 
-if(document.readyState === `complete`){
+if (document.readyState === `complete`) {
   init()
 } else {
   document.addEventListener(`readystatechange`, init)

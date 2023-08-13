@@ -2,6 +2,7 @@ import { useCallback } from 'preact/hooks'
 import Select from 'react-select'
 import JurisdictionFlag from 'components/JurisdictionFlag'
 import { Constants } from '../../utils'
+import { FunctionComponent } from 'preact'
 
 const supportedJurisdictions = Constants.JURISDICTIONS
 const options = Object.values(supportedJurisdictions).map(({ id, name }) => ({
@@ -9,13 +10,18 @@ const options = Object.values(supportedJurisdictions).map(({ id, name }) => ({
   value: id,
 }))
 
-const Option = ({ label, value }) => {
+interface OptionProps {
+  label: string,
+  value: Law.JurisdictionCode
+}
+
+const Option: FunctionComponent<OptionProps> = ({ label, value }) => {
   return (
     <div className="flex flex-row items-center gap-2">
       <JurisdictionFlag id={value} />
       {label}
     </div>
-  ) as any
+  )
 }
 
 type Props = {
@@ -29,10 +35,11 @@ const JurisdictionSelect = ({ value, onChangeJurisdiction }: Props) => {
   const optionValue = options.find(o => o.value === value)
 
   return (
+    // @ts-ignore
     <Select
       className="flex-1"
       options={options}
-      formatOptionLabel={Option}
+      formatOptionLabel={Option as any}
       value={optionValue}
       onChange={onChange}
     />

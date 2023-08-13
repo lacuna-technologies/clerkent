@@ -6,3 +6,4 @@ extension/
 .vscode/
 assets/
 demo/
+package.json

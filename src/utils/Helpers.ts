@@ -8,6 +8,8 @@ const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) =
     timer = setTimeout(() => function_.apply(this, arguments_), timeout)
   }
 }
+const cleanQuery = (query: string) => query.replaceAll(/\s+/g, ` `).trim()
+const cleanQueryPreserveLength = (query: string) => query.replaceAll(/\s/g, ` `)
 
 const classnames = (...arguments_: string[]) => [...new Set(arguments_)].filter(item => item && item.length > 0).join(` `)
 
@@ -84,6 +86,8 @@ const randomSort = (array) => array.slice(0, array.length).sort(() => (Math.rand
 
 const Helpers = {
   classnames,
+  cleanQuery,
+  cleanQueryPreserveLength,
   debounce,
   escapeRegExp,
   getBestLink,

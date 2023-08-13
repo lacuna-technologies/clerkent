@@ -8,19 +8,21 @@ import { findEUCaseCitation, sortEUCases } from './EU'
 import { findMYCaseCitation, sortMYCases } from './MY'
 import { findECHRCaseCitation, sortECHRCases } from './ECHR'
 import { findUNCaseCitation, sortUNCases } from './UN'
+import Helpers from 'utils/Helpers'
 
 const findCaseCitation = (query: string): Finder.CaseCitationFinderResult[] => {
+  const cleanQuery = Helpers.cleanQuery(query)
   return [
-    ...findSGCaseCitation(query),
-    ...findUKCaseCitation(query),
-    ...findEUCaseCitation(query),
-    ...findHKCaseCitation(query),
-    ...findCACaseCitation(query),
-    ...findAUCaseCitation(query),
-    ...findNZCaseCitation(query),
-    ...findMYCaseCitation(query),
-    ...findECHRCaseCitation(query),
-    ...findUNCaseCitation(query),
+    ...findSGCaseCitation(cleanQuery),
+    ...findUKCaseCitation(cleanQuery),
+    ...findEUCaseCitation(cleanQuery),
+    ...findHKCaseCitation(cleanQuery),
+    ...findCACaseCitation(cleanQuery),
+    ...findAUCaseCitation(cleanQuery),
+    ...findNZCaseCitation(cleanQuery),
+    ...findMYCaseCitation(cleanQuery),
+    ...findECHRCaseCitation(cleanQuery),
+    ...findUNCaseCitation(cleanQuery),
   ]
 }
 

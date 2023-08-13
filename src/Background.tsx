@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import { useEffect } from 'preact/hooks'
 import { browser } from 'webextension-polyfill-ts'
-import type { Downloads , Runtime } from 'webextension-polyfill-ts'
+import type { Downloads, Runtime } from 'webextension-polyfill-ts'
 import Messenger from './utils/Messenger'
 import Finder from './utils/Finder'
 import Storage from './utils/Storage'
@@ -24,25 +24,24 @@ const viewCitation = async (port: Runtime.Port, otherProperties: Messenger.Other
     target: source,
   }
 
-  if(targets.length === 0){
+  if (targets.length === 0 || targets[0].type === `case-name`) {
     return port.postMessage(noResultMessage)
   }
-  
-  const eventTarget = await Scraper.getCaseByCitation(targets[0] as Finder.CaseCitationFinderResult)
-  const query = targets[0].type === `case-citation`
-    ? targets[0].citation
-    : (targets[0] as Finder.CaseNameFinderResult).name
 
-  eventTarget.addEventListener(`${Constants.EVENTS.CASE_RESULTS}-${query}`, async (event: CustomEvent) => {
+  const finderResult = targets[0] as Finder.CaseCitationFinderResult
+
+  const eventTarget = await Scraper.getCaseByCitation(finderResult)
+
+  eventTarget.addEventListener(`${Constants.EVENTS.CASE_RESULTS}-${finderResult.citation}`, async (event: CustomEvent) => {
     const { detail: { done, results } }: { detail: { done: boolean, results: Law.Case[] } } = event
 
-    if(done){
-      if(results.length === 0){
+    if (done) {
+      if (results.length === 0) {
         return port.postMessage(noResultMessage)
       }
 
-      if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
-        const data = results.map((r: Law.Case) => ({...targets[0], ...r}))
+      if (citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)) { // ignore outdated results
+        const data = results.map((r: Law.Case) => ({ ...targets[0], ...r }))
 
         const message = {
           action: Messenger.ACTION_TYPES.viewCitation,
@@ -73,8 +72,8 @@ const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProper
 
   eventTarget.addEventListener(`${Constants.EVENTS.CASE_RESULTS}-${query}`, async (event: CustomEvent) => {
     const { detail: { done, results } }: { detail: { done: boolean, results: Law.Case[] } } = event
-    if(citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)){ // ignore outdated results
-      const data = { done, results: results.map((r: Law.Case) => ({...targets[0], ...r})) }
+    if (citation === await Storage.get(`CURRENT_HIGHLIGHTED_CITATION`)) { // ignore outdated results
+      const data = { done, results: results.map((r: Law.Case) => ({ ...targets[0], ...r })) }
 
       const message = {
         action: Messenger.ACTION_TYPES.search,
@@ -88,14 +87,14 @@ const search = async (port: Runtime.Port, otherProperties: Messenger.OtherProper
 }
 
 const downloadFile = async (url: string, fileName: string) => {
-  if(url && url.length > 0){
+  if (url && url.length > 0) {
     await browser.downloads.download({
       filename: fileName,
       saveAs: true,
       url,
     })
     return
-  } 
+  }
   Logger.error(`Failed to downloadFile: url is empty`)
 }
 
@@ -104,35 +103,35 @@ const handleAction = (port: Runtime.Port) => async ({ action, ...otherProperties
   switch (action) {
     case Messenger.ACTION_TYPES.viewCitation: {
       await viewCitation(port, otherProperties)
-    break
+      break
     }
     case Messenger.ACTION_TYPES.search: {
       await search(port, otherProperties)
-    break
+      break
     }
 
     case Messenger.ACTION_TYPES.downloadPDF: {
       const { law, doctype } = otherProperties
       try {
         const pdfResult = await Scraper.getPDF(law as Law.Case, doctype)
-        if(typeof pdfResult === `string`){
+        if (typeof pdfResult === `string`) {
           const fileName = Helpers.getFileName(law, doctype)
           await downloadFile(pdfResult, fileName)
         } else { // downloadOptions
           await browser.downloads.download(pdfResult)
         }
-        
+
       } catch (error) {
         Logger.error(`Failed to downloadPDF`, error)
       }
-      
-    break
+
+      break
     }
 
     case Messenger.ACTION_TYPES.downloadFile: {
       const { url, fileName } = otherProperties
       await downloadFile(url, fileName)
-    break
+      break
     }
     // No default
   }
@@ -142,14 +141,14 @@ const onReceiveMessage = (port: Runtime.Port) => (message: Messenger.Message) =>
   Logger.log(`background received`, message)
   if (message.target === Messenger.TARGETS.popup) {
     return
-  } else if (message.target === Messenger.TARGETS.background){
+  } else if (message.target === Messenger.TARGETS.background) {
     if (typeof message.action === `string`) {
       Logger.log(`background handling action`, message.action)
       return handleAction(port)(message)
-    } 
-      Logger.log(`unknown action`, message.action)
-      return
-    
+    }
+    Logger.log(`unknown action`, message.action)
+    return
+
   }
 }
 
@@ -166,11 +165,11 @@ const onInstall = async (details: Runtime.OnInstalledDetailsType): Promise<void>
   // }
   const GUIDE_SHOWN_KEY = `GUIDE_SHOWN`
   const guideShown = await Storage.get(GUIDE_SHOWN_KEY)
-  if(guideShown === true){
+  if (guideShown === true) {
     // shown before, don't show again
     // but try showing the subscribe page
     const subscribeShown = await Storage.get(`DO_NOT_REMIND_SUBSCRIBE`)
-    if(subscribeShown !== true){
+    if (subscribeShown !== true) {
       await browser.tabs.create({ url: `updates.html` })
     }
     return
@@ -181,7 +180,7 @@ const onInstall = async (details: Runtime.OnInstalledDetailsType): Promise<void>
 }
 
 const onDownload = (download: Downloads.DownloadItem) => {
-  if(typeof download.byExtensionId === `string`){
+  if (typeof download.byExtensionId === `string`) {
     // don't mess with extension-initiated downloads, including Clerkent's
     return
   }
@@ -200,7 +199,7 @@ const onDownload = (download: Downloads.DownloadItem) => {
 const onBeforeSendHeaders = (details) => {
   const { requestHeaders } = details
   const originIndex = requestHeaders.findIndex(header => header.name === `Origin`)
-  if(originIndex === -1){
+  if (originIndex === -1) {
     return requestHeaders
   }
   return {
@@ -230,7 +229,7 @@ const init = () => {
     `blocking`,
   ])
 
-  if(DEBUG_MODE){
+  if (DEBUG_MODE) {
     browser.tabs.create({ url: `popup.html` })
   }
 }
