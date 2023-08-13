@@ -166,6 +166,13 @@ const interceptSSODownloads = async (port: Runtime.Port) => {
       (qs.parse(search, { ignoreQueryPrefix: true })[`ViewType`] === `Sl`)
     )
     if (isSubsidiaryLegislationView){
+      // download button for authorising act
+      const authorisingActDownloadButton = (await waitForElement(`.legis-title a[title="Download PDF"]`, false) as Element)
+      const legislationName = authorisingActDownloadButton.parentElement.parentElement.querySelector(`.legis-title > span`).textContent.trim()
+      const fileName = Helpers.sanitiseFilename(`${legislationName}.pdf`)
+      augmentDownloadButton(port, authorisingActDownloadButton as HTMLAnchorElement, fileName)
+
+      // download buttons for subsidiary legislation
       const downloadButtons = (await waitForElement(`td.hidden-xs a.file-download`, true) as NodeListOf<Element>)
       for(const downloadButton of downloadButtons){
         const legislationName = downloadButton.parentElement.parentElement.children[0].querySelector(`a.non-ajax`).textContent.trim()
