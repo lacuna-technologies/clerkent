@@ -4,7 +4,7 @@ const sanitiseCaseCitation = (citation: string) => citation.replaceAll(/[^\d --[
 const debounce = (function_: (...arguments_: any[]) => unknown, timeout = 500) => {
   let timer: NodeJS.Timer
   return (...arguments_: any[]) => {
-    clearTimeout(timer)
+    clearTimeout(timer as unknown as number)
     timer = setTimeout(() => function_.apply(this, arguments_), timeout)
   }
 }

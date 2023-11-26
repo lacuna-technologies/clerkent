@@ -7,7 +7,7 @@ const useFocusInput = () => {
     if (inputReference.current) {
       inputReference.current.focus()
     }
-  }, [])
+  }, [inputReference.current])
 
   return inputReference
 }
