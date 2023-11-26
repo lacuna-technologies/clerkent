@@ -26,6 +26,6 @@ module.exports = {
         targets: `> 0.25%, not dead`,
       },
     ],
-    [`@babel/typescript`, { jsxPragma: `h` }],
+    [`@babel/preset-typescript`, { jsxPragma: `h` }],
   ],
 }

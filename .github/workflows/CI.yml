@@ -18,6 +18,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - uses: pnpm/action-setup@v2
+        with:
+        version: 8
       - uses: actions/cache@v3
         with:
           path: |
@@ -27,13 +30,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: install dependencies
-        run: npm ci
+        run: pnpm install
       - name: lint
-        run: npm run lint
+        run: pnpm run lint
       - name: generate icons
-        run: npm run generate:icons
+        run: pnpm run generate:icons
       - name: run tests
-        run: npm run test:ci
+        run: pnpm run test:ci
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: run FOSSA scan

@@ -16,6 +16,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - uses: pnpm/action-setup@v2
+        with:
+        version: 8
       - uses: actions/cache@v2
         with:
           path: |
@@ -25,11 +28,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: install dependencies
-        run: npm ci
+        run: pnpm install
       - name: lint
         run: npm run lint
       - name: generate icons
-        run: npm run generate:icons
+        run: pnpm run generate:icons
 
       - name: version
         run: echo "CLERKENT_VERSION=$(npm run version --silent)" >> $GITHUB_ENV
@@ -37,7 +40,7 @@ jobs:
 
       - name: build
         run: |
-          npm run build
+          pnpm run build
           mv extension/chrome.zip extension/${{ env.CLERKENT_VERSION }}-chrome.zip
           mv extension/firefox.xpi extension/${{ env.CLERKENT_VERSION }}-firefox.xpi
       
