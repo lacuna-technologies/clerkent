@@ -24,6 +24,7 @@ module.exports = {
     `sort-keys-fix`,
     `import`,
     `react-hooks`,
+    `jest`,
   ],
   processor: `disable/disable`,
   root: true,

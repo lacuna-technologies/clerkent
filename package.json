@@ -81,6 +81,7 @@
     "eslint-config-preact": "^1.3.0",
     "eslint-plugin-disable": "^2.0.3",
     "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-json-format": "^2.0.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-node": "^11.1.0",

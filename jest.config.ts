@@ -1,6 +1,7 @@
+import type { Config } from 'jest'
 import { defaults } from 'jest-config'
 
-const config = {
+const config: Config = {
   moduleDirectories: [
     `node_modules`,
     `src`,
@@ -27,7 +28,7 @@ const config = {
     "^.+\\.svg$": `<rootDir>/tests/svgTransform.js`,
   },
   transformIgnorePatterns: [
-    `node_modules/(?!(leven|@testing-library/preact|preact)/)`,
+    `<rootDir>/node_modules/.pnpm/(?!(leven|@testing-library\\+preact|preact)@)`,
   ],
 }
 
