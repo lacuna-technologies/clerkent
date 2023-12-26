@@ -30,7 +30,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: install dependencies
-        run: pnpm install
+        run: pnpm install --config.arch=x64 --config.platform=linux --config.libc=glibc
       - name: lint
         run: pnpm run lint
       - name: generate icons
