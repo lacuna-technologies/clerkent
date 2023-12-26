@@ -338,6 +338,55 @@ const interceptCanLIIDownloads = async (port: Runtime.Port) => {
   }
 }
 
+const interceptFindCaseLawDownloads = async (port: Runtime.Port) => {
+  const { hostname } = window.location
+  const isFindCaseLaw = (hostname === `caselaw.nationalarchives.gov.uk`)
+  if(isFindCaseLaw){
+    const downloadButtons = document.querySelectorAll(
+      `.judgment-toolbar-buttons__option--pdf.btn,.judgment-download-options__download-option a[href$=".pdf"]`,
+    ) 
+    const caseName = document.querySelector(`.judgment-toolbar__title`).textContent.trim()
+    const citation = Finder.findCaseCitation(
+      document.querySelector(`.judgment-toolbar__reference`).textContent.trim(),
+    )[0].citation
+    const law: Law.Case = {
+      citation,
+      database: Constants.DATABASES.UK_findcaselaw,
+      jurisdiction: Constants.JURISDICTIONS.UK.id,
+      links: [],
+      name: Helpers.removeCommonAppends(caseName),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    for (const downloadButton of downloadButtons){
+      augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+    }
+  }
+}
+
+const interceptBAILIIDownloads = async (port: Runtime.Port) => {
+  const { hostname } = window.location
+  const isFindCaseLaw = (hostname === `www.bailii.org`)
+  if(isFindCaseLaw){
+    const downloadButton = document.querySelector(
+      `body > p > a[href$=".pdf"]`,
+    )
+    const title = document.title.trim()
+    const caseName = title.replace(/\[\d{4}].*$/, ``).trim()
+    const citation = Finder.findCaseCitation(title)[0].citation
+    const law: Law.Case = {
+      citation,
+      database: Constants.DATABASES.UK_findcaselaw,
+      jurisdiction: Constants.JURISDICTIONS.UK.id,
+      links: [],
+      name: Helpers.removeCommonAppends(caseName),
+      type: `case-citation`,
+    }
+    const fileName = Helpers.getFileName(law, `Judgment`)
+    augmentDownloadButton(port, downloadButton as HTMLAnchorElement, fileName)
+  }
+}
+
 const downloadInterceptor = async (port: Runtime.Port) => {
   await intercepteLitigationDownloads(port)
   await interceptLawNetDownloads(port)
@@ -346,6 +395,8 @@ const downloadInterceptor = async (port: Runtime.Port) => {
   await interceptSSODownloads(port)
   await interceptWestlawDownloads(port)
   await interceptCanLIIDownloads(port)
+  await interceptFindCaseLawDownloads(port)
+  await interceptBAILIIDownloads(port)
 }
 
 export default downloadInterceptor
