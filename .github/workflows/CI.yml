@@ -15,10 +15,10 @@ jobs:
         with:
           lfs: true
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-      - uses: pnpm/action-setup@v2
+          node-version: 20
+      - uses: pnpm/action-setup@v3
         with:
           version: 8
       - uses: actions/cache@v3
@@ -40,6 +40,6 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: run FOSSA scan
-        uses: fossa-contrib/fossa-action@v1
+        uses: fossa-contrib/fossa-action@v3
         with:
           fossa-api-key: ${{ secrets.FOSSA_API_KEY }}
