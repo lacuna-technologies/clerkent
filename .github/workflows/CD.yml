@@ -64,10 +64,12 @@ jobs:
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
 
-      - uses: mnao305/chrome-extension-upload@v5.0.0
-        with:
-          file-path: extension/${{ env.CLERKENT_VERSION }}-chrome.zip
-          extension-id: ogjefnociaddjemkkajgmfpmhmpokmhj
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      # - uses: mnao305/chrome-extension-upload@v5.0.0
+      #   with:
+      #     file-path: extension/${{ env.CLERKENT_VERSION }}-chrome.zip
+      #     extension-id: ogjefnociaddjemkkajgmfpmhmpokmhj
+      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      #     glob: false
+      #     publish: true
