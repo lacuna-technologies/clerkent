@@ -46,7 +46,7 @@ export const sortSGCases = (
   citationsArray: Law.Case[],
   attribute: string,
 ): Law.Case[] => sortCasesByVolume(
-  SGAbbrs, 
+  SGAbbrs,
   citationsArray,
   attribute,
 )
@@ -54,12 +54,11 @@ export const sortSGCases = (
 export const makeCaseCitationRegex = (
   abbrs: typeof SGAbbrs,
 ) => new RegExp(
-  `(`+
-    `\\[(?<year>[12]\\d{3})\\]( \\d{1,2})? (?<abbr>${
-      formatAbbrs(abbrs)
-    }) \\d{1,4}`+
-    `|`+
-    `(?<stb>${SGSTBlongFormatRegex.source})`+
+  `(` +
+  `\\[(?<year>[12]\\d{3})\\]( \\d{1,2})? (?<abbr>${formatAbbrs(abbrs)
+  }) \\d{1,4}` +
+  `|` +
+  `(?<stb>${SGSTBlongFormatRegex.source})` +
   `)`, `gi`)
 
 export const findSGCaseCitationMatches = (query: string) => {
@@ -68,7 +67,7 @@ export const findSGCaseCitationMatches = (query: string) => {
 }
 
 const getAbbr = (match) => {
-  if(match.groups.stb){
+  if (match.groups.stb) {
     return `SGSTB`
   }
   return match.groups.abbr

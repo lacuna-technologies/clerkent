@@ -2,7 +2,7 @@ import Logger from "utils/Logger"
 
 export const formatAbbr = (
   { abbr, appendum = null }:
-  { abbr: string, appendum?: string },
+    { abbr: string, appendum?: string },
 ) => {
   const end = appendum || ``
   return `${abbr
@@ -18,7 +18,7 @@ export const formatAbbr = (
 export const formatAbbrs = (
   abbrArray: { abbr: string, appendum?: string }[],
 ) => abbrArray.map(
-  ({ abbr, appendum }) => formatAbbr({ abbr, appendum}),
+  ({ abbr, appendum }) => formatAbbr({ abbr, appendum }),
 ).join(`|`)
 
 export const cleanVolume = (volumeString: string) => volumeString.replaceAll(`.`, ``).toLowerCase().trim()
@@ -42,11 +42,13 @@ export const sortCitationsByVolume = (
       ),
     )
     const indexB = lastIfNotFound(
-      abbrsList.findIndex(currentAbbr => 
+      abbrsList.findIndex(currentAbbr =>
         new RegExp(formatAbbr(currentAbbr), `i`).test(b),
       ),
     )
-    return indexA - indexB
+    return indexA === indexB ? (
+      a.length - b.length
+    ) : (indexA - indexB)
   })
 }
 
@@ -55,6 +57,6 @@ export const sortCasesByVolume = (
   citationsArray: Law.Case[],
   attribute = `citation`,
 ): Law.Case[] => sortCitationsByVolume(
-    abbrsList,
-    (citationsArray).map(c => c[attribute]),
-  ).map(c => (citationsArray).find(v => v[attribute] === c))
+  abbrsList,
+  (citationsArray).map(c => c[attribute]),
+).map(c => (citationsArray).find(v => v[attribute] === c))
