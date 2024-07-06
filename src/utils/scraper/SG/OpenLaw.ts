@@ -6,7 +6,6 @@ import Helpers from 'utils/Helpers'
 import { CacheRequestConfig } from 'axios-cache-interceptor'
 
 const SEARCH_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/search/supreme-court`
-const CITATION_API_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/document/citation`
 const PDF_DOWNLOAD_URL = `https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/download/v1`
 const defaultUserDevice = {
   isBot: false,
@@ -56,40 +55,41 @@ const defaultRequestOptions = {
 const getCaseByCitation = async (citation: string): Promise<Law.Case[]> => {
   try {
     const requestBody = {
-      ...defaultCitationConfig,
+      ...defaultSearchConfig,
       data: {
-        ...defaultCitationConfig.data,
-        citation,
+        ...defaultSearchConfig.data,
+        searchQuery: `"${citation}"`,
       },
     }
     const { data } = await Request.post(
-      CITATION_API_URL,
+      SEARCH_API_URL,
       requestBody,
       defaultRequestOptions as unknown as CacheRequestConfig,
     )
-    const encodedCitation = citation.replaceAll(` `, `+`)
-    const judgmentLink: Law.Link = {
-      doctype: `Judgment`,
-      filetype: `HTML`,
-      url: `https://www.lawnet.com/openlaw/cases/citation/${encodedCitation}`,
-    }
-    const summaryLink: Law.Link = {
-      doctype: `Summary`,
-      filetype: `HTML`,
-      url: `https://www.lawnet.com/openlaw/cases/citation/${encodedCitation}`,
-    }
-    const result: Law.Case = {
-      citation: data.data.metadata[`NeutralCitation`][`NCit`],
-      database: Constants.DATABASES.SG_openlaw,
-      jurisdiction: Constants.JURISDICTIONS.SG.id,
-      links: [
-        summaryLink,
-        judgmentLink,
-      ],
-      name: data.data.metadata[`CaseTitle`],
-    }
-    return [result]
-
+    const results: Law.Case[] = data.data.results.map((result): Law.Case => {
+      const encodedCitation = result.ncitation.replaceAll(` `, `+`)
+      const summaryLink: Law.Link = {
+        doctype: `Summary`,
+        filetype: `HTML`,
+        url: `https://www.lawnet.com/openlaw/cases/citation/${encodedCitation}`,
+      }
+      const judgmentLink: Law.Link = {
+          doctype: `Judgment`,
+          filetype: `HTML`,
+          url: `https://www.lawnet.com/openlaw/cases/citation/${encodedCitation}`,
+        }
+      return {
+        citation: result.ncitation,
+        database: Constants.DATABASES.SG_openlaw,
+        jurisdiction: Constants.JURISDICTIONS.SG.id,
+        links: [
+          summaryLink,
+          judgmentLink,
+        ],
+        name: result.titles[0],
+      }
+    })
+    return results
   } catch (error) {
     Logger.error(error)
     return []

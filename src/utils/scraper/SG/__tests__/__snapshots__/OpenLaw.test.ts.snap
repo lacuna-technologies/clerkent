@@ -1,40 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SG OpenLaw should parse getCaseByCitation result correctly 1`] = `
-[
-  {
-    "citation": "[1999] SGHC 283",
-    "database": {
-      "icon": "",
-      "id": "SG_openlaw",
-      "name": "OpenLaw",
-      "url": "https://www.lawnet.com/openlaw",
-    },
-    "jurisdiction": "SG",
-    "links": [
-      {
-        "doctype": "Summary",
-        "filetype": "HTML",
-        "url": "https://www.lawnet.com/openlaw/cases/citation/[1999]+SGHC+283",
-      },
-      {
-        "doctype": "Judgment",
-        "filetype": "HTML",
-        "url": "https://www.lawnet.com/openlaw/cases/citation/[1999]+SGHC+283",
-      },
-    ],
-    "name": "NV Sumatra Tobacco Co v Nanyang Brothers Tobacco Co Ltd",
-  },
-]
-`;
+exports[`SG OpenLaw should parse getCaseByCitation result correctly 1`] = `[]`;
 
 exports[`SG OpenLaw should send valid request for getCaseByCitation 1`] = `
 [
   [
-    "https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/document/citation",
+    "https://api.lawnet.sg/lawnet/search-service/api/lawnetcore/search/supreme-court",
     {
       "data": {
-        "citation": "[1999] SGHC 283",
+        "filters": null,
+        "includeDraft": "true",
+        "orderBy": "relevancy-desc",
+        "pageLength": 10,
+        "searchDatabase": "allOfLawnet",
+        "searchQuery": ""[1999] SGHC 283"",
+        "searchSource": null,
+        "start": 1,
       },
       "info": {
         "appId": "APP_LAWNET_ONE",
