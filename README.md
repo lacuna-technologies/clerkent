@@ -9,13 +9,15 @@ Case law at your fingertips
 
 See [clerkent.huey.xyz](https://clerkent.huey.xyz) for more details
 
-As of 1 January 2026, this project continues to be actively maintained, but development has moved to [git.huey.xyz/lacuna-technologies/clerkent](https://git.huey.xyz/lacuna-technologies/clerkent). This GitHub repository will not be updated further. Please file further issues, pull requests, etc. at [git.huey.xyz/lacuna-technologies/clerkent](https://git.huey.xyz/lacuna-technologies/clerkent). 
-
 ![GitHub](https://img.shields.io/badge/licence-EUPL--1.2-blue)
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ogjefnociaddjemkkajgmfpmhmpokmhj?label=Google%20Chrome%20users)
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/v/ogjefnociaddjemkkajgmfpmhmpokmhj)
 ![Mozilla Add-on](https://img.shields.io/amo/users/clerkent?label=Mozilla%20Firefox%20users)
 ![Mozilla Add-on](https://img.shields.io/amo/v/clerkent)
+
+# This repository has moved
+
+**This project continues to be actively maintained, but as of 1 January 2026, development has moved to [git.huey.xyz/lacuna-technologies/clerkent](https://git.huey.xyz/lacuna-technologies/clerkent)**. This GitHub repository will not be updated further. Please file further issues, pull requests, etc. at [git.huey.xyz/lacuna-technologies/clerkent](https://git.huey.xyz/lacuna-technologies/clerkent). 
 
 ## Install
 
